@@ -6,6 +6,9 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QXmlStreamReader>
+#include <QSettings>
+#include <QStandardPaths>
+#include <QFileInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(openAction);
+    
+    settings = new QSettings;
 }
 
 MainWindow::~MainWindow()
@@ -27,9 +32,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile()
 {
+    QString lastOpenFilePath;
+    if(settings->contains("lastOpenFilePath")){
+        lastOpenFilePath = settings->value("lastOpenFilePath").toString();
+    }else{
+        // use document location as default
+        lastOpenFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    }
     QString fileName = QFileDialog::getOpenFileName(this, 
-        tr("Open XML File"), "D:/", tr("XML Files (*.xml)"));
+        tr("Open XML File"), lastOpenFilePath, tr("XML Files (*.xml)"));
     if(!fileName.isEmpty()){
+        QFileInfo fileInfo(fileName);
+        settings->setValue("lastOpenFilePath", fileInfo.absolutePath());
         QFile file(fileName);
         if(file.open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(&file);

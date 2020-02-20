@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QXmlStreamReader;
+class QSettings;
 
 class MainWindow : public QMainWindow
 {
@@ -16,6 +17,7 @@ public:
 private:
     QAction *openAction;
     QXmlStreamReader *reader;
+    QSettings *settings;
     void openFile();
 };
 #endif // MAINWINDOW_H
