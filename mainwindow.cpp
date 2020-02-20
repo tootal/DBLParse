@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QXmlStreamReader>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,9 +32,10 @@ void MainWindow::openFile()
     if(!fileName.isEmpty()){
         QFile file(fileName);
         if(file.open(QFile::ReadOnly | QFile::Text)){
-            QString head = file.readLine();
+            reader = new QXmlStreamReader(&file);
+            QString curToken = reader->tokenString();
             QMessageBox::information(this, tr("Info"),
-                tr("Open File Successful!\nFile Head: %1").arg(head));
+                tr("Open File Successful!\nCurrent Token: %1").arg(curToken));
         }
     }
 }
