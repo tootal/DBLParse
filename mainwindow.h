@@ -10,5 +10,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    
+private:
+    QAction *openAction;
+    
+    void openFile();
 };
 #endif // MAINWINDOW_H
