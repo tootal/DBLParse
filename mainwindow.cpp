@@ -47,9 +47,10 @@ void MainWindow::openFile()
         QFile file(fileName);
         if(file.open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(&file);
-            QString curToken = reader->tokenString();
+            parser = new Parser(reader);
             QMessageBox::information(this, tr("Info"),
-                tr("Open File Successful!\nCurrent Token: %1").arg(curToken));
+                tr("Open File Successful!\nDocument Version: %1\nDocument Encoding: %2")
+                .arg(parser->documentVersion()).arg(parser->documentEncoding()));
         }
     }
 }
