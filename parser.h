@@ -1,16 +1,17 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QObject>
+#include <QThread>
 #include <QMap>
 
 class QXmlStreamReader;
 
-class Parser : public QObject
+class Parser : public QThread
 {
     Q_OBJECT
 public:
     explicit Parser(QXmlStreamReader *r);
+    void run() override;
     QString documentVersion() const;
     QString documentEncoding() const;
     QString dtdName() const;
@@ -18,6 +19,9 @@ public:
     int count() const;
     int count(QString recordName) const;
     QStringList recordNames() const;
+    
+signals:
+    void done();
     
 private:
     QXmlStreamReader *reader;

@@ -6,6 +6,10 @@
 Parser::Parser(QXmlStreamReader *r)
 {
     reader = r;
+}
+
+void Parser::run()
+{
     while(!reader->atEnd()){
         reader->readNext();
         if(reader->isStartDocument()){
@@ -31,6 +35,7 @@ Parser::Parser(QXmlStreamReader *r)
             break;
         }
     }
+    emit done();
 }
 
 QString Parser::documentVersion() const
