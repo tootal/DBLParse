@@ -49,8 +49,14 @@ void MainWindow::openFile()
             reader = new QXmlStreamReader(&file);
             parser = new Parser(reader);
             QMessageBox::information(this, tr("Info"),
-                tr("Open File Successful!\nDocument Version: %1\nDocument Encoding: %2")
-                .arg(parser->documentVersion()).arg(parser->documentEncoding()));
+                tr(R"#(<b>Open File Successful!</b><br>
+Document Version: %1<br>
+Document Encoding: %2<br>
+Dtd Name: %3<br>
+Dtd System Id: %4<br>)#").arg(parser->documentVersion())
+                .arg(parser->documentEncoding())
+                .arg(parser->dtdName())
+                .arg(parser->dtdSystemId()));
         }
     }
 }
