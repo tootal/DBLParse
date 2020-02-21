@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <QObject>
+#include <QMap>
 
 class QXmlStreamReader;
 
@@ -14,6 +15,9 @@ public:
     QString documentEncoding() const;
     QString dtdName() const;
     QString dtdSystemId() const;
+    int count() const;
+    int count(QString recordName) const;
+    QStringList recordNames() const;
     
 private:
     QXmlStreamReader *reader;
@@ -21,6 +25,8 @@ private:
     QString documentEncoding_;
     QString dtdName_;
     QString dtdSystemId_;
+    int count_;
+    QMap<QString,int> recordCount_;
     
     void setDocumentVersion(QString s);
     void setDocumentEncoding(QString s);

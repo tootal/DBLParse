@@ -58,6 +58,26 @@ QString Parser::dtdSystemId() const
     return dtdSystemId_;
 }
 
+int Parser::count() const
+{
+    int sum = 0;
+    QList<int> v = recordCount_.values();
+    for(int i : v){
+        sum += i;
+    }
+    return sum;
+}
+
+int Parser::count(QString recordName) const
+{
+    return recordCount_[recordName];
+}
+
+QStringList Parser::recordNames() const
+{
+    return recordCount_.uniqueKeys();
+}
+
 void Parser::setDocumentEncoding(QString s)
 {
     documentEncoding_ = s;
@@ -82,11 +102,12 @@ void Parser::parseRecords()
                 break;
             }
         }else if(reader->isStartElement()){
-            qDebug()<<reader->namespaceUri();
-            qDebug()<<reader->name();
-            qDebug()<<reader->attributes().size();
-            qDebug()<<reader->namespaceDeclarations().size();
-            break;
+//            qDebug()<<reader->namespaceUri();
+//            qDebug()<<reader->name();
+//            qDebug()<<reader->attributes().size();
+//            qDebug()<<reader->namespaceDeclarations().size();
+            recordCount_[reader->name().toString()]++;
+            reader->readElementText(QXmlStreamReader::SkipChildElements);
         }
     }
 }

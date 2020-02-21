@@ -48,6 +48,8 @@ void MainWindow::openFile()
         if(file.open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(&file);
             parser = new Parser(reader);
+            qDebug()<<parser->recordNames();
+            qDebug()<<parser->count();
             QMessageBox::information(this, tr("Info"),
                 tr(R"#(<b>Open File Successful!</b><br>
 Document Version: %1<br>
