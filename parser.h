@@ -10,7 +10,8 @@ class Parser : public QThread
 {
     Q_OBJECT
 public:
-    explicit Parser(QXmlStreamReader *r);
+    explicit Parser(QObject *parent = nullptr);
+    void setReader(QXmlStreamReader *r);
     void run() override;
     QString documentVersion() const;
     QString documentEncoding() const;
@@ -22,6 +23,7 @@ public:
     
 signals:
     void done();
+    void countChanged(double ratio);
     
 private:
     QXmlStreamReader *reader;

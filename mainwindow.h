@@ -1,12 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "parser.h"
-
 #include <QMainWindow>
 
 class QXmlStreamReader;
 class QSettings;
+class Parser;
+class ParseDialog;
+class QFile;
 
 class MainWindow : public QMainWindow
 {
@@ -21,7 +22,10 @@ private:
     QXmlStreamReader *reader;
     QSettings *settings;
     Parser *parser;
+    ParseDialog *parseDialog;
+    QFile *parseFile;
     
     void openFile();
+    void parseDone();
 };
 #endif // MAINWINDOW_H

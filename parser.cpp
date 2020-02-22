@@ -3,9 +3,9 @@
 #include <QXmlStreamReader>
 #include <QDebug>
 
-Parser::Parser(QXmlStreamReader *r)
+Parser::Parser(QObject *parent)
 {
-    reader = r;
+    Q_UNUSED(parent);
 }
 
 void Parser::run()
@@ -83,6 +83,11 @@ QStringList Parser::recordNames() const
     return recordCount_.uniqueKeys();
 }
 
+void Parser::setReader(QXmlStreamReader *r)
+{
+    reader = r;
+}
+
 void Parser::setDocumentEncoding(QString s)
 {
     documentEncoding_ = s;
@@ -112,6 +117,7 @@ void Parser::parseRecords()
 //            qDebug()<<reader->attributes().size();
 //            qDebug()<<reader->namespaceDeclarations().size();
             recordCount_[reader->name().toString()]++;
+            emit countChanged((double)reader->device()->pos()/reader->device()->size());
             reader->readElementText(QXmlStreamReader::SkipChildElements);
         }
     }

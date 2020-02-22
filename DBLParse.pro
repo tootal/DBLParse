@@ -18,10 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    parsedialog.cpp \
     parser.cpp
 
 HEADERS += \
     mainwindow.h \
+    parsedialog.h \
     parser.h
 
 # Default rules for deployment.

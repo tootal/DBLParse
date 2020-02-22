@@ -1,16 +1,25 @@
 #ifndef PARSEDIALOG_H
 #define PARSEDIALOG_H
 
-#include <QObject>
+#include <QDialog>
 
-class ParseDialog : public QObject
+class QVBoxLayout;
+class QProgressBar;
+class QLabel;
+class QButton;
+
+class ParseDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ParseDialog(QObject *parent = nullptr);
+    explicit ParseDialog(QWidget *parent = nullptr);
+    void showProgress(double ratio);
     
-signals:
-    
+private:
+    QVBoxLayout *layout;
+    QProgressBar *progressBar;
+    QLabel *label;
+    QButton *button;
 };
 
 #endif // PARSEDIALOG_H

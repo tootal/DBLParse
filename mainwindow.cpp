@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "parser.h"
+#include "parsedialog.h"
 
 #include <QAction>
 #include <QMenuBar>
@@ -14,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle(tr("DBLParse"));
-    setMinimumSize(300,200);
+    setMinimumSize(800,600);
     
     openAction = new QAction(tr("&Open XML File"),this);
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
@@ -23,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     fileMenu->addAction(openAction);
     
     settings = new QSettings;
+    
+    parser = new Parser;
+    parseDialog = new ParseDialog(this);
+    connect(parser, &Parser::countChanged, parseDialog, &ParseDialog::showProgress);
+    connect(parser, &Parser::done, this, &MainWindow::parseDone);
 }
 
 MainWindow::~MainWindow()
@@ -43,18 +50,19 @@ void MainWindow::openFile()
         tr("Open XML File"), lastOpenFilePath, tr("XML Files (*.xml)"));
     if(!fileName.isEmpty()){
         QFileInfo fileInfo(fileName);
-        settings->setValue("lastOpenFilePath", fileInfo.absolutePath());
-        QFile *file = new QFile(fileName);
-        if(file->open(QFile::ReadOnly | QFile::Text)){
-            reader = new QXmlStreamReader(file);
-            parser = new Parser(reader);
+        parseFile = new QFile(fileName);
+        if(parseFile->open(QFile::ReadOnly | QFile::Text)){
+            reader = new QXmlStreamReader(parseFile);
+            parser->setReader(reader);
             parser->start();
-            connect(parser, &Parser::done, [this,file](){
-                qDebug()<<parser->count();
-                file->close();
-                delete file;
-            });
+            parseDialog->exec();
         }
     }
+}
+
+void MainWindow::parseDone()
+{
+    parseFile->close();
+    delete parseFile;
 }
 
