@@ -29,7 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     parser = new Parser;
     parseDialog = new ParseDialog(this);
     connect(parser, &Parser::countChanged, parseDialog, &ParseDialog::showProgress);
+    connect(parser, &Parser::done, parseDialog, &ParseDialog::showDone);
     connect(parser, &Parser::done, this, &MainWindow::parseDone);
+    connect(parseDialog, &ParseDialog::abortParse, parser, &Parser::abortParse);
 }
 
 MainWindow::~MainWindow()
@@ -55,6 +57,7 @@ void MainWindow::openFile()
             reader = new QXmlStreamReader(parseFile);
             parser->setReader(reader);
             parser->start();
+            parseDialog->clear();
             parseDialog->exec();
         }
     }
@@ -62,7 +65,6 @@ void MainWindow::openFile()
 
 void MainWindow::parseDone()
 {
-    parseFile->close();
-    delete parseFile;
+    
 }
 

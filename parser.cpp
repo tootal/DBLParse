@@ -6,6 +6,8 @@
 Parser::Parser(QObject *parent)
 {
     Q_UNUSED(parent);
+    count_ = 0;
+    abortFlag = false;
 }
 
 void Parser::run()
@@ -35,7 +37,7 @@ void Parser::run()
             break;
         }
     }
-    emit done();
+    emit done(count());
 }
 
 QString Parser::documentVersion() const
@@ -65,12 +67,7 @@ QString Parser::dtdSystemId() const
 
 int Parser::count() const
 {
-    int sum = 0;
-    QList<int> v = recordCount_.values();
-    for(int i : v){
-        sum += i;
-    }
-    return sum;
+    return count_;
 }
 
 int Parser::count(QString recordName) const
@@ -81,6 +78,11 @@ int Parser::count(QString recordName) const
 QStringList Parser::recordNames() const
 {
     return recordCount_.uniqueKeys();
+}
+
+void Parser::abortParse()
+{
+    abortFlag = true;
 }
 
 void Parser::setReader(QXmlStreamReader *r)
@@ -106,6 +108,10 @@ void Parser::setDtdSystemId(QString s)
 void Parser::parseRecords()
 {
     while(!reader->atEnd()){
+        if(abortFlag){
+            emit done(count());
+            break;
+        }
         reader->readNext();
         if(reader->isEndElement()){
             if(reader->name() == dtdName()){
@@ -117,6 +123,7 @@ void Parser::parseRecords()
 //            qDebug()<<reader->attributes().size();
 //            qDebug()<<reader->namespaceDeclarations().size();
             recordCount_[reader->name().toString()]++;
+            count_++;
             emit countChanged((double)reader->device()->pos()/reader->device()->size());
             reader->readElementText(QXmlStreamReader::SkipChildElements);
         }

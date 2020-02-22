@@ -4,9 +4,10 @@
 #include <QDialog>
 
 class QVBoxLayout;
+class QHBoxLayout;
 class QProgressBar;
 class QLabel;
-class QButton;
+class QPushButton;
 
 class ParseDialog : public QDialog
 {
@@ -14,12 +15,18 @@ class ParseDialog : public QDialog
 public:
     explicit ParseDialog(QWidget *parent = nullptr);
     void showProgress(double ratio);
+    void showDone(int count);
+    void clear();
     
+signals:
+    void abortParse();
 private:
     QVBoxLayout *layout;
+    QHBoxLayout *buttonLayout;
     QProgressBar *progressBar;
     QLabel *label;
-    QButton *button;
+    QPushButton *button;
+    bool abortFlag;
 };
 
 #endif // PARSEDIALOG_H

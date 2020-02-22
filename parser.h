@@ -20,9 +20,10 @@ public:
     int count() const;
     int count(QString recordName) const;
     QStringList recordNames() const;
+    void abortParse();
     
 signals:
-    void done();
+    void done(int recordCount);
     void countChanged(double ratio);
     
 private:
@@ -33,6 +34,7 @@ private:
     QString dtdSystemId_;
     int count_;
     QMap<QString,int> recordCount_;
+    bool abortFlag;
     
     void setDocumentVersion(QString s);
     void setDocumentEncoding(QString s);
