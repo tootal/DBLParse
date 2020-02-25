@@ -71,7 +71,7 @@ QString ParseDialog::formatTime(QTime time)
 {
     if(time.hour() == 0){
         if(time.minute() == 0){
-            return time.toString("s.zzz");
+            return time.toString("s.zzz")+" s";
         }else{
             return time.toString("m:ss.z");
         }
