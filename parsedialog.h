@@ -8,6 +8,7 @@ class QHBoxLayout;
 class QProgressBar;
 class QLabel;
 class QPushButton;
+class Parser;
 
 class ParseDialog : public QDialog
 {
@@ -15,8 +16,10 @@ class ParseDialog : public QDialog
 public:
     explicit ParseDialog(QWidget *parent = nullptr);
     void showProgress(double ratio);
-    void showDone(int count);
+    void showDone(Parser *parser);
     void clear();
+    
+    static QString formatTime(QTime time);
     
 signals:
     void abortParse();

@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "recordparser.h"
 
 #include <QXmlStreamReader>
 #include <QDebug>
@@ -6,12 +7,17 @@
 Parser::Parser(QObject *parent)
 {
     Q_UNUSED(parent);
+}
+
+void Parser::clear()
+{
     count_ = 0;
     abortFlag = false;
 }
 
 void Parser::run()
 {
+    parseTiming.start();
     while(!reader->atEnd()){
         reader->readNext();
         if(reader->isStartDocument()){
@@ -37,7 +43,10 @@ void Parser::run()
             break;
         }
     }
-    emit done(count());
+//    qDebug()<<"Parser: work()";
+    parseCostMsecs_ = parseTiming.elapsed();
+    emit done(this);
+//    qDebug()<<authorIndex_.size();
 }
 
 QString Parser::documentVersion() const
@@ -75,14 +84,36 @@ int Parser::count(QString recordName) const
     return recordCount_[recordName];
 }
 
+QStringList Parser::authorNames() const
+{
+    return QStringList();
+//    return authorIndex_.uniqueKeys();
+}
+
+int Parser::authorCount() const
+{
+//    return authorIndex_.uniqueKeys().size();
+    return int();
+}
+
 QStringList Parser::recordNames() const
 {
     return recordCount_.uniqueKeys();
 }
 
+QMap<QString, int> Parser::recordCount()
+{
+    return recordCount_;
+}
+
 void Parser::abortParse()
 {
     abortFlag = true;
+}
+
+QTime Parser::parseCostTime()
+{
+    return QTime::fromMSecsSinceStartOfDay(parseCostMsecs_);
 }
 
 void Parser::setReader(QXmlStreamReader *r)
@@ -109,7 +140,7 @@ void Parser::parseRecords()
 {
     while(!reader->atEnd()){
         if(abortFlag){
-            emit done(count());
+            emit done(this);
             break;
         }
         reader->readNext();
@@ -126,6 +157,10 @@ void Parser::parseRecords()
             count_++;
             emit countChanged((double)reader->device()->pos()/reader->device()->size());
             reader->readElementText(QXmlStreamReader::SkipChildElements);
+//            RecordParser recordParser(reader);
+//            recordParser.setAuthorIndex(&authorIndex_);
         }
+//        qDebug()<<"Parser: name = "<<reader->name();
+//        qDebug()<<"Parser: token = "<<reader->tokenString();
     }
 }

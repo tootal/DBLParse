@@ -19,12 +19,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     parsedialog.cpp \
-    parser.cpp
+    parser.cpp \
+    recordparser.cpp
 
 HEADERS += \
     mainwindow.h \
     parsedialog.h \
-    parser.h
+    parser.h \
+    recordparser.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

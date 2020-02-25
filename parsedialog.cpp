@@ -1,10 +1,12 @@
 #include "parsedialog.h"
+#include "parser.h"
 
 #include <QLabel>
 #include <QProgressBar>
 #include <QBoxLayout>
 #include <QPushButton>
 #include <QVariant>
+#include <QTime>
 
 ParseDialog::ParseDialog(QWidget *parent) : QDialog(parent)
 {
@@ -39,14 +41,19 @@ void ParseDialog::showProgress(double ratio)
     progressBar->setValue(ratio*10000);
 }
 
-void ParseDialog::showDone(int count)
+void ParseDialog::showDone(Parser *parser)
 {
+    QString processInfo;
     if(abortFlag){
-        label->setText(tr("Parsing Abort. Processed %1 records.").arg(count));
+        processInfo = "Abort";
     }else{
-        label->setText(tr("Parsing Done. %1 records.").arg(count));
+        processInfo = "Successful";
         progressBar->setValue(10000);
     }
+    label->setText(tr("Parsing %1.\nProcessed %2 records in %3 .")
+            .arg(processInfo)
+            .arg(parser->count())
+            .arg(formatTime(parser->parseCostTime())));
     button->setText(tr("Close"));
     button->setProperty("type", QVariant("close"));
 }
@@ -58,4 +65,17 @@ void ParseDialog::clear()
     progressBar->setValue(0);
     button->setText(tr("Abort"));
     button->setProperty("type", QVariant("abort"));
+}
+
+QString ParseDialog::formatTime(QTime time)
+{
+    if(time.hour() == 0){
+        if(time.minute() == 0){
+            return time.toString("s.zzz");
+        }else{
+            return time.toString("m:ss.z");
+        }
+    }else{
+        return time.toString("H:mm:ss");
+    }
 }
