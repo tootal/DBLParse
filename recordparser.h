@@ -15,7 +15,8 @@ public:
     QString key() const;
     QDate mdate() const;
     QStringList authors() const;
-//    void setAuthorIndex(QMultiHash<QString, qint64> *index);
+    void setAuthorIndex(QMultiHash<QString, qint64> *index);
+    void parse();
     
 private:
     QXmlStreamReader *reader;
@@ -23,7 +24,7 @@ private:
     QString key_;
     QDate mdate_;
     QStringList authors_;
-//    QMultiHash<QString,qint64> *authorIndex_;
+    QMultiHash<QString,qint64> *authorIndex_;
     
     void parseContent();
 };

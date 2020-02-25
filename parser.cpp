@@ -45,6 +45,7 @@ void Parser::run()
         }
     }
 //    qDebug()<<"Parser: work()";
+    qDebug()<<"author index: "<<authorIndex_;
     parseCostMsecs_ = parseTiming.elapsed();
     emit done(this);
 //    qDebug()<<authorIndex_.size();
@@ -157,9 +158,11 @@ void Parser::parseRecords()
             recordCount_[reader->name().toString()]++;
             count_++;
             emit countChanged((double)reader->device()->pos()/reader->device()->size());
-            reader->readElementText(QXmlStreamReader::SkipChildElements);
-//            RecordParser recordParser(reader);
-//            recordParser.setAuthorIndex(&authorIndex_);
+//            reader->readElementText(QXmlStreamReader::SkipChildElements);
+            RecordParser recordParser(reader);
+//            qDebug()<<recordParser.authors();
+            recordParser.setAuthorIndex(&authorIndex_);
+            recordParser.parse();
         }
 //        qDebug()<<"Parser: name = "<<reader->name();
 //        qDebug()<<"Parser: token = "<<reader->tokenString();

@@ -41,7 +41,7 @@ private:
     QString dtdSystemId_;
     int count_;
     QMap<QString,int> recordCount_;
-//    QMultiHash<QString,qint64> authorIndex_;
+    QMultiHash<QString,qint64> authorIndex_;
     QTime parseTiming;
     int parseCostMsecs_;
     bool abortFlag;

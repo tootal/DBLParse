@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    parseThread->quit();
-    parseThread->wait();
+    parser->quit();
+    parser->wait();
 }
 
 void MainWindow::openFile()

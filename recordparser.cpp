@@ -8,17 +8,6 @@
 RecordParser::RecordParser(QXmlStreamReader *r)
 {
     reader = r;
-    if(reader->isStartElement()){
-        name_ = reader->name().toString();
-        auto attrs = reader->attributes();
-        if(attrs.hasAttribute("key")){
-            key_ = attrs.value("key").toString();
-        }
-        if(attrs.hasAttribute("mdate")){
-            mdate_ = QDate::fromString(attrs.value("mdate").toString(),"yyyy-MM-dd");
-        }
-        parseContent();
-    }
 }
 
 QString RecordParser::name() const
@@ -41,10 +30,25 @@ QStringList RecordParser::authors() const
     return authors_;
 }
 
-//void RecordParser::setAuthorIndex(QMultiHash<QString, qint64> *index)
-//{
-//    authorIndex_ = index;
-//}
+void RecordParser::parse()
+{
+    if(reader->isStartElement()){
+        name_ = reader->name().toString();
+        auto attrs = reader->attributes();
+        if(attrs.hasAttribute("key")){
+            key_ = attrs.value("key").toString();
+        }
+        if(attrs.hasAttribute("mdate")){
+            mdate_ = QDate::fromString(attrs.value("mdate").toString(),"yyyy-MM-dd");
+        }
+        parseContent();
+    }
+}
+
+void RecordParser::setAuthorIndex(QMultiHash<QString, qint64> *index)
+{
+    authorIndex_ = index;
+}
 
 void RecordParser::parseContent()
 {
@@ -57,7 +61,7 @@ void RecordParser::parseContent()
             QString author = reader->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
             authors_.append(author);
 //            qDebug()<<QThread::currentThread();
-//            authorIndex_->insert(author, reader->device()->pos());
+            authorIndex_->insert(author, reader->device()->pos());
         }
 //        qDebug()<<reader->name();
     }
