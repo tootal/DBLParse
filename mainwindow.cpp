@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     settings = new QSettings;
     
 //    parseThread = new QThread;
-    parser = new Parser;
+    parser = new Parser(this);
 //    parser->moveToThread(parseThread);
     parseDialog = new ParseDialog(this);
 //    connect(parseThread, &QThread::finished, parser, &QObject::deleteLater);

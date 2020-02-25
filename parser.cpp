@@ -5,8 +5,9 @@
 #include <QDebug>
 
 Parser::Parser(QObject *parent)
+    :QThread(parent)
 {
-    Q_UNUSED(parent);
+    
 }
 
 void Parser::clear()
