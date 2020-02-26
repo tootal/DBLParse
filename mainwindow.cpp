@@ -17,6 +17,8 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QTextBrowser>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *searchButton = new QPushButton("&Search", this);
     searchLayout->addWidget(lineEdit);
     searchLayout->addWidget(searchButton);
-    QTextBrowser *textBrowser = new QTextBrowser;
+    textBrowser = new QTextBrowser;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(searchLayout);
     layout->addWidget(textBrowser);
@@ -124,5 +126,11 @@ void MainWindow::searchLocal(QString word)
 void MainWindow::searchNetwork(QString word)
 {
     Q_UNUSED(word);
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager, &QNetworkAccessManager::finished,
+            this, [this](QNetworkReply *reply){
+        textBrowser->setText(reply->readAll());
+    });
+    manager->get(QNetworkRequest(QUrl("https://www.tootal.xyz/api/randint.php")));
 }
 

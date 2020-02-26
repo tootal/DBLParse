@@ -8,6 +8,7 @@ class QSettings;
 class Parser;
 class ParseDialog;
 class QFile;
+class QTextBrowser;
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +22,7 @@ private:
     QAction *openAction;
     QAction *useNetworkDataAction;
     QAction *useLocalDataAction;
+    QTextBrowser *textBrowser;
     
     QXmlStreamReader *reader;
     QSettings *settings;
