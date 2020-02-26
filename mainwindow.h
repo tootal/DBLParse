@@ -18,6 +18,10 @@ public:
     ~MainWindow();
     
 private:
+    QAction *openAction;
+    QAction *useNetworkDataAction;
+    QAction *useLocalDataAction;
+    
     QXmlStreamReader *reader;
     QSettings *settings;
     Parser *parser;
@@ -26,5 +30,8 @@ private:
     
     void openFile();
     void parseDone();
+    void search(QString word);
+    void searchLocal(QString word);
+    void searchNetwork(QString word);
 };
 #endif // MAINWINDOW_H

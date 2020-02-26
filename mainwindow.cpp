@@ -24,11 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("DBLParse"));
     setMinimumSize(400,300);
 //     Menu Action
-    QAction *openAction = new QAction(tr("&Open XML File"),this);
-    QAction *useNetworkDataAction = new QAction(tr("Use Network Data"),this);
+    openAction = new QAction(tr("&Open XML File"),this);
+    useNetworkDataAction = new QAction(tr("Use Network Data"),this);
     useNetworkDataAction->setCheckable(true);
     useNetworkDataAction->setChecked(true);
-    QAction *useLocalDataAction = new QAction(tr("Use Local Data"),this);
+    useLocalDataAction = new QAction(tr("Use Local Data"),this);
     useLocalDataAction->setCheckable(true);
     QActionGroup *useDataType = new QActionGroup(this);
     useDataType->addAction(useNetworkDataAction);
@@ -101,5 +101,24 @@ void MainWindow::openFile()
 void MainWindow::parseDone()
 {
     
+}
+
+void MainWindow::search(QString word)
+{
+    if(useLocalDataAction->isChecked()){
+        searchLocal(word);
+    }else{
+        searchNetwork(word);
+    }
+}
+
+void MainWindow::searchLocal(QString word)
+{
+    Q_UNUSED(word);
+}
+
+void MainWindow::searchNetwork(QString word)
+{
+    Q_UNUSED(word);
 }
 
