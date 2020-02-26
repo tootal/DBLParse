@@ -22,7 +22,6 @@ private:
     QXmlStreamReader *reader;
     QSettings *settings;
     Parser *parser;
-    QThread *parseThread;
     ParseDialog *parseDialog;
     QFile *parseFile;
     

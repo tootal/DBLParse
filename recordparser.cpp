@@ -8,6 +8,7 @@
 RecordParser::RecordParser(QXmlStreamReader *r)
 {
     reader = r;
+    authorIndex_ = nullptr;
 }
 
 QString RecordParser::name() const
@@ -61,7 +62,9 @@ void RecordParser::parseContent()
             QString author = reader->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
             authors_.append(author);
 //            qDebug()<<QThread::currentThread();
-            authorIndex_->insert(author, reader->device()->pos());
+            if(authorIndex_ != nullptr){
+                authorIndex_->insert(author, reader->characterOffset());
+            }
         }
 //        qDebug()<<reader->name();
     }

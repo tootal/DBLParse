@@ -1,6 +1,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "recordparser.h"
+
 #include <QThread>
 #include <QMap>
 #include <QMultiHash>
@@ -28,6 +30,7 @@ public:
     QMap<QString,int> recordCount();
     void abortParse();
     QTime parseCostTime();
+    QList<qint64> getOffsetsByAuthorName(QString authorName);
     
 signals:
     void done(Parser *parser);

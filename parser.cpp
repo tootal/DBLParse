@@ -1,8 +1,8 @@
 #include "parser.h"
-#include "recordparser.h"
 
 #include <QXmlStreamReader>
 #include <QDebug>
+#include <QFile>
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -116,6 +116,18 @@ void Parser::abortParse()
 QTime Parser::parseCostTime()
 {
     return QTime::fromMSecsSinceStartOfDay(parseCostMsecs_);
+}
+
+QList<qint64> Parser::getOffsetsByAuthorName(QString authorName)
+{
+    QList<qint64> list;
+    auto &v = authorIndex_;
+    auto i = v.find(authorName);
+    while(i != v.end() && i.key() == authorName){
+        list.append(i.value());
+        ++i;
+    }
+    return list;
 }
 
 void Parser::setReader(QXmlStreamReader *r)
