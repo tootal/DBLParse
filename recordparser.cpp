@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QMultiMap>
 #include <QThread>
+#include <QSettings>
+#include <QFile>
 
 RecordParser::RecordParser(QXmlStreamReader *r)
 {
@@ -68,4 +70,66 @@ void RecordParser::parseContent()
         }
 //        qDebug()<<reader->name();
     }
+}
+
+
+RecordParser* RecordParser::fromFile(QFile *file, qint64 pos)
+{
+    RecordParser *recordParser = nullptr;
+    QStringList recordNames;
+    QSettings settings;
+    if(settings.contains("recordNames")){
+        recordNames = settings.value("recordNames").toStringList();
+    }else{
+        
+    }
+    QString recordName;
+    int lineOffset = -1;
+    if(file->open(QFile::ReadOnly|QFile::Text)){
+        file->seek(pos);
+        while(!file->atEnd()){
+            QString s = file->readLine();
+            foreach(recordName, recordNames){
+                lineOffset = s.indexOf(QString("</%1>").arg(recordName));
+                if(lineOffset !=-1){
+                    break;
+                }
+            }
+            if(lineOffset != -1){
+//                qDebug()<<lineOffset;
+//                qDebug()<<pos;
+//                qDebug()<<file->pos();
+//                qDebug()<<"recordName = "<<recordName;
+                break;
+            }
+        }
+        pos = file->pos();
+        qint64 leftPos = 0;
+        if(pos > 2000) leftPos = pos-2000;
+        file->seek(leftPos);
+        char *data = new char[pos-leftPos+10];
+        file->read(data, pos-leftPos+5);
+        QString dataStr(data);
+//        qDebug()<<"dataStr = "<<dataStr;
+        int beginPos = dataStr.lastIndexOf(QString("<%1").arg(recordName));
+//        qDebug()<<"beginPos = "<<beginPos;
+        QString endEleStr = QString("</%1>").arg(recordName);
+        int endPos = dataStr.lastIndexOf(endEleStr);
+        QString recordStr = dataStr.mid(beginPos, endPos - beginPos + endEleStr.size());
+        recordParser = fromStr(recordStr);
+    }
+    file->close();
+    return recordParser;
+}
+
+RecordParser *RecordParser::fromStr(QString str)
+{
+    QXmlStreamReader reader;
+    reader.addData(str);
+    while(!reader.isStartElement()){
+        reader.readNext();
+    }
+    RecordParser *recordParser=new RecordParser(&reader);
+    recordParser->parse();
+    return recordParser;
 }

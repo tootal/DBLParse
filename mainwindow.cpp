@@ -96,6 +96,7 @@ void MainWindow::openFile()
         tr("Open XML File"), lastOpenFilePath, tr("XML Files (*.xml)"));
     if(!fileName.isEmpty()){
         QFileInfo fileInfo(fileName);
+        settings->setValue("lastOpenFilePath", fileInfo.path());
         parseFile = new QFile(fileName);
         if(parseFile->open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(parseFile);
@@ -111,7 +112,8 @@ void MainWindow::openFile()
 
 void MainWindow::parseDone()
 {
-    
+    parseFile->close();
+    settings->setValue("recordNames", parser->recordNames());
 }
 
 void MainWindow::search(QString word)
@@ -132,7 +134,19 @@ void MainWindow::search(QString word)
 
 void MainWindow::searchLocal(QString word)
 {
-    textBrowser->append("Local Search: "+word);
+//    textBrowser->append("Local Search: "+word);
+    auto list = parser->getOffsetsByAuthorName(word);
+    if(list.isEmpty()){
+        QMessageBox::information(this,tr("Information"),
+            tr("The author does not exist."));
+    }else{
+        textBrowser->clear();
+        foreach(auto offset, list){
+//            textBrowser->append(QString::number(offset));
+            RecordParser *recordParser = RecordParser::fromFile(parseFile, offset);
+            textBrowser->append(recordParser->key());
+        }
+    }
 }
 
 void MainWindow::searchNetwork(QString word)

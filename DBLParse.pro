@@ -20,14 +20,12 @@ SOURCES += \
     mainwindow.cpp \
     parsedialog.cpp \
     parser.cpp \
-    record.cpp \
     recordparser.cpp
 
 HEADERS += \
     mainwindow.h \
     parsedialog.h \
     parser.h \
-    record.h \
     recordparser.h
 
 # Default rules for deployment.

@@ -5,6 +5,7 @@
 #include <QDate>
 
 class QXmlStreamReader;
+class QFile;
 
 class RecordParser : public QObject
 {
@@ -17,6 +18,9 @@ public:
     QStringList authors() const;
     void setAuthorIndex(QMultiHash<QString, qint64> *index);
     void parse();
+    
+    static RecordParser* fromFile(QFile *file, qint64 pos);
+    static RecordParser* fromStr(QString str);
     
 private:
     QXmlStreamReader *reader;
