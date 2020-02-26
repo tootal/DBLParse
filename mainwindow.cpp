@@ -12,13 +12,18 @@
 #include <QStandardPaths>
 #include <QFileInfo>
 #include <QThread>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QBoxLayout>
+#include <QLabel>
+#include <QTextBrowser>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle(tr("DBLParse"));
-    setMinimumSize(800,600);
-    
+    setMinimumSize(400,300);
+//     Menu Action
     QAction *openAction = new QAction(tr("&Open XML File"),this);
     QAction *useNetworkDataAction = new QAction(tr("Use Network Data"),this);
     useNetworkDataAction->setCheckable(true);
@@ -34,6 +39,18 @@ MainWindow::MainWindow(QWidget *parent)
     settingMenu->addAction(useNetworkDataAction);
     settingMenu->addAction(useLocalDataAction);
     
+    QWidget *widget = new QWidget;
+    QHBoxLayout *searchLayout = new QHBoxLayout;
+    QLineEdit *lineEdit = new QLineEdit(this);
+    QPushButton *pushButton = new QPushButton("&Search", this);
+    searchLayout->addWidget(lineEdit);
+    searchLayout->addWidget(pushButton);
+    QTextBrowser *textBrowser = new QTextBrowser;
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addLayout(searchLayout);
+    layout->addWidget(textBrowser);
+    widget->setLayout(layout);
+    setCentralWidget(widget);
     settings = new QSettings;
     
 //    parseThread = new QThread;
@@ -41,12 +58,12 @@ MainWindow::MainWindow(QWidget *parent)
 //    parser->moveToThread(parseThread);
     parseDialog = new ParseDialog(this);
     
+//     Signal and Slot connect
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(parser, &Parser::countChanged, parseDialog, &ParseDialog::showProgress);
     connect(parser, &Parser::done, parseDialog, &ParseDialog::showDone);
     connect(parser, &Parser::done, this, &MainWindow::parseDone);
     connect(parseDialog, &ParseDialog::abortParse, parser, &Parser::abortParse);
-    
 }
 
 MainWindow::~MainWindow()
