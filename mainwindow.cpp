@@ -64,7 +64,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(searchButton, &QPushButton::clicked, this, [this,lineEdit](){
        QString word = lineEdit->text();
-       search(word);
+       if(word.isEmpty()){
+           QMessageBox::information(this, tr("Information"),
+                tr("Search key can not be empty!"));
+       }else{
+           search(word);
+       }
     });
     connect(parser, &Parser::countChanged, parseDialog, &ParseDialog::showProgress);
     connect(parser, &Parser::done, parseDialog, &ParseDialog::showDone);
@@ -115,8 +120,10 @@ void MainWindow::search(QString word)
         if(parser->hasReader()){
             searchLocal(word);
         }else{
-            textBrowser->append(
-                tr("Not Found Index File, Please Open XML File."));
+            QMessageBox::information(this,tr("Information"),
+                tr("Index File Not Found.\nPlease Open XML File."));
+//            textBrowser->append(
+//                tr("Not Found Index File, Please Open XML File."));
         }
     }else{
         searchNetwork(word);

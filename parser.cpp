@@ -87,18 +87,6 @@ int Parser::count(QString recordName) const
     return recordCount_[recordName];
 }
 
-QStringList Parser::authorNames() const
-{
-    return QStringList();
-//    return authorIndex_.uniqueKeys();
-}
-
-int Parser::authorCount() const
-{
-//    return authorIndex_.uniqueKeys().size();
-    return int();
-}
-
 QStringList Parser::recordNames() const
 {
     return recordCount_.uniqueKeys();

@@ -25,8 +25,6 @@ public:
     QString dtdSystemId() const;
     int count() const;
     int count(QString recordName) const;
-    QStringList authorNames() const;
-    int authorCount() const;
     QStringList recordNames() const;
     QMap<QString,int> recordCount();
     void abortParse();
