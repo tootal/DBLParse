@@ -129,8 +129,15 @@ void MainWindow::searchNetwork(QString word)
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished,
             this, [this](QNetworkReply *reply){
+//        qDebug()<<"finished";
+        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        qDebug()<<"status code: "<<statusCode;
         textBrowser->setText(reply->readAll());
     });
-    manager->get(QNetworkRequest(QUrl("https://www.tootal.xyz/api/randint.php")));
+    manager->get(QNetworkRequest(QUrl("http://www.tootal.xyz/api/randint.php")));
+//    qDebug() << QSslSocket::sslLibraryBuildVersionString();
+//    qDebug() << QSslSocket::supportsSsl();
+//    qDebug() << QSslSocket::sslLibraryVersionString();
+//    qDebug() << manager->supportedSchemes();    
 }
 
