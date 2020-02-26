@@ -29,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     openAction = new QAction(tr("&Open XML File"),this);
     useNetworkDataAction = new QAction(tr("Use Network Data"),this);
     useNetworkDataAction->setCheckable(true);
-    useNetworkDataAction->setChecked(true);
     useLocalDataAction = new QAction(tr("Use Local Data"),this);
     useLocalDataAction->setCheckable(true);
+    useLocalDataAction->setChecked(true);
     QActionGroup *useDataType = new QActionGroup(this);
     useDataType->addAction(useNetworkDataAction);
     useDataType->addAction(useLocalDataAction);
@@ -112,7 +112,12 @@ void MainWindow::parseDone()
 void MainWindow::search(QString word)
 {
     if(useLocalDataAction->isChecked()){
-        searchLocal(word);
+        if(parser->hasReader()){
+            searchLocal(word);
+        }else{
+            textBrowser->append(
+                tr("Not Found Index File, Please Open XML File."));
+        }
     }else{
         searchNetwork(word);
     }
@@ -120,24 +125,35 @@ void MainWindow::search(QString word)
 
 void MainWindow::searchLocal(QString word)
 {
-    Q_UNUSED(word);
+    textBrowser->append("Local Search: "+word);
 }
 
 void MainWindow::searchNetwork(QString word)
 {
     Q_UNUSED(word);
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished,
-            this, [this](QNetworkReply *reply){
-//        qDebug()<<"finished";
-        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        qDebug()<<"status code: "<<statusCode;
-        textBrowser->setText(reply->readAll());
-    });
-    manager->get(QNetworkRequest(QUrl("http://www.tootal.xyz/api/randint.php")));
+    QNetworkRequest request;
+    request.setUrl(QUrl("https://dblp.uni-trier.de/search/author?xauthor=Nicola:Soldati"));
+//    QSslConfiguration conf = request.sslConfiguration();
+//    conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+//    conf.setProtocol(QSsl::TlsV1SslV3);
+//    request.setSslConfiguration(conf);
+//    QNetworkReply *reply = manager->get(request);
 //    qDebug() << QSslSocket::sslLibraryBuildVersionString();
 //    qDebug() << QSslSocket::supportsSsl();
 //    qDebug() << QSslSocket::sslLibraryVersionString();
-//    qDebug() << manager->supportedSchemes();    
+    qDebug() << manager->supportedSchemes();
+    
+//    connect(reply, &QIODevice::readyRead,
+//            this, [this](QNetworkReply *reply){
+//        qDebug()<<"finished";
+//        QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+//        qDebug()<<"status code: "<<statusCode;
+//        textBrowser->setText(reply->readAll());
+//    });
+//    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+//            this, [](){
+        
+//    });
 }
 

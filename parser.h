@@ -17,6 +17,7 @@ public:
     explicit Parser(QObject *parent = nullptr);
     void clear();
     void setReader(QXmlStreamReader *r);
+    bool hasReader() const;
     void run() override;
     QString documentVersion() const;
     QString documentEncoding() const;

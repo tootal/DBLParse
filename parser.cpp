@@ -7,13 +7,14 @@
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
-    
+    clear();
 }
 
 void Parser::clear()
 {
     count_ = 0;
     abortFlag = false;
+    reader = nullptr;
 }
 
 void Parser::run()
@@ -45,7 +46,7 @@ void Parser::run()
         }
     }
 //    qDebug()<<"Parser: work()";
-    qDebug()<<"author index: "<<authorIndex_;
+//    qDebug()<<"author index: "<<authorIndex_;
     parseCostMsecs_ = parseTiming.elapsed();
     emit done(this);
 //    qDebug()<<authorIndex_.size();
@@ -133,6 +134,11 @@ QList<qint64> Parser::getOffsetsByAuthorName(QString authorName)
 void Parser::setReader(QXmlStreamReader *r)
 {
     reader = r;
+}
+
+bool Parser::hasReader() const
+{
+    return reader!=nullptr;
 }
 
 void Parser::setDocumentEncoding(QString s)
