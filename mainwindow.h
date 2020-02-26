@@ -18,7 +18,6 @@ public:
     ~MainWindow();
     
 private:
-    QAction *openAction;
     QXmlStreamReader *reader;
     QSettings *settings;
     Parser *parser;
