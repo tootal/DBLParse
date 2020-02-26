@@ -42,9 +42,9 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *widget = new QWidget;
     QHBoxLayout *searchLayout = new QHBoxLayout;
     QLineEdit *lineEdit = new QLineEdit(this);
-    QPushButton *pushButton = new QPushButton("&Search", this);
+    QPushButton *searchButton = new QPushButton("&Search", this);
     searchLayout->addWidget(lineEdit);
-    searchLayout->addWidget(pushButton);
+    searchLayout->addWidget(searchButton);
     QTextBrowser *textBrowser = new QTextBrowser;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(searchLayout);
@@ -60,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent)
     
 //     Signal and Slot connect
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+    connect(searchButton, &QPushButton::clicked, this, [this,lineEdit](){
+       QString word = lineEdit->text();
+       search(word);
+    });
     connect(parser, &Parser::countChanged, parseDialog, &ParseDialog::showProgress);
     connect(parser, &Parser::done, parseDialog, &ParseDialog::showDone);
     connect(parser, &Parser::done, this, &MainWindow::parseDone);
