@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     resume();
 //    parser->moveToThread(parseThread);
     parseDialog = new ParseDialog(this);
+    parseFile = nullptr;
     
 //     Signal and Slot connect
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
@@ -125,7 +126,7 @@ void MainWindow::openFile()
     QString fileName = QFileDialog::getOpenFileName(this, 
         tr("Open XML File"), lastOpenFileName, tr("XML Files (*.xml)"));
     if(!fileName.isEmpty()){
-        settings->setValue("lastOpenFilePath", fileName);
+        settings->setValue("lastOpenFileName", fileName);
         parseFile = new QFile(fileName);
         if(parseFile->open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(parseFile);
@@ -162,7 +163,7 @@ void MainWindow::resume()
 {
     QFile file("dblp.dat");
 //    qDebug()<<"resume: "<<file.exists();
-    if(file.exists()){
+    if(file.exists() && settings->contains("lastOpenFileName")){
         if(file.open(QIODevice::ReadOnly)){
             QDataStream stream(&file);
             QString documentVersion;
@@ -189,12 +190,10 @@ void MainWindow::resume()
             int parseCostMsecs;
             stream>>parseCostMsecs;
             parser->setParseCostMsecs(parseCostMsecs);
-            parser->setParsed();
-            if(settings->contains("lastOpenFileName")){
-                parseFile = new QFile(settings->value("lastOpenFileName").toString());
-            }
         }
         file.close();
+        parseFile = new QFile(settings->value("lastOpenFileName").toString());
+        parser->setParsed();
     }
 }
 
@@ -225,6 +224,7 @@ void MainWindow::searchLocal(QString word)
         textBrowser->clear();
         foreach(auto offset, list){
 //            textBrowser->append(QString::number(offset));
+            Q_ASSERT(parseFile != nullptr);
             RecordParser *recordParser = RecordParser::fromFile(parseFile, offset.toLongLong());
             textBrowser->append(recordParser->key());
         }
