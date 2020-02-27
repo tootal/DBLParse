@@ -32,6 +32,7 @@ private:
     
     void openFile();
     void parseDone();
+    void resume();
     void search(QString word);
     void searchLocal(QString word);
     void searchNetwork(QString word);

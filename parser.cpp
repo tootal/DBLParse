@@ -87,14 +87,34 @@ int Parser::count(QString recordName) const
     return recordCount_[recordName].toInt();
 }
 
+void Parser::setCount(int cnt)
+{
+    count_ = cnt;
+}
+
 QStringList Parser::recordNames() const
 {
     return recordCount_.uniqueKeys();
 }
 
-QMap<QString, QVariant> Parser::recordCount()
+QMap<QString, QVariant> Parser::recordCount() const
 {
     return recordCount_;
+}
+
+void Parser::setRecordCount(QMap<QString, QVariant> x)
+{
+    recordCount_ = x;
+}
+
+QHash<QString, QVariant> Parser::authorIndex() const
+{
+    return authorIndex_;
+}
+
+void Parser::setAuthorIndex(QHash<QString, QVariant> x)
+{
+    authorIndex_ = x;
 }
 
 void Parser::addRecordCount(QString recordName, int value)
@@ -108,12 +128,22 @@ void Parser::abortParse()
     abortFlag = true;
 }
 
-QTime Parser::parseCostTime()
+int Parser::parseCostMsec() const
+{
+    return parseCostMsecs_;
+}
+
+void Parser::setParseCostMsec(int x)
+{
+    parseCostMsecs_ = x;
+}
+
+QTime Parser::parseCostTime() const
 {
     return QTime::fromMSecsSinceStartOfDay(parseCostMsecs_);
 }
 
-QList<QVariant> Parser::getOffsetsByAuthorName(QString authorName)
+QList<QVariant> Parser::getOffsetsByAuthorName(QString authorName) const
 {
 //    QList<qint64> list;
 //    auto &v = authorIndex_;

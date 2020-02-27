@@ -30,12 +30,18 @@ public:
     void setDtdSystemId(QString s);
     int count() const;
     int count(QString recordName) const;
+    void setCount(int cnt);
     QStringList recordNames() const;
-    QMap<QString,QVariant> recordCount();
+    QMap<QString,QVariant> recordCount() const;
+    void setRecordCount(QMap<QString,QVariant> x);
+    QHash<QString,QVariant> authorIndex() const;
+    void setAuthorIndex(QHash<QString,QVariant> x);
     void addRecordCount(QString recordName, int value = 1);
     void abortParse();
-    QTime parseCostTime();
-    QList<QVariant> getOffsetsByAuthorName(QString authorName);
+    int parseCostMsec() const;
+    void setParseCostMsec(int x);
+    QTime parseCostTime() const;
+    QList<QVariant> getOffsetsByAuthorName(QString authorName) const;
     
 signals:
     void done(Parser *parser);

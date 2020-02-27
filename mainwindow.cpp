@@ -113,13 +113,52 @@ void MainWindow::openFile()
 void MainWindow::parseDone()
 {
     parseFile->close();
-    settings->setValue("documentVersion", parser->documentVersion());
-    settings->setValue("documentEncoding", parser->documentEncoding());
-    settings->setValue("dtdName", parser->dtdName());
-    settings->setValue("dtdSystemId", parser->dtdSystemId());
-    settings->setValue("count", parser->count());
-    settings->setValue("recordNames", parser->recordNames());
-    settings->setValue("recordCount", parser->recordCount());
+    QFile file("dblp.dat");
+    if(file.open(QIODevice::WriteOnly)){
+        QDataStream stream(&file);
+        stream<<parser->documentVersion();
+        stream<<parser->documentEncoding();
+        stream<<parser->dtdName();
+        stream<<parser->dtdSystemId();
+        stream<<parser->count();
+        stream<<parser->recordCount();
+        stream<<parser->authorIndex();
+        stream<<parser->parseCostMsec();
+    }
+    file.close();
+}
+
+void MainWindow::resume()
+{
+    QFile file("dblp.dat");
+    if(file.exists()){
+        if(file.open(QIODevice::ReadOnly)){
+            QDataStream stream(&file);
+            QString documentVersion;
+            stream>>documentVersion;
+            parser->setDocumentVersion(documentVersion);
+            QString documentEncoding;
+            stream>>documentEncoding;
+            parser->setDocumentEncoding(documentEncoding);
+            QString dtdName;
+            stream>>dtdName;
+            parser->setDtdName(dtdName);
+            QString dtdSystemId;
+            stream>>dtdSystemId;
+            parser->setDtdSystemId(dtdSystemId);
+            int count;
+            stream>>count;
+            parser->setCount(count);
+            QMap<QString,QVariant> recordCount;
+            stream>>recordCount;
+            parser->setRecordCount(recordCount);
+            QHash<QString,QVariant> authorIndex;
+            stream>>authorIndex;
+            parser->setAuthorIndex(authorIndex);
+        }
+        file.close();
+        
+    }
 }
 
 void MainWindow::search(QString word)
@@ -149,7 +188,7 @@ void MainWindow::searchLocal(QString word)
         textBrowser->clear();
         foreach(auto offset, list){
 //            textBrowser->append(QString::number(offset));
-            RecordParser *recordParser = RecordParser::fromFile(parseFile, offset);
+            RecordParser *recordParser = RecordParser::fromFile(parseFile, offset.toLongLong());
             textBrowser->append(recordParser->key());
         }
     }
