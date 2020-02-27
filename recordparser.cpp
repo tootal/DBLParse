@@ -48,7 +48,7 @@ void RecordParser::parse()
     }
 }
 
-void RecordParser::setAuthorIndex(QHash<QString, QVariant> *index)
+void RecordParser::setAuthorIndex(QMap<QString, QVariant> *index)
 {
     authorIndex_ = index;
 }

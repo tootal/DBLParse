@@ -5,7 +5,6 @@
 
 #include <QThread>
 #include <QMap>
-#include <QMap>
 #include <QTime>
 #include <QVariant>
 
@@ -36,8 +35,8 @@ public:
     QStringList recordNames() const;
     QMap<QString,QVariant> recordCount() const;
     void setRecordCount(QMap<QString,QVariant> x);
-    QHash<QString,QVariant> authorIndex() const;
-    void setAuthorIndex(QHash<QString,QVariant> x);
+    QMap<QString,QVariant> authorIndex() const;
+    void setAuthorIndex(QMap<QString,QVariant> x);
     void addRecordCount(QString recordName, int value = 1);
     void abortParse();
     int parseCostMsecs() const;
@@ -57,7 +56,7 @@ private:
     QString dtdSystemId_;
     int count_;
     QMap<QString,QVariant> recordCount_;
-    QHash<QString,QVariant> authorIndex_;
+    QMap<QString,QVariant> authorIndex_;
     QTime parseTiming;
     int parseCostMsecs_;
     bool abortFlag;

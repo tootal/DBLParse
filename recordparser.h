@@ -16,7 +16,7 @@ public:
     QString key() const;
     QDate mdate() const;
     QStringList authors() const;
-    void setAuthorIndex(QHash<QString, QVariant> *index);
+    void setAuthorIndex(QMap<QString, QVariant> *index);
     void parse();
     
     static RecordParser* fromFile(QFile *file, qint64 pos);
@@ -28,7 +28,7 @@ private:
     QString key_;
     QDate mdate_;
     QStringList authors_;
-    QHash<QString,QVariant> *authorIndex_;
+    QMap<QString,QVariant> *authorIndex_;
     
     void parseContent();
 };

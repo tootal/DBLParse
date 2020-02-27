@@ -185,7 +185,7 @@ void MainWindow::resume()
             QMap<QString,QVariant> recordCount;
             stream>>recordCount;
             parser->setRecordCount(recordCount);
-            QHash<QString,QVariant> authorIndex;
+            QMap<QString,QVariant> authorIndex;
             stream>>authorIndex;
             parser->setAuthorIndex(authorIndex);
             int parseCostMsecs;

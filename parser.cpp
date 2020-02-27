@@ -122,12 +122,12 @@ void Parser::setRecordCount(QMap<QString, QVariant> x)
     recordCount_ = x;
 }
 
-QHash<QString, QVariant> Parser::authorIndex() const
+QMap<QString, QVariant> Parser::authorIndex() const
 {
     return authorIndex_;
 }
 
-void Parser::setAuthorIndex(QHash<QString, QVariant> x)
+void Parser::setAuthorIndex(QMap<QString, QVariant> x)
 {
     authorIndex_ = x;
 }
