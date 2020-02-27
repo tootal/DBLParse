@@ -224,7 +224,7 @@ void MainWindow::searchLocal(QString word)
             tr("The author does not exist."));
     }else{
         textBrowser->clear();
-        qDebug()<<"searchLocal: "<<list.size();
+//        qDebug()<<"searchLocal: "<<list.size();
         foreach(auto offset, list){
 //            textBrowser->append(QString::number(offset));
             Q_ASSERT(parseFile != nullptr);

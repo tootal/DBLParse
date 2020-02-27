@@ -96,8 +96,8 @@ RecordParser* RecordParser::fromFile(QFile *file, qint64 pos)
             }
             if(lineOffset != -1){
 //                qDebug()<<lineOffset;
-//                qDebug()<<pos;
-//                qDebug()<<file->pos();
+//                qDebug()<<"origin pos = "<<pos;
+//                qDebug()<<"current pos = "<<file->pos();
 //                qDebug()<<"recordName = "<<recordName;
                 break;
             }
@@ -110,11 +110,18 @@ RecordParser* RecordParser::fromFile(QFile *file, qint64 pos)
         file->read(data, pos-leftPos+5);
         QString dataStr(data);
 //        qDebug()<<"dataStr = "<<dataStr;
-        int beginPos = dataStr.lastIndexOf(QString("<%1").arg(recordName));
-//        qDebug()<<"beginPos = "<<beginPos;
         QString endEleStr = QString("</%1>").arg(recordName);
+//        qDebug()<<"endEleStr = "<<endEleStr;
         int endPos = dataStr.lastIndexOf(endEleStr);
-        QString recordStr = dataStr.mid(beginPos, endPos - beginPos + endEleStr.size());
+        Q_ASSERT(endPos!=-1);
+//        qDebug()<<"endPos = "<<endPos;
+        dataStr = dataStr.left(endPos + endEleStr.size());
+        int beginPos = dataStr.lastIndexOf(QString("<%1").arg(recordName));
+        Q_ASSERT(beginPos!=-1);
+//        qDebug()<<"beginPos = "<<beginPos;
+        Q_ASSERT(beginPos<endPos);
+        QString recordStr = dataStr.right(dataStr.size() - beginPos);
+//        qDebug()<<"recordStr = "<<recordStr;
         recordParser = fromStr(recordStr);
     }
     file->close();
