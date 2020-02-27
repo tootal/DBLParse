@@ -65,7 +65,7 @@ void RecordParser::parseContent()
             authors_.append(author);
 //            qDebug()<<QThread::currentThread();
             if(authorIndex_ != nullptr){
-                authorIndex_->insert(author, reader->characterOffset());
+                authorIndex_->insertMulti(author, reader->characterOffset());
             }
         }
 //        qDebug()<<reader->name();
@@ -87,7 +87,7 @@ RecordParser* RecordParser::fromFile(QFile *file, qint64 pos)
         while(!file->atEnd()){
 //            qDebug()<<"fromFile findEndElement";
             QString s = file->readLine();
-            qDebug()<<s;
+//            qDebug()<<s;
             foreach(recordName, recordNames){
                 lineOffset = s.indexOf(QString("</%1>").arg(recordName));
                 if(lineOffset !=-1){
