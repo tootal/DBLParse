@@ -143,7 +143,7 @@ void MainWindow::parseDone()
     parseFile->close();
     QFile file("dblp.dat");
     if(file.open(QIODevice::WriteOnly)){
-        qDebug()<<"parseDone test";
+//        qDebug()<<"parseDone test";
         QDataStream stream(&file);
         stream<<parser->documentVersion();
         stream<<parser->documentEncoding();
@@ -185,6 +185,9 @@ void MainWindow::resume()
             QHash<QString,QVariant> authorIndex;
             stream>>authorIndex;
             parser->setAuthorIndex(authorIndex);
+            int parseCostMsecs;
+            stream>>parseCostMsecs;
+            parser->setParseCostMsecs(parseCostMsecs);
             parser->setParsed();
         }
         file.close();
