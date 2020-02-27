@@ -113,7 +113,13 @@ void MainWindow::openFile()
 void MainWindow::parseDone()
 {
     parseFile->close();
+    settings->setValue("documentVersion", parser->documentVersion());
+    settings->setValue("documentEncoding", parser->documentEncoding());
+    settings->setValue("dtdName", parser->dtdName());
+    settings->setValue("dtdSystemId", parser->dtdSystemId());
+    settings->setValue("count", parser->count());
     settings->setValue("recordNames", parser->recordNames());
+    settings->setValue("recordCount", parser->recordCount());
 }
 
 void MainWindow::search(QString word)
