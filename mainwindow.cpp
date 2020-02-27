@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("DBLParse"));
     setMinimumSize(400,300);
 //     Menu Action
-    openAction = new QAction(tr("&Open XML File"),this);
+    fileOpenAction = new QAction(tr("&Open XML File"),this);
+    fileInfoAction = new QAction(tr("Parse Info"),this);
     useNetworkDataAction = new QAction(tr("Use Network Data"),this);
     useNetworkDataAction->setCheckable(true);
     useLocalDataAction = new QAction(tr("Use Local Data"),this);
@@ -37,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     useDataType->addAction(useLocalDataAction);
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     QMenu *settingMenu = menuBar()->addMenu(tr("&Setting"));
-    fileMenu->addAction(openAction);
+    fileMenu->addAction(fileOpenAction);
+    fileMenu->addAction(fileInfoAction);
     settingMenu->addAction(useNetworkDataAction);
     settingMenu->addAction(useLocalDataAction);
     
@@ -61,7 +63,29 @@ MainWindow::MainWindow(QWidget *parent)
     parseDialog = new ParseDialog(this);
     
 //     Signal and Slot connect
-    connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+    connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
+    connect(fileInfoAction, &QAction::triggered, this, [this](){
+        QMessageBox msgBox;
+        if(parser->parsed()){
+            QString text;
+            msgBox.setText(tr("The XML file has been parsed."));
+            text.append(tr("Document version: %1\n").arg(parser->documentVersion()));
+            text.append(tr("Document encoding: %1\n").arg(parser->documentEncoding()));
+            text.append(tr("DTD name: %1\n").arg(parser->dtdName()));
+            text.append(tr("DTD system id: %1\n").arg(parser->dtdSystemId()));
+            text.append(tr("Record count: %1\n").arg(parser->count()));
+            text.append(tr("Parse cost time: %1 ms\n").arg(parser->parseCostMsecs()));
+            msgBox.setInformativeText(text);
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+        }else{
+            msgBox.setText(tr("No XML file has been parsed."));
+            msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
+            msgBox.button(QMessageBox::Open)->setText("Open XML file");
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+        }
+        msgBox.exec();
+    });
     connect(searchButton, &QPushButton::clicked, this, [this,lineEdit](){
        QString word = lineEdit->text();
        if(word.isEmpty()){
@@ -123,7 +147,7 @@ void MainWindow::parseDone()
         stream<<parser->count();
         stream<<parser->recordCount();
         stream<<parser->authorIndex();
-        stream<<parser->parseCostMsec();
+        stream<<parser->parseCostMsecs();
     }
     file.close();
 }
@@ -164,7 +188,7 @@ void MainWindow::resume()
 void MainWindow::search(QString word)
 {
     if(useLocalDataAction->isChecked()){
-        if(parser->hasReader()){
+        if(parser->parsed()){
             searchLocal(word);
         }else{
             QMessageBox::information(this,tr("Information"),

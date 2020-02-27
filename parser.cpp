@@ -15,6 +15,20 @@ void Parser::clear()
     count_ = 0;
     abortFlag = false;
     reader = nullptr;
+    parsed_ = false;
+    recordCount_.clear();
+    authorIndex_.clear();
+    parseCostMsecs_ = 0;
+}
+
+bool Parser::parsed() const
+{
+    return parsed_;
+}
+
+void Parser::setParsed(bool p)
+{
+    parsed_ = p;
 }
 
 void Parser::run()
@@ -49,6 +63,7 @@ void Parser::run()
 //    qDebug()<<"author index: "<<authorIndex_;
     parseCostMsecs_ = parseTiming.elapsed();
     emit done(this);
+    parsed_ = true;
 //    qDebug()<<authorIndex_.size();
 }
 
@@ -128,12 +143,12 @@ void Parser::abortParse()
     abortFlag = true;
 }
 
-int Parser::parseCostMsec() const
+int Parser::parseCostMsecs() const
 {
     return parseCostMsecs_;
 }
 
-void Parser::setParseCostMsec(int x)
+void Parser::setParseCostMsecs(int x)
 {
     parseCostMsecs_ = x;
 }

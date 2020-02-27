@@ -17,6 +17,8 @@ class Parser : public QThread
 public:
     explicit Parser(QObject *parent = nullptr);
     void clear();
+    bool parsed() const;
+    void setParsed(bool p = true);
     void setReader(QXmlStreamReader *r);
     bool hasReader() const;
     void run() override;
@@ -38,8 +40,8 @@ public:
     void setAuthorIndex(QHash<QString,QVariant> x);
     void addRecordCount(QString recordName, int value = 1);
     void abortParse();
-    int parseCostMsec() const;
-    void setParseCostMsec(int x);
+    int parseCostMsecs() const;
+    void setParseCostMsecs(int x);
     QTime parseCostTime() const;
     QList<QVariant> getOffsetsByAuthorName(QString authorName) const;
     
@@ -59,6 +61,7 @@ private:
     QTime parseTiming;
     int parseCostMsecs_;
     bool abortFlag;
+    bool parsed_;
     
     void parseRecords();
 };

@@ -19,7 +19,8 @@ public:
     ~MainWindow();
     
 private:
-    QAction *openAction;
+    QAction *fileOpenAction;
+    QAction *fileInfoAction;
     QAction *useNetworkDataAction;
     QAction *useLocalDataAction;
     QTextBrowser *textBrowser;
