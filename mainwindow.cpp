@@ -66,26 +66,28 @@ MainWindow::MainWindow(QWidget *parent)
 //     Signal and Slot connect
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(fileInfoAction, &QAction::triggered, this, [this](){
-        QMessageBox msgBox(this);
+        QMessageBox *msgBox = new QMessageBox(this);
+//        msgBox->setMinimumSize(200, 200);
+//        msgBox->setWindowFlag(Qt::MSWindowsFixedSizeDialogHint);
         if(parser->parsed()){
             QString text;
-            msgBox.setText(tr("The XML file has been parsed."));
+            msgBox->setText(tr("The XML file has been parsed."));
             text.append(tr("Document version: %1\n").arg(parser->documentVersion()));
             text.append(tr("Document encoding: %1\n").arg(parser->documentEncoding()));
             text.append(tr("DTD name: %1\n").arg(parser->dtdName()));
             text.append(tr("DTD system id: %1\n").arg(parser->dtdSystemId()));
             text.append(tr("Record count: %1\n").arg(parser->count()));
             text.append(tr("Parse cost time: %1 ms\n").arg(parser->parseCostMsecs()));
-            msgBox.setInformativeText(text);
-            msgBox.setStandardButtons(QMessageBox::Ok);
-            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox->setInformativeText(text);
+            msgBox->setStandardButtons(QMessageBox::Ok);
+            msgBox->setDefaultButton(QMessageBox::Ok);
         }else{
-            msgBox.setText(tr("No XML file has been parsed."));
-            msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
-            msgBox.button(QMessageBox::Open)->setText("Open XML file");
-            msgBox.setDefaultButton(QMessageBox::Cancel);
+            msgBox->setText(tr("No XML file has been parsed."));
+            msgBox->setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
+            msgBox->button(QMessageBox::Open)->setText("Open XML file");
+            msgBox->setDefaultButton(QMessageBox::Cancel);
         }
-        int ret = msgBox.exec();
+        int ret = msgBox->exec();
         if(ret == QMessageBox::Open){
             openFile();
         }
@@ -113,18 +115,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile()
 {
-    QString lastOpenFilePath;
-    if(settings->contains("lastOpenFilePath")){
-        lastOpenFilePath = settings->value("lastOpenFilePath").toString();
+    QString lastOpenFileName;
+    if(settings->contains("lastOpenFileName")){
+        lastOpenFileName = settings->value("lastOpenFileName").toString();
     }else{
         // use document location as default
-        lastOpenFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        lastOpenFileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     }
     QString fileName = QFileDialog::getOpenFileName(this, 
-        tr("Open XML File"), lastOpenFilePath, tr("XML Files (*.xml)"));
+        tr("Open XML File"), lastOpenFileName, tr("XML Files (*.xml)"));
     if(!fileName.isEmpty()){
-        QFileInfo fileInfo(fileName);
-        settings->setValue("lastOpenFilePath", fileInfo.path());
+        settings->setValue("lastOpenFilePath", fileName);
         parseFile = new QFile(fileName);
         if(parseFile->open(QFile::ReadOnly | QFile::Text)){
             reader = new QXmlStreamReader(parseFile);
@@ -189,6 +190,9 @@ void MainWindow::resume()
             stream>>parseCostMsecs;
             parser->setParseCostMsecs(parseCostMsecs);
             parser->setParsed();
+            if(settings->contains("lastOpenFileName")){
+                parseFile = new QFile(settings->value("lastOpenFileName").toString());
+            }
         }
         file.close();
     }
