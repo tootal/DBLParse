@@ -78,17 +78,16 @@ RecordParser* RecordParser::fromFile(QFile *file, qint64 pos)
     RecordParser *recordParser = nullptr;
     QStringList recordNames;
     QSettings settings;
-    if(settings.contains("recordNames")){
-        recordNames = settings.value("recordNames").toStringList();
-    }else{
-        
-    }
+    Q_ASSERT(settings.contains("recordNames"));
+    recordNames = settings.value("recordNames").toStringList();
     QString recordName;
     int lineOffset = -1;
     if(file->open(QFile::ReadOnly|QFile::Text)){
         file->seek(pos);
         while(!file->atEnd()){
+//            qDebug()<<"fromFile findEndElement";
             QString s = file->readLine();
+            qDebug()<<s;
             foreach(recordName, recordNames){
                 lineOffset = s.indexOf(QString("</%1>").arg(recordName));
                 if(lineOffset !=-1){

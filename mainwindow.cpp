@@ -59,10 +59,10 @@ MainWindow::MainWindow(QWidget *parent)
     
 //    parseThread = new QThread;
     parser = new Parser(this);
+    parseFile = nullptr;
     resume();
 //    parser->moveToThread(parseThread);
     parseDialog = new ParseDialog(this);
-    parseFile = nullptr;
     
 //     Signal and Slot connect
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
@@ -157,6 +157,7 @@ void MainWindow::parseDone()
         stream<<parser->parseCostMsecs();
     }
     file.close();
+    settings->setValue("recordNames", parser->recordNames());
 }
 
 void MainWindow::resume()
@@ -193,6 +194,7 @@ void MainWindow::resume()
         }
         file.close();
         parseFile = new QFile(settings->value("lastOpenFileName").toString());
+//        qDebug()<<"parseFile set";
         parser->setParsed();
     }
 }
