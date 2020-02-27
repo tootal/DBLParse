@@ -84,7 +84,7 @@ int Parser::count() const
 
 int Parser::count(QString recordName) const
 {
-    return recordCount_[recordName];
+    return recordCount_[recordName].toInt();
 }
 
 QStringList Parser::recordNames() const
@@ -92,9 +92,15 @@ QStringList Parser::recordNames() const
     return recordCount_.uniqueKeys();
 }
 
-QMap<QString, int> Parser::recordCount()
+QMap<QString, QVariant> Parser::recordCount()
 {
     return recordCount_;
+}
+
+void Parser::addRecordCount(QString recordName, int value)
+{
+    int oldValue = recordCount_[recordName].toInt();
+    recordCount_[recordName] = oldValue + value;
 }
 
 void Parser::abortParse()
@@ -107,16 +113,17 @@ QTime Parser::parseCostTime()
     return QTime::fromMSecsSinceStartOfDay(parseCostMsecs_);
 }
 
-QList<qint64> Parser::getOffsetsByAuthorName(QString authorName)
+QList<QVariant> Parser::getOffsetsByAuthorName(QString authorName)
 {
-    QList<qint64> list;
-    auto &v = authorIndex_;
-    auto i = v.find(authorName);
-    while(i != v.end() && i.key() == authorName){
-        list.append(i.value());
-        ++i;
-    }
-    return list;
+//    QList<qint64> list;
+//    auto &v = authorIndex_;
+//    auto i = v.find(authorName);
+//    while(i != v.end() && i.key() == authorName){
+//        list.append(i.value());
+//        ++i;
+//    }
+//    return list;
+    return authorIndex_.values(authorName);
 }
 
 void Parser::setReader(QXmlStreamReader *r)
@@ -161,7 +168,7 @@ void Parser::parseRecords()
 //            qDebug()<<reader->name();
 //            qDebug()<<reader->attributes().size();
 //            qDebug()<<reader->namespaceDeclarations().size();
-            recordCount_[reader->name().toString()]++;
+            addRecordCount(reader->name().toString());
             count_++;
             emit countChanged((double)reader->device()->pos()/reader->device()->size());
 //            reader->readElementText(QXmlStreamReader::SkipChildElements);

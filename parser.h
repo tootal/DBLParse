@@ -5,8 +5,9 @@
 
 #include <QThread>
 #include <QMap>
-#include <QMultiHash>
+#include <QMap>
 #include <QTime>
+#include <QVariant>
 
 class QXmlStreamReader;
 
@@ -20,16 +21,21 @@ public:
     bool hasReader() const;
     void run() override;
     QString documentVersion() const;
+    void setDocumentVersion(QString s);
     QString documentEncoding() const;
+    void setDocumentEncoding(QString s);
     QString dtdName() const;
+    void setDtdName(QString s);
     QString dtdSystemId() const;
+    void setDtdSystemId(QString s);
     int count() const;
     int count(QString recordName) const;
     QStringList recordNames() const;
-    QMap<QString,int> recordCount();
+    QMap<QString,QVariant> recordCount();
+    void addRecordCount(QString recordName, int value = 1);
     void abortParse();
     QTime parseCostTime();
-    QList<qint64> getOffsetsByAuthorName(QString authorName);
+    QList<QVariant> getOffsetsByAuthorName(QString authorName);
     
 signals:
     void done(Parser *parser);
@@ -42,16 +48,12 @@ private:
     QString dtdName_;
     QString dtdSystemId_;
     int count_;
-    QMap<QString,int> recordCount_;
-    QMultiHash<QString,qint64> authorIndex_;
+    QMap<QString,QVariant> recordCount_;
+    QHash<QString,QVariant> authorIndex_;
     QTime parseTiming;
     int parseCostMsecs_;
     bool abortFlag;
     
-    void setDocumentVersion(QString s);
-    void setDocumentEncoding(QString s);
-    void setDtdName(QString s);
-    void setDtdSystemId(QString s);
     void parseRecords();
 };
 
