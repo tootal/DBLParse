@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle(tr("DBLParse"));
-    setMinimumSize(400,300);
+    setMinimumSize(600,400);
 //     Menu Action
     fileOpenAction = new QAction(tr("&Open XML File"),this);
     fileInfoAction = new QAction(tr("Parse Info"),this);
@@ -59,13 +59,14 @@ MainWindow::MainWindow(QWidget *parent)
     
 //    parseThread = new QThread;
     parser = new Parser(this);
+    resume();
 //    parser->moveToThread(parseThread);
     parseDialog = new ParseDialog(this);
     
 //     Signal and Slot connect
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(fileInfoAction, &QAction::triggered, this, [this](){
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         if(parser->parsed()){
             QString text;
             msgBox.setText(tr("The XML file has been parsed."));
@@ -84,7 +85,10 @@ MainWindow::MainWindow(QWidget *parent)
             msgBox.button(QMessageBox::Open)->setText("Open XML file");
             msgBox.setDefaultButton(QMessageBox::Cancel);
         }
-        msgBox.exec();
+        int ret = msgBox.exec();
+        if(ret == QMessageBox::Open){
+            openFile();
+        }
     });
     connect(searchButton, &QPushButton::clicked, this, [this,lineEdit](){
        QString word = lineEdit->text();
@@ -139,6 +143,7 @@ void MainWindow::parseDone()
     parseFile->close();
     QFile file("dblp.dat");
     if(file.open(QIODevice::WriteOnly)){
+        qDebug()<<"parseDone test";
         QDataStream stream(&file);
         stream<<parser->documentVersion();
         stream<<parser->documentEncoding();
@@ -155,6 +160,7 @@ void MainWindow::parseDone()
 void MainWindow::resume()
 {
     QFile file("dblp.dat");
+//    qDebug()<<"resume: "<<file.exists();
     if(file.exists()){
         if(file.open(QIODevice::ReadOnly)){
             QDataStream stream(&file);
@@ -179,9 +185,9 @@ void MainWindow::resume()
             QHash<QString,QVariant> authorIndex;
             stream>>authorIndex;
             parser->setAuthorIndex(authorIndex);
+            parser->setParsed();
         }
         file.close();
-        
     }
 }
 
