@@ -72,4 +72,4 @@ Thumbs.db
 *.exe
 
 # VNote temporary files 
-.*.vswp
+*.vswp
