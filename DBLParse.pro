@@ -1,4 +1,4 @@
-QT       += core gui network webenginewidgets webchannel
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,27 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dblp.cpp \
     main.cpp \
-    mainwindow.cpp \
-    parsedialog.cpp \
-    parser.cpp \
-    record.cpp \
-    recordparser.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    dblp.h \
-    mainwindow.h \
-    parsedialog.h \
-    parser.h \
-    record.h \
-    recordparser.h
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui
+
+TRANSLATIONS += \
+    DBLParse_zh_CN.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    res/dblparse.qrc
-

@@ -3,13 +3,9 @@
 
 #include <QMainWindow>
 
-class QXmlStreamReader;
-class QSettings;
-class Parser;
-class ParseDialog;
-class QFile;
-class QTextBrowser;
-class QWebEngineView;
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -20,24 +16,6 @@ public:
     ~MainWindow();
     
 private:
-    QAction *fileOpenAction;
-    QAction *fileInfoAction;
-    QAction *useNetworkDataAction;
-    QAction *useLocalDataAction;
-    QTextBrowser *textBrowser;
-    
-    QXmlStreamReader *reader;
-    QSettings *settings;
-    Parser *parser;
-    ParseDialog *parseDialog;
-    QFile *parseFile;
-    QWebEngineView *webView;
-    
-    void openFile();
-    void parseDone();
-    void resume();
-    void search(QString word);
-    void searchLocal(QString word);
-    void searchNetwork(QString word);
+    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
