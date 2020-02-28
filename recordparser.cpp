@@ -33,6 +33,11 @@ QStringList RecordParser::authors() const
     return authors_;
 }
 
+QString RecordParser::title() const
+{
+    return title_;
+}
+
 void RecordParser::parse()
 {
     if(reader->isStartElement()){
@@ -60,12 +65,16 @@ void RecordParser::parseContent()
         if(reader->isEndElement() && reader->name()==name_){
             break;
         }
-        if(reader->isStartElement() && reader->name()=="author"){
-            QString author = reader->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
-            authors_.append(author);
-//            qDebug()<<QThread::currentThread();
-            if(authorIndex_ != nullptr){
-                authorIndex_->insertMulti(author, reader->characterOffset());
+        if(reader->isStartElement()){
+            if(reader->name()=="author"){
+                QString author = reader->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
+                authors_.append(author);
+    //            qDebug()<<QThread::currentThread();
+                if(authorIndex_ != nullptr){
+                    authorIndex_->insertMulti(author, reader->characterOffset());
+                }
+            }else if(reader->name()=="title"){
+                title_ = reader->readElementText(QXmlStreamReader::ErrorOnUnexpectedElement);
             }
         }
 //        qDebug()<<reader->name();

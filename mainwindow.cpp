@@ -225,11 +225,13 @@ void MainWindow::searchLocal(QString word)
     }else{
         textBrowser->clear();
 //        qDebug()<<"searchLocal: "<<list.size();
+        textBrowser->append("<b>Records of "+word+"</b>");
         foreach(auto offset, list){
 //            textBrowser->append(QString::number(offset));
             Q_ASSERT(parseFile != nullptr);
             RecordParser *recordParser = RecordParser::fromFile(parseFile, offset.toLongLong());
-            textBrowser->append(recordParser->key());
+//            textBrowser->append(recordParser->key());
+            textBrowser->append(recordParser->title());
         }
     }
 }

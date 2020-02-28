@@ -16,6 +16,7 @@ public:
     QString key() const;
     QDate mdate() const;
     QStringList authors() const;
+    QString title() const;
     void setAuthorIndex(QMap<QString, QVariant> *index);
     void parse();
     
@@ -28,6 +29,7 @@ private:
     QString key_;
     QDate mdate_;
     QStringList authors_;
+    QString title_;
     QMap<QString,QVariant> *authorIndex_;
     
     void parseContent();
