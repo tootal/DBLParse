@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/www">
+    <qresource prefix="/">
+        <file>html/index.css</file>
         <file>html/index.html</file>
     </qresource>
 </RCC>

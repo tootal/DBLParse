@@ -57,9 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget->setLayout(layout);
     
     webView = new QWebEngineView;
-    QFile htmlFile(":/www/html/index.html");
-    htmlFile.open(QIODevice::ReadOnly|QIODevice::Text);
-    webView->setHtml(htmlFile.readAll());
+    webView->setUrl(QUrl("qrc:/index.html"));
     setCentralWidget(webView);
 //    setCentralWidget(widget);
     settings = new QSettings;
