@@ -9,6 +9,7 @@ class Parser;
 class ParseDialog;
 class QFile;
 class QTextBrowser;
+class QWebEngineView;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ private:
     Parser *parser;
     ParseDialog *parseDialog;
     QFile *parseFile;
+    QWebEngineView *webView;
     
     void openFile();
     void parseDone();

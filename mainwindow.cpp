@@ -19,6 +19,7 @@
 #include <QTextBrowser>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QWebEngineView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,7 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addLayout(searchLayout);
     layout->addWidget(textBrowser);
     widget->setLayout(layout);
-    setCentralWidget(widget);
+    
+    webView = new QWebEngineView;
+    QFile htmlFile(":/www/html/index.html");
+    htmlFile.open(QIODevice::ReadOnly|QIODevice::Text);
+    webView->setHtml(htmlFile.readAll());
+    setCentralWidget(webView);
+//    setCentralWidget(widget);
     settings = new QSettings;
     
 //    parseThread = new QThread;

@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DBLParse</title>
+<style>
+html{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body{
+    min-width: 400px;
+}
+body,input,button{
+    margin: 0;
+    padding: 0;
+}
+div{
+    font-size: 0;
+    text-align: center;
+    padding-bottom: 180px;
+}
+h1{
+    margin-bottom: 20px;
+    user-select: none;
+    letter-spacing: -10px;
+}
+.logo{
+    font-size: 72px;
+    font-weight: 600;
+}
+input{
+    width: 562px;
+    height: 44px;
+    margin: 0 auto;
+    padding-left: 30px;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    font: 16px arial;
+    outline: 0;
+    vertical-align: bottom;
+}
+input:focus{
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+}
+button{
+    cursor: pointer;
+    min-width: 54px;
+    height: 36px;
+    margin: 11px 8px;
+    margin-top: 30px;
+    padding: 0 16px;
+    background-color: #f2f2f2;
+    color: #5f6368;
+    border: 1px solid #f2f2f2;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 27px;
+}
+button:hover{
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    background-color: #f8f8f8;
+    border: 1px solid #c6c6c6;
+    color: #222;
+}
+</style>
+</head>
+<body>
+<div>
+    <h1>
+        <span class="logo" style="color: #4285f4;font-size: 78px;">D<span>
+        <span class="logo" style="color: #ea4335;">b<span>
+        <span class="logo" style="color: #fbbc05;">l<span>
+        <span class="logo" style="color: #4285f4;">p<span>
+        <span class="logo" style="color: #34a853;">a<span>
+        <span class="logo" style="color: #ea4335;">r<span>
+        <span class="logo" style="color: #fbbc05;">s<span>
+        <span class="logo" style="color: #34a853;">e<span>
+    </h1>
+    <input type="text" id="wd" autocomplete="off">
+    <br>
+    <button>Search</button>
+</div>
+<script>
+window.onload=function(){
+    if(document.readyState=="complete"){
+        document.getElementById("wd").focus();
+    }
+}
+</script>
+</body>
+</html>
