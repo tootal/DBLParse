@@ -3,3 +3,7 @@
 操作系统：Windows 10 64位  
 IDE：Qt Creator
 编译器：Qt 5.12.7 MSVC2017 64bit
+
+
+## 本地化
+选择Qt Creator菜单栏Tools，External，Qt预言家。首先用lupdate更新翻译文件（导出tr字符串）。接着打开linguist（QT语言家），打开ts文件，选中对应字符串进行翻译。翻译完成后，在Qt Creator中用lrelease生成qm文件。
