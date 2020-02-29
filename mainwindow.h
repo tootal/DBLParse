@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
+
+class Parser;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +31,14 @@ private slots:
     
     void on_action_Open_triggered();
     
+    void on_action_Status_triggered();
+    
 private:
     Ui::MainWindow *ui;
+    Parser *m_parser;
+    QThread m_parseThread;
+    
+signals:
+    void startParse(const QString &fileName);
 };
 #endif // MAINWINDOW_H

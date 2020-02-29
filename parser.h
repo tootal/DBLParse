@@ -8,8 +8,8 @@ class Parser : public QObject
 {
     Q_OBJECT
 public:
-    Parser(const QString &fileName);
-    void parse();
+    Parser();
+    void parse(const QString &fileName);
     QString status() const;
     QString authorIndexFileName() const;
     void setAuthorIndexFileName(const QString &fileName);
@@ -17,7 +17,9 @@ public:
     void setTitleIndexFileName(const QString &fileName);
     int maxAuthorNameLength() const;
     QMap<QChar, int> authorNameCharCount() const;
+    QTime costTime() const;
 signals:
+    void posChanged(double ratio);
     void parseDone();
     
 private:
@@ -27,6 +29,7 @@ private:
     QString m_titleIndexFileName;
     int m_maxAuthorNameLength;
     QMap<QChar, int> m_authorNameCharCount;
+    int m_costMsecs;
     
     static const int c_maxIndexBufferSize = 1<<20; // 1048576
 };

@@ -4,18 +4,19 @@
 #include <QXmlStreamReader>
 #include <QDataStream>
 #include <QBuffer>
+#include <QTime>
 
-Parser::Parser(const QString &fileName)
+Parser::Parser()
 {
-    m_fileName = fileName;
     m_status = "init";
     m_authorIndexFileName = "authorIndex.dat";
     m_titleIndexFileName = "titleIndex.dat";
     m_maxAuthorNameLength = 0;
 }
 
-void Parser::parse()
+void Parser::parse(const QString &fileName)
 {
+    m_fileName = fileName;
     if(m_fileName.isEmpty()){
         m_status = "fileName is empty";
         return ;
@@ -34,6 +35,7 @@ void Parser::parse()
     QDataStream titleStream(&titleIndexBuffer);
     while(!reader.atEnd()){
         reader.readNext();
+        emit posChanged(static_cast<double>(reader.device()->pos())/reader.device()->size());
         if(reader.isStartElement()){
             if(reader.name() == "author"){
                 QString author = reader.readElementText();
@@ -112,4 +114,9 @@ int Parser::maxAuthorNameLength() const
 QMap<QChar, int> Parser::authorNameCharCount() const
 {
     return m_authorNameCharCount;
+}
+
+QTime Parser::costTime() const
+{
+    return QTime::fromMSecsSinceStartOfDay(m_costMsecs);
 }

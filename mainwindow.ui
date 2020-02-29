@@ -84,7 +84,14 @@
     <addaction name="action_Open"/>
     <addaction name="actionE_xit"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="action_Status"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_View"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -111,6 +118,11 @@
   <action name="action_Open">
    <property name="text">
     <string>&amp;Open</string>
+   </property>
+  </action>
+  <action name="action_Status">
+   <property name="text">
+    <string>&amp;Status</string>
    </property>
   </action>
  </widget>

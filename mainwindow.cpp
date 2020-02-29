@@ -1,20 +1,32 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "parser.h"
 
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
+#include <QSettings>
+#include <QStandardPaths>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_parser = new Parser;
+    m_parser->moveToThread(&m_parseThread);
+    connect(&m_parseThread, &QThread::finished,
+            m_parser, &QObject::deleteLater);
+    connect(this, &MainWindow::startParse,
+            m_parser, &Parser::parse);
+    m_parseThread.start();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    m_parseThread.quit();
+    m_parseThread.wait();
 }
 
 
@@ -64,6 +76,25 @@ void MainWindow::on_searchButton_clicked()
 }
 
 void MainWindow::on_action_Open_triggered()
+{
+    QString lastOpenFileName;
+    QSettings settings;
+    if(settings.contains("lastOpenFileName")){
+        lastOpenFileName = settings.value("lastOpenFileName").toString();
+    }else{
+        // use document location as default
+        lastOpenFileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    }
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select XML file"),
+                                                    lastOpenFileName,
+                                                    tr("XML file (*.xml)"));
+    if(fileName.isEmpty()) return ;
+    settings.setValue("lastOpenFileName", fileName);
+    emit startParse(fileName);
+}
+
+void MainWindow::on_action_Status_triggered()
 {
     
 }
