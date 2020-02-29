@@ -7,6 +7,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QCoreApplication::setOrganizationName("SCUT_CS");
+    QCoreApplication::setApplicationName("DBLParse");
     QTranslator translator;
 //    qDebug() << QLocale();
 //    qDebug() << QLocale().uiLanguages();
