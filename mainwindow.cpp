@@ -73,6 +73,7 @@ void MainWindow::on_searchButton_clicked()
                                  tr("Please enter a search key."));
         return ;
     }
+    
     if(ui->authorRadioButton->isChecked()){
         
     }else{

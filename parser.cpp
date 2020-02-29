@@ -139,3 +139,13 @@ void Parser::abortParser()
 {
     m_abortFlag = true;
 }
+
+QList<QVariant> Parser::indexOfAuthor(const QString &author) const
+{
+    return m_authorIndex.values(author);
+}
+
+QList<QVariant> Parser::indexOfTitle(const QString &title) const
+{
+    return m_titleIndex.values(title);
+}

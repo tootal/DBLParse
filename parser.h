@@ -19,6 +19,8 @@ public:
     bool parsed() const;
     void load();
     void abortParser();
+    QList<QVariant> indexOfAuthor(const QString &author) const;
+    QList<QVariant> indexOfTitle(const QString &title) const;
     
 signals:
     void done(Parser *parser);
