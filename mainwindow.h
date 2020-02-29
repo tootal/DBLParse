@@ -18,6 +18,8 @@ public:
 private slots:
     void on_actionAbout_Qt_triggered();
     
+    void on_action_About_Dblparse_triggered();
+    
 private:
     Ui::MainWindow *ui;
 };
