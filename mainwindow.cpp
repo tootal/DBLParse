@@ -100,7 +100,8 @@ void MainWindow::on_action_Open_triggered()
     m_progressDialog = new QProgressDialog(tr("Parsing file"),tr("Cancel"), 0, 100, this);
     connect(m_progressDialog, &QProgressDialog::canceled,
             m_parser, &Parser::cancel);
-    m_progressDialog->exec();
+    m_progressDialog->setWindowModality(Qt::WindowModal);
+    m_progressDialog->open();
 }
 
 void MainWindow::on_action_Status_triggered()
