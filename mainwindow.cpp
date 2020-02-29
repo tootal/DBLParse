@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,4 +42,25 @@ void MainWindow::on_actionAbout_DBLP_triggered()
     info += "<br/><br/>";
     info += tr("For more information <a href=\"https://dblp.uni-trier.de/faq/\">check out our F.A.Q.</a>");
     QMessageBox::about(this, tr("About DBLP"), info);
+}
+
+void MainWindow::on_actionE_xit_triggered()
+{
+    close();
+}
+
+void MainWindow::on_searchButton_clicked()
+{
+//    qDebug() << "search : " << ui->keyEdit->text();
+    QString key = ui->keyEdit->text();
+    if(key.isEmpty()){
+        QMessageBox::information(this, tr("Information"),
+                                 tr("Please enter a search key."));
+        return ;
+    }
+    if(ui->authorRadioButton->isChecked()){
+        
+    }else{
+        
+    }
 }

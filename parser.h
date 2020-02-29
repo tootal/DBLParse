@@ -1,0 +1,34 @@
+#ifndef PARSER_H
+#define PARSER_H
+
+#include <QObject>
+#include <QMap>
+
+class Parser : public QObject
+{
+    Q_OBJECT
+public:
+    Parser(const QString &fileName);
+    void parse();
+    QString status() const;
+    QString authorIndexFileName() const;
+    void setAuthorIndexFileName(const QString &fileName);
+    QString titleIndexFileName() const;
+    void setTitleIndexFileName(const QString &fileName);
+    int maxAuthorNameLength() const;
+    QMap<QChar, int> authorNameCharCount() const;
+signals:
+    void parseDone();
+    
+private:
+    QString m_fileName;
+    QString m_status;
+    QString m_authorIndexFileName;
+    QString m_titleIndexFileName;
+    int m_maxAuthorNameLength;
+    QMap<QChar, int> m_authorNameCharCount;
+    
+    static const int c_maxIndexBufferSize = 1<<20; // 1048576
+};
+
+#endif // PARSER_H

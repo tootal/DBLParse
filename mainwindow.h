@@ -22,6 +22,10 @@ private slots:
     
     void on_actionAbout_DBLP_triggered();
     
+    void on_actionE_xit_triggered();
+    
+    void on_searchButton_clicked();
+    
 private:
     Ui::MainWindow *ui;
 };
