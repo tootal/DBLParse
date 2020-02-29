@@ -1,3 +1,5 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/translations">
+        <file>DBLParse_zh_CN.qm</file>
+    </qresource>
 </RCC>
