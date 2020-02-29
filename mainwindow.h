@@ -26,6 +26,8 @@ private slots:
     
     void on_searchButton_clicked();
     
+    void on_action_Open_triggered();
+    
 private:
     Ui::MainWindow *ui;
 };
