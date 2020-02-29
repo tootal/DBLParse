@@ -9,11 +9,13 @@ class Record : public QObject
     Q_OBJECT
 public:
     explicit Record(const QString &s, QObject *parent = nullptr);
-    
+    QString title() const;
+    QString mdate() const;
+    QString key() const;
 private:
     QString m_name;
     QString m_key;
-    QDate m_mdate;
+    QString m_mdate;
     QStringList m_authors;
     QString m_title;
 };

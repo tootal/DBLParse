@@ -2,6 +2,7 @@
 
 #include <QTime>
 #include <QFile>
+#include <QDebug>
 
 QString Util::formatTime(QTime time)
 {
@@ -16,9 +17,9 @@ QString Util::formatTime(QTime time)
     }
 }
 
-QPair<qint64, qint64> Util::findRecordRange(const QString &filePath, qint64 pos)
+QString Util::findRecord(const QString &fileName, qint64 pos)
 {
-    QFile file(filePath);
+    QFile file(fileName);
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     Q_ASSERT(file.isOpen());
     QString recordName;
@@ -51,7 +52,8 @@ QPair<qint64, qint64> Util::findRecordRange(const QString &filePath, qint64 pos)
     int beginPos = res.lastIndexOf(beginEleStr);
     Q_ASSERT(beginPos != -1);
     Q_ASSERT(beginPos < endPos);
-//    res = res.right(res.size() - beginPos);
-//    qDebug()<<res;
-    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
+    res = res.right(res.size() - beginPos);
+//    qDebug() << res;
+//    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
+    return res.toString();
 }

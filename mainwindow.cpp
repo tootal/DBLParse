@@ -3,6 +3,7 @@
 #include "parser.h"
 #include "parsedialog.h"
 #include "util.h"
+#include "record.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -84,8 +85,13 @@ void MainWindow::on_searchButton_clicked()
         ui->tableWidget->setRowCount(list.size());
         QStringList labels = { tr("Title"), tr("Modify date"), tr("Key")};
         ui->tableWidget->setHorizontalHeaderLabels(labels);
-        foreach(auto i, list){
-            
+        for(int i = 0; i < list.size(); ++i){
+            qint64 pos = list.at(i).toLongLong();
+            auto fileName = m_parser->fileName();
+            Record record(Util::findRecord(fileName, pos));
+            ui->tableWidget->setItem(i, 0, new QTableWidgetItem(record.title()));
+            ui->tableWidget->setItem(i, 1, new QTableWidgetItem(record.mdate()));
+            ui->tableWidget->setItem(i, 2, new QTableWidgetItem(record.key()));
         }
     }else{
         auto list = m_parser->indexOfTitle(key);

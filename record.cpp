@@ -12,7 +12,7 @@ Record::Record(const QString &s, QObject *parent)
     Q_ASSERT(attrs.hasAttribute("key"));
     m_key = attrs.value("key").toString();
     Q_ASSERT(attrs.hasAttribute("mdate"));
-    m_mdate = QDate::fromString(attrs.value("mdate").toString(), "yyyy-MM-dd");
+    m_mdate = attrs.value("mdate").toString();
     
     while(!reader.atEnd()){
         reader.readNext();
@@ -27,4 +27,19 @@ Record::Record(const QString &s, QObject *parent)
         }
     }
     Q_ASSERT(!reader.hasError());
+}
+
+QString Record::title() const
+{
+    return m_title;
+}
+
+QString Record::mdate() const
+{
+    return m_mdate;
+}
+
+QString Record::key() const
+{
+    return m_key;
 }

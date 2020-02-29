@@ -12,6 +12,7 @@ class Parser : public QThread
 public:
     Parser(QObject *parent = nullptr);
     void run() override;
+    QString fileName() const;
     void setFileName(const QString &fileName);
     QTime costTime() const;
     int count() const;

@@ -44,6 +44,11 @@ void Parser::run()
     emit done(this);
 }
 
+QString Parser::fileName() const
+{
+    return m_fileName;
+}
+
 QTime Parser::costTime() const
 {
     return QTime::fromMSecsSinceStartOfDay(m_costMsecs);
