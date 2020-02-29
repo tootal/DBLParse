@@ -18,6 +18,8 @@ public:
     int maxAuthorNameLength() const;
     QMap<QChar, int> authorNameCharCount() const;
     QTime costTime() const;
+    void cancel();
+    
 signals:
     void posChanged(double ratio);
     void parseDone();
@@ -30,8 +32,11 @@ private:
     int m_maxAuthorNameLength;
     QMap<QChar, int> m_authorNameCharCount;
     int m_costMsecs;
+    bool m_cancelFlag;
+    int m_recordCount;
     
-    static const int c_maxIndexBufferSize = 1<<20; // 1048576
+    static const int c_flushMask = (1 << 20) - 1;
+    static const QStringList c_recordNames;
 };
 
 #endif // PARSER_H

@@ -5,6 +5,7 @@
 #include <QThread>
 
 class Parser;
+class QProgressDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +38,9 @@ private:
     Ui::MainWindow *ui;
     Parser *m_parser;
     QThread m_parseThread;
+    QProgressDialog *progressDialog;
+    
+    void processParse(double ratio);
     
 signals:
     void startParse(const QString &fileName);

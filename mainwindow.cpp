@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QProgressDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_parser, &QObject::deleteLater);
     connect(this, &MainWindow::startParse,
             m_parser, &Parser::parse);
+    connect(m_parser, &Parser::posChanged,
+            this, &MainWindow::processParse);
     m_parseThread.start();
 }
 
@@ -92,9 +95,21 @@ void MainWindow::on_action_Open_triggered()
     if(fileName.isEmpty()) return ;
     settings.setValue("lastOpenFileName", fileName);
     emit startParse(fileName);
+    progressDialog = new QProgressDialog(tr("Parsing file"),tr("Cancel"), 0, 100, this);
+    progressDialog->setMinimumWidth(100);
+    connect(progressDialog, &QProgressDialog::canceled,
+            m_parser, &Parser::cancel);
+    progressDialog->exec();
 }
 
 void MainWindow::on_action_Status_triggered()
 {
     
+}
+
+void MainWindow::processParse(double ratio)
+{
+    if(progressDialog != nullptr){
+        progressDialog->setValue(static_cast<int>(ratio*100));
+    }
 }
