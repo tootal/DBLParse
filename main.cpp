@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QTranslator translator;
 //    qDebug() << QLocale();
-    qDebug() << QLocale().uiLanguages();
+//    qDebug() << QLocale().uiLanguages();
     if (translator.load(QLocale(), "DBLParse",
             "_", ":/translations")){
 //        qDebug() << "translator load successful!";

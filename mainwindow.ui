@@ -28,6 +28,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout_Qt"/>
+    <addaction name="actionAbout_DBLP"/>
     <addaction name="action_About_Dblparse"/>
    </widget>
    <addaction name="menu_Help"/>
@@ -40,7 +41,12 @@
   </action>
   <action name="action_About_Dblparse">
    <property name="text">
-    <string>&amp;About Dblparse</string>
+    <string>&amp;About DBLParse</string>
+   </property>
+  </action>
+  <action name="actionAbout_DBLP">
+   <property name="text">
+    <string>About DBLP</string>
    </property>
   </action>
  </widget>

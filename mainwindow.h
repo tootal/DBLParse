@@ -20,6 +20,8 @@ private slots:
     
     void on_action_About_Dblparse_triggered();
     
+    void on_actionAbout_DBLP_triggered();
+    
 private:
     Ui::MainWindow *ui;
 };
