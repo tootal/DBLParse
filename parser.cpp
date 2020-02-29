@@ -44,16 +44,27 @@ void Parser::parse(const QString &fileName)
     }
     QXmlStreamReader reader(&file);
     QFile authorFile(m_authorIndexFileName);
+    if(!authorFile.open(QIODevice::WriteOnly)){
+        m_status = "author file open failed";
+        return ;
+    }
     QDataStream authorStream(&authorFile);
     QFile titleFile(m_titleIndexFileName);
+    if(!titleFile.open(QIODevice::WriteOnly)){
+        m_status = "title file open failed";
+        return ;
+    }
     QDataStream titleStream(&titleFile);
     while(!reader.atEnd()){
         reader.readNext();
 //        qDebug() << "current token: " << reader.tokenString();
         if(m_cancelFlag) break;
-        emit posChanged(static_cast<double>(reader.device()->pos())/reader.device()->size());
         if(reader.isStartElement()){
-            if(c_recordNames.contains(reader.name())) ++m_recordCount;
+            if(c_recordNames.contains(reader.name())){
+                emit posChanged(static_cast<double>(reader.device()->pos())/reader.device()->size());   
+                ++m_recordCount;
+//                qDebug() << "record count : " << m_recordCount;
+            }
             if(reader.name() == "author"){
                 QString author = reader.readElementText();
 //                qDebug() << "author: " << author;
@@ -63,16 +74,19 @@ void Parser::parse(const QString &fileName)
                 foreach(QChar c, author){
                     m_authorNameCharCount[c]++;
                 }
+//                qDebug() << "author name char count : " << m_authorNameCharCount;
                 authorStream << author << reader.characterOffset();
-                if((m_recordCount & c_flushMask) == 0){
-                    authorFile.flush();
-                }
+//                if((m_recordCount & c_flushMask) == 0){
+//                    authorFile.flush();
+//                }
             }else if(reader.name() == "title"){
-                QString title = reader.readElementText();
+//              ATTENTION EXAMPLE : <title>Fully Persistent B<sup>+</sup>-trees</title>
+                QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
+//                qDebug() << "title : " << title;
                 titleStream << title << reader.characterOffset();
-                if((m_recordCount & c_flushMask) == 0){
-                    titleFile.flush();
-                }
+//                if((m_recordCount & c_flushMask) == 0){
+//                    titleFile.flush();
+//                }
             }
         }
     }
@@ -80,6 +94,7 @@ void Parser::parse(const QString &fileName)
     titleFile.close();
     if(reader.hasError()){
         m_status = "parse error : " + reader.errorString();
+        qDebug() << "error line number : " << reader.lineNumber();
     }else{
         m_status = "ok";
     }

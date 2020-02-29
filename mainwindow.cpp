@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_parser, &Parser::parse);
     connect(m_parser, &Parser::posChanged,
             this, &MainWindow::processParse);
+    connect(m_parser, &Parser::parseDone,
+            this, &MainWindow::processDone);
     m_parseThread.start();
 }
 
@@ -95,11 +97,10 @@ void MainWindow::on_action_Open_triggered()
     if(fileName.isEmpty()) return ;
     settings.setValue("lastOpenFileName", fileName);
     emit startParse(fileName);
-    progressDialog = new QProgressDialog(tr("Parsing file"),tr("Cancel"), 0, 100, this);
-    progressDialog->setMinimumWidth(100);
-    connect(progressDialog, &QProgressDialog::canceled,
+    m_progressDialog = new QProgressDialog(tr("Parsing file"),tr("Cancel"), 0, 100, this);
+    connect(m_progressDialog, &QProgressDialog::canceled,
             m_parser, &Parser::cancel);
-    progressDialog->exec();
+    m_progressDialog->exec();
 }
 
 void MainWindow::on_action_Status_triggered()
@@ -109,7 +110,15 @@ void MainWindow::on_action_Status_triggered()
 
 void MainWindow::processParse(double ratio)
 {
-    if(progressDialog != nullptr){
-        progressDialog->setValue(static_cast<int>(ratio*100));
+//    qDebug() << "process parse :" << ratio;
+    if(m_progressDialog != nullptr){
+        m_progressDialog->setValue(static_cast<int>(ratio*100));
     }
+}
+
+void MainWindow::processDone()
+{
+    m_progressDialog->setValue(100);
+    QMessageBox::information(this, tr("Parse result"), tr("Parse done."));
+//    qDebug() << "parser status : " << m_parser->status();
 }

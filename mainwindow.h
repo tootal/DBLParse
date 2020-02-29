@@ -38,9 +38,10 @@ private:
     Ui::MainWindow *ui;
     Parser *m_parser;
     QThread m_parseThread;
-    QProgressDialog *progressDialog;
+    QProgressDialog *m_progressDialog;
     
     void processParse(double ratio);
+    void processDone();
     
 signals:
     void startParse(const QString &fileName);
