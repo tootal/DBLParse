@@ -7,7 +7,7 @@ class Util : public QObject
 {
     Q_OBJECT
 public:
-    
+    static QString formatTime(QTime time);
 };
 
 #endif // UTIL_H

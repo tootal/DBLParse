@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "parser.h"
+#include "parsedialog.h"
+#include "util.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -14,24 +16,22 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_parser = new Parser;
-    m_parser->moveToThread(&m_parseThread);
-    connect(&m_parseThread, &QThread::finished,
-            m_parser, &QObject::deleteLater);
-    connect(this, &MainWindow::startParse,
-            m_parser, &Parser::parse);
-    connect(m_parser, &Parser::posChanged,
-            this, &MainWindow::processParse);
-    connect(m_parser, &Parser::parseDone,
-            this, &MainWindow::processDone);
-    m_parseThread.start();
+    m_parser = new Parser(this);
+    resume();
+    m_parseDialog = new ParseDialog(this);
+    connect(m_parser, &Parser::countChanged,
+            m_parseDialog, &ParseDialog::showProgress);
+    connect(m_parser, &Parser::done,
+            m_parseDialog, &ParseDialog::showDone);
+    connect(m_parseDialog, &ParseDialog::abortParse,
+            m_parser, &Parser::abortParser);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    m_parseThread.quit();
-    m_parseThread.wait();
+    m_parser->quit();
+    m_parser->wait();
 }
 
 
@@ -96,30 +96,38 @@ void MainWindow::on_action_Open_triggered()
                                                     tr("XML file (*.xml)"));
     if(fileName.isEmpty()) return ;
     settings.setValue("lastOpenFileName", fileName);
-    emit startParse(fileName);
-    m_progressDialog = new QProgressDialog(tr("Parsing file"),tr("Cancel"), 0, 100, this);
-    connect(m_progressDialog, &QProgressDialog::canceled,
-            m_parser, &Parser::cancel);
-    m_progressDialog->setWindowModality(Qt::WindowModal);
-    m_progressDialog->open();
+    m_parser->clear();
+    m_parser->setFileName(fileName);
+    m_parser->start();
+    m_parseDialog->clear();
+    m_parseDialog->open();
 }
 
 void MainWindow::on_action_Status_triggered()
 {
-    
-}
-
-void MainWindow::processParse(double ratio)
-{
-//    qDebug() << "process parse :" << ratio;
-    if(m_progressDialog != nullptr){
-        m_progressDialog->setValue(static_cast<int>(ratio*100));
+    QMessageBox msgBox(this);
+    if(m_parser->parsed()){
+        msgBox.setText(tr(R"(<b>The XML file has been parsed.</b><br/>
+Record count: %1 <br/>
+Parse cost time: %2 <br/>
+)").arg(m_parser->count()).arg(Util::formatTime(m_parser->costTime())));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+    }else{
+        msgBox.setText(tr("No XML file has been parsed."));
+        msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
+        msgBox.button(QMessageBox::Open)->setText("Open XML file");
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+    }
+    int ret = msgBox.exec();
+    if(ret == QMessageBox::Open){
+        on_action_Open_triggered();
     }
 }
 
-void MainWindow::processDone()
+void MainWindow::resume()
 {
-    m_progressDialog->setValue(100);
-    QMessageBox::information(this, tr("Parse result"), tr("Parse done."));
-//    qDebug() << "parser status : " << m_parser->status();
+    if(m_parser->parsed()) return ;
+    if(!QFile("dblp.dat").exists()) return ;
+    m_parser->load();
 }

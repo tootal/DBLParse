@@ -1,42 +1,44 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QObject>
+#include <QThread>
 #include <QMap>
+#include <QTime>
+#include <QXmlStreamReader>
 
-class Parser : public QObject
+class Parser : public QThread
 {
     Q_OBJECT
 public:
-    Parser();
-    void parse(const QString &fileName);
-    QString status() const;
-    QString authorIndexFileName() const;
-    void setAuthorIndexFileName(const QString &fileName);
-    QString titleIndexFileName() const;
-    void setTitleIndexFileName(const QString &fileName);
-    int maxAuthorNameLength() const;
-    QMap<QChar, int> authorNameCharCount() const;
+    Parser(QObject *parent = nullptr);
+    void run() override;
+    void setFileName(const QString &fileName);
     QTime costTime() const;
-    void cancel();
+    int count() const;
+    void clear();
+    bool parsed() const;
+    void load();
+    void abortParser();
     
 signals:
-    void posChanged(double ratio);
-    void parseDone();
+    void done(Parser *parser);
+    void countChanged(double ratio);
     
 private:
+    QXmlStreamReader reader;
     QString m_fileName;
-    QString m_status;
-    QString m_authorIndexFileName;
-    QString m_titleIndexFileName;
-    int m_maxAuthorNameLength;
-    QMap<QChar, int> m_authorNameCharCount;
     int m_costMsecs;
-    bool m_cancelFlag;
-    int m_recordCount;
+    int m_count;
+    QTime m_timing;
+    bool m_abortFlag;
+    bool m_parsed;
+    QMap<QString, QVariant> m_recordCount;
+    QMap<QString, QVariant> m_authorIndex;
+    QMap<QString, QVariant> m_titleIndex;
     
-    static const int c_flushMask = (1 << 20) - 1;
-    static const QStringList c_recordNames;
+    void parseRecords();
+    void parseContent(QStringRef recordName);
+    void save();
 };
 
 #endif // PARSER_H

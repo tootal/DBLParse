@@ -5,7 +5,7 @@
 #include <QThread>
 
 class Parser;
-class QProgressDialog;
+class ParseDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,11 +37,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
-    QThread m_parseThread;
-    QProgressDialog *m_progressDialog;
+    ParseDialog *m_parseDialog;
     
-    void processParse(double ratio);
-    void processDone();
+    void resume();
     
 signals:
     void startParse(const QString &fileName);

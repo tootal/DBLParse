@@ -23,16 +23,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    parsedialog.cpp \
     parser.cpp \
     util.cpp
 
 HEADERS += \
     mainwindow.h \
+    parsedialog.h \
     parser.h \
     util.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    parsedialog.ui
 
 TRANSLATIONS += \
     translations/DBLParse_zh_CN.ts

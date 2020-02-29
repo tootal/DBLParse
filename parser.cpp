@@ -6,135 +6,42 @@
 #include <QTime>
 #include <QDebug>
 
-const QStringList Parser::c_recordNames = {
-    "article",
-   "inproceedings",
-   "proceedings",
-   "book",
-   "incollection",
-   "phdthesis",
-   "mastersthesis",
-   "www",
-   "person",
-   "data"
-};
-
-Parser::Parser()
+Parser::Parser(QObject *parent)
+    :QThread(parent)
 {
-    m_cancelFlag = false;
-    m_status = "init";
-    m_authorIndexFileName = "authorIndex.dat";
-    m_titleIndexFileName = "titleIndex.dat";
-    m_maxAuthorNameLength = 0;
-    m_recordCount = 0;
+    clear();
 }
 
-void Parser::parse(const QString &fileName)
+void Parser::setFileName(const QString &fileName)
 {
-//    qDebug() << "parse start";
     m_fileName = fileName;
-    if(m_fileName.isEmpty()){
-        m_status = "fileName is empty";
-        return ;
-    }
+}
+
+void Parser::run()
+{
+    m_timing.start();
+    Q_ASSERT(!m_fileName.isEmpty());
     QFile file(m_fileName);
-    if(!file.open(QFile::ReadOnly | QFile::Text)){
-        m_status = "file open failed";
-        return ;
-    }
-    QXmlStreamReader reader(&file);
-    QFile authorFile(m_authorIndexFileName);
-    if(!authorFile.open(QIODevice::WriteOnly)){
-        m_status = "author file open failed";
-        return ;
-    }
-    QDataStream authorStream(&authorFile);
-    QFile titleFile(m_titleIndexFileName);
-    if(!titleFile.open(QIODevice::WriteOnly)){
-        m_status = "title file open failed";
-        return ;
-    }
-    QDataStream titleStream(&titleFile);
+    file.open(QFile::ReadOnly | QFile::Text);
+    Q_ASSERT(file.isOpen());
+    reader.setDevice(&file);
     while(!reader.atEnd()){
         reader.readNext();
-//        qDebug() << "current token: " << reader.tokenString();
-        if(m_cancelFlag) break;
-        if(reader.isStartElement()){
-            if(c_recordNames.contains(reader.name())){
-                emit posChanged(static_cast<double>(reader.device()->pos())/reader.device()->size());   
-                ++m_recordCount;
-//                qDebug() << "record count : " << m_recordCount;
-            }
-            if(reader.name() == "author"){
-                QString author = reader.readElementText();
-//                qDebug() << "author: " << author;
-                if(author.size() > m_maxAuthorNameLength){
-                    m_maxAuthorNameLength = author.size();
-                }
-                foreach(QChar c, author){
-                    m_authorNameCharCount[c]++;
-                }
-//                qDebug() << "author name char count : " << m_authorNameCharCount;
-                authorStream << author << reader.characterOffset();
-//                if((m_recordCount & c_flushMask) == 0){
-//                    authorFile.flush();
-//                }
-            }else if(reader.name() == "title"){
-//              ATTENTION EXAMPLE : <title>Fully Persistent B<sup>+</sup>-trees</title>
-                QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
-//                qDebug() << "title : " << title;
-                titleStream << title << reader.characterOffset();
-//                if((m_recordCount & c_flushMask) == 0){
-//                    titleFile.flush();
-//                }
-            }
+        if(reader.isStartDocument()){
+            // pass
+        }else if(reader.isDTD()){
+            // pass
+        }else if(reader.isStartElement()){
+            parseRecords();
+            break;
         }
     }
-    authorFile.close();
-    titleFile.close();
-    if(reader.hasError()){
-        m_status = "parse error : " + reader.errorString();
-        qDebug() << "error line number : " << reader.lineNumber();
-    }else{
-        m_status = "ok";
-    }
+    Q_ASSERT(!reader.hasError());
     file.close();
-    emit parseDone();
-}
-
-QString Parser::status() const
-{
-    return m_status;
-}
-
-QString Parser::authorIndexFileName() const
-{
-    return m_authorIndexFileName;
-}
-
-void Parser::setAuthorIndexFileName(const QString &fileName)
-{
-    m_authorIndexFileName = fileName;
-}
-
-QString Parser::titleIndexFileName() const
-{
-    return m_titleIndexFileName;
-}
-
-void Parser::setTitleIndexFileName(const QString &fileName)
-{
-    m_titleIndexFileName = fileName;
-}
-
-int Parser::maxAuthorNameLength() const
-{
-    return m_maxAuthorNameLength;
-}
-
-QMap<QChar, int> Parser::authorNameCharCount() const
-{
-    return m_authorNameCharCount;
+    save();
+    m_costMsecs = m_timing.elapsed();
+    m_parsed = true;
+    emit done(this);
 }
 
 QTime Parser::costTime() const
@@ -142,7 +49,93 @@ QTime Parser::costTime() const
     return QTime::fromMSecsSinceStartOfDay(m_costMsecs);
 }
 
-void Parser::cancel()
+int Parser::count() const
 {
-    m_cancelFlag = true;
+    return m_count;
+}
+
+void Parser::clear()
+{
+    m_count = 0;
+    m_abortFlag = false;
+    m_parsed = false;
+    m_recordCount.clear();
+    m_authorIndex.clear();
+    m_titleIndex.clear();
+}
+
+bool Parser::parsed() const
+{
+    return m_parsed;
+}
+
+void Parser::parseRecords()
+{
+    Q_ASSERT(reader.isStartElement());
+    while(!reader.atEnd()){
+        reader.readNext();
+        if(reader.isEndElement() && reader.name() == "dblp") break;
+        if(reader.isStartElement()){
+            auto &r1 = m_recordCount[reader.name().toString()];
+            r1 = r1.toInt() + 1;
+            ++m_count;
+            emit countChanged((double)reader.device()->pos()/reader.device()->size());
+            parseContent(reader.name());
+        }
+    }
+}
+
+void Parser::parseContent(QStringRef recordName)
+{
+    while(!reader.atEnd()){
+        reader.readNext();
+        if(reader.isEndElement() && reader.name() == recordName) break;
+        if(reader.isStartElement()){
+            if(reader.name() == "author"){
+                QString author = reader.readElementText(QXmlStreamReader::IncludeChildElements);
+                m_authorIndex.insertMulti(author, reader.characterOffset());
+            }else if(reader.name() == "title"){
+                QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
+                m_titleIndex.insertMulti(title, reader.characterOffset());
+            }
+        }
+    }
+}
+
+void Parser::save()
+{
+    QFile file("dblp.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    QDataStream stream(&file);
+    stream << m_fileName 
+           << m_costMsecs
+           << m_count 
+           << m_parsed
+           << m_recordCount
+           << m_authorIndex
+           << m_titleIndex;
+    file.close();
+}
+
+void Parser::load()
+{
+    QFile file("dblp.dat");
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+    QDataStream stream(&file);
+    stream >> m_fileName
+           >> m_costMsecs
+           >> m_count
+           >> m_parsed
+           >> m_recordCount
+           >> m_authorIndex
+           >> m_titleIndex;
+    file.close();
+    m_parsed = true;
+}
+
+void Parser::abortParser()
+{
+    m_abortFlag = true;
 }
