@@ -25,12 +25,14 @@ SOURCES += \
     mainwindow.cpp \
     parsedialog.cpp \
     parser.cpp \
+    record.cpp \
     util.cpp
 
 HEADERS += \
     mainwindow.h \
     parsedialog.h \
     parser.h \
+    record.h \
     util.h
 
 FORMS += \

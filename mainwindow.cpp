@@ -73,11 +73,28 @@ void MainWindow::on_searchButton_clicked()
                                  tr("Please enter a search key."));
         return ;
     }
-    
     if(ui->authorRadioButton->isChecked()){
-        
+        auto list = m_parser->indexOfAuthor(key);
+        if(list.isEmpty()){
+            QMessageBox::information(this, tr("Information"),
+                                     tr("Author not found."));
+            return ;
+        }
+        ui->tableWidget->clear();
+        ui->tableWidget->setRowCount(list.size());
+        QStringList labels = { tr("Title"), tr("Modify date"), tr("Key")};
+        ui->tableWidget->setHorizontalHeaderLabels(labels);
+        foreach(auto i, list){
+            
+        }
     }else{
-        
+        auto list = m_parser->indexOfTitle(key);
+        if(list.isEmpty()){
+            QMessageBox::information(this, tr("Information"),
+                                     tr("Title not found."));
+            return ;
+        }
+        ui->tableWidget->clear();
     }
 }
 
