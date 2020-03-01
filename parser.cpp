@@ -87,8 +87,10 @@ void Parser::clear()
     m_parsed = false;
     m_action = "parse";
     m_recordCount.clear();
-    m_authorIndex.clear();
-    m_titleIndex.clear();
+    m_authorCharCount.clear();
+    m_maxAuthorLength = 0;
+//    m_authorIndex.clear();
+//    m_titleIndex.clear();
 }
 
 bool Parser::parsed() const
@@ -110,7 +112,7 @@ void Parser::parseRecords()
             auto &r1 = m_recordCount[reader.name().toString()];
             r1 = r1.toInt() + 1;
             ++m_count;
-            emit countChanged((double)reader.device()->pos()/reader.device()->size());
+            emit countChanged(static_cast<double>(reader.device()->pos())/reader.device()->size());
             parseContent(reader.name());
         }
     }
@@ -125,10 +127,17 @@ void Parser::parseContent(QStringRef recordName)
             if(reader.name() == "author"){
                 QString author = reader.readElementText(QXmlStreamReader::IncludeChildElements);
                 ++m_authorCount;
-                m_authorIndex.insertMulti(author, reader.characterOffset());
+                if(author.size() > m_maxAuthorLength){
+                    m_maxAuthorLength = author.size();
+                }
+                foreach(QChar c, author){
+                    auto &v = m_authorCharCount[c];
+                    v = v.toInt() + 1;
+                }
+//                m_authorIndex.insertMulti(author, reader.characterOffset());
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
-                m_titleIndex.insertMulti(title, reader.characterOffset());
+//                m_titleIndex.insertMulti(title, reader.characterOffset());
             }
         }
     }
@@ -146,8 +155,8 @@ void Parser::save()
            << m_authorCount
            << m_parsed
            << m_recordCount
-//           << m_authorIndex
-//           << m_titleIndex
+           << m_authorIndex
+           << m_titleIndex
     ;
 //    qDebug() << m_costMsecs;
     file.close();
@@ -165,8 +174,8 @@ void Parser::load()
            >> m_authorCount
            >> m_parsed
            >> m_recordCount
-//           >> m_authorIndex
-//           >> m_titleIndex
+           >> m_authorIndex
+           >> m_titleIndex
     ;
 //    qDebug() << m_costMsecs;
     file.close();

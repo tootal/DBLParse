@@ -173,6 +173,8 @@
      <string>&amp;View</string>
     </property>
     <addaction name="action_Status"/>
+    <addaction name="actionRecord_count"/>
+    <addaction name="actionAuthor_char_count"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -207,6 +209,16 @@
   <action name="action_Status">
    <property name="text">
     <string>&amp;Status</string>
+   </property>
+  </action>
+  <action name="actionRecord_count">
+   <property name="text">
+    <string>Record count</string>
+   </property>
+  </action>
+  <action name="actionAuthor_char_count">
+   <property name="text">
+    <string>Author char count</string>
    </property>
   </action>
  </widget>

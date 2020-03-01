@@ -39,6 +39,8 @@ private:
     QTime m_timing;
     bool m_abortFlag;
     bool m_parsed;
+    int m_maxAuthorLength;
+    QMap<QString, QVariant> m_authorCharCount;
     QString m_action;
     QMap<QString, QVariant> m_recordCount;
     QMap<QString, QVariant> m_authorIndex;

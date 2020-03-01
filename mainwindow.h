@@ -38,6 +38,8 @@ private slots:
     
     void on_titleRadioButton_clicked();
     
+    void on_actionRecord_count_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
