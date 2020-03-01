@@ -34,12 +34,21 @@ private slots:
     
     void on_action_Status_triggered();
     
+    void on_groupBox_clicked();
+    
+    void on_authorRadioButton_clicked();
+    
+    void on_titleRadioButton_clicked();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
     ParseDialog *m_parseDialog;
     
     void resume();
+    
+protected:
+    void resizeEvent(QResizeEvent *event) override;
     
 signals:
     void startParse(const QString &fileName);

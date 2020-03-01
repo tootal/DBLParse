@@ -49,3 +49,8 @@ QString Record::key() const
 {
     return m_key;
 }
+
+QStringList Record::authors() const
+{
+    return m_authors;
+}

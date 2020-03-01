@@ -12,6 +12,7 @@ public:
     QString title() const;
     QString mdate() const;
     QString key() const;
+    QStringList authors() const;
 private:
     QString m_name;
     QString m_key;

@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tableWidget->setColumnWidth(0, 450);
+    ui->tableWidget->setColumnWidth(0, width() * 0.5);
     m_parser = new Parser(this);
     resume();
     m_parseDialog = new ParseDialog(this);
@@ -75,6 +75,7 @@ void MainWindow::on_searchButton_clicked()
                                  tr("Please enter a search key."));
         return ;
     }
+    auto fileName = m_parser->fileName();
     if(ui->authorRadioButton->isChecked()){
         auto list = m_parser->indexOfAuthor(key);
         if(list.isEmpty()){
@@ -89,7 +90,6 @@ void MainWindow::on_searchButton_clicked()
         ui->tableWidget->setHorizontalHeaderLabels(headers);
         for(int i = 0; i < list.size(); ++i){
             qint64 pos = list.at(i).toLongLong();
-            auto fileName = m_parser->fileName();
             Record record(Util::findRecord(fileName, pos));
 //            qDebug() << record.title();
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(record.title()));
@@ -104,7 +104,23 @@ void MainWindow::on_searchButton_clicked()
                                      tr("Title not found."));
             return ;
         }
-        ui->tableWidget->clear();
+        ui->label->clear();
+        QString text;
+        for(int i = 0; i < list.size(); ++i){
+            qint64 pos = list.at(i).toLongLong();
+            Record record(Util::findRecord(fileName, pos));
+            QString authorText;
+            foreach(QString author, record.authors()){
+                authorText.append(tr("Author: %1 <br/>").arg(author));
+            }
+            text.append(tr(R"(<b>Record details</b><br/>
+Title: %1 <br/>
+%2
+Modify date: %3 <br/>
+Key: %4 <br/><br/>
+)").arg(record.title()).arg(authorText).arg(record.mdate()).arg(record.key()));
+        }
+        ui->label->setText(text);
     }
 }
 
@@ -158,4 +174,26 @@ void MainWindow::resume()
     if(m_parser->parsed()) return ;
     if(!QFile("dblp.dat").exists()) return ;
     m_parser->load();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    ui->tableWidget->setColumnWidth(0, width() * 0.5);
+}
+
+void MainWindow::on_groupBox_clicked()
+{
+    qDebug() << "group box clicked";
+}
+
+void MainWindow::on_authorRadioButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->keyEdit->setFocus();
+}
+
+void MainWindow::on_titleRadioButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->keyEdit->setFocus();
 }
