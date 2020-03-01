@@ -74,9 +74,15 @@ int Parser::count() const
     return m_count;
 }
 
+int Parser::authorCount() const
+{
+    return m_authorCount;
+}
+
 void Parser::clear()
 {
     m_count = 0;
+    m_authorCount = 0;
     m_abortFlag = false;
     m_parsed = false;
     m_action = "parse";
@@ -118,6 +124,7 @@ void Parser::parseContent(QStringRef recordName)
         if(reader.isStartElement()){
             if(reader.name() == "author"){
                 QString author = reader.readElementText(QXmlStreamReader::IncludeChildElements);
+                ++m_authorCount;
                 m_authorIndex.insertMulti(author, reader.characterOffset());
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
@@ -136,6 +143,7 @@ void Parser::save()
     stream << m_fileName 
            << m_costMsecs
            << m_count
+           << m_authorCount
            << m_parsed
            << m_recordCount
            << m_authorIndex
@@ -153,6 +161,7 @@ void Parser::load()
     stream >> m_fileName
            >> m_costMsecs
            >> m_count
+           >> m_authorCount
            >> m_parsed
            >> m_recordCount
            >> m_authorIndex
