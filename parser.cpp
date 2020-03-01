@@ -12,12 +12,27 @@ Parser::Parser(QObject *parent)
     clear();
 }
 
+void Parser::setAction(const QString &action)
+{
+    Q_ASSERT(action == "parse"|action == "reload");
+    m_action = action;
+}
+
 void Parser::setFileName(const QString &fileName)
 {
     m_fileName = fileName;
 }
 
 void Parser::run()
+{
+    if(m_action == "parse"){
+        parse();
+    }else{
+        load();
+    }
+}
+
+void Parser::parse()
 {
     m_timing.start();
     Q_ASSERT(!m_fileName.isEmpty());
@@ -64,6 +79,7 @@ void Parser::clear()
     m_count = 0;
     m_abortFlag = false;
     m_parsed = false;
+    m_action = "parse";
     m_recordCount.clear();
     m_authorIndex.clear();
     m_titleIndex.clear();
@@ -144,6 +160,7 @@ void Parser::load()
 //    qDebug() << m_costMsecs;
     file.close();
     m_parsed = true;
+    emit loadDone();
 }
 
 void Parser::abortParser()

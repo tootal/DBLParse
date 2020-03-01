@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tableWidget->setColumnWidth(0, width() * 0.5);
+    ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
     resume();
     m_parseDialog = new ParseDialog(this);
@@ -27,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
             m_parseDialog, &ParseDialog::showDone);
     connect(m_parseDialog, &ParseDialog::abortParse,
             m_parser, &Parser::abortParser);
+    connect(m_parser, &Parser::loadDone,
+            this, [this](){
+        statusBar()->showMessage(tr("Resume successful!"), 5);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -173,17 +177,15 @@ void MainWindow::resume()
 {
     if(m_parser->parsed()) return ;
     if(!QFile("dblp.dat").exists()) return ;
-    m_parser->load();
+    m_parser->setAction("reload");
+    m_parser->start();
+    statusBar()->showMessage(tr("Resuming data..."));
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    ui->tableWidget->setColumnWidth(0, width() * 0.5);
-}
-
-void MainWindow::on_groupBox_clicked()
-{
-    qDebug() << "group box clicked";
+    Q_UNUSED(event)
+    ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
 }
 
 void MainWindow::on_authorRadioButton_clicked()

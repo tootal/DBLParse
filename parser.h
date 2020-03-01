@@ -11,20 +11,22 @@ class Parser : public QThread
     Q_OBJECT
 public:
     Parser(QObject *parent = nullptr);
+    void setAction(const QString &action);
     void run() override;
+    void parse();
     QString fileName() const;
     void setFileName(const QString &fileName);
     int costMsecs() const;
     int count() const;
     void clear();
     bool parsed() const;
-    void load();
     void abortParser();
     QList<QVariant> indexOfAuthor(const QString &author) const;
     QList<QVariant> indexOfTitle(const QString &title) const;
     
 signals:
     void done(Parser *parser);
+    void loadDone();
     void countChanged(double ratio);
     
 private:
@@ -35,6 +37,7 @@ private:
     QTime m_timing;
     bool m_abortFlag;
     bool m_parsed;
+    QString m_action;
     QMap<QString, QVariant> m_recordCount;
     QMap<QString, QVariant> m_authorIndex;
     QMap<QString, QVariant> m_titleIndex;
@@ -42,6 +45,7 @@ private:
     void parseRecords();
     void parseContent(QStringRef recordName);
     void save();
+    void load();
 };
 
 #endif // PARSER_H

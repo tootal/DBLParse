@@ -34,8 +34,6 @@ private slots:
     
     void on_action_Status_triggered();
     
-    void on_groupBox_clicked();
-    
     void on_authorRadioButton_clicked();
     
     void on_titleRadioButton_clicked();
