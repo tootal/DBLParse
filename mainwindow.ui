@@ -213,12 +213,12 @@
   </action>
   <action name="actionRecord_count">
    <property name="text">
-    <string>Record count</string>
+    <string>Record Count</string>
    </property>
   </action>
   <action name="actionAuthor_char_count">
    <property name="text">
-    <string>Author char count</string>
+    <string>Author Char Count</string>
    </property>
   </action>
  </widget>
