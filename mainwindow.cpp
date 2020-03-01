@@ -10,7 +10,6 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QProgressDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

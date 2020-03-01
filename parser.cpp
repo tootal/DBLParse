@@ -146,8 +146,9 @@ void Parser::save()
            << m_authorCount
            << m_parsed
            << m_recordCount
-           << m_authorIndex
-           << m_titleIndex;
+//           << m_authorIndex
+//           << m_titleIndex
+    ;
 //    qDebug() << m_costMsecs;
     file.close();
 }
@@ -164,8 +165,9 @@ void Parser::load()
            >> m_authorCount
            >> m_parsed
            >> m_recordCount
-           >> m_authorIndex
-           >> m_titleIndex;
+//           >> m_authorIndex
+//           >> m_titleIndex
+    ;
 //    qDebug() << m_costMsecs;
     file.close();
     m_parsed = true;
