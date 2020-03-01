@@ -52,6 +52,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QRadioButton" name="coauthorRadioButton">
+         <property name="text">
+          <string>Coauthor</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="fuzzyRadioButton">
+         <property name="text">
+          <string>Fuzzy</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>

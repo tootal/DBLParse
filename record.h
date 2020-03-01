@@ -13,12 +13,15 @@ public:
     QString mdate() const;
     QString key() const;
     QStringList authors() const;
+    void clearCoauthors();
+    QStringList coauthors() const;
 private:
     QString m_name;
     QString m_key;
     QString m_mdate;
     QStringList m_authors;
     QString m_title;
+    QStringList coauthors_;
 };
 
 #endif // RECORD_H

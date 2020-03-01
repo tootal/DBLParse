@@ -22,6 +22,7 @@ Record::Record(const QString &s, QObject *parent)
             if(reader.name() == "author"){
                 QString author = reader.readElementText(QXmlStreamReader::IncludeChildElements);
                 m_authors.append(author);
+                coauthors_.append(author);
             }else if(reader.name() == "title"){
                 m_title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
             }
@@ -53,4 +54,14 @@ QString Record::key() const
 QStringList Record::authors() const
 {
     return m_authors;
+}
+
+void Record::clearCoauthors()
+{
+    coauthors_.clear();
+}
+
+QStringList Record::coauthors() const
+{
+    return coauthors_;
 }

@@ -101,13 +101,14 @@ void MainWindow::on_searchButton_clicked()
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(record.key()));
         }
         ui->tableWidget->resizeRowsToContents();
-    }else{
+    }else if(ui->titleRadioButton->isChecked()){
         auto list = m_parser->indexOfTitle(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Title not found."));
             return ;
         }
+        ui->tableWidget->clear();
         ui->label->clear();
         QString text;
         for(int i = 0; i < list.size(); ++i){
@@ -124,6 +125,33 @@ Modify date: %3 <br/>
 Key: %4 <br/><br/>
 )").arg(record.title()).arg(authorText).arg(record.mdate()).arg(record.key()));
         }
+        ui->label->setText(text);
+    }else if(ui->coauthorRadioButton->isChecked()){
+        auto list = m_parser->indexOfAuthor(key);
+        if(list.isEmpty()){
+            QMessageBox::information(this, tr("Information"),
+                                     tr("Coauthor not found."));
+            return ;
+        }
+        ui->tableWidget->clear();
+        ui->label->clear();
+        QString text;
+        QStringList coauthorlist;
+        for(int i = 0; i < list.size(); ++i){
+            qint64 pos = list.at(i).toLongLong();
+            Record record(Util::findRecord(fileName, pos));
+            QString authorText;
+            QStringList tmplist=record.coauthors();
+            for(int i = 0; i< tmplist.size();++i)
+                       {
+                           coauthorlist.append(tmplist.at(i));
+                       }
+            record.clearCoauthors();
+        }
+        QSet<QString> coauthorSet = coauthorlist.toSet();
+        coauthorSet.remove(key);
+        foreach (const QString &value, coauthorSet)
+               text.append(tr("Coauthor: %1 <br/>").arg(value));
         ui->label->setText(text);
     }
 }
@@ -197,5 +225,17 @@ void MainWindow::on_authorRadioButton_clicked()
 void MainWindow::on_titleRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+    ui->keyEdit->setFocus();
+}
+
+void MainWindow::on_coauthorRadioButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->keyEdit->setFocus();
+}
+
+void MainWindow::on_fuzzyRadioButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
     ui->keyEdit->setFocus();
 }

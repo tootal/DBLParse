@@ -37,6 +37,10 @@ private slots:
     void on_authorRadioButton_clicked();
     
     void on_titleRadioButton_clicked();
+
+    void on_coauthorRadioButton_clicked();
+
+    void on_fuzzyRadioButton_clicked();
     
 private:
     Ui::MainWindow *ui;
