@@ -18,6 +18,7 @@ public:
     void setFileName(const QString &fileName);
     int costMsecs() const;
     int count() const;
+    int authorCount() const;
     void clear();
     bool parsed() const;
     void abortParser();
@@ -34,6 +35,7 @@ private:
     QString m_fileName;
     int m_costMsecs;
     int m_count;
+    int m_authorCount;
     QTime m_timing;
     bool m_abortFlag;
     bool m_parsed;

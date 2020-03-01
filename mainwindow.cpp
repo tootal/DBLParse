@@ -186,13 +186,17 @@ void MainWindow::on_action_Status_triggered()
         msgBox.setText(tr(R"(<b>The XML file has been parsed.</b><br/>
 Record count: %1 <br/>
 Parse cost time: %2 <br/>
-)").arg(m_parser->count()).arg(Util::formatTime(m_parser->costMsecs())));
+Author count: %3 <br/>
+)").arg(m_parser->count())
+    .arg(Util::formatTime(m_parser->costMsecs()))
+    .arg(m_parser->authorCount()));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
         msgBox.setText(tr("No XML file has been parsed."));
         msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
-        msgBox.button(QMessageBox::Open)->setText("Open XML file");
+        msgBox.button(QMessageBox::Open)->setText(tr("Open XML file"));
+        msgBox.button(QMessageBox::Cancel)->setText(tr("Cancel"));
         msgBox.setDefaultButton(QMessageBox::Cancel);
     }
     int ret = msgBox.exec();

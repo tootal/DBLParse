@@ -27,9 +27,9 @@ void ParseDialog::showDone(Parser *parser)
 {
     QString info;
     if(abortFlag){
-        info = "Abort";
+        info = tr("Abort");
     }else{
-        info = "Successful";
+        info = tr("Successful");
         ui->progressBar->setValue(10000);
     }
     ui->label->setText(tr("Parsing %1.\nProcessed %2 records in %3 .")
