@@ -151,13 +151,17 @@ void Parser::parseContent(QStringRef recordName)
                 int h = Util::hash(author);
                 Q_ASSERT(m_aFile[h]);
                 Q_ASSERT(m_aFile[h]->isOpen());
-                QByteArray data(author.toUtf8());
+                QByteArray nameData(author.toUtf8());
 //                qDebug() << "author string size = " << author.size();
 //                qDebug() << "author byte size = " << data.size();
-                data.resize(100);
+                nameData.resize(92);
 //                qDebug() << data;
-                m_aFile[h]->write(data);
-                m_aFile[h]->write(QByteArray::number(reader.characterOffset()));
+                qDebug() << m_aFile[h]->fileName();
+                m_aFile[h]->write(nameData);
+                QByteArray posData = QByteArray::number(reader.characterOffset());
+//                qDebug() << posData.size();
+                posData.resize(8);
+                m_aFile[h]->write(posData);
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
 //                m_titleIndex.insertMulti(title, reader.characterOffset());
@@ -168,6 +172,11 @@ void Parser::parseContent(QStringRef recordName)
 
 void Parser::save()
 {
+    for(int i = 0; i < 256; ++i){
+        if(m_aFile[i]){
+            m_aFile[i]->close();
+        }
+    }
     QFile file("dblp.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
