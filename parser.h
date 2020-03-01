@@ -24,7 +24,7 @@ public:
     void abortParser();
     QList<QVariant> indexOfAuthor(const QString &author) const;
     QList<QVariant> indexOfTitle(const QString &title) const;
-    
+    const QMap<QString, QVariant>& recordCount() const;
 signals:
     void done(Parser *parser);
     void loadDone();

@@ -197,3 +197,8 @@ QList<QVariant> Parser::indexOfTitle(const QString &title) const
 {
     return m_titleIndex.values(title);
 }
+
+const QMap<QString, QVariant> &Parser::recordCount() const
+{
+    return m_recordCount;
+}

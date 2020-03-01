@@ -4,6 +4,7 @@
 #include "parsedialog.h"
 #include "util.h"
 #include "record.h"
+#include "recordcountdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -205,5 +206,6 @@ void MainWindow::on_titleRadioButton_clicked()
 
 void MainWindow::on_actionRecord_count_triggered()
 {
-    
+    RecordCountDialog *dialog = new RecordCountDialog(m_parser->recordCount(), this);
+    dialog->show();
 }

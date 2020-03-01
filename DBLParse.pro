@@ -26,6 +26,7 @@ SOURCES += \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
+    recordcountdialog.cpp \
     util.cpp
 
 HEADERS += \
@@ -33,11 +34,13 @@ HEADERS += \
     parsedialog.h \
     parser.h \
     record.h \
+    recordcountdialog.h \
     util.h
 
 FORMS += \
     mainwindow.ui \
-    parsedialog.ui
+    parsedialog.ui \
+    recordcountdialog.ui
 
 TRANSLATIONS += \
     translations/DBLParse_zh_CN.ts
