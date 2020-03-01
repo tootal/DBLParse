@@ -159,6 +159,7 @@ void Parser::save()
            << m_recordCount
            << m_authorIndex
            << m_titleIndex
+           << m_maxAuthorLength
     ;
 //    qDebug() << m_costMsecs;
     file.close();
@@ -179,6 +180,7 @@ void Parser::load()
            >> m_recordCount
            >> m_authorIndex
            >> m_titleIndex
+           >> m_maxAuthorLength
     ;
 //    qDebug() << m_costMsecs;
     file.close();

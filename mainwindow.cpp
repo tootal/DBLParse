@@ -160,9 +160,11 @@ void MainWindow::on_action_Status_triggered()
 Record count: %1 <br/>
 Parse cost time: %2 <br/>
 Author count: %3 <br/>
+Max Author Length: %4 <br/>
 )").arg(m_parser->count())
     .arg(Util::formatTime(m_parser->costMsecs()))
-    .arg(m_parser->authorCount()));
+    .arg(m_parser->authorCount())
+    .arg(m_parser->maxAuthorLength()));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{

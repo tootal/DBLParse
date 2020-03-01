@@ -16,7 +16,8 @@ AuthorCharCountDialog::AuthorCharCountDialog(const QMap<QString, QVariant> &v,
         auto *keyItem = new QTableWidgetItem("\'"+i.key()+"\'");
         keyItem->setTextAlignment(Qt::AlignCenter);
         ui->tableWidget->setItem(j, 0, keyItem);
-        auto *valueItem = new QTableWidgetItem(i.value().toString());
+        auto *valueItem = new QTableWidgetItem;
+        valueItem->setData(Qt::DisplayRole, i.value());
         valueItem->setTextAlignment(Qt::AlignCenter);
         ui->tableWidget->setItem(j, 1, valueItem);
         ++j;
