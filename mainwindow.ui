@@ -176,8 +176,15 @@
     <addaction name="actionRecord_count"/>
     <addaction name="actionAuthor_char_count"/>
    </widget>
+   <widget class="QMenu" name="menu_Tools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="action_Clear_Cache"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
+   <addaction name="menu_Tools"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -219,6 +226,11 @@
   <action name="actionAuthor_char_count">
    <property name="text">
     <string>Author Char Count</string>
+   </property>
+  </action>
+  <action name="action_Clear_Cache">
+   <property name="text">
+    <string>&amp;Clear Cache</string>
    </property>
   </action>
  </widget>

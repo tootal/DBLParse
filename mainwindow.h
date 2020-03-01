@@ -42,6 +42,8 @@ private slots:
     
     void on_actionAuthor_char_count_triggered();
     
+    void on_action_Clear_Cache_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

@@ -219,3 +219,12 @@ void MainWindow::on_actionAuthor_char_count_triggered()
     AuthorCharCountDialog *dialog = new AuthorCharCountDialog(m_parser->authorCharCount(), this);
     dialog->show();
 }
+
+void MainWindow::on_action_Clear_Cache_triggered()
+{
+    QFile::remove("dblp.dat");
+    for(int i = 0; i < 256; ++i){
+        QFile::remove("dblp"+QString::number(i)+".dat");
+    }
+    statusBar()->showMessage("Remove cache file successful.");
+}
