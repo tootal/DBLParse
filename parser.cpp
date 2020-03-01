@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "util.h"
 
 #include <QFile>
 #include <QXmlStreamReader>
@@ -9,6 +10,7 @@
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
+    m_aFile.resize(256);
     clear();
 }
 
@@ -91,6 +93,15 @@ void Parser::clear()
     m_maxAuthorLength = 0;
     m_authorIndex.clear();
     m_titleIndex.clear();
+    
+    for(int i = 0; i < 256; ++i){
+        if(m_aFile[i] == nullptr){
+            m_aFile[i] = new QFile("dblp"+QString::number(i)+".dat");
+        }
+        if(!m_aFile[i]->isOpen()){
+            m_aFile[i]->open(QFile::WriteOnly);
+        }
+    }
 }
 
 bool Parser::parsed() const
@@ -136,6 +147,17 @@ void Parser::parseContent(QStringRef recordName)
                 }
 //                qDebug() << m_authorCharCount;
 //                m_authorIndex.insertMulti(author, reader.characterOffset());
+//                qDebug() << Util::hash(author);
+                int h = Util::hash(author);
+                Q_ASSERT(m_aFile[h]);
+                Q_ASSERT(m_aFile[h]->isOpen());
+                QByteArray data(author.toUtf8());
+//                qDebug() << "author string size = " << author.size();
+//                qDebug() << "author byte size = " << data.size();
+                data.resize(100);
+//                qDebug() << data;
+                m_aFile[h]->write(data);
+                m_aFile[h]->write(QByteArray::number(reader.characterOffset()));
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
 //                m_titleIndex.insertMulti(title, reader.characterOffset());

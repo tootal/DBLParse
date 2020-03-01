@@ -59,3 +59,12 @@ QString Util::findRecord(const QString &fileName, qint64 pos)
 //    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
     return res.toString();
 }
+
+quint8 Util::hash(const QString &s)
+{
+    quint8 ans = 0;
+    foreach(QChar c, s){
+        ans = ans * 131 + static_cast<quint8>(c.unicode());
+    }
+    return ans;
+}
