@@ -40,6 +40,8 @@ private slots:
     
     void on_actionRecord_count_triggered();
     
+    void on_actionAuthor_char_count_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

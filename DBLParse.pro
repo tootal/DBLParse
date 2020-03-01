@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    authorcharcountdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     parsedialog.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
     util.cpp
 
 HEADERS += \
+    authorcharcountdialog.h \
     mainwindow.h \
     parsedialog.h \
     parser.h \
@@ -38,6 +40,7 @@ HEADERS += \
     util.h
 
 FORMS += \
+    authorcharcountdialog.ui \
     mainwindow.ui \
     parsedialog.ui \
     recordcountdialog.ui

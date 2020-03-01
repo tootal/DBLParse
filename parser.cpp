@@ -89,8 +89,8 @@ void Parser::clear()
     m_recordCount.clear();
     m_authorCharCount.clear();
     m_maxAuthorLength = 0;
-//    m_authorIndex.clear();
-//    m_titleIndex.clear();
+    m_authorIndex.clear();
+    m_titleIndex.clear();
 }
 
 bool Parser::parsed() const
@@ -134,6 +134,7 @@ void Parser::parseContent(QStringRef recordName)
                     auto &v = m_authorCharCount[c];
                     v = v.toInt() + 1;
                 }
+//                qDebug() << m_authorCharCount;
 //                m_authorIndex.insertMulti(author, reader.characterOffset());
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
@@ -153,6 +154,7 @@ void Parser::save()
            << m_costMsecs
            << m_count
            << m_authorCount
+           << m_authorCharCount
            << m_parsed
            << m_recordCount
            << m_authorIndex
@@ -172,6 +174,7 @@ void Parser::load()
            >> m_costMsecs
            >> m_count
            >> m_authorCount
+           >> m_authorCharCount
            >> m_parsed
            >> m_recordCount
            >> m_authorIndex
@@ -201,4 +204,15 @@ QList<QVariant> Parser::indexOfTitle(const QString &title) const
 const QMap<QString, QVariant> &Parser::recordCount() const
 {
     return m_recordCount;
+}
+
+int Parser::maxAuthorLength() const
+{
+    return m_maxAuthorLength;
+}
+
+const QMap<QString, QVariant> &Parser::authorCharCount() const
+{
+//    qDebug() << m_authorCharCount;
+    return m_authorCharCount;
 }

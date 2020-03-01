@@ -5,6 +5,7 @@
 #include "util.h"
 #include "record.h"
 #include "recordcountdialog.h"
+#include "authorcharcountdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -207,5 +208,12 @@ void MainWindow::on_titleRadioButton_clicked()
 void MainWindow::on_actionRecord_count_triggered()
 {
     RecordCountDialog *dialog = new RecordCountDialog(m_parser->recordCount(), this);
+    dialog->show();
+}
+
+void MainWindow::on_actionAuthor_char_count_triggered()
+{
+//    qDebug() << m_parser->authorCharCount();
+    AuthorCharCountDialog *dialog = new AuthorCharCountDialog(m_parser->authorCharCount(), this);
     dialog->show();
 }

@@ -6,7 +6,7 @@
 
 QString Util::formatTime(int ms)
 {
-    Q_ASSERT(ms > 0);
+    Q_ASSERT(ms >= 0);
     QTime time = QTime::fromMSecsSinceStartOfDay(ms);
     if(time.hour() == 0){
         if(time.minute() == 0){
