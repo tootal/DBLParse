@@ -14,7 +14,7 @@ public:
     void run() override;
     QString fileName() const;
     void setFileName(const QString &fileName);
-    QTime costTime() const;
+    int costMsecs() const;
     int count() const;
     void clear();
     bool parsed() const;

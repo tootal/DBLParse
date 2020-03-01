@@ -134,7 +134,7 @@ void MainWindow::on_action_Status_triggered()
         msgBox.setText(tr(R"(<b>The XML file has been parsed.</b><br/>
 Record count: %1 <br/>
 Parse cost time: %2 <br/>
-)").arg(m_parser->count()).arg(Util::formatTime(m_parser->costTime())));
+)").arg(m_parser->count()).arg(Util::formatTime(m_parser->costMsecs())));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{

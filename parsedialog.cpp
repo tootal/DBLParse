@@ -35,7 +35,7 @@ void ParseDialog::showDone(Parser *parser)
     ui->label->setText(tr("Parsing %1.\nProcessed %2 records in %3 .")
             .arg(info)
             .arg(parser->count())
-            .arg(Util::formatTime(parser->costTime())));
+            .arg(Util::formatTime(parser->costMsecs())));
     ui->pushButton->setText(tr("Close"));
     ui->pushButton->setProperty("type", "close");
 }

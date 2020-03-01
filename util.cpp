@@ -4,8 +4,10 @@
 #include <QFile>
 #include <QDebug>
 
-QString Util::formatTime(QTime time)
+QString Util::formatTime(int ms)
 {
+    Q_ASSERT(ms > 0);
+    QTime time = QTime::fromMSecsSinceStartOfDay(ms);
     if(time.hour() == 0){
         if(time.minute() == 0){
             return time.toString("s.zzz ")+tr("s");

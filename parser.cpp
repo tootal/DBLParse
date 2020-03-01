@@ -38,9 +38,9 @@ void Parser::run()
     }
     Q_ASSERT(!reader.hasError());
     file.close();
-    save();
     m_costMsecs = m_timing.elapsed();
     m_parsed = true;
+    save();
     emit done(this);
 }
 
@@ -49,9 +49,9 @@ QString Parser::fileName() const
     return m_fileName;
 }
 
-QTime Parser::costTime() const
+int Parser::costMsecs() const
 {
-    return QTime::fromMSecsSinceStartOfDay(m_costMsecs);
+    return m_costMsecs;
 }
 
 int Parser::count() const
@@ -115,11 +115,12 @@ void Parser::save()
     QDataStream stream(&file);
     stream << m_fileName 
            << m_costMsecs
-           << m_count 
+           << m_count
            << m_parsed
            << m_recordCount
            << m_authorIndex
            << m_titleIndex;
+    qDebug() << m_costMsecs;
     file.close();
 }
 
@@ -136,6 +137,7 @@ void Parser::load()
            >> m_recordCount
            >> m_authorIndex
            >> m_titleIndex;
+    qDebug() << m_costMsecs;
     file.close();
     m_parsed = true;
 }
