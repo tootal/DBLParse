@@ -39,7 +39,7 @@ void Parser::run()
     Q_ASSERT(!reader.hasError());
     file.close();
     m_costMsecs = m_timing.elapsed();
-    m_parsed = true;
+    if(!m_abortFlag) m_parsed = true;
     save();
     emit done(this);
 }
@@ -78,6 +78,10 @@ void Parser::parseRecords()
 {
     Q_ASSERT(reader.isStartElement());
     while(!reader.atEnd()){
+        if(m_abortFlag){
+            emit done(this);
+            break;
+        }
         reader.readNext();
         if(reader.isEndElement() && reader.name() == "dblp") break;
         if(reader.isStartElement()){
@@ -120,7 +124,7 @@ void Parser::save()
            << m_recordCount
            << m_authorIndex
            << m_titleIndex;
-    qDebug() << m_costMsecs;
+//    qDebug() << m_costMsecs;
     file.close();
 }
 
@@ -137,7 +141,7 @@ void Parser::load()
            >> m_recordCount
            >> m_authorIndex
            >> m_titleIndex;
-    qDebug() << m_costMsecs;
+//    qDebug() << m_costMsecs;
     file.close();
     m_parsed = true;
 }

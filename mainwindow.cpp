@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->tableWidget->setColumnWidth(0, 450);
     m_parser = new Parser(this);
     resume();
     m_parseDialog = new ParseDialog(this);
@@ -83,16 +84,19 @@ void MainWindow::on_searchButton_clicked()
         }
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(list.size());
-        QStringList labels = { tr("Title"), tr("Modify date"), tr("Key")};
-        ui->tableWidget->setHorizontalHeaderLabels(labels);
+        QStringList headers = { tr("Title"), tr("Modify date"), tr("Key")};
+        ui->tableWidget->setColumnCount(headers.size());
+        ui->tableWidget->setHorizontalHeaderLabels(headers);
         for(int i = 0; i < list.size(); ++i){
             qint64 pos = list.at(i).toLongLong();
             auto fileName = m_parser->fileName();
             Record record(Util::findRecord(fileName, pos));
+//            qDebug() << record.title();
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(record.title()));
             ui->tableWidget->setItem(i, 1, new QTableWidgetItem(record.mdate()));
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(record.key()));
         }
+        ui->tableWidget->resizeRowsToContents();
     }else{
         auto list = m_parser->indexOfTitle(key);
         if(list.isEmpty()){

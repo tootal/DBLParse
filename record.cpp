@@ -1,6 +1,7 @@
 #include "record.h"
 
 #include <QXmlStreamReader>
+#include <QDebug>
 
 Record::Record(const QString &s, QObject *parent)
     : QObject(parent)
@@ -26,7 +27,12 @@ Record::Record(const QString &s, QObject *parent)
             }
         }
     }
-    Q_ASSERT(!reader.hasError());
+    // Ignore error
+//    if(reader.hasError()){
+//        qDebug() << reader.errorString();
+//        qDebug() << reader.lineNumber();
+//    }
+//    Q_ASSERT(!reader.hasError());
 }
 
 QString Record::title() const
