@@ -47,9 +47,8 @@ private:
     QMap<QString, QVariant> m_authorCharCount;
     QString m_action;
     QMap<QString, QVariant> m_recordCount;
-    QMap<QString, QVariant> m_authorIndex;
-    QMap<QString, QVariant> m_titleIndex;
-    QVector<QFile*> m_aFile;
+    QList<QPair<QString, qint64>> m_authorIndex;
+    QList<QPair<QString, qint64>> m_titleIndex;
     
     void parseRecords();
     void parseContent(QStringRef recordName);

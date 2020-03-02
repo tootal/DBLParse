@@ -10,7 +10,6 @@
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
-    m_aFile.resize(256);
     clear();
 }
 
@@ -93,15 +92,6 @@ void Parser::clear()
     m_maxAuthorLength = 0;
     m_authorIndex.clear();
     m_titleIndex.clear();
-    
-    for(int i = 0; i < 256; ++i){
-        if(m_aFile[i] == nullptr){
-            m_aFile[i] = new QFile("dblp"+QString::number(i)+".dat");
-        }
-        if(!m_aFile[i]->isOpen()){
-            m_aFile[i]->open(QFile::WriteOnly);
-        }
-    }
 }
 
 bool Parser::parsed() const
@@ -138,30 +128,13 @@ void Parser::parseContent(QStringRef recordName)
             if(reader.name() == "author"){
                 QString author = reader.readElementText(QXmlStreamReader::IncludeChildElements);
                 ++m_authorCount;
-                if(author.size() > m_maxAuthorLength){
-                    m_maxAuthorLength = author.size();
-                }
-                foreach(QChar c, author){
-                    auto &v = m_authorCharCount[c];
-                    v = v.toInt() + 1;
-                }
-//                qDebug() << m_authorCharCount;
-//                m_authorIndex.insertMulti(author, reader.characterOffset());
-//                qDebug() << Util::hash(author);
-                int h = Util::hash(author);
-                Q_ASSERT(m_aFile[h]);
-                Q_ASSERT(m_aFile[h]->isOpen());
-                QByteArray nameData(author.toUtf8());
-//                qDebug() << "author string size = " << author.size();
-//                qDebug() << "author byte size = " << data.size();
-                nameData.resize(92);
-//                qDebug() << data;
-                qDebug() << m_aFile[h]->fileName();
-                m_aFile[h]->write(nameData);
-                QByteArray posData = QByteArray::number(reader.characterOffset());
-//                qDebug() << posData.size();
-                posData.resize(8);
-                m_aFile[h]->write(posData);
+//                if(author.size() > m_maxAuthorLength){
+//                    m_maxAuthorLength = author.size();
+//                }
+//                foreach(QChar c, author){
+//                    auto &v = m_authorCharCount[c];
+//                    v = v.toInt() + 1;
+//                }
             }else if(reader.name() == "title"){
                 QString title = reader.readElementText(QXmlStreamReader::IncludeChildElements);
 //                m_titleIndex.insertMulti(title, reader.characterOffset());
@@ -172,11 +145,6 @@ void Parser::parseContent(QStringRef recordName)
 
 void Parser::save()
 {
-    for(int i = 0; i < 256; ++i){
-        if(m_aFile[i]){
-            m_aFile[i]->close();
-        }
-    }
     QFile file("dblp.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
@@ -226,12 +194,14 @@ void Parser::abortParser()
 
 QList<QVariant> Parser::indexOfAuthor(const QString &author) const
 {
-    return m_authorIndex.values(author);
+//    return m_authorIndex.values(author);
+    return {};
 }
 
 QList<QVariant> Parser::indexOfTitle(const QString &title) const
 {
-    return m_titleIndex.values(title);
+//    return m_titleIndex.values(title);
+    return {};
 }
 
 const QMap<QString, QVariant> &Parser::recordCount() const
