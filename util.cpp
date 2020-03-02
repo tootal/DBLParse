@@ -69,39 +69,11 @@ quint8 Util::hash(const QString &s)
     return ans;
 }
 
-bool Util::startsWith(const char *s, const char *str, qint64 from)
-{
-    s = s + from;
-    while(*str != 0){
-        if(*str != *s) return false;
-        ++str;
-        ++s;
-    }
-    return true;
-}
 
-int Util::indexOf(const char *s, const char *str, qint64 from)
-{
-    s = s + from;
-    for(int i = 0; s[i] != 0; ++i){
-        bool flag = true;
-        for(const char *x = str; *x != 0; ++x){
-            if(*x != s[i + x - str]){
-                flag = false;
-                break;
-            }
-        }
-        if(flag){
-            return i;
-        }
-    }
-    return -1;
-}
-
-QByteArray Util::readElementText(const char *s, qint64 &from)
+StringRef Util::readElementText(const StringRef &r, qint64 &from)
 { 
-    s = s + from;
-    Q_ASSERT(*s == '<');
+    StringRef s = r.mid(from);
+    Q_ASSERT(s[0] == '<');
     int i = 1;
     char name[30];
     name[0] = '<';
@@ -110,11 +82,13 @@ QByteArray Util::readElementText(const char *s, qint64 &from)
         name[i + 1] = s[i];
         ++i;
     }
+    from += i;
     name[i + 1] = '>';
     name[i + 2] = 0;
     // name = "</ele>"
-    int p = indexOf(s, name, i + 1);
+    while(s[i] != '>') ++i;
+    qint64 p = s.indexOf(name, i + 1);
     Q_ASSERT(p != -1);
-    from += i + p + i + 2;
-    return QByteArray::fromRawData(s + i + 1, p);
+    from += p + 1;
+    return s.mid(i + 1, p - i - 1);
 }

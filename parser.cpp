@@ -40,19 +40,20 @@ void Parser::parse()
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
     m_data = new char[static_cast<quint64>(file.size())];
+    StringRef ref(m_data, file.size());
     qint64 len = file.read(m_data, file.size());
     file.close();
     Q_ASSERT(len > 0);
     qint64 x = 0;
     while(x < len){
         if(m_data[x] == '<'){
-            if(Util::startsWith(m_data, "author", x + 1)){
-                QByteArray author = Util::readElementText(m_data, x);
-//                qDebug() << "author: " << author;
+            if(ref.startsWith("author", x + 1)){
+                StringRef author = Util::readElementText(ref, x);
+                qDebug() << "author: " << author;
                 m_authorIndex.append(qMakePair(author, x));
-            }else if(Util::startsWith(m_data, "title", x + 1)){
-                QByteArray title = Util::readElementText(m_data, x);
-//                qDebug() << "title: " << title;
+            }else if(ref.startsWith("title", x + 1)){
+                StringRef title = Util::readElementText(ref, x);
+                qDebug() << "title: " << title;
                 m_titleIndex.append(qMakePair(title, x));
             }
         }

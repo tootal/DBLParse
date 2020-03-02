@@ -50,8 +50,8 @@ private:
     QString m_action;
     char *m_data;
     QMap<QString, QVariant> m_recordCount;
-    QList<QPair<QByteArray, qint64>> m_authorIndex;
-    QList<QPair<QByteArray, qint64>> m_titleIndex;
+    QList<QPair<StringRef, qint64>> m_authorIndex;
+    QList<QPair<StringRef, qint64>> m_titleIndex;
     
     void parseRecords();
     void parseContent(QStringRef recordName);

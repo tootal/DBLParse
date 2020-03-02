@@ -37,6 +37,7 @@ HEADERS += \
     parser.h \
     record.h \
     recordcountdialog.h \
+    stringref.h \
     util.h
 
 FORMS += \
