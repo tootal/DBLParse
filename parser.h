@@ -48,6 +48,7 @@ private:
     int m_maxAuthorLength;
     QMap<QString, QVariant> m_authorCharCount;
     QString m_action;
+    char *m_data;
     QMap<QString, QVariant> m_recordCount;
     QList<QPair<QByteArray, qint64>> m_authorIndex;
     QList<QPair<QByteArray, qint64>> m_titleIndex;

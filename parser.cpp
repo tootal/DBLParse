@@ -39,26 +39,25 @@ void Parser::parse()
     QFile file(m_fileName);
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
-    char *data = new char[static_cast<quint64>(file.size())];
-    qint64 len = file.read(data, file.size());
+    m_data = new char[static_cast<quint64>(file.size())];
+    qint64 len = file.read(m_data, file.size());
+    file.close();
     Q_ASSERT(len > 0);
     qint64 x = 0;
     while(x < len){
-        if(data[x] == '<'){
-            if(Util::startsWith(data, "author", x + 1)){
-                QByteArray author = Util::readElementText(data, x);
-                qDebug() << "author: " << author;
+        if(m_data[x] == '<'){
+            if(Util::startsWith(m_data, "author", x + 1)){
+                QByteArray author = Util::readElementText(m_data, x);
+//                qDebug() << "author: " << author;
                 m_authorIndex.append(qMakePair(author, x));
-            }else if(Util::startsWith(data, "title", x + 1)){
-                QByteArray title = Util::readElementText(data, x);
-                qDebug() << "title: " << title;
+            }else if(Util::startsWith(m_data, "title", x + 1)){
+                QByteArray title = Util::readElementText(m_data, x);
+//                qDebug() << "title: " << title;
                 m_titleIndex.append(qMakePair(title, x));
             }
         }
         ++x;
     }
-    delete[] data;
-    file.close();
     m_costMsecs = m_timing.elapsed();
     if(!m_abortFlag) m_parsed = true;
     emit done(this);
