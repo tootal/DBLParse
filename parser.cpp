@@ -46,12 +46,12 @@ void Parser::parse()
     while(x < len){
         if(data[x] == '<'){
             if(Util::startsWith(data, "author", x + 1)){
-                string author = Util::readElementText(data, x);
-//                qDebug() << "author: " << text;
+                QByteArray author = Util::readElementText(data, x);
+                qDebug() << "author: " << author;
                 m_authorIndex.append(qMakePair(author, x));
             }else if(Util::startsWith(data, "title", x + 1)){
-                string title = Util::readElementText(data, x);
-//                qDebug() << "title: " << text;
+                QByteArray title = Util::readElementText(data, x);
+                qDebug() << "title: " << title;
                 m_titleIndex.append(qMakePair(title, x));
             }
         }

@@ -98,7 +98,7 @@ int Util::indexOf(const char *s, const char *str, qint64 from)
     return -1;
 }
 
-string Util::readElementText(const char *s, qint64 &from)
+QByteArray Util::readElementText(const char *s, qint64 &from)
 { 
     s = s + from;
     Q_ASSERT(*s == '<');
@@ -116,5 +116,5 @@ string Util::readElementText(const char *s, qint64 &from)
     int p = indexOf(s, name, i + 1);
     Q_ASSERT(p != -1);
     from += i + p + i + 2;
-    return string{s + i + 1, p};
+    return QByteArray::fromRawData(s + i + 1, p);
 }

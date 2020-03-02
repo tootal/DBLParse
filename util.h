@@ -3,11 +3,6 @@
 
 #include <QObject>
 
-struct string{
-    const char *s;
-    int n;
-};
-
 class Util : public QObject
 {
     Q_OBJECT
@@ -19,7 +14,7 @@ public:
     static int indexOf(const char *s, const char *str, qint64 from = 0);
     // treat child element as text, after reading, from equal to the
     // last position of end element
-    static string readElementText(const char *s, qint64 &from);
+    static QByteArray readElementText(const char *s, qint64 &from);
 };
 
 #endif // UTIL_H
