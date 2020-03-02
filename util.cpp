@@ -68,3 +68,53 @@ quint8 Util::hash(const QString &s)
     }
     return ans;
 }
+
+bool Util::startsWith(const char *s, const char *str, qint64 from)
+{
+    s = s + from;
+    while(*str != 0){
+        if(*str != *s) return false;
+        ++str;
+        ++s;
+    }
+    return true;
+}
+
+int Util::indexOf(const char *s, const char *str, qint64 from)
+{
+    s = s + from;
+    for(int i = 0; s[i] != 0; ++i){
+        bool flag = true;
+        for(const char *x = str; *x != 0; ++x){
+            if(*x != s[i + x - str]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            return i;
+        }
+    }
+    return -1;
+}
+
+string Util::readElementText(const char *s, qint64 &from)
+{ 
+    s = s + from;
+    Q_ASSERT(*s == '<');
+    int i = 1;
+    char name[30];
+    name[0] = '<';
+    name[1] = '/';
+    while(s[i] != ' ' && s[i] != '>'){
+        name[i + 1] = s[i];
+        ++i;
+    }
+    name[i + 1] = '>';
+    name[i + 2] = 0;
+    // name = "</ele>"
+    int p = indexOf(s, name, i + 1);
+    Q_ASSERT(p != -1);
+    from += i + p + i + 2;
+    return string{s + i + 1, p};
+}

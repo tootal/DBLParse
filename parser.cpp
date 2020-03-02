@@ -1,5 +1,4 @@
 #include "parser.h"
-#include "util.h"
 
 #include <QFile>
 #include <QXmlStreamReader>
@@ -40,30 +39,28 @@ void Parser::parse()
     QFile file(m_fileName);
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
-//    reader.setDevice(&file);
-//    while(!reader.atEnd()){
-//        reader.readNext();
-//        if(reader.isStartDocument()){
-//            // pass
-//        }else if(reader.isDTD()){
-//            // pass
-//        }else if(reader.isStartElement()){
-//            parseRecords();
-//            break;
-//        }
-//    }
-//    Q_ASSERT(!reader.hasError());
-//    qDebug() << file.size();
-//    char *data = new char[static_cast<quint64>(file.size())];
     char *data = new char[static_cast<quint64>(file.size())];
     qint64 len = file.read(data, file.size());
     Q_ASSERT(len > 0);
-    qDebug() << data[1234567890];
+    qint64 x = 0;
+    while(x < len){
+        if(data[x] == '<'){
+            if(Util::startsWith(data, "author", x + 1)){
+                string author = Util::readElementText(data, x);
+//                qDebug() << "author: " << text;
+                m_authorIndex.append(qMakePair(author, x));
+            }else if(Util::startsWith(data, "title", x + 1)){
+                string title = Util::readElementText(data, x);
+//                qDebug() << "title: " << text;
+                m_titleIndex.append(qMakePair(title, x));
+            }
+        }
+        ++x;
+    }
     delete[] data;
     file.close();
     m_costMsecs = m_timing.elapsed();
     if(!m_abortFlag) m_parsed = true;
-    save();
     emit done(this);
 }
 
@@ -163,8 +160,6 @@ void Parser::save()
            << m_authorCharCount
            << m_parsed
            << m_recordCount
-           << m_authorIndex
-           << m_titleIndex
            << m_maxAuthorLength
     ;
 //    qDebug() << m_costMsecs;
@@ -184,8 +179,6 @@ void Parser::load()
            >> m_authorCharCount
            >> m_parsed
            >> m_recordCount
-           >> m_authorIndex
-           >> m_titleIndex
            >> m_maxAuthorLength
     ;
 //    qDebug() << m_costMsecs;

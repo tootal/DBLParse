@@ -6,6 +6,8 @@
 #include <QTime>
 #include <QXmlStreamReader>
 
+#include "util.h"
+
 class QFile;
 
 class Parser : public QThread
@@ -47,8 +49,8 @@ private:
     QMap<QString, QVariant> m_authorCharCount;
     QString m_action;
     QMap<QString, QVariant> m_recordCount;
-    QList<QPair<QString, qint64>> m_authorIndex;
-    QList<QPair<QString, qint64>> m_titleIndex;
+    QList<QPair<string, qint64>> m_authorIndex;
+    QList<QPair<string, qint64>> m_titleIndex;
     
     void parseRecords();
     void parseContent(QStringRef recordName);
