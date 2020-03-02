@@ -38,21 +38,28 @@ void Parser::parse()
     m_timing.start();
     Q_ASSERT(!m_fileName.isEmpty());
     QFile file(m_fileName);
-    file.open(QFile::ReadOnly | QFile::Text);
+    file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
-    reader.setDevice(&file);
-    while(!reader.atEnd()){
-        reader.readNext();
-        if(reader.isStartDocument()){
-            // pass
-        }else if(reader.isDTD()){
-            // pass
-        }else if(reader.isStartElement()){
-            parseRecords();
-            break;
-        }
-    }
-    Q_ASSERT(!reader.hasError());
+//    reader.setDevice(&file);
+//    while(!reader.atEnd()){
+//        reader.readNext();
+//        if(reader.isStartDocument()){
+//            // pass
+//        }else if(reader.isDTD()){
+//            // pass
+//        }else if(reader.isStartElement()){
+//            parseRecords();
+//            break;
+//        }
+//    }
+//    Q_ASSERT(!reader.hasError());
+//    qDebug() << file.size();
+//    char *data = new char[static_cast<quint64>(file.size())];
+    char *data = new char[static_cast<quint64>(file.size())];
+    qint64 len = file.read(data, file.size());
+    Q_ASSERT(len > 0);
+    qDebug() << data[1234567890];
+    delete[] data;
     file.close();
     m_costMsecs = m_timing.elapsed();
     if(!m_abortFlag) m_parsed = true;
