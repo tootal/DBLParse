@@ -22,11 +22,19 @@ private:
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static QString readText(const Parser::StringRef &ref);
-    // thanks to std::equal_range
+    // thanks to stl algo
     static QPair<const Parser::StringRef*, const Parser::StringRef*>
-            equalRange(const Parser::StringRef *begin,
-                                         const Parser::StringRef *end,
-                                         const QString &key);
+            equalRange(const Parser::StringRef *first,
+                                         const Parser::StringRef *last,
+                                         const QString &val);
+    static const Parser::StringRef*
+            lowerBound(const Parser::StringRef *first,
+                                         const Parser::StringRef *last,
+                                         const QString &val);
+    static const Parser::StringRef*
+            upperBound(const Parser::StringRef *first,
+                                         const Parser::StringRef *last,
+                                         const QString &val);
 };
 
 #endif // FINDER_H
