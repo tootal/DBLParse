@@ -190,6 +190,5 @@ void MainWindow::on_titleRadioButton_clicked()
 
 void MainWindow::on_action_Clear_Index_triggered()
 {
-    QSettings settings;
-    settings.clear();
+    
 }
