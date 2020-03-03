@@ -22,6 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     authorcharcountdialog.cpp \
+    finder.cpp \
     main.cpp \
     mainwindow.cpp \
     parsedialog.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 
 HEADERS += \
     authorcharcountdialog.h \
+    finder.h \
     mainwindow.h \
     parsedialog.h \
     parser.h \

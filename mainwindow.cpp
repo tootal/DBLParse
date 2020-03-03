@@ -22,10 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_parser = new Parser(this);
     resume();
     m_parseDialog = new ParseDialog(this);
-    connect(m_parser, &Parser::done,
-            m_parseDialog, &ParseDialog::showDone);
-    connect(m_parseDialog, &ParseDialog::abortParse,
-            m_parser, &Parser::abortParser);
 }
 
 MainWindow::~MainWindow()
@@ -149,7 +145,6 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
-    m_parser->clear();
     m_parser->setFileName(fileName);
     m_parser->start();
     m_parseDialog->clear();
