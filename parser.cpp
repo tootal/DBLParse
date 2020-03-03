@@ -69,6 +69,8 @@ void Parser::parse()
         }
         ++x;
     }
+    std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
+    std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
     m_costMsecs = m_timing.elapsed();
     if(!m_abortFlag) m_parsed = true;
     emit done(this);
@@ -256,6 +258,19 @@ char &Parser::StringRef::operator[](quint32 x) const
 {
     Q_ASSERT(0 <= x && x < r - l);
     return s_data[l + x];
+}
+
+bool Parser::StringRef::operator<(const Parser::StringRef &s) const
+{
+    quint32 len = r - l;
+    if(s.r - s.l < len) len = s.r - s.l;
+    for(quint32 i = 0; i < len; ++i){
+        if(s_data[l + i] != s_data[s.l + i]){
+            return s_data[l + i] < s_data[s.l + i];
+        }
+    }
+    if(len == s.r - s.l) return false;
+    else return true;
 }
 
 Parser::StringRef Parser::StringRef::mid(quint32 pos) const

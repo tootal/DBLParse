@@ -47,6 +47,7 @@ public:
         StringRef(){}
         StringRef(quint32 l_, quint32 r_):l(l_), r(r_){}
         char &operator[](quint32 x) const;
+        bool operator<(const StringRef &s) const;
         StringRef mid(quint32 pos) const;
         StringRef mid(quint32 pos, quint32 len) const;
         bool startsWith(const char *str, quint32 from = 0) const;
