@@ -42,7 +42,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
 {
     QString info = tr(R"(DBLParse<br/><br/>
 DBLParse is a free and open source application that bases on dblp computer science bibliography.<br/><br/>
-Please visit <a href="https://github.com/tootal/dblparse">DBLParse</a> for more information.)");
+Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)");
     QMessageBox::about(this, tr("About DBLParse"), info);
 }
 
