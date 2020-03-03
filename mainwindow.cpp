@@ -108,7 +108,6 @@ void MainWindow::on_searchButton_clicked()
                                      tr("Title not found."));
             return ;
         }
-        ui->tableWidget->clear();
         ui->label->clear();
         QString text;
         for(int i = 0; i < list.size(); ++i){
@@ -133,7 +132,6 @@ Key: %4 <br/><br/>
                                      tr("Coauthor not found."));
             return ;
         }
-        ui->tableWidget->clear();
         ui->label->clear();
         QString text;
         QStringList coauthorlist;
@@ -142,9 +140,9 @@ Key: %4 <br/><br/>
             Record record(Util::findRecord(fileName, pos));
             QString authorText;
             QStringList tmplist=record.coauthors();
-            for(int i = 0; i< tmplist.size();++i)
+            for(int j = 0; j< tmplist.size();++j)
                        {
-                           coauthorlist.append(tmplist.at(i));
+                           coauthorlist.append(tmplist.at(j));
                        }
             record.clearCoauthors();
         }
@@ -152,7 +150,7 @@ Key: %4 <br/><br/>
         coauthorSet.remove(key);
         foreach (const QString &value, coauthorSet)
                text.append(tr("Coauthor: %1 <br/>").arg(value));
-        ui->label->setText(text);
+        ui->label_2->setText(text);
     }
 }
 

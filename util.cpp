@@ -55,7 +55,6 @@ QString Util::findRecord(const QString &fileName, qint64 pos)
     Q_ASSERT(beginPos != -1);
     Q_ASSERT(beginPos < endPos);
     res = res.right(res.size() - beginPos);
-//    qDebug() << "test user was changed";
 //    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
     return res.toString();
 }
