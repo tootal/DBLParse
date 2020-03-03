@@ -20,7 +20,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Parsing file, do not close window.</string>
+      <string>Parsing file, &lt;b&gt;do not close&lt;/b&gt; this window.</string>
      </property>
     </widget>
    </item>

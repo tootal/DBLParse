@@ -24,6 +24,7 @@ public:
     
 signals:
     void stateChanged(QString state);
+    void done();
     
 private:
     static char *s_data;

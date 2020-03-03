@@ -81,6 +81,7 @@ void Parser::parse()
     emit stateChanged(tr("Index file saved."));
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Parse done."));
+    emit done();
 }
 
 QString Parser::fileName() const

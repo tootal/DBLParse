@@ -45,7 +45,6 @@ private:
     Ui::MainWindow *ui;
     Parser *m_parser;
     Finder *m_finder;
-    ParseDialog *m_parseDialog;
     
 protected:
     void resizeEvent(QResizeEvent *event) override;

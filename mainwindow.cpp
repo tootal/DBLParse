@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
     m_finder = new Finder(this);
-    m_parseDialog = new ParseDialog(this);
 }
 
 MainWindow::~MainWindow()
@@ -146,8 +145,8 @@ void MainWindow::on_action_Open_triggered()
     }
     m_parser->setFileName(fileName);
     m_parser->start();
-    m_parseDialog->clear();
-    m_parseDialog->open();
+    ParseDialog *dialog = new ParseDialog(this);
+    dialog->exec();
 }
 
 void MainWindow::on_action_Status_triggered()
