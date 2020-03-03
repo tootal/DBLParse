@@ -44,6 +44,27 @@ QString Finder::readText(const Parser::StringRef &ref)
     return s_file->read(ref.r - ref.l);
 }
 
+QPair<const Parser::StringRef *, const Parser::StringRef *> 
+Finder::equalRange(const Parser::StringRef *begin, const Parser::StringRef *end, const QString &key)
+{
+    Q_ASSERT(begin <= end);
+    quint32 len = static_cast<quint32>(end - begin);
+    while(len > 0){
+        quint32 half = len >> 1;
+        const Parser::StringRef *mid = begin + half;
+        QString text = readText(*mid);
+        int cmp = QString::compare(text, key);
+        if(cmp < 0){
+            begin = mid;
+            ++begin;
+            len = len - half - 1;
+        }else if(cmp > 0){
+            len = half;
+        }else{
+            
+        }
+    }
+
 void Finder::init()
 {
     Q_ASSERT(parsed());
