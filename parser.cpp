@@ -81,6 +81,8 @@ void Parser::parse()
         stream << s_titleIndex[i].l << s_titleIndex[i].r;
     }
     file.close();
+    delete[] s_authorIndex;
+    delete[] s_titleIndex;
     emit stateChanged(tr("Index file saved."));
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Parse done."));
