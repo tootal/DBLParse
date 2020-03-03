@@ -18,11 +18,6 @@ ParseDialog::~ParseDialog()
     delete ui;
 }
 
-void ParseDialog::showProgress(double ratio)
-{
-    
-}
-
 void ParseDialog::showDone(Parser *parser)
 {
     QString info;

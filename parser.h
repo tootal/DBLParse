@@ -78,8 +78,6 @@ private:
     
     void parseRecords();
     void parseContent(QStringRef recordName);
-    void save();
-    void load();
     
     // treat child element as text, after reading, from equal to the
     // last position of the end element

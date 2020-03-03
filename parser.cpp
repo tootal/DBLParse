@@ -31,11 +31,7 @@ void Parser::setFileName(const QString &fileName)
 
 void Parser::run()
 {
-    if(m_action == "parse"){
-        parse();
-    }else{
-        load();
-    }
+    parse();
 }
 
 void Parser::parse()
@@ -174,46 +170,6 @@ void Parser::parseContent(QStringRef recordName)
             }
         }
     }
-}
-
-void Parser::save()
-{
-    QFile file("dblp.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    QDataStream stream(&file);
-    stream << m_fileName 
-           << m_costMsecs
-           << m_count
-           << m_authorCount
-           << m_authorCharCount
-           << m_parsed
-           << m_recordCount
-           << m_maxAuthorLength
-    ;
-//    qDebug() << m_costMsecs;
-    file.close();
-}
-
-void Parser::load()
-{
-    QFile file("dblp.dat");
-    file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
-    QDataStream stream(&file);
-    stream >> m_fileName
-           >> m_costMsecs
-           >> m_count
-           >> m_authorCount
-           >> m_authorCharCount
-           >> m_parsed
-           >> m_recordCount
-           >> m_maxAuthorLength
-    ;
-//    qDebug() << m_costMsecs;
-    file.close();
-    m_parsed = true;
-    emit loadDone();
 }
 
 Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &from)

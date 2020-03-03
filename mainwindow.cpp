@@ -22,16 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_parser = new Parser(this);
     resume();
     m_parseDialog = new ParseDialog(this);
-    connect(m_parser, &Parser::countChanged,
-            m_parseDialog, &ParseDialog::showProgress);
     connect(m_parser, &Parser::done,
             m_parseDialog, &ParseDialog::showDone);
     connect(m_parseDialog, &ParseDialog::abortParse,
             m_parser, &Parser::abortParser);
-    connect(m_parser, &Parser::loadDone,
-            this, [this](){
-        statusBar()->showMessage(tr("Resume successful!"), 5);
-    });
 }
 
 MainWindow::~MainWindow()
@@ -194,8 +188,6 @@ void MainWindow::resume()
 {
     if(m_parser->parsed()) return ;
     if(!QFile("dblp.dat").exists()) return ;
-    m_parser->setAction("reload");
-    m_parser->start();
     statusBar()->showMessage(tr("Resuming data..."));
 }
 
