@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>153</height>
+    <width>487</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,37 +18,14 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Parsing...</string>
+      <string>Parsing file, do not close window.</string>
      </property>
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+    <widget class="QTextBrowser" name="textBrowser"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -67,8 +44,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Abort</string>
+        <string>Close</string>
        </property>
       </widget>
      </item>
