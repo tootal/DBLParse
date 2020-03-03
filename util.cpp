@@ -68,27 +68,3 @@ quint8 Util::hash(const QString &s)
     }
     return ans;
 }
-
-
-StringRef Util::readElementText(const StringRef &r, qint64 &from)
-{ 
-    StringRef s = r.mid(from);
-    Q_ASSERT(s[0] == '<');
-    int i = 1;
-    char name[30];
-    name[0] = '<';
-    name[1] = '/';
-    while(s[i] != ' ' && s[i] != '>'){
-        name[i + 1] = s[i];
-        ++i;
-    }
-    from += i;
-    name[i + 1] = '>';
-    name[i + 2] = 0;
-    // name = "</ele>"
-    while(s[i] != '>') ++i;
-    qint64 p = s.indexOf(name, i + 1);
-    Q_ASSERT(p != -1);
-    from += p + 1;
-    return s.mid(i + 1, p - i - 1);
-}

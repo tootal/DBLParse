@@ -6,6 +6,12 @@
 #include <QTime>
 #include <QDebug>
 
+char *Parser::s_data;
+Parser::StringRef *Parser::s_authorIndex;
+Parser::StringRef *Parser::s_titleIndex;
+int Parser::s_authorIndexs = 0;
+int Parser::s_titleIndexs = 0;
+
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
@@ -39,22 +45,26 @@ void Parser::parse()
     QFile file(m_fileName);
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
-    m_data = new char[static_cast<quint64>(file.size())];
-    StringRef ref(m_data, file.size());
-    qint64 len = file.read(m_data, file.size());
+    s_data = new char[static_cast<quint64>(file.size())];
+    quint32 len = static_cast<quint32>(file.read(s_data, file.size()));
+    StringRef ref(0, len);
     file.close();
-    Q_ASSERT(len > 0);
-    qint64 x = 0;
+    s_authorIndex = new StringRef[1<<24|1<<19];
+    s_titleIndex = new StringRef[1<<23];
+    quint32 x = 0;
     while(x < len){
-        if(m_data[x] == '<'){
+        if(ref[x] == '<'){
             if(ref.startsWith("author", x + 1)){
-                StringRef author = Util::readElementText(ref, x);
-                qDebug() << "author: " << author;
-                m_authorIndex.append(qMakePair(author, x));
+                StringRef author = readElementText(ref, x);
+                ++m_authorCount;
+                s_authorIndex[s_authorIndexs] = author;
+                ++s_authorIndexs;
+//                qDebug() << author;
             }else if(ref.startsWith("title", x + 1)){
-                StringRef title = Util::readElementText(ref, x);
-                qDebug() << "title: " << title;
-                m_titleIndex.append(qMakePair(title, x));
+                StringRef title = readElementText(ref, x);
+                s_titleIndex[s_titleIndexs] = title;
+                ++s_titleIndexs;
+//                qDebug() << title;
             }
         }
         ++x;
@@ -94,8 +104,6 @@ void Parser::clear()
     m_recordCount.clear();
     m_authorCharCount.clear();
     m_maxAuthorLength = 0;
-    m_authorIndex.clear();
-    m_titleIndex.clear();
 }
 
 bool Parser::parsed() const
@@ -187,6 +195,30 @@ void Parser::load()
     emit loadDone();
 }
 
+Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &from)
+{
+    StringRef s = r.mid(from);
+    Q_ASSERT(s[0] == '<');
+    quint32 i = 1;
+    char name[30];
+    name[0] = '<';
+    name[1] = '/';
+    while(s[i] != ' ' && s[i] != '>'){
+        name[i + 1] = s[i];
+        ++i;
+    }
+    from += i;
+    name[i + 1] = '>';
+    name[i + 2] = 0;
+    // name = "</ele>"
+    while(s[i] != '>') ++i;
+    qint32 p = s.indexOf(name, i + 1);
+    Q_ASSERT(p != -1);
+    quint32 x = static_cast<quint32>(p);
+    from += x + 1;
+    return s.mid(i + 1, x - i - 1);
+}
+
 void Parser::abortParser()
 {
     m_abortFlag = true;
@@ -218,4 +250,53 @@ const QMap<QString, QVariant> &Parser::authorCharCount() const
 {
 //    qDebug() << m_authorCharCount;
     return m_authorCharCount;
+}
+
+char &Parser::StringRef::operator[](quint32 x) const
+{
+    Q_ASSERT(0 <= x && x < r - l);
+    return s_data[l + x];
+}
+
+Parser::StringRef Parser::StringRef::mid(quint32 pos) const
+{
+    
+    Q_ASSERT(0 <= pos && pos < r - l);
+    return StringRef(l + pos, r);
+}
+
+Parser::StringRef Parser::StringRef::mid(quint32 pos, quint32 len) const
+{
+    Q_ASSERT(0 <= pos && pos < r - l);
+    Q_ASSERT(pos + len <= r - l);
+    return StringRef(l + pos, l + pos + len);
+}
+
+bool Parser::StringRef::startsWith(const char *str, quint32 from) const
+{
+    quint32 x = l + from;
+    while(*str != 0){
+        if(*str != s_data[x]) return false;
+        ++str;
+        ++x;
+        if(x >= r) return false;
+    }
+    return true;
+}
+
+qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const
+{
+    for(quint32 t = l + from; t < r; ++t){
+        bool flag = true;
+        for(const char *x = str; *x != 0; ++x){
+            if(*x != s_data[t + x - str]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            return static_cast<qint32>(t - l);
+        }
+    }
+    return -1;
 }
