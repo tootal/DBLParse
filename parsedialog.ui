@@ -18,13 +18,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Parsing file, &lt;b&gt;do not close&lt;/b&gt; this window.</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QTextBrowser" name="textBrowser"/>
    </item>
    <item>
