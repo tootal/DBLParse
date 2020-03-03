@@ -25,6 +25,8 @@ QList<quint32> Finder::indexOfAuthor(const QString &author) const
     if(s_authorIndex == nullptr){
         return QList<quint32>{};
     }
+    Q_ASSERT(s_file != nullptr);
+    Q_ASSERT(s_file->isOpen());
     
 }
 
@@ -34,6 +36,12 @@ QList<quint32> Finder::indexOfTitle(const QString &title) const
         return QList<quint32>{};
     }
     
+}
+
+QString Finder::readText(const Parser::StringRef &ref)
+{
+    s_file->seek(ref.l);
+    return s_file->read(ref.r - ref.l);
 }
 
 void Finder::init()

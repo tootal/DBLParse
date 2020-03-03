@@ -21,6 +21,7 @@ private:
     static Parser::StringRef *s_titleIndex;
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
+    static QString readText(const Parser::StringRef &ref);
 };
 
 #endif // FINDER_H
