@@ -22,24 +22,30 @@ bool Finder::parsed()
 
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
 {
-    if(s_authorIndex == nullptr){
-        return QList<quint32>{};
+    QList<quint32> list;
+    if(s_authorIndex == nullptr) return list;
+    auto range = equalRange(s_authorIndex, s_authorIndex + s_authorIndexs, author);
+    for(auto i = range.first; i != range.second; ++i){
+        list.append(i->l);
     }
-    Q_ASSERT(s_file != nullptr);
-    Q_ASSERT(s_file->isOpen());
-    
+    return list;
 }
 
 QList<quint32> Finder::indexOfTitle(const QString &title) const
 {
-    if(s_titleIndex == nullptr){
-        return QList<quint32>{};
+    QList<quint32> list;
+    if(s_titleIndex == nullptr) return list;
+    auto range = equalRange(s_titleIndex, s_titleIndex + s_titleIndexs, title);
+    for(auto i = range.first; i != range.second; ++i){
+        list.append(i->l);
     }
-    
+    return list;
 }
 
 QString Finder::readText(const Parser::StringRef &ref)
 {
+    Q_ASSERT(s_file != nullptr);
+    Q_ASSERT(s_file->isOpen());
     s_file->seek(ref.l);
     return s_file->read(ref.r - ref.l);
 }
