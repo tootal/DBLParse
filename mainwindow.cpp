@@ -193,5 +193,6 @@ void MainWindow::on_titleRadioButton_clicked()
 
 void MainWindow::on_action_Clear_Index_triggered()
 {
-    
+    m_parser->clearIndex();
+    statusBar()->showMessage("Clear index file successful!");
 }

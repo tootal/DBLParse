@@ -21,7 +21,7 @@ public:
     QString fileName() const;
     void setFileName(const QString &fileName);
     int costMsecs();
-    
+    static void clearIndex();
 signals:
     void stateChanged(QString state);
     void done();

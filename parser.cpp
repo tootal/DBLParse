@@ -118,6 +118,12 @@ int Parser::costMsecs()
     return m_costMsecs;
 }
 
+void Parser::clearIndex()
+{
+    QFile("author.dat").remove();
+    QFile("title.dat").remove();
+}
+
 char &Parser::StringRef::operator[](quint32 x) const
 {
     Q_ASSERT(0 <= x && x < r - l);
