@@ -11,6 +11,7 @@ class Finder : public QObject
 public:
     explicit Finder(QObject *parent = nullptr);
     static bool parsed();
+    static void clearIndex();
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;

@@ -81,7 +81,7 @@ void MainWindow::on_searchButton_clicked()
                                      tr("Author not found."));
             return ;
         }
-        ui->tableWidget->clear();
+        ui->tableWidget->clearContents();
         ui->tableWidget->setRowCount(list.size());
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
@@ -196,5 +196,6 @@ void MainWindow::on_titleRadioButton_clicked()
 void MainWindow::on_action_Clear_Index_triggered()
 {
     m_parser->clearIndex();
-    statusBar()->showMessage("Clear index file successful!");
+    m_finder->clearIndex();
+    statusBar()->showMessage(tr("Clear index file successful!"));
 }

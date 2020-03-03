@@ -31,6 +31,7 @@ void Parser::run()
 void Parser::parse()
 {
     m_timing.start();
+    emit stateChanged(tr("Parsing start."));
     Q_ASSERT(!m_fileName.isEmpty());
     QFile file(m_fileName);
     file.open(QFile::ReadOnly);
@@ -39,6 +40,7 @@ void Parser::parse()
     quint32 len = static_cast<quint32>(file.read(s_data, file.size()));
     StringRef ref(0, len);
     file.close();
+    emit stateChanged(tr("XML file read successful."));
     s_authorIndex = new StringRef[1<<24|1<<19];
     s_titleIndex = new StringRef[1<<23];
     quint32 x = 0;
@@ -58,6 +60,7 @@ void Parser::parse()
         }
         ++x;
     }
+    emit stateChanged(tr("XML file parse successful."));
     std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
     std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
     emit stateChanged(tr("Index file generated."));

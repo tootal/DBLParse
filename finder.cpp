@@ -20,6 +20,14 @@ bool Finder::parsed()
     return QFile("author.dat").exists() && QFile("title.dat").exists();
 }
 
+void Finder::clearIndex()
+{
+    delete s_authorIndex;
+    delete s_titleIndex;
+    s_authorIndex = nullptr;
+    s_titleIndex = nullptr;
+}
+
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
 {
     QList<quint32> list;
