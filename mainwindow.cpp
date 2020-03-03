@@ -146,6 +146,10 @@ void MainWindow::on_action_Open_triggered()
     m_parser->setFileName(fileName);
     m_parser->start();
     ParseDialog *dialog = new ParseDialog(this);
+    connect(m_parser, &Parser::stateChanged,
+            dialog, &ParseDialog::showStatus);
+    connect(m_parser, &Parser::done,
+            dialog, &ParseDialog::activeButton);
     dialog->exec();
 }
 
