@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
     m_finder = new Finder(this);
+    Finder::init();
+    connect(m_parser, &Parser::done,
+            m_finder, &Finder::init);
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +71,9 @@ void MainWindow::on_searchButton_clicked()
                                  tr("Please enter a search key."));
         return ;
     }
-    auto fileName = m_parser->fileName();
+    QSettings settings;
+    Q_ASSERT(settings.contains("lastOpenFileName"));
+    QString fileName = settings.value("lastOpenFileName").toString();
     if(ui->authorRadioButton->isChecked()){
         auto list = m_finder->indexOfAuthor(key);
         if(list.isEmpty()){
@@ -78,9 +83,6 @@ void MainWindow::on_searchButton_clicked()
         }
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(list.size());
-        QStringList headers = { tr("Title"), tr("Modify date"), tr("Key")};
-        ui->tableWidget->setColumnCount(headers.size());
-        ui->tableWidget->setHorizontalHeaderLabels(headers);
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));

@@ -51,7 +51,7 @@ QString Finder::readText(const Parser::StringRef &ref)
 }
 void Finder::init()
 {
-    Q_ASSERT(parsed());
+    if(!parsed()) return ;
     QFile file("author.dat");
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
