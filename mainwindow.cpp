@@ -71,7 +71,7 @@ void MainWindow::on_searchButton_clicked()
     }
     auto fileName = m_parser->fileName();
     if(ui->authorRadioButton->isChecked()){
-        auto list = m_parser->indexOfAuthor(key);
+        auto list = m_finder->indexOfAuthor(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Author not found."));
@@ -83,7 +83,7 @@ void MainWindow::on_searchButton_clicked()
         ui->tableWidget->setColumnCount(headers.size());
         ui->tableWidget->setHorizontalHeaderLabels(headers);
         for(int i = 0; i < list.size(); ++i){
-            qint64 pos = list.at(i).toLongLong();
+            auto pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));
 //            qDebug() << record.title();
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(record.title()));
@@ -92,7 +92,7 @@ void MainWindow::on_searchButton_clicked()
         }
         ui->tableWidget->resizeRowsToContents();
     }else{
-        auto list = m_parser->indexOfTitle(key);
+        auto list = m_finder->indexOfTitle(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Title not found."));
@@ -101,7 +101,7 @@ void MainWindow::on_searchButton_clicked()
         ui->label->clear();
         QString text;
         for(int i = 0; i < list.size(); ++i){
-            qint64 pos = list.at(i).toLongLong();
+            auto pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));
             QString authorText;
             foreach(QString author, record.authors()){
