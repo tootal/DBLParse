@@ -61,6 +61,7 @@ void Parser::parse()
     std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
     std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
     emit stateChanged(tr("Index file generated."));
+    delete[] s_data;
     file.setFileName("author.dat");
     QDataStream stream(&file);
     file.open(QFile::WriteOnly);
