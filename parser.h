@@ -73,8 +73,8 @@ private:
     QMap<QString, QVariant> m_recordCount;
     static StringRef* s_authorIndex;
     static StringRef* s_titleIndex;
-    static int s_authorIndexs;
-    static int s_titleIndexs;
+    static quint32 s_authorIndexs;
+    static quint32 s_titleIndexs;
     
     void parseRecords();
     void parseContent(QStringRef recordName);

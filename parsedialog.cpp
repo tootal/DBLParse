@@ -20,7 +20,7 @@ ParseDialog::~ParseDialog()
 
 void ParseDialog::showProgress(double ratio)
 {
-    ui->progressBar->setValue(ratio*100);
+    
 }
 
 void ParseDialog::showDone(Parser *parser)
@@ -30,7 +30,6 @@ void ParseDialog::showDone(Parser *parser)
         info = tr("Abort");
     }else{
         info = tr("Successful");
-        ui->progressBar->setValue(10000);
     }
     ui->label->setText(tr("Parsing %1.\nProcessed %2 records in %3 .")
             .arg(info)
@@ -44,7 +43,6 @@ void ParseDialog::clear()
 {
     ui->label->setText(tr("Parsing..."));
     abortFlag = false;
-    ui->progressBar->setValue(0);
     ui->pushButton->setText(tr("Abort"));
     ui->pushButton->setProperty("type", "abort");
 }

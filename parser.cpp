@@ -9,8 +9,8 @@
 char *Parser::s_data;
 Parser::StringRef *Parser::s_authorIndex;
 Parser::StringRef *Parser::s_titleIndex;
-int Parser::s_authorIndexs = 0;
-int Parser::s_titleIndexs = 0;
+quint32 Parser::s_authorIndexs = 0;
+quint32 Parser::s_titleIndexs = 0;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -71,6 +71,25 @@ void Parser::parse()
     }
     std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
     std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
+    
+    file.setFileName("author.dat");
+    QDataStream stream(&file);
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    for(quint32 i = 0; i < s_authorIndexs; ++i){
+        stream << s_authorIndex[i].l << s_authorIndex[i].r;
+    }
+    file.close();
+    
+    file.setFileName("title.dat");
+    stream.setDevice(&file);
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    for(quint32 i = 0; i < s_titleIndexs; ++i){
+        stream << s_titleIndex[i].l << s_titleIndex[i].r;
+    }
+    file.close();
+    
     m_costMsecs = m_timing.elapsed();
     if(!m_abortFlag) m_parsed = true;
     emit done(this);
