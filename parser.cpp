@@ -150,7 +150,6 @@ bool Parser::StringRef::operator<(const Parser::StringRef &s) const
 
 Parser::StringRef Parser::StringRef::mid(quint32 pos) const
 {
-    
     Q_ASSERT(0 <= pos && pos < r - l);
     return StringRef(l + pos, r);
 }

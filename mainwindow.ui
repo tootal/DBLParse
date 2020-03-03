@@ -52,6 +52,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QRadioButton" name="coauthorRadioButton">
+         <property name="text">
+          <string>Coauthor</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="fuzzyRadioButton">
+         <property name="text">
+          <string>Fuzzy</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -198,16 +212,6 @@
   <action name="action_Status">
    <property name="text">
     <string>&amp;Status</string>
-   </property>
-  </action>
-  <action name="actionRecord_count">
-   <property name="text">
-    <string>Record Count</string>
-   </property>
-  </action>
-  <action name="actionAuthor_char_count">
-   <property name="text">
-    <string>Author Char Count</string>
    </property>
   </action>
   <action name="action_Clear_Index">
