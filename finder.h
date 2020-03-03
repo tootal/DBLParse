@@ -9,8 +9,6 @@ class Finder : public QObject
 public:
     explicit Finder(QObject *parent = nullptr);
     
-signals:
-    
 };
 
 #endif // FINDER_H

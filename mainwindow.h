@@ -6,6 +6,7 @@
 
 class Parser;
 class ParseDialog;
+class Finder;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +42,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
+    Finder *m_finder;
     ParseDialog *m_parseDialog;
     
     void resume();

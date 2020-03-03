@@ -4,6 +4,7 @@
 #include "parsedialog.h"
 #include "util.h"
 #include "record.h"
+#include "finder.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
+    m_finder = new Finder(this);
     resume();
     m_parseDialog = new ParseDialog(this);
 }
