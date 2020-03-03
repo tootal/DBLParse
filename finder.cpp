@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QDataStream>
+#include <QSettings>
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
@@ -63,4 +64,10 @@ void Finder::init()
         delete s_file;
         s_file = nullptr;
     }
+    
+    QSettings settings;
+    Q_ASSERT(settings.contains("lastOpenFileName"));
+    QString fileName = settings.value("lastOpenFileName").toString();
+    s_file = new QFile(fileName);
+    s_file->open(QFile::ReadOnly);
 }
