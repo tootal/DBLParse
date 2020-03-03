@@ -39,6 +39,8 @@ private slots:
     
     void on_titleRadioButton_clicked();
     
+    void on_action_Clear_Index_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

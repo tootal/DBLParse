@@ -187,3 +187,9 @@ void MainWindow::on_titleRadioButton_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     ui->keyEdit->setFocus();
 }
+
+void MainWindow::on_action_Clear_Index_triggered()
+{
+    QSettings settings;
+    settings.clear();
+}
