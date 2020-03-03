@@ -6,7 +6,7 @@
 
 QString Util::formatTime(int ms)
 {
-    Q_ASSERT(ms > 0);
+    Q_ASSERT(ms >= 0);
     QTime time = QTime::fromMSecsSinceStartOfDay(ms);
     if(time.hour() == 0){
         if(time.minute() == 0){
@@ -58,4 +58,13 @@ QString Util::findRecord(const QString &fileName, qint64 pos)
 //    qDebug() << "test user was changed";
 //    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
     return res.toString();
+}
+
+quint8 Util::hash(const QString &s)
+{
+    quint8 ans = 0;
+    foreach(QChar c, s){
+        ans = ans * 131 + static_cast<quint8>(c.unicode());
+    }
+    return ans;
 }

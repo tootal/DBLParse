@@ -6,6 +6,7 @@
 
 class Parser;
 class ParseDialog;
+class Finder;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,7 +18,7 @@ class MainWindow : public QMainWindow
     
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
     
 private slots:
     void on_actionAbout_Qt_triggered();
@@ -42,17 +43,15 @@ private slots:
 
     void on_fuzzyRadioButton_clicked();
     
+    void on_action_Clear_Index_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
-    ParseDialog *m_parseDialog;
-    
-    void resume();
+    Finder *m_finder;
     
 protected:
     void resizeEvent(QResizeEvent *event) override;
     
-signals:
-    void startParse(const QString &fileName);
 };
 #endif // MAINWINDOW_H

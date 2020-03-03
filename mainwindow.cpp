@@ -4,13 +4,13 @@
 #include "parsedialog.h"
 #include "util.h"
 #include "record.h"
+#include "finder.h"
 
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QProgressDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,18 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
-    resume();
-    m_parseDialog = new ParseDialog(this);
-    connect(m_parser, &Parser::countChanged,
-            m_parseDialog, &ParseDialog::showProgress);
+    m_finder = new Finder(this);
+    Finder::init();
     connect(m_parser, &Parser::done,
-            m_parseDialog, &ParseDialog::showDone);
-    connect(m_parseDialog, &ParseDialog::abortParse,
-            m_parser, &Parser::abortParser);
-    connect(m_parser, &Parser::loadDone,
-            this, [this](){
-        statusBar()->showMessage(tr("Resume successful!"), 5);
-    });
+            m_finder, &Finder::init);
 }
 
 MainWindow::~MainWindow()
@@ -79,21 +71,20 @@ void MainWindow::on_searchButton_clicked()
                                  tr("Please enter a search key."));
         return ;
     }
-    auto fileName = m_parser->fileName();
+    QSettings settings;
+    Q_ASSERT(settings.contains("lastOpenFileName"));
+    QString fileName = settings.value("lastOpenFileName").toString();
     if(ui->authorRadioButton->isChecked()){
-        auto list = m_parser->indexOfAuthor(key);
+        auto list = m_finder->indexOfAuthor(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Author not found."));
             return ;
         }
-        ui->tableWidget->clear();
+        ui->tableWidget->clearContents();
         ui->tableWidget->setRowCount(list.size());
-        QStringList headers = { tr("Title"), tr("Modify date"), tr("Key")};
-        ui->tableWidget->setColumnCount(headers.size());
-        ui->tableWidget->setHorizontalHeaderLabels(headers);
         for(int i = 0; i < list.size(); ++i){
-            qint64 pos = list.at(i).toLongLong();
+            auto pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));
 //            qDebug() << record.title();
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(record.title()));
@@ -102,7 +93,7 @@ void MainWindow::on_searchButton_clicked()
         }
         ui->tableWidget->resizeRowsToContents();
     }else if(ui->titleRadioButton->isChecked()){
-        auto list = m_parser->indexOfTitle(key);
+        auto list = m_finder->indexOfTitle(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Title not found."));
@@ -112,7 +103,7 @@ void MainWindow::on_searchButton_clicked()
         ui->label->clear();
         QString text;
         for(int i = 0; i < list.size(); ++i){
-            qint64 pos = list.at(i).toLongLong();
+            auto pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));
             QString authorText;
             foreach(QString author, record.authors()){
@@ -127,7 +118,7 @@ Key: %4 <br/><br/>
         }
         ui->label->setText(text);
     }else if(ui->coauthorRadioButton->isChecked()){
-        auto list = m_parser->indexOfAuthor(key);
+        auto list = m_finder->indexOfAuthor(key);
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Coauthor not found."));
@@ -138,14 +129,13 @@ Key: %4 <br/><br/>
         QString text;
         QStringList coauthorlist;
         for(int i = 0; i < list.size(); ++i){
-            qint64 pos = list.at(i).toLongLong();
+            quint32 pos = list.at(i);
             Record record(Util::findRecord(fileName, pos));
             QString authorText;
             QStringList tmplist=record.coauthors();
-            for(int i = 0; i< tmplist.size();++i)
-                       {
-                           coauthorlist.append(tmplist.at(i));
-                       }
+            for(int j = 0; j< tmplist.size();++j){
+               coauthorlist.append(tmplist.at(j));
+            }
             record.clearCoauthors();
         }
         QSet<QString> coauthorSet = coauthorlist.toSet();
@@ -172,24 +162,31 @@ void MainWindow::on_action_Open_triggered()
                                                     tr("XML file (*.xml)"));
     if(fileName.isEmpty()) return ;
     settings.setValue("lastOpenFileName", fileName);
-    m_parser->clear();
+    // question when size greater than 64MiB
+    if(QFile(fileName).size() > (1 << 26)){
+        QMessageBox box(this);
+        box.setText(tr("Parsing the file will last for a while and will take up a lot of memory."));
+        box.setInformativeText(tr("Do you want to continue?"));
+        box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        box.setDefaultButton(QMessageBox::No);
+        int ret = box.exec();
+        if(ret == QMessageBox::No) return ;
+    }
     m_parser->setFileName(fileName);
     m_parser->start();
-    m_parseDialog->clear();
-    m_parseDialog->open();
+    ParseDialog *dialog = new ParseDialog(this);
+    connect(m_parser, &Parser::stateChanged,
+            dialog, &ParseDialog::showStatus);
+    connect(m_parser, &Parser::done,
+            dialog, &ParseDialog::activeButton);
+    dialog->exec();
 }
 
 void MainWindow::on_action_Status_triggered()
 {
     QMessageBox msgBox(this);
-    if(m_parser->parsed()){
-        msgBox.setText(tr(R"(<b>The XML file has been parsed.</b><br/>
-Record count: %1 <br/>
-Parse cost time: %2 <br/>
-Author count: %3 <br/>
-)").arg(m_parser->count())
-    .arg(Util::formatTime(m_parser->costMsecs()))
-    .arg(m_parser->authorCount()));
+    if(m_finder->parsed()){
+        msgBox.setText(tr("The XML file has been parsed."));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
@@ -203,15 +200,6 @@ Author count: %3 <br/>
     if(ret == QMessageBox::Open){
         on_action_Open_triggered();
     }
-}
-
-void MainWindow::resume()
-{
-    if(m_parser->parsed()) return ;
-    if(!QFile("dblp.dat").exists()) return ;
-    m_parser->setAction("reload");
-    m_parser->start();
-    statusBar()->showMessage(tr("Resuming data..."));
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -230,6 +218,13 @@ void MainWindow::on_titleRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
     ui->keyEdit->setFocus();
+}
+
+void MainWindow::on_action_Clear_Index_triggered()
+{
+    m_parser->clearIndex();
+    m_finder->clearIndex();
+    statusBar()->showMessage(tr("Clear index file successful!"));
 }
 
 void MainWindow::on_coauthorRadioButton_clicked()

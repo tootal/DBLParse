@@ -16,19 +16,15 @@ class ParseDialog : public QDialog
 public:
     explicit ParseDialog(QWidget *parent = nullptr);
     ~ParseDialog();
-    void showProgress(double ratio);
-    void showDone(Parser *parser);
+    void showStatus(const QString &msg);
     void clear();
+    void activeButton();
     
 private slots:
     void on_pushButton_clicked();
     
 private:
     Ui::ParseDialog *ui;
-    bool abortFlag;
-    
-signals:
-    void abortParse();
 };
 
 #endif // PARSEDIALOG_H
