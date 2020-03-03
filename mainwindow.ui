@@ -173,14 +173,12 @@
      <string>&amp;View</string>
     </property>
     <addaction name="action_Status"/>
-    <addaction name="actionRecord_count"/>
-    <addaction name="actionAuthor_char_count"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
      <string>&amp;Tools</string>
     </property>
-    <addaction name="action_Clear_Cache"/>
+    <addaction name="action_Clear_Index"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -228,9 +226,9 @@
     <string>Author Char Count</string>
    </property>
   </action>
-  <action name="action_Clear_Cache">
+  <action name="action_Clear_Index">
    <property name="text">
-    <string>&amp;Clear Cache</string>
+    <string>&amp;Clear Index</string>
    </property>
   </action>
  </widget>

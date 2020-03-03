@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
     
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
     
 private slots:
     void on_actionAbout_Qt_triggered();
@@ -38,12 +38,6 @@ private slots:
     
     void on_titleRadioButton_clicked();
     
-    void on_actionRecord_count_triggered();
-    
-    void on_actionAuthor_char_count_triggered();
-    
-    void on_action_Clear_Cache_triggered();
-    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
@@ -54,7 +48,5 @@ private:
 protected:
     void resizeEvent(QResizeEvent *event) override;
     
-signals:
-    void startParse(const QString &fileName);
 };
 #endif // MAINWINDOW_H

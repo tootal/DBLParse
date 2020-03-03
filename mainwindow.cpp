@@ -4,8 +4,6 @@
 #include "parsedialog.h"
 #include "util.h"
 #include "record.h"
-#include "recordcountdialog.h"
-#include "authorcharcountdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -202,26 +200,4 @@ void MainWindow::on_titleRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
     ui->keyEdit->setFocus();
-}
-
-void MainWindow::on_actionRecord_count_triggered()
-{
-    RecordCountDialog *dialog = new RecordCountDialog(m_parser->recordCount(), this);
-    dialog->show();
-}
-
-void MainWindow::on_actionAuthor_char_count_triggered()
-{
-//    qDebug() << m_parser->authorCharCount();
-    AuthorCharCountDialog *dialog = new AuthorCharCountDialog(m_parser->authorCharCount(), this);
-    dialog->show();
-}
-
-void MainWindow::on_action_Clear_Cache_triggered()
-{
-    QFile::remove("dblp.dat");
-    for(int i = 0; i < 256; ++i){
-        QFile::remove("dblp"+QString::number(i)+".dat");
-    }
-    statusBar()->showMessage("Remove cache file successful.");
 }
