@@ -45,8 +45,6 @@ private:
     Finder *m_finder;
     ParseDialog *m_parseDialog;
     
-    void resume();
-    
 protected:
     void resizeEvent(QResizeEvent *event) override;
     

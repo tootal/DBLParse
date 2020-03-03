@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     m_parser = new Parser(this);
     m_finder = new Finder(this);
-    resume();
     m_parseDialog = new ParseDialog(this);
 }
 
@@ -154,16 +153,8 @@ void MainWindow::on_action_Open_triggered()
 void MainWindow::on_action_Status_triggered()
 {
     QMessageBox msgBox(this);
-    if(m_parser->parsed()){
-        msgBox.setText(tr(R"(<b>The XML file has been parsed.</b><br/>
-Record count: %1 <br/>
-Parse cost time: %2 <br/>
-Author count: %3 <br/>
-Max Author Length: %4 <br/>
-)").arg(m_parser->count())
-    .arg(Util::formatTime(m_parser->costMsecs()))
-    .arg(m_parser->authorCount())
-    .arg(m_parser->maxAuthorLength()));
+    if(m_finder->parsed()){
+        msgBox.setText(tr("The XML file has been parsed."));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
@@ -177,13 +168,6 @@ Max Author Length: %4 <br/>
     if(ret == QMessageBox::Open){
         on_action_Open_triggered();
     }
-}
-
-void MainWindow::resume()
-{
-    if(m_parser->parsed()) return ;
-    if(!QFile("dblp.dat").exists()) return ;
-    statusBar()->showMessage(tr("Resuming data..."));
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
