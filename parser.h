@@ -50,10 +50,6 @@ private:
     QString m_fileName;
     int m_costMsecs;
     QTime m_timing;
-    static StringRef* s_authorIndex;
-    static StringRef* s_titleIndex;
-    static quint32 s_authorIndexs;
-    static quint32 s_titleIndexs;
     
     // treat child element as text, after reading, from equal to the
     // last position of the end element

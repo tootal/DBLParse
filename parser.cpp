@@ -7,10 +7,6 @@
 #include <QDebug>
 
 char *Parser::s_data;
-Parser::StringRef *Parser::s_authorIndex;
-Parser::StringRef *Parser::s_titleIndex;
-quint32 Parser::s_authorIndexs = 0;
-quint32 Parser::s_titleIndexs = 0;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -41,48 +37,44 @@ void Parser::parse()
     StringRef ref(0, len);
     file.close();
     emit stateChanged(tr("XML file read successful."));
-    s_authorIndex = new StringRef[static_cast<quint64>(0.007*len)];
-    s_titleIndex = new StringRef[static_cast<quint64>(0.003*len)];
+    QVector<StringRef> authorIndex;
+    QVector<StringRef> titleIndex;
     quint32 x = 0;
     while(x < len){
         if(ref[x] == '<'){
             if(ref.startsWith("author", x + 1)){
                 StringRef author = readElementText(ref, x);
-                s_authorIndex[s_authorIndexs] = author;
-                ++s_authorIndexs;
+                authorIndex.append(author);
 //                qDebug() << author;
             }else if(ref.startsWith("title", x + 1)){
                 StringRef title = readElementText(ref, x);
-                s_titleIndex[s_titleIndexs] = title;
-                ++s_titleIndexs;
+                titleIndex.append(title);
 //                qDebug() << title;
             }
         }
         ++x;
     }
     emit stateChanged(tr("XML file parse successful."));
-    std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
-    std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
+    std::sort(authorIndex.begin(), authorIndex.end());
+    std::sort(titleIndex.begin(), titleIndex.end());
     emit stateChanged(tr("Index file generated."));
     delete[] s_data;
     file.setFileName("author.dat");
     QDataStream stream(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    for(quint32 i = 0; i < s_authorIndexs; ++i){
-        stream << s_authorIndex[i].l << s_authorIndex[i].r;
+    foreach(auto i, authorIndex){
+        stream << i.l << i.r;
     }
     file.close();
     file.setFileName("title.dat");
     stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    for(quint32 i = 0; i < s_titleIndexs; ++i){
-        stream << s_titleIndex[i].l << s_titleIndex[i].r;
+    foreach(auto i, titleIndex){
+        stream << i.l << i.r;
     }
     file.close();
-    delete[] s_authorIndex;
-    delete[] s_titleIndex;
     emit stateChanged(tr("Index file saved."));
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Parse done."));
