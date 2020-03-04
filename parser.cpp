@@ -41,8 +41,8 @@ void Parser::parse()
     StringRef ref(0, len);
     file.close();
     emit stateChanged(tr("XML file read successful."));
-    s_authorIndex = new StringRef[1<<24|1<<19];
-    s_titleIndex = new StringRef[1<<23];
+    s_authorIndex = new StringRef[static_cast<quint64>(0.007*len)];
+    s_titleIndex = new StringRef[static_cast<quint64>(0.003*len)];
     quint32 x = 0;
     while(x < len){
         if(ref[x] == '<'){
