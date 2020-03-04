@@ -20,22 +20,31 @@ QString Util::formatTime(int ms)
     }
 }
 
-QString Util::findRecord(const QString &fileName, quint32 pos)
+QString Util::readAround(const QString &fileName, quint32 &pos)
 {
     QFile file(fileName);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
-    const int bufferSize = 3000;
-    QString buffer = file.read(bufferSize);
+    if(pos < BUF_SZ){
+        file.seek(0);
+    }else{
+        file.seek(pos - BUF_SZ);
+        pos = BUF_SZ;
+    }
+    QString data = file.read(BUF_SZ << 1);
+    file.close();
+    return data;
+}
+
+QString Util::findRecord(const QString &fileName, quint32 pos)
+{
+    QString data = readAround(fileName, pos);
     QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
-    auto m = re.match(buffer);
+    auto m = re.match(data, static_cast<int>(pos));
     Q_ASSERT(m.hasMatch());
-    QString recordName = m.captured(1);
-    int endPos = m.capturedEnd(1);
-    buffer = buffer.left(endPos);
-    file.seek(pos < bufferSize ? 0 : pos - bufferSize);
-    buffer.prepend(file.read(pos - file.pos()));
-    int beginPos = buffer.lastIndexOf("<"+recordName);
-    buffer.remove(0, beginPos);
-    return buffer; 
+    QString name = m.captured(1);
+    int endPos = m.capturedEnd(1) + 1;
+    data.remove(endPos, data.size() - endPos);
+    int beginPos = data.lastIndexOf("<"+name);
+    return data.remove(0, beginPos);
 }
