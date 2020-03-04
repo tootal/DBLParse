@@ -77,7 +77,7 @@ void Parser::parse()
     file.close();
     emit stateChanged(tr("Index file saved."));
     m_costMsecs = m_timing.elapsed();
-    emit stateChanged(tr("Parse done."));
+    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     emit done();
 }
 
