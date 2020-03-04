@@ -5,12 +5,15 @@
 #include "util.h"
 #include "record.h"
 #include "finder.h"
+#include "settingsdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -234,4 +237,10 @@ void MainWindow::on_fuzzyRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
     ui->keyEdit->setFocus();
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->open();
 }
