@@ -39,12 +39,3 @@ QString Util::findRecord(const QString &fileName, quint32 pos)
     buffer.remove(0, beginPos);
     return buffer; 
 }
-
-quint8 Util::hash(const QString &s)
-{
-    quint8 ans = 0;
-    foreach(QChar c, s){
-        ans = ans * 131 + static_cast<quint8>(c.unicode());
-    }
-    return ans;
-}

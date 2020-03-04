@@ -9,7 +9,6 @@ class Util : public QObject
 public:
     static QString formatTime(int ms);
     static QString findRecord(const QString &fileName, quint32 pos);
-    static quint8 hash(const QString &s);
 };
 
 #endif // UTIL_H
