@@ -123,7 +123,6 @@ Key: %4 <br/><br/>
                                      tr("Coauthor not found."));
             return ;
         }
-        ui->label->clear();
         QString text;
         QStringList coauthorlist;
         for(int i = 0; i < list.size(); ++i){
@@ -140,7 +139,7 @@ Key: %4 <br/><br/>
         coauthorSet.remove(key);
         foreach (const QString &value, coauthorSet)
                text.append(tr("Coauthor: %1 <br/>").arg(value));
-        ui->label_2->setText(text);
+        ui->textBrowser->setText(text);
     }
 }
 
