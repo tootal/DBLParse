@@ -15,6 +15,13 @@ public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
     
+private slots:
+    void applySettings();
+    
+    void on_buttonBox_accepted();
+    
+    void on_buttonBox_rejected();
+    
 private:
     Ui::SettingsDialog *ui;
 };
