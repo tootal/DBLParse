@@ -122,7 +122,7 @@ DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;b
         <source>DBLParse&lt;br/&gt;&lt;br/&gt;
 DBLParse is a free and open source application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
 Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation type="unfinished">DBLParse&lt;br/&gt;&lt;br/&gt;
+        <translation>DBLParse&lt;br/&gt;&lt;br/&gt;
 DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;br/&gt;
 请访问 &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; 获取更多信息。</translation>
     </message>
@@ -264,40 +264,44 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="34"/>
+        <location filename="../parser.cpp" line="30"/>
         <source>Parsing start.</source>
         <translation>解析开始。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="43"/>
+        <location filename="../parser.cpp" line="39"/>
         <source>XML file read successful.</source>
         <translation>读入XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="63"/>
+        <location filename="../parser.cpp" line="57"/>
         <source>XML file parse successful.</source>
         <translation>解析XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="66"/>
+        <location filename="../parser.cpp" line="60"/>
         <source>Index file generated.</source>
         <translation>索引文件已生成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="86"/>
+        <location filename="../parser.cpp" line="78"/>
         <source>Index file saved.</source>
         <translation>索引文件已保存。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="88"/>
+        <location filename="../parser.cpp" line="80"/>
+        <source>Parse done. Cost time: %1</source>
+        <translation>解析完成。用时：%1</translation>
+    </message>
+    <message>
         <source>Parse done.</source>
-        <translation>解析完成。</translation>
+        <translation type="vanished">解析完成。</translation>
     </message>
 </context>
 <context>
     <name>Util</name>
     <message>
-        <location filename="../util.cpp" line="13"/>
+        <location filename="../util.cpp" line="14"/>
         <source>s</source>
         <translation>秒</translation>
     </message>
