@@ -11,9 +11,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-    ui->listWidget->setMaximumWidth(ui->listWidget->sizeHintForColumn(0) + 5);
-    connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked,
-            this, &SettingsDialog::applySettings);
+    ui->listWidget->setMaximumWidth(ui->listWidget->sizeHintForColumn(0) + 10);
     QSettings settings;
     if(settings.contains("language")){
         QString language = settings.value("language").toString();
