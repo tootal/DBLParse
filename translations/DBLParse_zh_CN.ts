@@ -50,62 +50,67 @@
         <translation>关键码</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="186"/>
+        <location filename="../mainwindow.ui" line="178"/>
         <source>&amp;Help</source>
         <translation>帮助 (&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../mainwindow.ui" line="186"/>
         <source>&amp;File</source>
         <translation>文件 (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="201"/>
+        <location filename="../mainwindow.ui" line="194"/>
         <source>&amp;View</source>
         <translation>查看 (&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="207"/>
+        <location filename="../mainwindow.ui" line="200"/>
         <source>&amp;Tools</source>
         <translation>工具 (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="219"/>
+        <location filename="../mainwindow.ui" line="212"/>
         <source>About &amp;Qt</source>
         <translation>关于Qt (&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="224"/>
+        <location filename="../mainwindow.ui" line="217"/>
         <source>&amp;About DBLParse</source>
         <translation>关于DBLParse (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="229"/>
+        <location filename="../mainwindow.ui" line="222"/>
         <source>About &amp;DBLP</source>
         <translation>关于DBLP (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="234"/>
+        <location filename="../mainwindow.ui" line="227"/>
         <source>E&amp;xit</source>
         <translation>退出 (&amp;X)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="239"/>
+        <location filename="../mainwindow.ui" line="232"/>
         <source>&amp;Open</source>
         <translation>打开 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="244"/>
+        <location filename="../mainwindow.ui" line="237"/>
         <source>&amp;Status</source>
         <translation>状态 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="249"/>
+        <location filename="../mainwindow.ui" line="242"/>
         <source>&amp;Clear Index</source>
         <translation>清除索引 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="38"/>
+        <location filename="../mainwindow.ui" line="247"/>
+        <source>&amp;Settings</source>
+        <translation>设置 (&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="41"/>
         <source>About Qt</source>
         <translation>关于Qt</translation>
     </message>
@@ -118,7 +123,7 @@ DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;b
 请访问 &lt;a href=&quot;https://github.com/tootal/dblparse&quot;&gt;DBLParse&lt;/a&gt; 获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="43"/>
+        <location filename="../mainwindow.cpp" line="46"/>
         <source>DBLParse&lt;br/&gt;&lt;br/&gt;
 DBLParse is a free and open source application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
 Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
@@ -127,12 +132,12 @@ DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;b
 请访问 &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; 获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="46"/>
+        <location filename="../mainwindow.cpp" line="49"/>
         <source>About DBLParse</source>
         <translation>关于DBLParse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="51"/>
+        <location filename="../mainwindow.cpp" line="54"/>
         <source>DBLP&lt;br/&gt;&lt;br/&gt;
 The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides
 open bibliographic information on major computer science journals and proceedings.
@@ -146,40 +151,40 @@ dblp数据集现在由&lt;a href=&amp;quot;https://www.dagstuhl.de/&amp;quot;&gt
 获取更多信息，请&lt;a href=&amp;quot;https://dblp.uni-trier.de/faq/&amp;quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="57"/>
+        <location filename="../mainwindow.cpp" line="60"/>
         <source>About DBLP</source>
         <translation>关于DBLP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="70"/>
-        <location filename="../mainwindow.cpp" line="80"/>
-        <location filename="../mainwindow.cpp" line="98"/>
-        <location filename="../mainwindow.cpp" line="122"/>
+        <location filename="../mainwindow.cpp" line="73"/>
+        <location filename="../mainwindow.cpp" line="83"/>
+        <location filename="../mainwindow.cpp" line="101"/>
+        <location filename="../mainwindow.cpp" line="125"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="71"/>
+        <location filename="../mainwindow.cpp" line="74"/>
         <source>Please enter a search key.</source>
         <translation>请输入查询关键字。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="81"/>
+        <location filename="../mainwindow.cpp" line="84"/>
         <source>Author not found.</source>
         <translation>没有找到该作者。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="99"/>
+        <location filename="../mainwindow.cpp" line="102"/>
         <source>Title not found.</source>
         <translation>没有找到此标题。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="109"/>
+        <location filename="../mainwindow.cpp" line="112"/>
         <source>Author: %1 &lt;br/&gt;</source>
         <translation>作者：%1 &lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>&lt;b&gt;Record details&lt;/b&gt;&lt;br/&gt;
 Title: %1 &lt;br/&gt;
 %2
@@ -193,57 +198,57 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
 关键码: %4 &lt;br/&gt;&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="123"/>
+        <location filename="../mainwindow.cpp" line="126"/>
         <source>Coauthor not found.</source>
         <translation>没有找到合作者。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="142"/>
+        <location filename="../mainwindow.cpp" line="144"/>
         <source>Coauthor: %1 &lt;br/&gt;</source>
         <translation>合作者：%1 &lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="160"/>
         <source>Select XML file</source>
         <translation>选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="160"/>
+        <location filename="../mainwindow.cpp" line="162"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件(*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="168"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="187"/>
+        <location filename="../mainwindow.cpp" line="189"/>
         <source>The XML file has been parsed.</source>
         <translation>XML文件已解析。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="193"/>
         <source>No XML file has been parsed.</source>
         <translation>尚未解析XML文件。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="193"/>
+        <location filename="../mainwindow.cpp" line="195"/>
         <source>Open XML file</source>
         <translation>打开XML文件。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="227"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
@@ -296,6 +301,39 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
     <message>
         <source>Parse done.</source>
         <translation type="vanished">解析完成。</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../settingsdialog.ui" line="14"/>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="35"/>
+        <source>General</source>
+        <translation>通用</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="58"/>
+        <source>Language:</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="66"/>
+        <source>System</source>
+        <translation>系统</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="71"/>
+        <source>English</source>
+        <translation>英语</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="76"/>
+        <source>Chinese</source>
+        <translation>中文</translation>
     </message>
 </context>
 <context>
