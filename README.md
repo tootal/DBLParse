@@ -1,4 +1,9 @@
-# DBLParse（科学文献管理系统）
+<h1 align="center">DBLParse 科学文献管理系统</h1>
+<p align="center">
+  <a href="https://github.com/tootal/DBLParse/releases">
+    <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
+  </a>
+</p>
 
 [数据结构大作业任务书](DOCUMENT.md)  
 
