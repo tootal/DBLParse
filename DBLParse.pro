@@ -27,7 +27,6 @@ SOURCES += \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
-    settingsdialog.cpp \
     util.cpp
 
 HEADERS += \
@@ -36,13 +35,11 @@ HEADERS += \
     parsedialog.h \
     parser.h \
     record.h \
-    settingsdialog.h \
     util.h
 
 FORMS += \
     mainwindow.ui \
-    parsedialog.ui \
-    settingsdialog.ui
+    parsedialog.ui
 
 TRANSLATIONS += \
     translations/DBLParse_zh_CN.ts
@@ -53,4 +50,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    translations/translations.qrc
+    www.qrc
