@@ -7,13 +7,18 @@
 </head>
 <body>
     <h1>DBLParse</h1>
-    <select id="type">
-        <option value="author">Author</option>
-        <option value="title">Title</option>
-        <option value="keyword">Keyword</option>
-    </select>
-    <input type="text" id="word">
-    <button id="search">Search</button>
+    <div class="search-box">
+        <select id="type">
+            <option value="author">Author</option>
+            <option value="title">Title</option>
+            <option value="keyword">Keyword</option>
+        </select>
+        <input type="text" id="word">
+        <button id="search">Search</button>
+    </div>
+    <ul id="result">
+
+    </ul>
     <script src="index.js"></script>
 </body>
 </html>

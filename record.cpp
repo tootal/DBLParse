@@ -37,7 +37,7 @@ Record::Record(const QString &s, QObject *parent)
     m = re.match(s);
     Q_ASSERT(m.hasMatch());
     m_key = m.captured(1);
-    qDebug() << m_key;
+//    qDebug() << m_key;
 }
 
 QString Record::title() const

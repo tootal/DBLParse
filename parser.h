@@ -23,7 +23,7 @@ public:
     int costMsecs();
     static void clearIndex();
 signals:
-    void stateChanged(QString state);
+    void stateChanged(const QString &state);
     void done();
     
 private:

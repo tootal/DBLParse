@@ -17,7 +17,13 @@ public:
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     
+signals:
+    void ready(const QString &data);
+    
 private:
+    QString m_fileName;
+    QString getJson(const QList<quint32> &posList) ;
+    
     static QFile *s_file;
     static Parser::StringRef *s_authorIndex;
     static Parser::StringRef *s_titleIndex;

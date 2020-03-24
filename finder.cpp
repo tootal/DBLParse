@@ -1,8 +1,12 @@
 #include "finder.h"
+#include "record.h"
 
 #include <QFile>
 #include <QDataStream>
 #include <QSettings>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
@@ -12,12 +16,25 @@ QFile *Finder::s_file = nullptr;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
-    
+    QSettings settings;
+    Q_ASSERT(settings.contains("lastOpenFileName"));
+    m_fileName = settings.value("lastOpenFileName").toString();
 }
 
 void Finder::find(const QString &word, const QString &type)
 {
-    qDebug() << word << type;
+//    qDebug() << word << type;
+    QString result;
+    if(type == "author"){
+        auto list = indexOfAuthor(word);
+        result = getJson(list);
+    }else if(type == "title"){
+        auto list = indexOfTitle(word);
+        result = getJson(list);
+    }else if(type == "keyword"){
+        
+    }
+    emit ready(result);
 }
 
 bool Finder::parsed()
@@ -61,6 +78,22 @@ QString Finder::readText(const Parser::StringRef &ref)
     Q_ASSERT(s_file->isOpen());
     s_file->seek(ref.l);
     return s_file->read(ref.r - ref.l);
+}
+
+QString Finder::getJson(const QList<quint32> &posList)
+{
+    QJsonArray array;
+    for(int i = 0; i < posList.size(); ++i){
+        auto pos = posList.at(i);
+        Record record(Util::findRecord(m_fileName, pos));
+        QJsonObject object;
+        object.insert("title", record.title());
+        object.insert("authors", QJsonValue::fromVariant(record.authors()));
+        object.insert("mdate", record.mdate());
+        object.insert("key", record.key());
+        array.append(object);
+    }
+    return QJsonDocument(array).toJson();
 }
 void Finder::init()
 {

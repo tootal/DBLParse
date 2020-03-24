@@ -1,3 +1,40 @@
+html {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: inherit;
+}
+
 body {
     text-align: center;
+}
+
+h1 {
+    font-size: 40px;
+    margin: 20px 40px;
+}
+
+.search-box {
+    height: 40px;
+    font-size: 0;
+}
+
+select, input, button {
+    height: inherit;
+    font-size: 16px;
+}
+select {
+    width: 90px;
+}
+input {
+    width: 300px;
+    padding-left: 10px;
+}
+
+button {
+    padding: 2px 8px;
 }
