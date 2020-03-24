@@ -5,6 +5,7 @@
 #include "util.h"
 #include "record.h"
 #include "finder.h"
+#include "webenginepage.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -14,6 +15,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QPushButton>
+#include <QWebChannel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,8 +23,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->webview);
+    
     m_parser = new Parser(this);
     m_finder = new Finder(this);
+    
+    ui->webview->setContextMenuPolicy(Qt::NoContextMenu);
+    WebEnginePage *page = new WebEnginePage(this);
+    ui->webview->setPage(page);
+    QWebChannel *channel = new QWebChannel(this);
+    channel->registerObject("finder", m_finder);
+    page->setWebChannel(channel);
+    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
+    
     Finder::init();
     connect(m_parser, &Parser::done,
             m_finder, &Finder::init);

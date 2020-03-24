@@ -10,6 +10,7 @@ class Finder : public QObject
     Q_OBJECT
 public:
     explicit Finder(QObject *parent = nullptr);
+    Q_INVOKABLE void find(const QString &word, const QString &type);
     static bool parsed();
     static void clearIndex();
     static void init();

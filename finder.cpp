@@ -15,6 +15,11 @@ Finder::Finder(QObject *parent) : QObject(parent)
     
 }
 
+void Finder::find(const QString &word, const QString &type)
+{
+    qDebug() << word << type;
+}
+
 bool Finder::parsed()
 {
     return QFile("author.dat").exists() && QFile("title.dat").exists();

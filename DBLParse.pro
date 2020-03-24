@@ -27,7 +27,8 @@ SOURCES += \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
-    util.cpp
+    util.cpp \
+    webenginepage.cpp
 
 HEADERS += \
     finder.h \
@@ -35,7 +36,8 @@ HEADERS += \
     parsedialog.h \
     parser.h \
     record.h \
-    util.h
+    util.h \
+    webenginepage.h
 
 FORMS += \
     mainwindow.ui \
