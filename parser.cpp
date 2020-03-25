@@ -181,3 +181,8 @@ qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const
     }
     return -1;
 }
+
+QString Parser::StringRef::toString() const
+{
+    return QByteArray::fromRawData(s_data + l, static_cast<int>(r - l));
+}
