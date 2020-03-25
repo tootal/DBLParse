@@ -14,7 +14,7 @@
    <string>DBLParse</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="DBLParse.qrc">
+   <iconset>
     <normaloff>:/resources/dblp.png</normaloff>:/resources/dblp.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -110,8 +110,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="DBLParse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

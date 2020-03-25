@@ -46,3 +46,11 @@ QString Util::findRecord(const QString &fileName, quint32 pos)
     Q_ASSERT(beginPos != -1);
     return data.remove(0, beginPos);
 }
+
+QString Util::readFile(const QString &fileName)
+{
+    QFile file(fileName);
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+    return file.readAll();
+}
