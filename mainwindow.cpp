@@ -118,6 +118,7 @@ Key: %4 <br/><br/>
         ui->label->setText(text);
     }else if(ui->coauthorRadioButton->isChecked()){
         auto list = m_finder->indexOfAuthor(key);
+//        qDebug()<<list;
         if(list.isEmpty()){
             QMessageBox::information(this, tr("Information"),
                                      tr("Coauthor not found."));
@@ -204,6 +205,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
+    ui->tableWidget_2->setColumnWidth(0, static_cast<int>(width() * 0.5));
 }
 
 void MainWindow::on_authorRadioButton_clicked()
@@ -235,4 +237,27 @@ void MainWindow::on_fuzzyRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
     ui->keyEdit->setFocus();
+}
+void MainWindow::on_authorStacRadioButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+    ui->keyEdit->setFocus();
+    QMap<QString,int> authorStac=Parser::authorStac();
+    if(authorStac.isEmpty()){
+        QMessageBox::information(this, tr("Information"),
+                                 tr("please parse first."));
+        return ;
+    }
+    ui->tableWidget_2->clearContents();
+    ui->tableWidget_2->setRowCount(100);
+    QMap<QString,int>::iterator h=authorStac.begin();
+    qint32 num=0;
+    while(h!=authorStac.end()&&num<100){
+        ui->tableWidget_2->setItem(num, 0, new QTableWidgetItem(h.key()));
+        ui->tableWidget_2->setItem(num, 1, new QTableWidgetItem(QString::number(h.value())));
+//        qDebug()<<h.value();
+        h++;
+        num++;
+    }
+    ui->tableWidget->resizeRowsToContents();
 }

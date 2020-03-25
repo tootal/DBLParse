@@ -25,7 +25,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="51"/>
-        <location filename="../mainwindow.ui" line="107"/>
+        <location filename="../mainwindow.ui" line="114"/>
         <source>Title</source>
         <translation>标题</translation>
     </message>
@@ -40,67 +40,82 @@
         <translation>模糊搜索</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="112"/>
+        <location filename="../mainwindow.ui" line="72"/>
+        <source>authorStac</source>
+        <translation>作者统计</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="119"/>
         <source>Modify Date</source>
         <translation>修改日期</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="117"/>
+        <location filename="../mainwindow.ui" line="124"/>
         <source>Key</source>
         <translation>关键码</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="186"/>
+        <location filename="../mainwindow.ui" line="190"/>
+        <source>author</source>
+        <translation>作者</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="195"/>
+        <source>articleNum</source>
+        <translation>发布文章数</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="215"/>
         <source>&amp;Help</source>
         <translation>帮助 (&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../mainwindow.ui" line="223"/>
         <source>&amp;File</source>
         <translation>文件 (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="201"/>
+        <location filename="../mainwindow.ui" line="230"/>
         <source>&amp;View</source>
         <translation>查看 (&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="207"/>
+        <location filename="../mainwindow.ui" line="236"/>
         <source>&amp;Tools</source>
         <translation>工具 (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="219"/>
+        <location filename="../mainwindow.ui" line="248"/>
         <source>About &amp;Qt</source>
         <translation>关于Qt (&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="224"/>
+        <location filename="../mainwindow.ui" line="253"/>
         <source>&amp;About DBLParse</source>
         <translation>关于DBLParse (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="229"/>
+        <location filename="../mainwindow.ui" line="258"/>
         <source>About &amp;DBLP</source>
         <translation>关于DBLP (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="234"/>
+        <location filename="../mainwindow.ui" line="263"/>
         <source>E&amp;xit</source>
         <translation>退出 (&amp;X)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="239"/>
+        <location filename="../mainwindow.ui" line="268"/>
         <source>&amp;Open</source>
         <translation>打开 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="244"/>
+        <location filename="../mainwindow.ui" line="273"/>
         <source>&amp;Status</source>
         <translation>状态 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="249"/>
+        <location filename="../mainwindow.ui" line="278"/>
         <source>&amp;Clear Index</source>
         <translation>清除索引 (&amp;C)</translation>
     </message>
@@ -154,7 +169,8 @@ dblp数据集现在由&lt;a href=&amp;quot;https://www.dagstuhl.de/&amp;quot;&gt
         <location filename="../mainwindow.cpp" line="70"/>
         <location filename="../mainwindow.cpp" line="80"/>
         <location filename="../mainwindow.cpp" line="98"/>
-        <location filename="../mainwindow.cpp" line="122"/>
+        <location filename="../mainwindow.cpp" line="123"/>
+        <location filename="../mainwindow.cpp" line="247"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
@@ -193,57 +209,62 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
 关键码: %4 &lt;br/&gt;&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="123"/>
+        <location filename="../mainwindow.cpp" line="124"/>
         <source>Coauthor not found.</source>
         <translation>没有找到合作者。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="142"/>
+        <location filename="../mainwindow.cpp" line="143"/>
         <source>Coauthor: %1 &lt;br/&gt;</source>
         <translation>合作者：%1 &lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="248"/>
+        <source>please parse first.</source>
+        <translation>还未解析文件</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="159"/>
         <source>Select XML file</source>
         <translation>选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="160"/>
+        <location filename="../mainwindow.cpp" line="161"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件(*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="167"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="168"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="187"/>
+        <location filename="../mainwindow.cpp" line="188"/>
         <source>The XML file has been parsed.</source>
         <translation>XML文件已解析。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="192"/>
         <source>No XML file has been parsed.</source>
         <translation>尚未解析XML文件。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="193"/>
+        <location filename="../mainwindow.cpp" line="194"/>
         <source>Open XML file</source>
         <translation>打开XML文件。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="195"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="227"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
@@ -264,32 +285,32 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="34"/>
+        <location filename="../parser.cpp" line="36"/>
         <source>Parsing start.</source>
         <translation>解析开始。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="43"/>
+        <location filename="../parser.cpp" line="45"/>
         <source>XML file read successful.</source>
         <translation>读入XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="63"/>
+        <location filename="../parser.cpp" line="95"/>
         <source>XML file parse successful.</source>
         <translation>解析XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="66"/>
+        <location filename="../parser.cpp" line="98"/>
         <source>Index file generated.</source>
         <translation>索引文件已生成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="86"/>
+        <location filename="../parser.cpp" line="119"/>
         <source>Index file saved.</source>
         <translation>索引文件已保存。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="88"/>
+        <location filename="../parser.cpp" line="121"/>
         <source>Parse done.</source>
         <translation>解析完成。</translation>
     </message>

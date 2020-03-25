@@ -66,6 +66,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QRadioButton" name="authorStacRadioButton">
+         <property name="text">
+          <string>authorStac</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -166,6 +173,28 @@
         <property name="text">
          <string/>
         </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="authorStacPage">
+       <widget class="QTableWidget" name="tableWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>781</width>
+          <height>431</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>articleNum</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>

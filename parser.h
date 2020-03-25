@@ -40,11 +40,14 @@ public:
         StringRef mid(quint32 pos, quint32 len) const;
         bool startsWith(const char *str, quint32 from = 0) const;
         qint32 indexOf(const char *str, quint32 from = 0) const;
+        QString toString();
     };
     friend QDebug operator<<(QDebug debug, const StringRef &s){
         debug << QByteArray::fromRawData(s_data + s.l, static_cast<int>(s.r - s.l));
         return debug;
     }
+    static bool sortByDesc(int i,int j){return (i>j); }
+    static QMap<QString,int> authorStac(){return s_authorStac;}
 
 private:
     QString m_fileName;
@@ -54,11 +57,11 @@ private:
     static StringRef* s_titleIndex;
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
-    
+    static QMap<QString, int> s_authorStac;
+
     // treat child element as text, after reading, from equal to the
     // last position of the end element
     static StringRef readElementText(const StringRef &r, quint32 &from);
-
 };
 
 #endif // PARSER_H

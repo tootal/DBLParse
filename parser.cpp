@@ -5,13 +5,15 @@
 #include <QDataStream>
 #include <QTime>
 #include <QDebug>
+#include<QMap>
+#include <QList>
 
 char *Parser::s_data;
 Parser::StringRef *Parser::s_authorIndex;
 Parser::StringRef *Parser::s_titleIndex;
 quint32 Parser::s_authorIndexs = 0;
 quint32 Parser::s_titleIndexs = 0;
-
+QMap<QString, int> Parser::s_authorStac;
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
@@ -44,13 +46,22 @@ void Parser::parse()
     s_authorIndex = new StringRef[1<<24|1<<19];
     s_titleIndex = new StringRef[1<<23];
     quint32 x = 0;
+
     while(x < len){
         if(ref[x] == '<'){
             if(ref.startsWith("author", x + 1)){
                 StringRef author = readElementText(ref, x);
                 s_authorIndex[s_authorIndexs] = author;
+                QString authorStr=author.toString();
+//                qDebug()<<s_authorIndex[s_authorIndexs];
+                if(!s_authorStac.contains(authorStr)){
+                    s_authorStac.insert(authorStr,1);
+                }
+                else{
+                    s_authorStac.insert(authorStr,s_authorStac.find(authorStr).value()+1);
+//                    qDebug()<<s_authorStac.find(authorStr).value();
+                }
                 ++s_authorIndexs;
-//                qDebug() << author;
             }else if(ref.startsWith("title", x + 1)){
                 StringRef title = readElementText(ref, x);
                 s_titleIndex[s_titleIndexs] = title;
@@ -60,6 +71,27 @@ void Parser::parse()
         }
         ++x;
     }
+    QList<QString> keys;
+    QList<int> values;
+    keys=s_authorStac.keys();
+    values=s_authorStac.values();
+
+    std::sort(values.begin(),values.end(),sortByDesc);
+    s_authorStac.clear();
+    QList<int>::iterator i=values.begin();
+    QList<QString>::iterator j=keys.begin();
+        while(i!=values.end() && j!=keys.end()){
+
+            s_authorStac.insert(*j, *i);
+            i++;
+            j++;
+        }
+//        QMap<QString,int>::iterator h=s_authorStac.begin();
+//                //the display of the sorted QMap
+//                while(h!=s_authorStac.end()){
+//                    qDebug() << "[" << h.key()<<"], " <<"[" <<h.value()<<"]" << endl;
+//                    h++;
+//                }
     emit stateChanged(tr("XML file parse successful."));
     std::sort(s_titleIndex, s_titleIndex + s_titleIndexs);
     std::sort(s_authorIndex, s_authorIndex + s_authorIndexs);
@@ -71,6 +103,7 @@ void Parser::parse()
     Q_ASSERT(file.isOpen());
     for(quint32 i = 0; i < s_authorIndexs; ++i){
         stream << s_authorIndex[i].l << s_authorIndex[i].r;
+//        qDebug()<<s_authorIndex[i].l<<s_authorIndex[i].r;
     }
     file.close();
     file.setFileName("title.dat");
@@ -188,4 +221,8 @@ qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const
         }
     }
     return -1;
+}
+QString Parser::StringRef::toString()
+{
+     return QByteArray::fromRawData(s_data + l, static_cast<int>(r - l));
 }
