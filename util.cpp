@@ -25,13 +25,10 @@ QString Util::readAround(const QString &fileName, quint32 &pos)
     QFile file(fileName);
     file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
-    if(pos < BUF_SZ){
-        file.seek(0);
-    }else{
-        file.seek(pos - BUF_SZ);
-        pos = BUF_SZ;
-    }
+    auto beginPos = pos < BUF_SZ ? 0 : pos - BUF_SZ;
+    file.seek(beginPos);
     QString data = file.read(BUF_SZ << 1);
+    pos -= beginPos;
     file.close();
     return data;
 }
@@ -41,11 +38,11 @@ QString Util::findRecord(const QString &fileName, quint32 pos)
     QString data = readAround(fileName, pos);
     QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
     auto m = re.match(data, static_cast<int>(pos));
-    if(!m.hasMatch()) qDebug() << pos;
     Q_ASSERT(m.hasMatch());
     QString name = m.captured(1);
     int endPos = m.capturedEnd(1) + 1;
     data.remove(endPos, data.size() - endPos);
     int beginPos = data.lastIndexOf("<"+name);
+    Q_ASSERT(beginPos != -1);
     return data.remove(0, beginPos);
 }

@@ -16,6 +16,7 @@ public:
     QString key() const;
     QString name() const;
     QString year() const;
+    QString journal() const;
     QStringList authors() const;
 private:
     QString m_src;
@@ -25,6 +26,7 @@ private:
     QString m_mdate;
     QStringList m_authors;
     QString m_title;
+    QString m_journal;
 };
 
 #endif // RECORD_H
