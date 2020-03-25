@@ -117,7 +117,7 @@ void MainWindow::on_action_Status_triggered()
 {
     QMessageBox msgBox(this);
     if(m_finder->parsed()){
-        msgBox.setText(tr("The XML file has been parsed."));
+        msgBox.setText(tr("%1 records has been parsed.").arg(QFile("title.dat").size() >> 3));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
