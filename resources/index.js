@@ -1,12 +1,22 @@
 'use strict';
 
+var disable_word = [
+    'Home Page'
+];
+
 new QWebChannel(qt.webChannelTransport, function(channel) {
     var finder = channel.objects.finder;
-    document.getElementById('search').onclick = function() {
+
+    function search() {
         var word = document.getElementById('word').value;
         var type = document.getElementById('type').value;
-        finder.find(word, type);
+        if(disable_word.indexOf(word) == -1) finder.find(word, type);
+        else document.getElementById('result').innerHTML = 'NOT FOUND!';
     }
+    document.getElementById('search').onclick = function(){ search() };
+    document.getElementById('word').addEventListener('keydown', function(e) {
+        if(e.keyCode == 13) search();
+    });
     finder.ready.connect(function(data) {
         // console.log(data);
         var json = JSON.parse(data);
@@ -25,3 +35,11 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
         }
     })
 })
+
+
+
+window.onload = function() {
+    if(document.readyState == 'complete') {
+        document.getElementById('word').focus();
+    }
+}
