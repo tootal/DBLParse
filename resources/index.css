@@ -54,3 +54,7 @@ th, td {
 td {
     text-align: left;
 }
+
+a {
+    text-decoration: none;
+}

@@ -13,10 +13,13 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
         if(disable_word.indexOf(word) == -1) finder.find(word, type);
         else document.getElementById('result').innerHTML = 'NOT FOUND!';
     }
+
     document.getElementById('search').onclick = function(){ search() };
     document.getElementById('word').addEventListener('keydown', function(e) {
         if(e.keyCode == 13) search();
     });
+    
+
     finder.ready.connect(function(data) {
         // console.log(data);
         var json = JSON.parse(data);
@@ -33,9 +36,10 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
             return ;
         }
         table.innerHTML = '<tr> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
+
         for(var i = 0; i < json.length; ++i){
             var tr = document.createElement('tr');
-            tr.innerHTML += '<td>' + json[i].title + '</td>';
+            tr.innerHTML += '<td> <a href="dblp://key/'+ json[i].key +'">' + json[i].title + '</a> </td>';
             tr.innerHTML += '<td>' + json[i].authors.join('; ') + '</td>';
             tr.innerHTML += '<td>' + json[i].year + '</td>';
             table.appendChild(tr);

@@ -27,11 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_parser = new Parser(this);
     m_finder = new Finder(this);
     
-    WebPage *page = new WebPage(this);
-    ui->webview->setPage(page);
-    QWebChannel *channel = new QWebChannel(this);
-    channel->registerObject("finder", m_finder);
-    page->setWebChannel(channel);
+    connect(ui->webview->page(), &WebPage::request,
+            m_finder, &Finder::handleRequest);
+    ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
     
     Finder::init();

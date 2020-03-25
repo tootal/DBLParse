@@ -1,5 +1,6 @@
 #include "finder.h"
 #include "record.h"
+#include "webpage.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -7,6 +8,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QUrl>
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
@@ -45,6 +47,13 @@ void Finder::find(const QString &word, const QString &type)
         result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
     }
     emit ready(result);
+}
+
+void Finder::handleRequest(QUrl url) const
+{
+    QString key = url.path().remove(0, 1);
+    qDebug() << key;
+    
 }
 
 bool Finder::parsed()

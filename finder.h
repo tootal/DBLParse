@@ -11,6 +11,7 @@ class Finder : public QObject
 public:
     explicit Finder(QObject *parent = nullptr);
     Q_INVOKABLE void find(const QString &word, const QString &type);
+    void handleRequest(QUrl url) const;
     static bool parsed();
     static void clearIndex();
     static void init();
