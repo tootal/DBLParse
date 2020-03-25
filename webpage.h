@@ -11,6 +11,7 @@ public:
     
 signals:
     void request(QUrl url);
+    
 protected:
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) override;
 };

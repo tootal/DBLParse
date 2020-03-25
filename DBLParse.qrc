@@ -5,5 +5,8 @@
         <file>resources/index.js</file>
         <file>resources/qwebchannel.js</file>
         <file>resources/dblp.png</file>
+        <file>resources/detail.css</file>
+        <file>resources/detail.html</file>
+        <file>resources/detail.js</file>
     </qresource>
 </RCC>

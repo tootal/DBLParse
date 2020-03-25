@@ -1,6 +1,7 @@
 #include "finder.h"
 #include "record.h"
 #include "webpage.h"
+#include "webview.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -9,6 +10,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QUrl>
+#include <QIcon>
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
@@ -49,11 +51,18 @@ void Finder::find(const QString &word, const QString &type)
     emit ready(result);
 }
 
-void Finder::handleRequest(QUrl url) const
+void Finder::handleRequest(QUrl url)
 {
+    QWebEngineView *view = new QWebEngineView;
+    view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
+    view->setAttribute(Qt::WA_DeleteOnClose);
     QString key = url.path().remove(0, 1);
-    qDebug() << key;
-    
+//    qDebug() << key;
+    auto html = Util::readFile(":/resources/detail.html");
+    html.replace("{{title}}", key);
+    qDebug() << html;
+    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->show();
 }
 
 bool Finder::parsed()

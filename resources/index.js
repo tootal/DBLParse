@@ -1,5 +1,3 @@
-'use strict';
-
 var disable_word = [
     'Home Page'
 ];
@@ -44,8 +42,8 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
             tr.innerHTML += '<td>' + json[i].year + '</td>';
             table.appendChild(tr);
         }
-    })
-})
+    });
+});
 
 
 
