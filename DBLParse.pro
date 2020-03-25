@@ -28,7 +28,8 @@ SOURCES += \
     parser.cpp \
     record.cpp \
     util.cpp \
-    webenginepage.cpp
+    webpage.cpp \
+    webview.cpp
 
 HEADERS += \
     finder.h \
@@ -37,7 +38,8 @@ HEADERS += \
     parser.h \
     record.h \
     util.h \
-    webenginepage.h
+    webpage.h \
+    webview.h
 
 FORMS += \
     mainwindow.ui \

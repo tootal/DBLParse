@@ -86,12 +86,13 @@ QString Finder::getJson(const QList<quint32> &posList)
     for(int i = 0; i < posList.size(); ++i){
         auto pos = posList.at(i);
         Record record(Util::findRecord(m_fileName, pos));
-        QJsonObject object;
-        object.insert("title", record.title());
-        object.insert("authors", QJsonValue::fromVariant(record.authors()));
-        object.insert("mdate", record.mdate());
-        object.insert("key", record.key());
-        array.append(object);
+        QJsonObject o;
+        o.insert("title", record.title());
+        o.insert("year", record.year());
+        o.insert("authors", QJsonValue::fromVariant(record.authors()));
+        o.insert("mdate", record.mdate());
+        o.insert("key", record.key());
+        array.append(o);
     }
     return QJsonDocument(array).toJson();
 }

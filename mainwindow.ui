@@ -20,7 +20,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
-     <widget class="QWebEngineView" name="webview" native="true"/>
+     <widget class="WebView" name="webview" native="true"/>
     </item>
    </layout>
   </widget>
@@ -104,9 +104,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebEngineView</class>
+   <class>WebView</class>
    <extends>QWidget</extends>
-   <header>qwebengineview.h</header>
+   <header>webview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

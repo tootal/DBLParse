@@ -6,6 +6,7 @@
 Record::Record(const QString &s, QObject *parent)
     : QObject(parent)
 {
+    m_src = s;
     QRegularExpression re(R"(<author.*?>(.+)<\/author>)");
     auto i = re.globalMatch(s);
     while(i.hasNext()){
@@ -13,16 +14,9 @@ Record::Record(const QString &s, QObject *parent)
         m_authors << author;
         m_coauthors << author;
     }
-//    qDebug() << m_authors;
-    
-    re.setPattern(R"(<title.*?>(.+)<\/title>)");
-    auto m = re.match(s);
-    Q_ASSERT(m.hasMatch());
-    m_title = m.captured(1);
-//    qDebug() << m_title;
     
     re.setPattern(R"#(mdate\s*=\s*"((?:\d{4})-(?:\d{2})-(?:\d{2}))")#");
-    m = re.match(s);
+    auto m = re.match(s);
     Q_ASSERT(m.hasMatch());
     m_mdate = m.captured(1);
 //    qDebug() << m_mdate;
@@ -38,6 +32,18 @@ Record::Record(const QString &s, QObject *parent)
     Q_ASSERT(m.hasMatch());
     m_key = m.captured(1);
 //    qDebug() << m_key;
+    
+    m_title = capture("title");
+    m_year = capture("year");
+}
+
+QString Record::capture(const QString &tag) const
+{
+    QRegularExpression re;
+    re.setPattern(QString(R"(<%1.*?>(.+)<\/%1>)").arg(tag));
+    auto m = re.match(m_src);
+    Q_ASSERT(m.hasMatch());
+    return m.captured(1);
 }
 
 QString Record::title() const
@@ -58,6 +64,11 @@ QString Record::key() const
 QString Record::name() const
 {
     return m_name;
+}
+
+QString Record::year() const
+{
+    return m_year;
 }
 
 QStringList Record::authors() const

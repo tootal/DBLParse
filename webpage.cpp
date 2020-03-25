@@ -1,8 +1,8 @@
-#include "webenginepage.h"
+#include "webpage.h"
 
 #include <QDesktopServices>
 
-bool WebEnginePage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
+bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
     // Only allow qrc:/index.html
     if(url.scheme() == QString("qrc"))

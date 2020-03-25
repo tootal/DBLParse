@@ -5,7 +5,7 @@
 #include "util.h"
 #include "record.h"
 #include "finder.h"
-#include "webenginepage.h"
+#include "webpage.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -23,12 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->webview);
-    
+
     m_parser = new Parser(this);
     m_finder = new Finder(this);
     
-    ui->webview->setContextMenuPolicy(Qt::NoContextMenu);
-    WebEnginePage *page = new WebEnginePage(this);
+    WebPage *page = new WebPage(this);
     ui->webview->setPage(page);
     QWebChannel *channel = new QWebChannel(this);
     channel->registerObject("finder", m_finder);

@@ -9,12 +9,19 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
     }
     finder.ready.connect(function(data) {
         // console.log(data);
-        var result = document.getElementById('result');
         var json = JSON.parse(data);
+        var table = document.getElementById('result');
+        if(json.length == 0) {
+            table.innerHTML = 'NOT FOUND!';
+            return ;
+        }
+        table.innerHTML = '<tr> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
         for(var i = 0; i < json.length; ++i){
-            var item = document.createElement('li');
-            item.innerHTML = json[i].title;
-            result.appendChild(item);
+            var tr = document.createElement('tr');
+            tr.innerHTML += '<td>' + json[i].title + '</td>';
+            tr.innerHTML += '<td>' + json[i].authors.join('; ') + '</td>';
+            tr.innerHTML += '<td>' + json[i].year + '</td>';
+            table.appendChild(tr);
         }
     })
 })
