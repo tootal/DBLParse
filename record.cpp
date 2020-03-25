@@ -42,7 +42,6 @@ QString Record::capture(const QString &tag) const
     QRegularExpression re;
     re.setPattern(QString(R"(<%1.*?>(.+)<\/%1>)").arg(tag));
     auto m = re.match(m_src);
-    Q_ASSERT(m.hasMatch());
     return m.captured(1);
 }
 

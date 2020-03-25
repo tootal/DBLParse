@@ -95,6 +95,7 @@ void MainWindow::on_action_Open_triggered()
     // question when size greater than 64MiB
     if(QFile(fileName).size() > (1 << 26)){
         QMessageBox box(this);
+        box.resize(500, 170);
         box.setText(tr("Parsing the file will last for a while and will take up a lot of memory."));
         box.setInformativeText(tr("Do you want to continue?"));
         box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
