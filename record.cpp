@@ -12,7 +12,6 @@ Record::Record(const QString &s, QObject *parent)
     while(i.hasNext()){
         QString author = i.next().captured(1);
         m_authors << author;
-        m_coauthors << author;
     }
     
     re.setPattern(R"#(mdate\s*=\s*"((?:\d{4})-(?:\d{2})-(?:\d{2}))")#");
@@ -73,14 +72,4 @@ QString Record::year() const
 QStringList Record::authors() const
 {
     return m_authors;
-}
-
-void Record::clearCoauthors()
-{
-    m_coauthors.clear();
-}
-
-QStringList Record::coauthors() const
-{
-    return m_coauthors;
 }

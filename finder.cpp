@@ -31,8 +31,18 @@ void Finder::find(const QString &word, const QString &type)
     }else if(type == "title"){
         auto list = indexOfTitle(word);
         result = getJson(list);
-    }else if(type == "keyword"){
-        
+    }else if(type == "coauthor"){
+        auto list = indexOfAuthor(word);
+        QSet<QString> coauthors;
+        for(int i = 0; i < list.size(); ++i){
+            auto pos = list.at(i);
+            Record record(Util::findRecord(m_fileName, pos));
+            foreach(auto author, record.authors()){
+                coauthors.insert(author);
+            }
+        }
+        coauthors.remove(word);
+        result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
     }
     emit ready(result);
 }

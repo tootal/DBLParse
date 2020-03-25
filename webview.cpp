@@ -9,11 +9,6 @@ WebView::WebView(QWidget *parent)
     
 }
 
-QWebEngineView* WebView::createWindow(QWebEnginePage::WebWindowType type)
-{
-    return nullptr;
-}
-
 void WebView::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = new QMenu(this);

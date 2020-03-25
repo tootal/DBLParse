@@ -25,6 +25,13 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
             table.innerHTML = 'NOT FOUND!';
             return ;
         }
+        if(document.getElementById('type').value == 'coauthor') {
+            table.innerHTML = '<tr> <th>Co-Author(s)</th> </tr>';
+            for(var i = 0; i < json.length; ++i){
+                table.innerHTML += '<td>' + json[i] + '</td>';
+            }
+            return ;
+        }
         table.innerHTML = '<tr> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
         for(var i = 0; i < json.length; ++i){
             var tr = document.createElement('tr');

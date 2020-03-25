@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDate>
+#include <QSet>
 
 class Record : public QObject
 {
@@ -16,8 +17,6 @@ public:
     QString name() const;
     QString year() const;
     QStringList authors() const;
-    void clearCoauthors();
-    QStringList coauthors() const;
 private:
     QString m_src;
     QString m_name;
@@ -26,7 +25,6 @@ private:
     QString m_mdate;
     QStringList m_authors;
     QString m_title;
-    QStringList m_coauthors;
 };
 
 #endif // RECORD_H

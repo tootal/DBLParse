@@ -41,7 +41,7 @@ QString Util::findRecord(const QString &fileName, quint32 pos)
     QString data = readAround(fileName, pos);
     QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
     auto m = re.match(data, static_cast<int>(pos));
-//    if(!m.hasMatch()) qDebug() << pos;
+    if(!m.hasMatch()) qDebug() << pos;
     Q_ASSERT(m.hasMatch());
     QString name = m.captured(1);
     int endPos = m.capturedEnd(1) + 1;
