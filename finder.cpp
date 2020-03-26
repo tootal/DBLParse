@@ -66,7 +66,7 @@ void Finder::handleRequest(QUrl url)
     Record record(Util::findRecord(m_fileName, pos));
     auto html = Util::readFile(":/resources/detail.html");
     html.replace("{{title}}", record.title());
-    qDebug() << html;
+//    qDebug() << html;
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
 }
