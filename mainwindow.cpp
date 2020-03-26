@@ -5,12 +5,15 @@
 #include "util.h"
 #include "record.h"
 #include "finder.h"
+#include "settingsdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -124,7 +127,6 @@ Key: %4 <br/><br/>
                                      tr("Coauthor not found."));
             return ;
         }
-        ui->label->clear();
         QString text;
         QStringList coauthorlist;
         for(int i = 0; i < list.size(); ++i){
@@ -141,7 +143,7 @@ Key: %4 <br/><br/>
         coauthorSet.remove(key);
         foreach (const QString &value, coauthorSet)
                text.append(tr("Coauthor: %1 <br/>").arg(value));
-        ui->label_2->setText(text);
+        ui->textBrowser->setText(text);
     }
 }
 
@@ -171,14 +173,14 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
-    m_parser->setFileName(fileName);
-    m_parser->start();
     ParseDialog *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
     connect(m_parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
-    dialog->exec();
+    dialog->open();
+    m_parser->setFileName(fileName);
+    m_parser->start();
 }
 
 void MainWindow::on_action_Status_triggered()
@@ -261,4 +263,10 @@ void MainWindow::on_authorStacRadioButton_clicked()
         num++;
     }
     ui->tableWidget->resizeRowsToContents();
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->open();
 }

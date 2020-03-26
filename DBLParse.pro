@@ -1,4 +1,4 @@
-QT       += core gui webenginewidgets
+QT       += core gui webenginewidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +27,7 @@ SOURCES += \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
+    settingsdialog.cpp \
     util.cpp
 
 HEADERS += \
@@ -35,11 +36,13 @@ HEADERS += \
     parsedialog.h \
     parser.h \
     record.h \
+    settingsdialog.h \
     util.h
 
 FORMS += \
     mainwindow.ui \
-    parsedialog.ui
+    parsedialog.ui \
+    settingsdialog.ui
 
 TRANSLATIONS += \
     translations/DBLParse_zh_CN.ts

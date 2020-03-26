@@ -79,7 +79,7 @@
     <item row="2" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="authorPage">
        <layout class="QGridLayout" name="gridLayout">
@@ -146,19 +146,11 @@
        </layout>
       </widget>
       <widget class="QWidget" name="coauthorPage">
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>9</x>
-          <y>9</y>
-          <width>764</width>
-          <height>418</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QTextBrowser" name="textBrowser"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="fuzzyPage">
        <widget class="QLabel" name="label_3">
@@ -223,6 +215,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="action_Open"/>
+    <addaction name="action_Settings"/>
     <addaction name="actionE_xit"/>
    </widget>
    <widget class="QMenu" name="menu_View">
@@ -276,6 +269,11 @@
   <action name="action_Clear_Index">
    <property name="text">
     <string>&amp;Clear Index</string>
+   </property>
+  </action>
+  <action name="action_Settings">
+   <property name="text">
+    <string>&amp;Settings</string>
    </property>
   </action>
  </widget>

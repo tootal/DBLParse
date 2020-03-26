@@ -7,9 +7,10 @@ class Util : public QObject
 {
     Q_OBJECT
 public:
+    static const int BUF_SZ = 3000;
     static QString formatTime(int ms);
-    static QString findRecord(const QString &fileName, qint64 pos);
-    static quint8 hash(const QString &s);
+    static QString readAround(const QString &fileName, quint32 &pos);
+    static QString findRecord(const QString &fileName, quint32 pos);
 };
 
 #endif // UTIL_H

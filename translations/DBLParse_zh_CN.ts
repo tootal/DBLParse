@@ -6,267 +6,254 @@
     <message>
         <location filename="../mainwindow.ui" line="14"/>
         <source>DBLParse</source>
-        <translation>DBLParse</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="26"/>
         <source>Search</source>
-        <translation>搜索</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="35"/>
         <source>Search action</source>
-        <translation>搜索选项</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="41"/>
         <source>Author</source>
-        <translation>作者</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="51"/>
         <location filename="../mainwindow.ui" line="114"/>
         <source>Title</source>
-        <translation>标题</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="58"/>
         <source>Coauthor</source>
-        <translation>合作作者</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="65"/>
         <source>Fuzzy</source>
-        <translation>模糊搜索</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="72"/>
         <source>authorStac</source>
-        <translation>作者统计</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="119"/>
         <source>Modify Date</source>
-        <translation>修改日期</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="124"/>
         <source>Key</source>
-        <translation>关键码</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="190"/>
+        <location filename="../mainwindow.ui" line="182"/>
         <source>author</source>
-        <translation>作者</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="195"/>
+        <location filename="../mainwindow.ui" line="187"/>
         <source>articleNum</source>
-        <translation>发布文章数</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="207"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="215"/>
-        <source>&amp;Help</source>
-        <translation>帮助 (&amp;H)</translation>
+        <source>&amp;File</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="223"/>
-        <source>&amp;File</source>
-        <translation>文件 (&amp;F)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="230"/>
         <source>&amp;View</source>
-        <translation>查看 (&amp;V)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="236"/>
+        <location filename="../mainwindow.ui" line="229"/>
         <source>&amp;Tools</source>
-        <translation>工具 (&amp;T)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="248"/>
+        <location filename="../mainwindow.ui" line="241"/>
         <source>About &amp;Qt</source>
-        <translation>关于Qt (&amp;Q)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="253"/>
+        <location filename="../mainwindow.ui" line="246"/>
         <source>&amp;About DBLParse</source>
-        <translation>关于DBLParse (&amp;A)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="258"/>
+        <location filename="../mainwindow.ui" line="251"/>
         <source>About &amp;DBLP</source>
-        <translation>关于DBLP (&amp;D)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="263"/>
+        <location filename="../mainwindow.ui" line="256"/>
         <source>E&amp;xit</source>
-        <translation>退出 (&amp;X)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="268"/>
+        <location filename="../mainwindow.ui" line="261"/>
         <source>&amp;Open</source>
-        <translation>打开 (&amp;O)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="273"/>
+        <location filename="../mainwindow.ui" line="266"/>
         <source>&amp;Status</source>
-        <translation>状态 (&amp;S)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="278"/>
+        <location filename="../mainwindow.ui" line="271"/>
         <source>&amp;Clear Index</source>
-        <translation>清除索引 (&amp;C)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="38"/>
+        <location filename="../mainwindow.ui" line="276"/>
+        <source>&amp;Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="41"/>
         <source>About Qt</source>
-        <translation>关于Qt</translation>
-    </message>
-    <message>
-        <source>DBLParse&lt;br/&gt;&lt;br/&gt;
-DBLParse is a free and open source application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
-Please visit &lt;a href=&quot;https://github.com/tootal/dblparse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation type="vanished">DBLParse&lt;br/&gt;&lt;br/&gt;
-DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;br/&gt;
-请访问 &lt;a href=&quot;https://github.com/tootal/dblparse&quot;&gt;DBLParse&lt;/a&gt; 获取更多信息。</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="43"/>
-        <source>DBLParse&lt;br/&gt;&lt;br/&gt;
-DBLParse is a free and open source application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
-Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation type="unfinished">DBLParse&lt;br/&gt;&lt;br/&gt;
-DBLParse 是一个免费且开源的应用，基于dblp数据。&lt;br/&gt;&lt;br/&gt;
-请访问 &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; 获取更多信息。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="46"/>
-        <source>About DBLParse</source>
-        <translation>关于DBLParse</translation>
+        <source>DBLParse&lt;br/&gt;&lt;br/&gt;
+DBLParse is a free and open source application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
+Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="51"/>
+        <location filename="../mainwindow.cpp" line="49"/>
+        <source>About DBLParse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="54"/>
         <source>DBLP&lt;br/&gt;&lt;br/&gt;
 The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides
 open bibliographic information on major computer science journals and proceedings.
 Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993,
 dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;
 For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
-        <translation>DBLP&lt;br/&gt;&lt;br/&gt;
-&lt;em&gt;dblp&lt;/em&gt; 计算机科学文献集提供主要的计算机科学期刊和会议的开放数据信息。
-最初由&lt;a href=&amp;quot;https://www.uni-trier.de/&amp;quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，
-dblp数据集现在由&lt;a href=&amp;quot;https://www.dagstuhl.de/&amp;quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br/&gt;&lt;br/&gt;
-获取更多信息，请&lt;a href=&amp;quot;https://dblp.uni-trier.de/faq/&amp;quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="57"/>
+        <location filename="../mainwindow.cpp" line="60"/>
         <source>About DBLP</source>
-        <translation>关于DBLP</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="70"/>
-        <location filename="../mainwindow.cpp" line="80"/>
-        <location filename="../mainwindow.cpp" line="98"/>
-        <location filename="../mainwindow.cpp" line="123"/>
-        <location filename="../mainwindow.cpp" line="247"/>
+        <location filename="../mainwindow.cpp" line="73"/>
+        <location filename="../mainwindow.cpp" line="83"/>
+        <location filename="../mainwindow.cpp" line="101"/>
+        <location filename="../mainwindow.cpp" line="126"/>
+        <location filename="../mainwindow.cpp" line="249"/>
         <source>Information</source>
-        <translation>信息</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="71"/>
+        <location filename="../mainwindow.cpp" line="74"/>
         <source>Please enter a search key.</source>
-        <translation>请输入查询关键字。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="81"/>
+        <location filename="../mainwindow.cpp" line="84"/>
         <source>Author not found.</source>
-        <translation>没有找到该作者。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="99"/>
+        <location filename="../mainwindow.cpp" line="102"/>
         <source>Title not found.</source>
-        <translation>没有找到此标题。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="109"/>
+        <location filename="../mainwindow.cpp" line="112"/>
         <source>Author: %1 &lt;br/&gt;</source>
-        <translation>作者：%1 &lt;br/&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>&lt;b&gt;Record details&lt;/b&gt;&lt;br/&gt;
 Title: %1 &lt;br/&gt;
 %2
 Modify date: %3 &lt;br/&gt;
 Key: %4 &lt;br/&gt;&lt;br/&gt;
 </source>
-        <translation>&lt;b&gt;记录详情&lt;/b&gt;&lt;br/&gt;
-标题: %1 &lt;br/&gt;
-%2
-修改日期: %3 &lt;br/&gt;
-关键码: %4 &lt;br/&gt;&lt;br/&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="124"/>
+        <location filename="../mainwindow.cpp" line="127"/>
         <source>Coauthor not found.</source>
-        <translation>没有找到合作者。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="143"/>
+        <location filename="../mainwindow.cpp" line="145"/>
         <source>Coauthor: %1 &lt;br/&gt;</source>
-        <translation>合作者：%1 &lt;br/&gt;</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="248"/>
-        <source>please parse first.</source>
-        <translation>还未解析文件</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="159"/>
-        <source>Select XML file</source>
-        <translation>选择XML文件</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="161"/>
+        <source>Select XML file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="163"/>
         <source>XML file (*.xml)</source>
-        <translation>XML文件(*.xml)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
-        <translation>解析文件将消耗大量内存并持续一段时间。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="168"/>
+        <location filename="../mainwindow.cpp" line="170"/>
         <source>Do you want to continue?</source>
-        <translation>是否要继续？</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="188"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>The XML file has been parsed.</source>
-        <translation>XML文件已解析。</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="192"/>
-        <source>No XML file has been parsed.</source>
-        <translation>尚未解析XML文件。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="194"/>
+        <source>No XML file has been parsed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>Open XML file</source>
-        <translation>打开XML文件。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="227"/>
+        <location filename="../mainwindow.cpp" line="229"/>
         <source>Clear index file successful!</source>
-        <translation>成功清除缓存文件！</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="250"/>
+        <source>please parse first.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -274,53 +261,86 @@ Key: %4 &lt;br/&gt;&lt;br/&gt;
     <message>
         <location filename="../parsedialog.ui" line="17"/>
         <source>Processing XML file</source>
-        <translation>处理XML文件</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../parsedialog.ui" line="44"/>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="36"/>
+        <location filename="../parser.cpp" line="33"/>
         <source>Parsing start.</source>
-        <translation>解析开始。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="45"/>
+        <location filename="../parser.cpp" line="42"/>
         <source>XML file read successful.</source>
-        <translation>读入XML文件成功。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="95"/>
+        <location filename="../parser.cpp" line="99"/>
         <source>XML file parse successful.</source>
-        <translation>解析XML文件成功。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="98"/>
+        <location filename="../parser.cpp" line="102"/>
         <source>Index file generated.</source>
-        <translation>索引文件已生成。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="119"/>
+        <location filename="../parser.cpp" line="120"/>
         <source>Index file saved.</source>
-        <translation>索引文件已保存。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="121"/>
-        <source>Parse done.</source>
-        <translation>解析完成。</translation>
+        <location filename="../parser.cpp" line="122"/>
+        <source>Parse done. Cost time: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../settingsdialog.ui" line="14"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="35"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="58"/>
+        <source>Language:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="66"/>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="71"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="76"/>
+        <source>Chinese</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Util</name>
     <message>
-        <location filename="../util.cpp" line="13"/>
+        <location filename="../util.cpp" line="14"/>
         <source>s</source>
-        <translation>秒</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

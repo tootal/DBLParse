@@ -3,6 +3,7 @@
 #include <QTime>
 #include <QFile>
 #include <QDebug>
+#include <QRegularExpression>
 
 QString Util::formatTime(int ms)
 {
@@ -19,51 +20,31 @@ QString Util::formatTime(int ms)
     }
 }
 
-QString Util::findRecord(const QString &fileName, qint64 pos)
+QString Util::readAround(const QString &fileName, quint32 &pos)
 {
     QFile file(fileName);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
-    QString recordName;
-    int offset = -1;
-    file.seek(pos);
-    QStringList recordNames = { "article", "inproceedings", "proceedings", 
-                                "book", "incollection", "phdthesis", 
-                                "mastersthesis", "www", "person", "data" };
-    while(!file.atEnd()){
-        QString s = file.readLine();
-        foreach(recordName, recordNames){
-            offset = s.indexOf(QString("</%1>").arg(recordName));
-            if(offset != -1) break;
-        }
-        if(offset != -1)break;
+    if(pos < BUF_SZ){
+        file.seek(0);
+    }else{
+        file.seek(pos - BUF_SZ);
+        pos = BUF_SZ;
     }
-    const int bufferSize = 2000;
-    qint64 rightPos = file.pos();
-    qint64 leftPos = 0;
-    if(rightPos > bufferSize) leftPos = rightPos - bufferSize;
-    Q_ASSERT(leftPos < rightPos);
-    file.seek(leftPos);
-    QString str = file.read(rightPos - leftPos + 5);
-    QString endEleStr = QString("</%1>").arg(recordName);
-    int endPos = str.lastIndexOf(endEleStr);
-    Q_ASSERT(endPos != -1);
-    QStringRef res = str.leftRef(endPos + endEleStr.size());
-    QString beginEleStr = QString("<%1").arg(recordName);
-    // ATTENTION EXAMPLE: <article mdate="2019-10-25"
-    int beginPos = res.lastIndexOf(beginEleStr);
-    Q_ASSERT(beginPos != -1);
-    Q_ASSERT(beginPos < endPos);
-    res = res.right(res.size() - beginPos);
-//    return qMakePair(leftPos+beginPos, leftPos+endPos+endEleStr.size());
-    return res.toString();
+    QString data = file.read(BUF_SZ << 1);
+    file.close();
+    return data;
 }
 
-quint8 Util::hash(const QString &s)
+QString Util::findRecord(const QString &fileName, quint32 pos)
 {
-    quint8 ans = 0;
-    foreach(QChar c, s){
-        ans = ans * 131 + static_cast<quint8>(c.unicode());
-    }
-    return ans;
+    QString data = readAround(fileName, pos);
+    QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
+    auto m = re.match(data, static_cast<int>(pos));
+    Q_ASSERT(m.hasMatch());
+    QString name = m.captured(1);
+    int endPos = m.capturedEnd(1) + 1;
+    data.remove(endPos, data.size() - endPos);
+    int beginPos = data.lastIndexOf("<"+name);
+    return data.remove(0, beginPos);
 }
