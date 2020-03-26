@@ -7,6 +7,18 @@
 #include <QDebug>
 
 char *Parser::s_data;
+const QStringList Parser::c_recordNames = {
+    "article",
+    "inproceedings",
+    "proceedings",
+    "book",
+    "incollection",
+    "phdthesis",
+    "mastersthesis",
+    "www",
+    "person",
+    "data"
+};
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -42,6 +54,10 @@ void Parser::parse()
     quint32 x = 0;
     while(x < len){
         if(ref[x] == '<'){
+            int startsIndex = ref.startsWith(c_recordNames, x + 1);
+            if(startsIndex != -1){
+                
+            }
             if(ref.startsWith("author", x + 1)){
                 StringRef author = readElementText(ref, x);
                 authorIndex.append(author);
@@ -110,6 +126,16 @@ Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &f
     return s.mid(i + 1, x - i - 1);
 }
 
+Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from, const char *key)
+{
+    StringRef s = r.mid(from);
+    Q_ASSERT(s[0] == '<');
+    quint32 i = 1;
+    while(s.startsWith(key, i)){
+        
+    }
+}
+
 int Parser::costMsecs()
 {
     return m_costMsecs;
@@ -163,6 +189,16 @@ bool Parser::StringRef::startsWith(const char *str, quint32 from) const
         if(x >= r) return false;
     }
     return true;
+}
+
+int Parser::StringRef::startsWith(const QStringList &strs, quint32 from) const
+{
+    for(int i = 0; i < strs.length(); ++i){
+        if(startsWith(strs[i].toUtf8(), from)){
+            return i;
+        }
+    }
+    return -1;
 }
 
 qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const

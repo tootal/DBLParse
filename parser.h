@@ -22,6 +22,7 @@ public:
     void setFileName(const QString &fileName);
     int costMsecs();
     static void clearIndex();
+    const static QStringList c_recordNames;
 signals:
     void stateChanged(const QString &state);
     void done();
@@ -39,6 +40,8 @@ public:
         StringRef mid(quint32 pos) const;
         StringRef mid(quint32 pos, quint32 len) const;
         bool startsWith(const char *str, quint32 from = 0) const;
+        // if startsWith(strs[i], from) return i else return -1
+        int startsWith(const QStringList &strs, quint32 from = 0) const;
         qint32 indexOf(const char *str, quint32 from = 0) const;
         QString toString() const;
     };
@@ -55,6 +58,10 @@ private:
     // treat child element as text, after reading, from equal to the
     // last position of the end element
     static StringRef readElementText(const StringRef &r, quint32 &from);
+    
+    // read element attribute, if key exists return its value of StringRef
+    // else return empty StringRef
+    static StringRef readElementAttr(const StringRef &r, quint32 from, const char *key);
 
 };
 
