@@ -75,11 +75,14 @@ void Parser::parse()
     QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
     while(it!=s_authorStacTemp.end()){
         temp.append(qMakePair(it.key(),it.value()));
+        it++;
     }
 
     s_authorStacTemp.clear();
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
+
+    authorStac.clear();
 
     for(qint32 t=0;t<temp.size();t++){
         authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
