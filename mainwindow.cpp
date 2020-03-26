@@ -244,24 +244,36 @@ void MainWindow::on_authorStacRadioButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
     ui->keyEdit->setFocus();
-    QMap<QString,int> authorStac=Parser::authorStac();
-    if(authorStac.isEmpty()){
+
+    QList<QString> k=Parser::returnKeys();
+    QList<int> v=Parser::returnValues();
+
+    if(k.isEmpty()||v.isEmpty()){
         QMessageBox::information(this, tr("Information"),
                                  tr("please parse first."));
         return ;
     }
     ui->tableWidget_2->clearContents();
     ui->tableWidget_2->setRowCount(100);
-    QMap<QString,int>::iterator h=authorStac.begin();
-    qint32 num=0;
-    while(h!=authorStac.end()&&num<100){
-//        qDebug()<<h.key();
-        ui->tableWidget_2->setItem(num, 0, new QTableWidgetItem(h.key()));
-        ui->tableWidget_2->setItem(num, 1, new QTableWidgetItem(QString::number(h.value())));
-//        qDebug()<<h.value();
-        h++;
-        num++;
+
+    int num=k.size();
+    if(num<=100){
+        for(qint32 t=0;t<num;t++){
+    //        qDebug()<<h.key();
+            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(k[t]));
+            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(v[t])));
+    //        qDebug()<<h.value();
+        }
     }
+    else{
+        for(qint32 t=0;t<100;t++){
+    //        qDebug()<<h.key();
+            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(k[t]));
+            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(v[t])));
+    //        qDebug()<<h.value();
+        }
+    }
+
     ui->tableWidget->resizeRowsToContents();
 }
 

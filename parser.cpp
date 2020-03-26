@@ -9,7 +9,8 @@
 #include <QList>
 
 char *Parser::s_data;
-QMap<QString, int> Parser::s_authorStac;
+QList<QString> Parser::keys;
+QList<int> Parser::values;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -53,7 +54,7 @@ void Parser::parse()
                 }
                 else{
                     s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
-//                    qDebug()<<s_authorStac.find(author).value();
+//                    qDebug()<<s_authorStacTemp.find(author).key();
                 }
                 authorIndex.append(author);
 //                qDebug() << author;
@@ -65,37 +66,19 @@ void Parser::parse()
         }
         ++x;
     }
-    QList<StringRef> keys;
-    QList<int> values;
-    keys=s_authorStacTemp.keys();
+
+
+    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
     values=s_authorStacTemp.values();
-    std::sort(values.begin(),values.end(),sortByDesc);
 
-    QMap<StringRef, int>::iterator it;
-    it=s_authorStacTemp.begin()+1;
-    s_authorStacTemp.erase(it);
+    s_authorStacTemp.clear();
 
-    QList<int>::iterator i=values.begin();
+    sortByDesc(tempkeys,values,0,tempkeys.length()-1);
 
-    QList<QString> strKey;
-
-
-    for(qint32 t=0;t<keys.size();t++){
-        strKey.append(keys[t].toString());
+    for(qint32 t=0;t<tempkeys.size();t++){
+        keys.append(tempkeys[t].toString());
     }
-    QList<QString>::iterator j=strKey.begin();
 
-    while(i!=values.end() && j!=strKey.end()){
-        s_authorStac.insert(*j, *i);
-        i++;
-        j++;
-    }
-//        QMap<QString,int>::iterator h=s_authorStac.begin();
-//                //the display of the sorted QMap
-//                while(h!=s_authorStac.end()){
-//                    qDebug() << "[" << h.key()<<"], " <<"[" <<h.value()<<"]" << endl;
-//                    h++;
-//                }
     emit stateChanged(tr("XML file parse successful."));
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
@@ -226,4 +209,33 @@ qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const
 QString Parser::StringRef::toString() const
 {
      return QByteArray::fromRawData(s_data + l, static_cast<int>(r - l));
+}
+
+bool Parser::sortByDesc(QList<StringRef> &a, QList<int> &s,int l,int r) const
+{
+        if (l < r){
+            int i = l, j = r, x = s[l];
+            StringRef y=a[l];
+            while (i < j)
+            {
+                while (i < j && s[j] < x)
+                    j--;
+                if (i < j){
+                    s[i] = s[j];
+                    a[i]=a[j];
+                }
+
+                while (i < j && s[i] >= x)
+                    i++;
+                if (i < j){
+                    s[j] = s[i];
+                    a[j]=a[i];
+                }
+            }
+            s[i] = x;
+            a[i]=y;
+            sortByDesc(a,s, l, i - 1);
+            sortByDesc(a,s, i + 1, r);
+        }
+        return true;
 }
