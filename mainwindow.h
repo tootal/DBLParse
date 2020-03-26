@@ -35,6 +35,8 @@ private slots:
     
     void on_action_Clear_Index_triggered();
     
+    void on_action_Open_Index_Folder_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

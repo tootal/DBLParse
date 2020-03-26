@@ -16,6 +16,7 @@
 #include <QNetworkReply>
 #include <QPushButton>
 #include <QWebChannel>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -136,4 +137,9 @@ void MainWindow::on_action_Clear_Index_triggered()
     m_parser->clearIndex();
     m_finder->clearIndex();
     statusBar()->showMessage(tr("Clear index file successful!"));
+}
+
+void MainWindow::on_action_Open_Index_Folder_triggered()
+{
+    QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
 }

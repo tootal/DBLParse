@@ -14,7 +14,7 @@
    <string>DBLParse</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="DBLParse.qrc">
     <normaloff>:/resources/dblp.png</normaloff>:/resources/dblp.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -59,6 +59,7 @@
      <string>&amp;Tools</string>
     </property>
     <addaction name="action_Clear_Index"/>
+    <addaction name="action_Open_Index_Folder"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -101,6 +102,11 @@
     <string>&amp;Clear Index</string>
    </property>
   </action>
+  <action name="action_Open_Index_Folder">
+   <property name="text">
+    <string>&amp;Open Index Folder</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -110,6 +116,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="DBLParse.qrc"/>
+ </resources>
  <connections/>
 </ui>
