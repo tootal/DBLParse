@@ -60,8 +60,12 @@ void Finder::handleRequest(QUrl url)
     view->setAttribute(Qt::WA_DeleteOnClose);
     QString key = url.path().remove(0, 1);
 //    qDebug() << key;
+    auto list = indexOfKey(key);
+    Q_ASSERT(!list.isEmpty());
+    auto pos = list.at(0);
+    Record record(Util::findRecord(m_fileName, pos));
     auto html = Util::readFile(":/resources/detail.html");
-    html.replace("{{title}}", key);
+    html.replace("{{title}}", record.title());
     qDebug() << html;
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
