@@ -46,16 +46,18 @@ public:
         debug << QByteArray::fromRawData(s_data + s.l, static_cast<int>(s.r - s.l));
         return debug;
     }
-    bool sortByDesc(QList<StringRef> &s,QList<int> &b,int l,int r) const;
-    static QList<QString> returnKeys(){return keys;}
-    static QList<int> returnValues(){return values;}
+    static bool sortByDesc(QPair<StringRef,int> l,QPair<StringRef,int> r){return l.second>r.second;}
+    static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
+//    static QList<QString> returnKeys(){return keys;}
+//    static QList<int> returnValues(){return values;}
 
 private:
     QString m_fileName;
     int m_costMsecs;
     QTime m_timing;
-    static QList<QString> keys;
-    static QList<int> values;
+    static QList<QPair<QString,int> > authorStac;
+//    static QList<QString> keys;
+//    static QList<int> values;
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element

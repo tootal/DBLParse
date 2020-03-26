@@ -245,10 +245,11 @@ void MainWindow::on_authorStacRadioButton_clicked()
     ui->stackedWidget->setCurrentIndex(4);
     ui->keyEdit->setFocus();
 
-    QList<QString> k=Parser::returnKeys();
-    QList<int> v=Parser::returnValues();
+//    QList<QString> k=Parser::returnKeys();
+//    QList<int> v=Parser::returnValues();
+    QList<QPair<QString,int> > authorStac=Parser::returnAuthorStac();
 
-    if(k.isEmpty()||v.isEmpty()){
+    if(authorStac.isEmpty()){
         QMessageBox::information(this, tr("Information"),
                                  tr("please parse first."));
         return ;
@@ -256,23 +257,12 @@ void MainWindow::on_authorStacRadioButton_clicked()
     ui->tableWidget_2->clearContents();
     ui->tableWidget_2->setRowCount(100);
 
-    int num=k.size();
-    if(num<=100){
+    int num=authorStac.size()<=100?authorStac.size():100;
+
         for(qint32 t=0;t<num;t++){
-    //        qDebug()<<h.key();
-            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(k[t]));
-            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(v[t])));
-    //        qDebug()<<h.value();
+            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
+            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
         }
-    }
-    else{
-        for(qint32 t=0;t<100;t++){
-    //        qDebug()<<h.key();
-            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(k[t]));
-            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(v[t])));
-    //        qDebug()<<h.value();
-        }
-    }
 
     ui->tableWidget->resizeRowsToContents();
 }

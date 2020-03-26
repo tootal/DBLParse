@@ -9,8 +9,7 @@
 #include <QList>
 
 char *Parser::s_data;
-QList<QString> Parser::keys;
-QList<int> Parser::values;
+QList<QPair<QString,int> > Parser::authorStac;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -68,15 +67,22 @@ void Parser::parse()
     }
 
 
-    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
-    values=s_authorStacTemp.values();
+//    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
+//    values=s_authorStacTemp.values();
+
+    QList<QPair<Parser::StringRef,int> > temp;
+
+    QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
+    while(it!=s_authorStacTemp.end()){
+        temp.append(qMakePair(it.key(),it.value()));
+    }
 
     s_authorStacTemp.clear();
 
-    sortByDesc(tempkeys,values,0,tempkeys.length()-1);
+    std::sort(temp.begin(),temp.end(),sortByDesc);
 
-    for(qint32 t=0;t<tempkeys.size();t++){
-        keys.append(tempkeys[t].toString());
+    for(qint32 t=0;t<temp.size();t++){
+        authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
     }
 
     emit stateChanged(tr("XML file parse successful."));
@@ -211,31 +217,31 @@ QString Parser::StringRef::toString() const
      return QByteArray::fromRawData(s_data + l, static_cast<int>(r - l));
 }
 
-bool Parser::sortByDesc(QList<StringRef> &a, QList<int> &s,int l,int r) const
-{
-        if (l < r){
-            int i = l, j = r, x = s[l];
-            StringRef y=a[l];
-            while (i < j)
-            {
-                while (i < j && s[j] < x)
-                    j--;
-                if (i < j){
-                    s[i] = s[j];
-                    a[i]=a[j];
-                }
+//bool Parser::sortByDesc(QList<StringRef> &a, QList<int> &s,int l,int r) const
+//{
+//        if (l < r){
+//            int i = l, j = r, x = s[l];
+//            StringRef y=a[l];
+//            while (i < j)
+//            {
+//                while (i < j && s[j] < x)
+//                    j--;
+//                if (i < j){
+//                    s[i] = s[j];
+//                    a[i]=a[j];
+//                }
 
-                while (i < j && s[i] >= x)
-                    i++;
-                if (i < j){
-                    s[j] = s[i];
-                    a[j]=a[i];
-                }
-            }
-            s[i] = x;
-            a[i]=y;
-            sortByDesc(a,s, l, i - 1);
-            sortByDesc(a,s, i + 1, r);
-        }
-        return true;
-}
+//                while (i < j && s[i] >= x)
+//                    i++;
+//                if (i < j){
+//                    s[j] = s[i];
+//                    a[j]=a[i];
+//                }
+//            }
+//            s[i] = x;
+//            a[i]=y;
+//            sortByDesc(a,s, l, i - 1);
+//            sortByDesc(a,s, i + 1, r);
+//        }
+//        return true;
+//}
