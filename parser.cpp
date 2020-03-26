@@ -51,12 +51,15 @@ void Parser::parse()
     emit stateChanged(tr("XML file read successful."));
     QVector<StringRef> authorIndex;
     QVector<StringRef> titleIndex;
+    QVector<StringRef> keyIndex;
     quint32 x = 0;
     while(x < len){
         if(ref[x] == '<'){
             int startsIndex = ref.startsWith(c_recordNames, x + 1);
-            if(startsIndex != -1){
-                
+            if(startsIndex != -1){ // record start
+                StringRef key = readElementAttr(ref, x, "key");
+                keyIndex.append(key);
+//                qDebug() << key;
             }
             if(ref.startsWith("author", x + 1)){
                 StringRef author = readElementText(ref, x);
@@ -73,6 +76,7 @@ void Parser::parse()
     emit stateChanged(tr("XML file parse successful."));
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
+    std::sort(keyIndex.begin(), keyIndex.end());
     emit stateChanged(tr("Index file generated."));
     delete[] s_data;
     file.setFileName("author.dat");
@@ -88,6 +92,14 @@ void Parser::parse()
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, titleIndex){
+        stream << i.l << i.r;
+    }
+    file.close();
+    file.setFileName("key.dat");
+    stream.setDevice(&file);
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    foreach(auto i, keyIndex){
         stream << i.l << i.r;
     }
     file.close();
@@ -132,7 +144,11 @@ Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 fr
     Q_ASSERT(s[0] == '<');
     quint32 i = 1;
     while(!s.startsWith(key, i)) ++i;
-    while()
+    while(s[i] != '\"') ++i;
+    ++i;
+    quint32 j = i;
+    while(s[j] != '\"') ++j;
+    return s.mid(i, j - i);
 }
 
 int Parser::costMsecs()
