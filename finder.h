@@ -26,7 +26,8 @@ signals:
 private:
     QString m_fileName;
     QString getJson(const QList<quint32> &posList) ;
-    
+
+public:
     static QFile *s_file;
     static Parser::StringRef *s_authorIndex;
     static Parser::StringRef *s_titleIndex;

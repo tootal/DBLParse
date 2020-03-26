@@ -22,6 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     finder.cpp \
+    loader.cpp \
     main.cpp \
     mainwindow.cpp \
     parsedialog.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
     finder.h \
+    loader.h \
     mainwindow.h \
     parsedialog.h \
     parser.h \

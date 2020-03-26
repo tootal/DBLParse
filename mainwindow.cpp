@@ -6,6 +6,7 @@
 #include "record.h"
 #include "finder.h"
 #include "webpage.h"
+#include "loader.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -26,21 +27,33 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(ui->webview);
 
     m_parser = new Parser(this);
+    connect(m_parser, &Parser::done,
+            this, &MainWindow::load);
+    
     m_finder = new Finder(this);
+    m_loader = new Loader(this);
+    connect(m_loader, &Loader::stateChanged,
+            this, [this](const QString &state){
+        statusBar()->showMessage(state); 
+    });
+    connect(m_loader, &Loader::loadDone,
+            this, [this](){
+        statusBar()->showMessage(tr("Load done."), 3000); 
+    });
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
     
-    Finder::init();
-    connect(m_parser, &Parser::done,
-            m_finder, &Finder::init);
+    load();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    m_loader->quit();
+    m_loader->wait();
     m_parser->quit();
     m_parser->wait();
 }
@@ -142,4 +155,10 @@ void MainWindow::on_action_Clear_Index_triggered()
 void MainWindow::on_action_Open_Index_Folder_triggered()
 {
     QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
+}
+
+void MainWindow::load()
+{
+    m_loader->start();
+    Finder::init();
 }

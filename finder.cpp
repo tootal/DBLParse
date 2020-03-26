@@ -2,6 +2,7 @@
 #include "record.h"
 #include "webpage.h"
 #include "webview.h"
+#include "loader.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -147,37 +148,6 @@ QString Finder::getJson(const QList<quint32> &posList)
 }
 void Finder::init()
 {
-    if(!parsed()) return ;
-    QFile file("author.dat");
-    file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
-    QDataStream stream(&file);
-    s_authorIndexs = static_cast<quint32>(file.size() >> 3);
-    s_authorIndex = new Parser::StringRef[s_authorIndexs];
-    for(quint32 i = 0; i < s_authorIndexs; ++i){
-        stream >> s_authorIndex[i].l >> s_authorIndex[i].r;
-    }
-    file.close();
-    file.setFileName("title.dat");
-    file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
-    stream.setDevice(&file);
-    s_titleIndexs = static_cast<quint32>(file.size() >> 3);
-    s_titleIndex = new Parser::StringRef[s_titleIndexs];
-    for(quint32 i = 0; i < s_titleIndexs; ++i){
-        stream >> s_titleIndex[i].l >> s_titleIndex[i].r;
-    }
-    file.close();
-    file.setFileName("key.dat");
-    file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
-    stream.setDevice(&file);
-    s_keyIndexs = static_cast<quint32>(file.size() >> 3);
-    s_keyIndex = new Parser::StringRef[s_keyIndexs];
-    for(quint32 i = 0; i < s_keyIndexs; ++i){
-        stream >> s_keyIndex[i].l >> s_keyIndex[i].r;
-    }
-    file.close();
     if(s_file != nullptr){
         if(s_file->isOpen()) s_file->close();
         delete s_file;
