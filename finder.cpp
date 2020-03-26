@@ -14,8 +14,10 @@
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
+Parser::StringRef *Finder::s_keyIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
+quint32 Finder::s_keyIndexs = 0;
 QFile *Finder::s_file = nullptr;
 
 Finder::Finder(QObject *parent) : QObject(parent)
@@ -67,15 +69,19 @@ void Finder::handleRequest(QUrl url)
 
 bool Finder::parsed()
 {
-    return QFile("author.dat").exists() && QFile("title.dat").exists();
+    return QFile("author.dat").exists() 
+            && QFile("title.dat").exists()
+            && QFile("key.dat").exists();
 }
 
 void Finder::clearIndex()
 {
     delete s_authorIndex;
     delete s_titleIndex;
+    delete s_keyIndex;
     s_authorIndex = nullptr;
     s_titleIndex = nullptr;
+    s_keyIndex = nullptr;
 }
 
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
@@ -94,6 +100,17 @@ QList<quint32> Finder::indexOfTitle(const QString &title) const
     QList<quint32> list;
     if(s_titleIndex == nullptr) return list;
     auto range = equalRange(s_titleIndex, s_titleIndex + s_titleIndexs, title);
+    for(auto i = range.first; i != range.second; ++i){
+        list.append(i->l);
+    }
+    return list;
+}
+
+QList<quint32> Finder::indexOfKey(const QString &key) const
+{
+    QList<quint32> list;
+    if(s_keyIndex == nullptr) return list;
+    auto range = equalRange(s_keyIndex, s_keyIndex + s_keyIndexs, key);
     for(auto i = range.first; i != range.second; ++i){
         list.append(i->l);
     }
@@ -145,6 +162,16 @@ void Finder::init()
     s_titleIndex = new Parser::StringRef[s_titleIndexs];
     for(quint32 i = 0; i < s_titleIndexs; ++i){
         stream >> s_titleIndex[i].l >> s_titleIndex[i].r;
+    }
+    file.close();
+    file.setFileName("key.dat");
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+    stream.setDevice(&file);
+    s_keyIndexs = static_cast<quint32>(file.size() >> 3);
+    s_keyIndex = new Parser::StringRef[s_keyIndexs];
+    for(quint32 i = 0; i < s_keyIndexs; ++i){
+        stream >> s_keyIndex[i].l >> s_keyIndex[i].r;
     }
     file.close();
     if(s_file != nullptr){

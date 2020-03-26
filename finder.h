@@ -17,6 +17,7 @@ public:
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
+    QList<quint32> indexOfKey(const QString &key) const;
     
 signals:
     void ready(const QString &data);
@@ -29,8 +30,10 @@ private:
     static QFile *s_file;
     static Parser::StringRef *s_authorIndex;
     static Parser::StringRef *s_titleIndex;
+    static Parser::StringRef *s_keyIndex;
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
+    static quint32 s_keyIndexs;
     static QString readText(const Parser::StringRef &ref);
     // thanks to stl algo
     static QPair<const Parser::StringRef*, const Parser::StringRef*>
