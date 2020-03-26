@@ -131,9 +131,8 @@ Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 fr
     StringRef s = r.mid(from);
     Q_ASSERT(s[0] == '<');
     quint32 i = 1;
-    while(s.startsWith(key, i)){
-        
-    }
+    while(!s.startsWith(key, i)) ++i;
+    while()
 }
 
 int Parser::costMsecs()
