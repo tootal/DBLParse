@@ -253,6 +253,7 @@ void MainWindow::on_authorStacRadioButton_clicked()
     QMap<QString,int>::iterator h=authorStac.begin();
     qint32 num=0;
     while(h!=authorStac.end()&&num<100){
+//        qDebug()<<h.key();
         ui->tableWidget_2->setItem(num, 0, new QTableWidgetItem(h.key()));
         ui->tableWidget_2->setItem(num, 1, new QTableWidgetItem(QString::number(h.value())));
 //        qDebug()<<h.value();

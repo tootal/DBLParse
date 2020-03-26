@@ -40,7 +40,7 @@ public:
         StringRef mid(quint32 pos, quint32 len) const;
         bool startsWith(const char *str, quint32 from = 0) const;
         qint32 indexOf(const char *str, quint32 from = 0) const;
-        QString toString();
+        QString toString() const;
     };
     friend QDebug operator<<(QDebug debug, const StringRef &s){
         debug << QByteArray::fromRawData(s_data + s.l, static_cast<int>(s.r - s.l));
