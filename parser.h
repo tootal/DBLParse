@@ -22,7 +22,6 @@ public:
     void setFileName(const QString &fileName);
     int costMsecs();
     static void clearIndex();
-    const static QStringList c_recordNames;
 signals:
     void stateChanged(const QString &state);
     void done();
