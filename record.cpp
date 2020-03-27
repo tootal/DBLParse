@@ -22,6 +22,13 @@ Record::Record(const QString &s, QObject *parent)
         m_editors << editor;
     }
     
+    re.setPattern(R"(<cite.*?>(.+)<\/cite>)");
+    i = re.globalMatch(s);
+    while(i.hasNext()){
+        QString cite = i.next().captured(1);
+        m_cites << cite;
+    }
+    
     re.setPattern(R"#(mdate\s*=\s*"((?:\d{4})-(?:\d{2})-(?:\d{2}))")#");
     auto m = re.match(s);
     Q_ASSERT(m.hasMatch());
@@ -46,6 +53,20 @@ Record::Record(const QString &s, QObject *parent)
     m_volume = capture("volume");
     m_ee = Util::formatUrl(capture("ee"));
     m_url = Util::formatUrl(capture("url"));
+    m_booktitle = capture("booktitle");
+    m_series = capture("series");
+    m_pages = capture("pages");
+    m_note = capture("note");
+    m_address = capture("address");
+    m_number = capture("number");
+    m_month = capture("month");
+    m_cdrom = capture("cdrom");
+    m_publisher = capture("publisher");
+    m_crossref = capture("crossref");
+    m_isbn = capture("isbn");
+    m_school = capture("school");
+    m_chapter = capture("chapter");
+    m_publnr = capture("publnr");
 }
 
 QString Record::capture(const QString &tag) const
@@ -109,4 +130,79 @@ QString Record::url() const
 QStringList Record::editors() const
 {
     return m_editors;
+}
+
+QString Record::booktitle() const
+{
+    return m_booktitle;
+}
+
+QString Record::series() const
+{
+    return m_series;
+}
+
+QString Record::pages() const
+{
+    return m_pages;
+}
+
+QString Record::note() const
+{
+    return m_note;
+}
+
+QString Record::address() const
+{
+    return m_address;
+}
+
+QString Record::number() const
+{
+    return m_number;
+}
+
+QString Record::month() const
+{
+    return m_month;
+}
+
+QString Record::cdrom() const
+{
+    return m_cdrom;
+}
+
+QStringList Record::cites() const
+{
+    return m_cites;
+}
+
+QString Record::publisher() const
+{
+    return m_publisher;
+}
+
+QString Record::crossref() const
+{
+    return m_crossref;
+}
+
+QString Record::isbn() const
+{
+    return m_isbn;
+}
+
+QString Record::school() const
+{
+    return m_school;
+}
+
+QString Record::chapter() const
+{
+    return m_chapter;
+}
+
+QString Record::publnr() const
+{
+    return m_publnr;
 }

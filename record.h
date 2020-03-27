@@ -22,6 +22,22 @@ public:
     QString ee() const;
     QString url() const;
     QStringList editors() const;
+    QString booktitle() const;
+    QString series() const;
+    QString pages() const;
+    QString note() const;
+    QString address() const;
+    QString number() const;
+    QString month() const;
+    QString cdrom() const;
+    QStringList cites() const;
+    QString publisher() const;
+    QString crossref() const;
+    QString isbn() const;
+    QString school() const;
+    QString chapter() const;
+    QString publnr() const;
+    
 private:
     QString m_src;
     QString m_name;
@@ -35,6 +51,21 @@ private:
     QString m_ee;
     QString m_url;
     QStringList m_editors;
+    QString m_booktitle;
+    QString m_series;
+    QString m_pages;
+    QString m_note;
+    QString m_address;
+    QString m_number;
+    QString m_month;
+    QString m_cdrom;
+    QStringList m_cites;
+    QString m_publisher;
+    QString m_crossref;
+    QString m_isbn;
+    QString m_school;
+    QString m_chapter;
+    QString m_publnr;
 };
 
 #endif // RECORD_H
