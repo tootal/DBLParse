@@ -87,3 +87,15 @@ void Util::htmlRender(QString &html, const QString &flag, const QString &holder,
     if(templ.contains("%1")) templ = templ.arg(flag);
     html.replace(QString("<!-- %1_holder -->").arg(holder), templ);
 }
+
+void Util::htmlRender(QString &html, const QStringList &flags, const QString &holder, QString templ)
+{
+    if(flags.isEmpty()) return ;
+    QString templs;
+    foreach(auto flag, flags){
+        auto t = templ;
+        if(t.contains("%1")) t = t.arg(flag);
+        templs.append(t);
+    }
+    html.replace(QString("<!-- %1_holder -->").arg(holder), templs);
+}

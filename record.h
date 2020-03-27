@@ -21,6 +21,7 @@ public:
     QStringList authors() const;
     QString ee() const;
     QString url() const;
+    QStringList editors() const;
 private:
     QString m_src;
     QString m_name;
@@ -33,6 +34,7 @@ private:
     QString m_volume;
     QString m_ee;
     QString m_url;
+    QStringList m_editors;
 };
 
 #endif // RECORD_H

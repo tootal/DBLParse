@@ -19,6 +19,10 @@ public:
                               const QString &flag,
                               const QString &holder,
                               QString templ);
+    static void htmlRender(QString &html, 
+                              const QStringList &flags,
+                              const QString &holder,
+                              QString templ);
 };
 
 #endif // UTIL_H

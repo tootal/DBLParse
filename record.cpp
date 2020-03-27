@@ -15,6 +15,13 @@ Record::Record(const QString &s, QObject *parent)
         m_authors << author;
     }
     
+    re.setPattern(R"(<editor.*?>(.+)<\/editor>)");
+    i = re.globalMatch(s);
+    while(i.hasNext()){
+        QString editor = i.next().captured(1);
+        m_editors << editor;
+    }
+    
     re.setPattern(R"#(mdate\s*=\s*"((?:\d{4})-(?:\d{2})-(?:\d{2}))")#");
     auto m = re.match(s);
     Q_ASSERT(m.hasMatch());
@@ -97,4 +104,9 @@ QString Record::ee() const
 QString Record::url() const
 {
     return m_url;
+}
+
+QStringList Record::editors() const
+{
+    return m_editors;
 }
