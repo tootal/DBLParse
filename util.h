@@ -13,6 +13,12 @@ public:
     static QString findRecord(const QString &fileName, quint32 pos);
     static QString readFile(const QString &fileName);
     static QString getXmlFileName();
+    static QString formatUrl(const QString &url);
+    // render <!-- something_holder --> in html if flag is not empty
+    static void htmlRender(QString &html, 
+                              const QString &flag,
+                              const QString &holder,
+                              QString templ);
 };
 
 #endif // UTIL_H

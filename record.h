@@ -17,7 +17,10 @@ public:
     QString name() const;
     QString year() const;
     QString journal() const;
+    QString volume() const;
     QStringList authors() const;
+    QString ee() const;
+    QString url() const;
 private:
     QString m_src;
     QString m_name;
@@ -27,6 +30,9 @@ private:
     QStringList m_authors;
     QString m_title;
     QString m_journal;
+    QString m_volume;
+    QString m_ee;
+    QString m_url;
 };
 
 #endif // RECORD_H

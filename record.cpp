@@ -1,4 +1,5 @@
 #include "record.h"
+#include "util.h"
 
 #include <QDebug>
 #include <QRegularExpression>
@@ -34,6 +35,10 @@ Record::Record(const QString &s, QObject *parent)
     
     m_title = capture("title");
     m_year = capture("year");
+    m_journal = capture("journal");
+    m_volume = capture("volume");
+    m_ee = Util::formatUrl(capture("ee"));
+    m_url = Util::formatUrl(capture("url"));
 }
 
 QString Record::capture(const QString &tag) const
@@ -69,7 +74,27 @@ QString Record::year() const
     return m_year;
 }
 
+QString Record::journal() const
+{
+    return m_journal;
+}
+
+QString Record::volume() const
+{
+    return m_volume;
+}
+
 QStringList Record::authors() const
 {
     return m_authors;
+}
+
+QString Record::ee() const
+{
+    return m_ee;
+}
+
+QString Record::url() const
+{
+    return m_url;
 }

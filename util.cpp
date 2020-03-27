@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QRegularExpression>
 #include <QSettings>
+#include <QUrl>
 
 QString Util::formatTime(int ms)
 {
@@ -71,4 +72,18 @@ QString Util::getXmlFileName()
     QSettings settings;
     Q_ASSERT(settings.contains("lastOpenFileName"));
     return settings.value("lastOpenFileName").toString();
+}
+
+QString Util::formatUrl(const QString &url)
+{
+    if(url.isEmpty()) return url;
+    if(QUrl(url).isRelative()) return "https://dblp.uni-trier.de/" + url;
+    else return url;
+}
+
+void Util::htmlRender(QString &html, const QString &flag, const QString &holder, QString templ)
+{
+    if(flag.isNull() || flag.isEmpty()) return ;
+    if(templ.contains("%1")) templ = templ.arg(flag);
+    html.replace(QString("<!-- %1_holder -->").arg(holder), templ);
 }
