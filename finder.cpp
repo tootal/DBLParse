@@ -23,9 +23,6 @@ QFile *Finder::s_file = nullptr;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
-    QSettings settings;
-    Q_ASSERT(settings.contains("lastOpenFileName"));
-    m_fileName = settings.value("lastOpenFileName").toString();
 }
 
 void Finder::find(const QString &word, const QString &type)
@@ -43,7 +40,7 @@ void Finder::find(const QString &word, const QString &type)
         QSet<QString> coauthors;
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
-            Record record(Util::findRecord(m_fileName, pos));
+            Record record(Util::findRecord(Util::getXmlFileName(), pos));
             foreach(auto author, record.authors()){
                 coauthors.insert(author);
             }
@@ -64,7 +61,7 @@ void Finder::handleRequest(QUrl url)
     auto list = indexOfKey(key);
     Q_ASSERT(!list.isEmpty());
     auto pos = list.at(0);
-    Record record(Util::findRecord(m_fileName, pos));
+    Record record(Util::findRecord(Util::getXmlFileName(), pos));
     auto html = Util::readFile(":/resources/detail.html");
     html.replace("{{title}}", record.title());
 //    qDebug() << html;
@@ -135,7 +132,7 @@ QString Finder::getJson(const QList<quint32> &posList)
     QJsonArray array;
     for(int i = 0; i < posList.size(); ++i){
         auto pos = posList.at(i);
-        Record record(Util::findRecord(m_fileName, pos));
+        Record record(Util::findRecord(Util::getXmlFileName(), pos));
         QJsonObject o;
         o.insert("title", record.title());
         o.insert("year", record.year());
@@ -153,11 +150,7 @@ void Finder::init()
         delete s_file;
         s_file = nullptr;
     }
-    
-    QSettings settings;
-    Q_ASSERT(settings.contains("lastOpenFileName"));
-    QString fileName = settings.value("lastOpenFileName").toString();
-    s_file = new QFile(fileName);
+    s_file = new QFile(Util::getXmlFileName());
     s_file->open(QFile::ReadOnly);
 }
 

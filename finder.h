@@ -24,7 +24,6 @@ signals:
     void detailReady(const QString &data);
     
 private:
-    QString m_fileName;
     QString getJson(const QList<quint32> &posList) ;
 
 public:

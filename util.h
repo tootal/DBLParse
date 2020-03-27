@@ -12,6 +12,7 @@ public:
     static QString readAround(const QString &fileName, quint32 &pos);
     static QString findRecord(const QString &fileName, quint32 pos);
     static QString readFile(const QString &fileName);
+    static QString getXmlFileName();
 };
 
 #endif // UTIL_H

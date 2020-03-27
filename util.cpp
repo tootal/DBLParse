@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QRegularExpression>
+#include <QSettings>
 
 QString Util::formatTime(int ms)
 {
@@ -29,6 +30,7 @@ QString Util::readAround(const QString &fileName, quint32 &pos)
     file.seek(beginPos);
     QString data = file.read(BUF_SZ << 1);
     if(data.isEmpty()){
+        qDebug() << fileName;
         qDebug() << pos;
         qDebug() << beginPos;
     }
@@ -62,4 +64,11 @@ QString Util::readFile(const QString &fileName)
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
     return file.readAll();
+}
+
+QString Util::getXmlFileName()
+{
+    QSettings settings;
+    Q_ASSERT(settings.contains("lastOpenFileName"));
+    return settings.value("lastOpenFileName").toString();
 }
