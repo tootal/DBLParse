@@ -42,41 +42,23 @@ void Parser::parse()
     QVector<StringRef> keyIndex;
     quint32 x = 0;
     while(x < len){
-        if(ref[x] == '<'){
-            if(ref[x + 1] == '?'){ // document
-                x += 2;
-                while(ref[x - 1] != '>' || ref[x - 2] != '?') ++x;
-            }else if(ref[x + 1] == '!'){ // dtd
-                while(ref[x - 1] != '>') ++x;
-            }else if(ref.startsWith("dblp", x + 1)){ // root element
-                ++x;
-                while(ref[x] != '<') ++x;
-                while(x < len){
-                    if(ref[x] == '<'){ // record element
-                        ++x;
-                        while(ref[x] != ' ' || ref[x] != '>') ++x;
-                        while(!ref.startsWith("key=\"", x)) ++x;
-                        x += 5;
-                        StringRef key;
-                        key.l = x;
-                        while(ref[x] != '\"') ++x;
-                        key.r = x;
-                    }
-                }
-                if(startsIndex != -1){ // record start
-                    StringRef key = readElementAttr(ref, x, "key");
-                    keyIndex.append(key);
-    //                qDebug() << key;
-                }
-                if(ref.startsWith("author", x + 1)){
-                    StringRef author = readElementText(ref, x);
-                    authorIndex.append(author);
-    //                qDebug() << author;
-                }else if(ref.startsWith("title", x + 1)){
-                    StringRef title = readElementText(ref, x);
-                    titleIndex.append(title);
-    //                qDebug() << title;
-                }
+        if(ref.startsWith("key=\"", x)){
+            x += 5;
+            StringRef key;
+            key.l = x;
+            while(ref[x] != '\"') ++x;
+            key.r = x;
+            keyIndex.append(key);
+//            qDebug() << key;
+        }else if(ref[x] == '<'){
+            if(ref.startsWith("author", x + 1)){
+                StringRef author = readElementText(ref, x);
+                authorIndex.append(author);
+//                qDebug() << author;
+            }else if(ref.startsWith("title", x + 1)){
+                StringRef title = readElementText(ref, x);
+                titleIndex.append(title);
+//                qDebug() << title;
             }
         }
         ++x;
