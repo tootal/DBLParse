@@ -1,4 +1,4 @@
-var disable_word = [
+var disable_title_word = [
     'Home Page'
 ];
 
@@ -10,8 +10,10 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
 function search() {
     var word = document.getElementById('word').value;
     var type = document.getElementById('type').value;
-    if(disable_word.indexOf(word) == -1) finder.find(word, type);
-    else document.getElementById('result').innerHTML = 'NOT FOUND!';
+    if(type == 'title' && disable_title_word.indexOf(word) != -1)
+        document.getElementById('result').innerHTML = 'NOT FOUND!';
+    else 
+        finder.find(word, type);
 }
 
 function searchAuthor(author){
