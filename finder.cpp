@@ -63,7 +63,12 @@ void Finder::handleRequest(QUrl url)
     auto pos = list.at(0);
     Record record(Util::findRecord(Util::getXmlFileName(), pos));
     auto html = Util::readFile(":/resources/detail.html");
-    html.replace("{{title}}", record.title());
+    html.replace("title_holder", record.title());
+    QString authors;
+    foreach(auto author, record.authors()){
+        authors.append("<li>" + author + "</li>");
+    }
+    html.replace("<!-- authors_holder -->", authors);
 //    qDebug() << html;
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
