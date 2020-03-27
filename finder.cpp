@@ -18,7 +18,7 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 bool Finder::parsed()
 {
-    return QFile("author.dat").exists() && QFile("title.dat").exists();
+    return QFile("author.dat").exists() && QFile("title.dat").exists() && QFile("authorStac.dat").exists();
 }
 
 void Finder::clearIndex()
@@ -87,10 +87,10 @@ void Finder::init()
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
 //    stream.setDevice(&file);
-     QTextStream in(&file);
+     QDataStream in(&file);
     QPair<QString,int>   tempAuthorStac;
     while(!in.atEnd()){
-        stream >> tempAuthorStac.first >> tempAuthorStac.second;
+        in >> tempAuthorStac.first >> tempAuthorStac.second;
         authorStac.append(tempAuthorStac);
     }
     file.close();

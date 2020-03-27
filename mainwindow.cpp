@@ -255,9 +255,9 @@ void MainWindow::on_authorStacRadioButton_clicked()
         return ;
     }
     ui->tableWidget_2->clearContents();
-    ui->tableWidget_2->setRowCount(100);
 
     int num=authorStac.size()<=100?authorStac.size():100;
+    ui->tableWidget_2->setRowCount(num);
 
         for(qint32 t=0;t<num;t++){
             ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
