@@ -48,6 +48,7 @@ void Finder::find(const QString &word, const QString &type)
         coauthors.remove(word);
         result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
     }
+//    qDebug() << result;
     emit ready(result);
 }
 
@@ -164,7 +165,8 @@ QString Finder::getJson(const QList<quint32> &posList)
         o.insert("key", record.key());
         array.append(o);
     }
-    return QJsonDocument(array).toJson();
+    auto ret = QJsonDocument(array).toJson();
+    return ret;
 }
 void Finder::init()
 {
