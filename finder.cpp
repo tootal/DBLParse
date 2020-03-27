@@ -3,6 +3,7 @@
 #include "webpage.h"
 #include "webview.h"
 #include "loader.h"
+#include "detailview.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -54,7 +55,7 @@ void Finder::find(const QString &word, const QString &type)
 
 void Finder::handleRequest(QUrl url)
 {
-    QWebEngineView *view = new QWebEngineView;
+    DetailView *view = new DetailView;
     view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
     view->setAttribute(Qt::WA_DeleteOnClose);
     QString key = url.path().remove(0, 1);

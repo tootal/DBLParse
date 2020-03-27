@@ -53,14 +53,12 @@ var handleSearch = function(data) {
     for(var i = 0; i < json.length; ++i){
         var tr = $('<tr>');
         tr.innerHTML += '<td> <a href="dblp://key/'+ json[i].key +'">' + json[i].title + '</a> </td>';
-        if(ele_type.value == 'author'){
-            let ref = json[i].authors;
-            for(var j = 0; j < ref.length; ++j){
-                if(ref[j] == ele_word.value){
-                    ref[j] = '<span class="search-author">' + ref[j] + '</span>';
-                }else{
-                    ref[j] = '<span class="search-author-other" onclick="searchAuthor(this)">' + ref[j] + '</span>';
-                }
+        let ref = json[i].authors;
+        for(var j = 0; j < ref.length; ++j){
+            if(ele_type == 'title' || ref[j] != ele_word.value){
+                ref[j] = '<span class="search-author-other" onclick="searchAuthor(this)">' + ref[j] + '</span>';
+            }else{
+                ref[j] = '<span class="search-author">' + ref[j] + '</span>';
             }
         }
         tr.innerHTML += '<td>' + json[i].authors.join('; ') + '</td>';
