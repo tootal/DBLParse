@@ -9,6 +9,7 @@ Parser::StringRef *Finder::s_titleIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
+QList<QPair<QString,int> >  Finder::authorStac;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -80,6 +81,21 @@ void Finder::init()
         stream >> s_titleIndex[i].l >> s_titleIndex[i].r;
     }
     file.close();
+
+    authorStac.clear();
+    file.setFileName("authorStac.dat");
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+//    stream.setDevice(&file);
+     QTextStream in(&file);
+    QPair<QString,int>   tempAuthorStac;
+    while(!in.atEnd()){
+        stream >> tempAuthorStac.first >> tempAuthorStac.second;
+        authorStac.append(tempAuthorStac);
+    }
+    file.close();
+
+
     if(s_file != nullptr){
         if(s_file->isOpen()) s_file->close();
         delete s_file;

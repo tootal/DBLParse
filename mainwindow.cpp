@@ -247,7 +247,7 @@ void MainWindow::on_authorStacRadioButton_clicked()
 
 //    QList<QString> k=Parser::returnKeys();
 //    QList<int> v=Parser::returnValues();
-    QList<QPair<QString,int> > authorStac=Parser::returnAuthorStac();
+    QList<QPair<QString,int> > authorStac=m_finder->returnAuthorStac();
 
     if(authorStac.isEmpty()){
         QMessageBox::information(this, tr("Information"),

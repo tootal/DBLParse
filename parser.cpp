@@ -109,6 +109,18 @@ void Parser::parse()
         stream << i.l << i.r;
     }
     file.close();
+
+    file.setFileName("authorStac.dat");
+    stream.setDevice(&file);
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    int num=authorStac.size()<=100?authorStac.size():100;
+    for(int i=0;i<num;i++){
+        stream << authorStac[i].first << authorStac[i].second;
+    }
+    file.close();
+    authorStac.clear();
+
     emit stateChanged(tr("Index file saved."));
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
