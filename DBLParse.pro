@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    authorstacdialog.cpp \
     finder.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     util.cpp
 
 HEADERS += \
+    authorstacdialog.h \
     finder.h \
     mainwindow.h \
     parsedialog.h \
@@ -40,6 +42,7 @@ HEADERS += \
     util.h
 
 FORMS += \
+    authorstacdialog.ui \
     mainwindow.ui \
     parsedialog.ui \
     settingsdialog.ui

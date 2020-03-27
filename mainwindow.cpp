@@ -6,6 +6,7 @@
 #include "record.h"
 #include "finder.h"
 #include "settingsdialog.h"
+#include "authorstacdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -207,7 +208,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
-    ui->tableWidget_2->setColumnWidth(0, static_cast<int>(width() * 0.5));
 }
 
 void MainWindow::on_authorRadioButton_clicked()
@@ -240,35 +240,39 @@ void MainWindow::on_fuzzyRadioButton_clicked()
     ui->stackedWidget->setCurrentIndex(3);
     ui->keyEdit->setFocus();
 }
-void MainWindow::on_authorStacRadioButton_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(4);
-    ui->keyEdit->setFocus();
+//void MainWindow::on_authorStacRadioButton_clicked()
+//{
+//    ui->stackedWidget->setCurrentIndex(4);
+//    ui->keyEdit->setFocus();
 
-//    QList<QString> k=Parser::returnKeys();
-//    QList<int> v=Parser::returnValues();
-    QList<QPair<QString,int> > authorStac=m_finder->returnAuthorStac();
+//    QList<QPair<QString,int> > authorStac=m_finder->returnAuthorStac();
 
-    if(authorStac.isEmpty()){
-        QMessageBox::information(this, tr("Information"),
-                                 tr("please parse first."));
-        return ;
-    }
-    ui->tableWidget_2->clearContents();
+//    if(authorStac.isEmpty()){
+//        QMessageBox::information(this, tr("Information"),
+//                                 tr("please parse first."));
+//        return ;
+//    }
+//    ui->tableWidget_2->clearContents();
 
-    int num=authorStac.size()<=100?authorStac.size():100;
-    ui->tableWidget_2->setRowCount(num);
+//    int num=authorStac.size()<=100?authorStac.size():100;
+//    ui->tableWidget_2->setRowCount(num);
 
-        for(qint32 t=0;t<num;t++){
-            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
-            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
-        }
+//        for(qint32 t=0;t<num;t++){
+//            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
+//            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
+//        }
 
-    ui->tableWidget->resizeRowsToContents();
-}
+//    ui->tableWidget->resizeRowsToContents();
+//}
 
 void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->open();
+}
+
+void MainWindow::on_actionAuthorStac_triggered()
+{
+    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
     dialog->open();
 }
