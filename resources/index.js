@@ -44,7 +44,7 @@ var handleSearch = function(data) {
     if(ele_type.value == 'coauthor') {
         ele_result.innerHTML = '<tr> <th>Co-Author(s)</th> </tr>';
         for(var i = 0; i < json.length; ++i){
-            ele_result.innerHTML += '<td>' + json[i] + '</td>';
+            ele_result.innerHTML += '<td class="search-author-other" onclick="searchAuthor(this)">' + json[i] + '</td>';
         }
         return ;
     }
