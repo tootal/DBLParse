@@ -38,6 +38,13 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
         for(var i = 0; i < json.length; ++i){
             var tr = document.createElement('tr');
             tr.innerHTML += '<td> <a href="dblp://key/'+ json[i].key +'">' + json[i].title + '</a> </td>';
+            if(document.getElementById('type').value == 'author'){
+                for(var j = 0; j < json[i].authors.length; ++j){
+                    if(json[i].authors[j] == document.getElementById('word').value){
+                        json[i].authors[j] = '<b>' + json[i].authors[j] + '</b>';
+                    }
+                }
+            }
             tr.innerHTML += '<td>' + json[i].authors.join('; ') + '</td>';
             tr.innerHTML += '<td>' + json[i].year + '</td>';
             table.appendChild(tr);
