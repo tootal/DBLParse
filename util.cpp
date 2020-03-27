@@ -28,6 +28,11 @@ QString Util::readAround(const QString &fileName, quint32 &pos)
     auto beginPos = pos < BUF_SZ ? 0 : pos - BUF_SZ;
     file.seek(beginPos);
     QString data = file.read(BUF_SZ << 1);
+    if(data.isEmpty()){
+        qDebug() << pos;
+        qDebug() << beginPos;
+    }
+    Q_ASSERT(!data.isEmpty());
     pos -= beginPos;
     file.close();
     return data;
