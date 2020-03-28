@@ -46,5 +46,20 @@ void Loader::run()
         stream >> Finder::s_keyIndex[i].l >> Finder::s_keyIndex[i].r;
     }
     file.close();
+
+    Finder::authorStac.clear();
+    emit stateChanged(tr("Loading key index..."));
+    file.setFileName("authorStac.dat");
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+//    stream.setDevice(&file);
+     QDataStream in(&file);
+    QPair<QString,int>   tempAuthorStac;
+    while(!in.atEnd()){
+        in >> tempAuthorStac.first >> tempAuthorStac.second;
+        Finder::authorStac.append(tempAuthorStac);
+    }
+    file.close();
+
     emit loadDone();
 }

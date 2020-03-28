@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     detailpage.cpp \
     detailview.cpp \
+    authorstacdialog.cpp \
     finder.cpp \
     loader.cpp \
     main.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 HEADERS += \
     detailpage.h \
     detailview.h \
+    authorstacdialog.h \
     finder.h \
     loader.h \
     mainwindow.h \
@@ -48,6 +50,7 @@ HEADERS += \
     webview.h
 
 FORMS += \
+    authorstacdialog.ui \
     mainwindow.ui \
     parsedialog.ui
 

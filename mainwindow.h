@@ -38,6 +38,8 @@ private slots:
     
     void on_action_Open_Index_Folder_triggered();
     
+    void on_actionAuthorStac_triggered();
+
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

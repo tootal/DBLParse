@@ -5,8 +5,11 @@
 #include <QDataStream>
 #include <QTime>
 #include <QDebug>
+#include<QMap>
+#include <QList>
 
 char *Parser::s_data;
+QList<QPair<QString,int> > Parser::authorStac;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -44,6 +47,7 @@ void Parser::parse()
     QVector<StringRef> titleIndex;
     QVector<StringRef> keyIndex;
     quint32 x = 0;
+    QMap<StringRef,int> s_authorStacTemp;
     while(x < len){
         if(ref.startsWith("key=\"", x)){
             x += 5;
@@ -56,6 +60,13 @@ void Parser::parse()
         }else if(ref[x] == '<'){
             if(ref.startsWith("author", x + 1)){
                 StringRef author = readElementText(ref, x);
+                if(!s_authorStacTemp.contains(author)){
+                    s_authorStacTemp.insert(author,1);
+                }
+                else{
+                    s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
+//                    qDebug()<<s_authorStacTemp.find(author).key();
+                }
                 authorIndex.append(author);
 //                qDebug() << author;
             }else if(ref.startsWith("title", x + 1)){
@@ -69,6 +80,29 @@ void Parser::parse()
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("XML file parse successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
+
+
+//    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
+//    values=s_authorStacTemp.values();
+
+    QList<QPair<Parser::StringRef,int> > temp;
+
+    QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
+    while(it!=s_authorStacTemp.end()){
+        temp.append(qMakePair(it.key(),it.value()));
+        it++;
+    }
+
+    s_authorStacTemp.clear();
+
+    std::sort(temp.begin(),temp.end(),sortByDesc);
+
+    authorStac.clear();
+
+    for(qint32 t=0;t<temp.size();t++){
+        authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
+    }
+
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
     std::sort(keyIndex.begin(), keyIndex.end());
@@ -100,6 +134,18 @@ void Parser::parse()
         stream << i.l << i.r;
     }
     file.close();
+
+    file.setFileName("authorStac.dat");
+    stream.setDevice(&file);
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    int num=authorStac.size()<=100?authorStac.size():100;
+    for(int i=0;i<num;i++){
+        stream << authorStac[i].first << authorStac[i].second;
+    }
+    file.close();
+    authorStac.clear();
+
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));

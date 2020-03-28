@@ -7,7 +7,7 @@
 #include "finder.h"
 #include "webpage.h"
 #include "loader.h"
-
+#include "authorstacdialog.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
@@ -156,9 +156,39 @@ void MainWindow::on_action_Open_Index_Folder_triggered()
 {
     QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
 }
+//void MainWindow::on_authorStacRadioButton_clicked()
+//{
+//    ui->stackedWidget->setCurrentIndex(4);
+//    ui->keyEdit->setFocus();
+
+//    QList<QPair<QString,int> > authorStac=m_finder->returnAuthorStac();
+
+//    if(authorStac.isEmpty()){
+//        QMessageBox::information(this, tr("Information"),
+//                                 tr("please parse first."));
+//        return ;
+//    }
+//    ui->tableWidget_2->clearContents();
+
+//    int num=authorStac.size()<=100?authorStac.size():100;
+//    ui->tableWidget_2->setRowCount(num);
+
+//        for(qint32 t=0;t<num;t++){
+//            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
+//            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
+//        }
+
+//    ui->tableWidget->resizeRowsToContents();
+//}
 
 void MainWindow::load()
 {
     m_loader->start();
     Finder::init();
+}
+
+void MainWindow::on_actionAuthorStac_triggered()
+{
+    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
+    dialog->open();
 }

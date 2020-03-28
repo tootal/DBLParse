@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>835</width>
     <height>600</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>835</width>
      <height>26</height>
     </rect>
    </property>
@@ -53,6 +53,7 @@
      <string>&amp;View</string>
     </property>
     <addaction name="action_Status"/>
+    <addaction name="actionAuthorStac"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -105,6 +106,11 @@
   <action name="action_Open_Index_Folder">
    <property name="text">
     <string>&amp;Open Index Folder</string>
+   </property>
+  </action>
+  <action name="actionAuthorStac">
+   <property name="text">
+    <string>AuthorStac</string>
    </property>
   </action>
  </widget>

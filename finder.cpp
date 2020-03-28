@@ -21,6 +21,7 @@ quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 quint32 Finder::s_keyIndexs = 0;
 QFile *Finder::s_file = nullptr;
+QList<QPair<QString,int> >  Finder::authorStac;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -98,7 +99,8 @@ bool Finder::parsed()
 {
     return QFile("author.dat").exists() 
             && QFile("title.dat").exists()
-            && QFile("key.dat").exists();
+            && QFile("key.dat").exists()
+            && QFile("authorStac.dat").exists();
 }
 
 void Finder::clearIndex()
