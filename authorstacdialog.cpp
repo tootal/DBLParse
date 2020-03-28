@@ -12,11 +12,6 @@ AuthorStacDialog::AuthorStacDialog(QWidget *parent,Finder *finder) :
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
     QList<QPair<QString,int> > authorStac=finder->returnAuthorStac();
 
-    if(authorStac.isEmpty()){
-        QMessageBox::information(this, tr("Information"),
-                                 tr("please parse first."));
-        return ;
-    }
     ui->tableWidget->clearContents();
 
     int num=authorStac.size()<=100?authorStac.size():100;

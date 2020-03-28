@@ -48,7 +48,7 @@ void Loader::run()
     file.close();
 
     Finder::authorStac.clear();
-    emit stateChanged(tr("Loading key index..."));
+    emit stateChanged(tr("Loading authorStac index..."));
     file.setFileName("authorStac.dat");
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
