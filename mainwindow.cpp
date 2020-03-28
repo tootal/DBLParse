@@ -189,7 +189,7 @@ void MainWindow::load()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(Finder::authorStac.isEmpty()){
+     if(!m_finder->parsed()){
         QMessageBox::information(this, tr("Information"),
                                  tr("please parse first."));
         return ;

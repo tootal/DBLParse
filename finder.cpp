@@ -111,6 +111,7 @@ void Finder::clearIndex()
     s_authorIndex = nullptr;
     s_titleIndex = nullptr;
     s_keyIndex = nullptr;
+    authorStac.clear();
 }
 
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
