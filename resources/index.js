@@ -9,6 +9,11 @@ function $(id) {
     }
 }
 
+if(location.href.startsWith('file:')) {
+    var local = true;
+    var testdata_searchAuthor = "[\n    {\n        \"authors\": [\n            \"Katja Lenz\"\n        ],\n        \"key\": \"homepages/39/2320\",\n        \"mdate\": \"2017-01-10\",\n        \"title\": \"Home Page\",\n        \"year\": \"\"\n    },\n    {\n        \"authors\": [\n            \"Simone Fries\",\n            \"Katja Lenz\"\n        ],\n        \"key\": \"conf/informatiktage/FriesL09\",\n        \"mdate\": \"2009-04-28\",\n        \"title\": \"Anwendungen in virtueller Realit&auml;t.\",\n        \"year\": \"2009\"\n    },\n    {\n        \"authors\": [\n            \"Carsten Damm\",\n            \"Katja Lenz\"\n        ],\n        \"key\": \"tr/trier/MI93-05\",\n        \"mdate\": \"2017-06-08\",\n        \"title\": \"Symmetric Functions in AC<sup>0</sup>&#091;2&#093;\",\n        \"year\": \"1993\"\n    },\n    {\n        \"authors\": [\n            \"Katja Lenz\",\n            \"Ingo Wegener\"\n        ],\n        \"key\": \"journals/tcs/LenzW91\",\n        \"mdate\": \"2017-05-28\",\n        \"title\": \"The Conjunctive Complexity of Quadratic Boolean Functions.\",\n        \"year\": \"1991\"\n    },\n    {\n        \"authors\": [\n            \"Katja Lenz\",\n            \"Ingo Wegener\"\n        ],\n        \"key\": \"conf/csl/LenzW87\",\n        \"mdate\": \"2017-05-19\",\n        \"title\": \"The Conjunctive Complexity of Quadratic Boolean Functions.\",\n        \"year\": \"1987\"\n    },\n    {\n        \"authors\": [\n            \"Katja Lenz\"\n        ],\n        \"key\": \"phd/dnb/Lenz92\",\n        \"mdate\": \"2017-01-10\",\n        \"title\": \"Die Komplexit&auml;t Boolescher Funktionen in Schaltkreisen &uuml;ber der Basis _424&#8853;,&#923;_425.\",\n        \"year\": \"1992\"\n    }\n]\n";
+}
+
 var disable_title_word = [
     'Home Page'
 ];
@@ -62,7 +67,6 @@ var handleHomePage = function(record) {
 var handleSearch = function(data) {
     if(data == "noparsed") return ;
     let json = JSON.parse(data);
-
     if(json.length == 0){
         ele_result.innerHTML = 'NOT FOUND';
         return ;
@@ -108,10 +112,12 @@ var handleSearch = function(data) {
     }
 };
 
-new QWebChannel(qt.webChannelTransport, function(channel) {
-    finder = channel.objects.finder;
-    finder.ready.connect(handleSearch);
-});
+if(!local){
+    new QWebChannel(qt.webChannelTransport, function(channel) {
+        finder = channel.objects.finder;
+        finder.ready.connect(handleSearch);
+    });
+}
 
 var handleInput = function() {
     search(ele_type.value, ele_word.value);
@@ -122,3 +128,5 @@ ele_word.addEventListener('keydown', function(e) {
     if(e.keyCode == 13) handleInput();
 });
 ele_word.focus();
+
+if(local) handleSearch(testdata_searchAuthor);

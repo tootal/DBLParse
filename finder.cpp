@@ -34,7 +34,7 @@ void Finder::find(const QString &type, const QString &word)
         emit ready("noparsed");
         return ;
     }
-    qDebug() << word << type;
+    qDebug() << type << word;
     QString result;
     if(type == "author"){
         auto list = indexOfAuthor(word);
@@ -55,6 +55,7 @@ void Finder::find(const QString &type, const QString &word)
         coauthors.remove(word);
         result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
     }
+//    qDebug() << result;
     emit ready(result);
 }
 
