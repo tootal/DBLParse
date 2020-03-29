@@ -29,6 +29,11 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &type, const QString &word)
 {
+    if(!parsed()){
+        emit noParsed();
+        emit ready("noparsed");
+        return ;
+    }
     qDebug() << word << type;
     QString result;
     if(type == "author"){

@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::load);
     
     m_finder = new Finder(this);
+    connect(m_finder, &Finder::noParsed,
+            this, &MainWindow::on_action_Status_triggered);
+    
     m_loader = new Loader(this);
     connect(m_loader, &Loader::stateChanged,
             this, [this](const QString &state){

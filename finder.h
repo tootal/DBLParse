@@ -22,6 +22,7 @@ public:
 
 signals:
     void ready(const QString &data);
+    void noParsed();
     void detailReady(const QString &data);
     
 private:

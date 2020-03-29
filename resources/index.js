@@ -17,6 +17,7 @@ var ele_word = $('#word');
 var ele_type = $('#type');
 var ele_result = $('#result');
 var ele_search = $('#search');
+var ele_homepage = $('#homepage');
 
 var search = function(type, word) {
     if(type == 'title' && 
@@ -54,10 +55,16 @@ var formatAuthors = function(record) {
     return ref.join('; ');
 }
 
+var handleHomePage = function(record) {
+    ele_homepage.innerHTML = formatTitle(record);
+}
+
 var handleSearch = function(data) {
-    var json = JSON.parse(data);
-    if(json.length == 0) {
-        ele_result.innerHTML = 'NOT FOUND!';
+    if(data == "noparsed") return ;
+    let json = JSON.parse(data);
+
+    if(json.length == 0){
+        ele_result.innerHTML = 'NOT FOUND';
         return ;
     }
 
@@ -84,13 +91,19 @@ var handleSearch = function(data) {
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
+        let label = 1;
         for(let i = 0; i < json.length; ++i){
+            if(json[i].title == "Home Page"){
+                handleHomePage(json[i]);
+                continue;
+            }
             let tr = $('<tr>');
-            tr.innerHTML += '<td>' + (i+1) + '</td>';
+            tr.innerHTML += '<td>' + label + '</td>';
             tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
             tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
             tr.innerHTML += '<td>' + json[i].year + '</td>';
             ele_result.appendChild(tr);
+            label = label + 1;
         }
     }
 };
