@@ -37,6 +37,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionView_Log"/>
     <addaction name="actionAbout_Qt"/>
     <addaction name="actionAbout_DBLP"/>
     <addaction name="action_About_Dblparse"/>
@@ -111,6 +112,11 @@
   <action name="actionAuthorStac">
    <property name="text">
     <string>AuthorStac</string>
+   </property>
+  </action>
+  <action name="actionView_Log">
+   <property name="text">
+    <string>View &amp;Log</string>
    </property>
   </action>
  </widget>

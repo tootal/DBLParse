@@ -8,6 +8,7 @@
 #include "webpage.h"
 #include "loader.h"
 #include "authorstacdialog.h"
+
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
@@ -189,9 +190,16 @@ void MainWindow::on_actionAuthorStac_triggered()
 {
      if(!m_finder->parsed()){
         QMessageBox::information(this, tr("Information"),
-                                 tr("please parse first."));
+                                 tr("Please parse first."));
         return ;
     }
     AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
     dialog->open();
+}
+
+void MainWindow::on_actionView_Log_triggered()
+{
+#ifdef QT_NO_DEBUG
+    QDesktopServices::openUrl(QUrl::fromLocalFile("DBLParse.log"));
+#endif
 }

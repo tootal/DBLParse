@@ -40,6 +40,8 @@ private slots:
     
     void on_actionAuthorStac_triggered();
 
+    void on_actionView_Log_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
