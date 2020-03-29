@@ -67,24 +67,26 @@ var handleSearch = function(data) {
             ele_result.innerHTML += '<td class="search-author-other" onclick="searchAuthor(this)">' + json[i] + '</td>';
         }
     }else if(ele_type.value == 'title') {
-        ele_result.innerHTML = '<tr> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
+        ele_result.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
         for(let i = 0; i < json.length; ++i) {
             let tr = $('<tr>');
+            tr.innerHTML += '<td>' + (i+1) + '</td>';
             tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
             tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
             tr.innerHTML += '<td>' + json[i].mdate + '</td>';
             ele_result.appendChild(tr);
         }
     }else if(ele_type.value == 'author') {
-        ele_result.innerHTML = '<tr> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
+        ele_result.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
         for(let i = 0; i < json.length; ++i){
             let tr = $('<tr>');
+            tr.innerHTML += '<td>' + (i+1) + '</td>';
             tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
             tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
             tr.innerHTML += '<td>' + json[i].year + '</td>';
