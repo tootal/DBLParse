@@ -63,13 +63,24 @@ var formatAuthors = function(record) {
     return ref.join('; ');
 }
 
-var handleHomePage = function(record) {
-    ele_homepage.innerHTML = formatTitle(record);
-}
-
-var handleSearch = function(data) {
+var clearBefore = function() {
     ele_info.innerHTML = "";
     ele_tbody.innerHTML = "";
+    ele_homepage.style.display = "none";
+}
+
+var handleHomePage = function(record) {
+    $('#homepage').href = 'dblp://key/' + record.key;
+    let metaText = 'Katja Lenz';
+    if(!local) metaText = ele_word.value;
+    $('#homepage-meta').innerText = metaText;
+    ele_homepage.style.display = "block";
+}
+
+
+
+var handleSearch = function(data) {
+    clearBefore();
 
     if(data == "noparsed") return ;
     let json = JSON.parse(data);
