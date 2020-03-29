@@ -21,3 +21,25 @@ IDE：Qt Creator
 * 在QT Creator中用Release编译程序，把可执行文件复制到新文件夹下
 * 启动QT 5.12.7 （MSVC 2017 64-bit）命令行
 * 切换到可执行文件目录下，执行`windeployqt DBLParse.exe`
+
+目前我在本地使用脚本进行部署和压缩（bandizip），以下批处理脚本可供参考。
+
+```bat
+@echo off
+echo Setting up environment for Qt usage...
+set PATH=C:\Qt\Qt5.12.7\5.12.7\msvc2017_64\bin;%PATH%
+echo Changing release path...
+cd /D ..\build-DBLParse-Desktop_Qt_5_12_7_MSVC2017_64bit-Release\release
+echo Removing cache...
+rmdir /s/q DBLParse 
+echo Generating files...
+mkdir DBLParse
+copy DBLParse.exe DBLParse
+cd DBLParse
+windeployqt DBLParse.exe 
+cd ..
+echo Compressing...
+bc c DBLParse.zip DBLParse
+echo Deploy successful!
+start .
+```

@@ -74,3 +74,6 @@ Thumbs.db
 # VNote temporary files 
 *.vswp
 _v_images
+
+# Deploy script
+deploy.bat
