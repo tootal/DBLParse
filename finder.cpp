@@ -27,7 +27,7 @@ Finder::Finder(QObject *parent) : QObject(parent)
 {
 }
 
-void Finder::find(const QString &word, const QString &type)
+void Finder::find(const QString &type, const QString &word)
 {
     qDebug() << word << type;
     QString result;
@@ -50,7 +50,6 @@ void Finder::find(const QString &word, const QString &type)
         coauthors.remove(word);
         result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
     }
-//    qDebug() << result;
     emit ready(result);
 }
 

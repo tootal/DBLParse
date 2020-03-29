@@ -24,7 +24,7 @@ var search = function(type, word) {
             ele_result.innerHTML = 'NOT FOUND!';
         }
     else {
-        finder.find(word, type);
+        finder.find(type, word);
     }
 };
 
