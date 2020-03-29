@@ -13,8 +13,6 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QPushButton>
 #include <QWebChannel>
 #include <QDesktopServices>

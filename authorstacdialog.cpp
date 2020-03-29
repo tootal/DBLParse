@@ -17,10 +17,10 @@ AuthorStacDialog::AuthorStacDialog(QWidget *parent,Finder *finder) :
     int num=authorStac.size()<=100?authorStac.size():100;
     ui->tableWidget->setRowCount(num);
 
-        for(qint32 t=0;t<num;t++){
-            ui->tableWidget->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
-            ui->tableWidget->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
-        }
+    for(qint32 t=0;t<num;t++){
+        ui->tableWidget->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
+        ui->tableWidget->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
+    }
 
     ui->tableWidget->resizeRowsToContents();
 }
