@@ -20,7 +20,9 @@ var disable_title_word = [
 
 var ele_word = $('#word');
 var ele_type = $('#type');
-var ele_result = $('#result');
+var ele_info = $('#info');
+var ele_thead = $('#thead');
+var ele_tbody = $('#tbody');
 var ele_search = $('#search');
 var ele_homepage = $('#homepage');
 
@@ -38,6 +40,7 @@ var search = function(type, word) {
 // btoa : str -> base64
 
 var searchAuthor = function(authorEle){
+    scrollTo(0, 0);
     ele_type.value = 'author';
     let author = atob(authorEle.dataset.author);
     ele_word.value = author;
@@ -65,20 +68,24 @@ var handleHomePage = function(record) {
 }
 
 var handleSearch = function(data) {
+    ele_info.innerHTML = "";
+    ele_tbody.innerHTML = "";
+
     if(data == "noparsed") return ;
     let json = JSON.parse(data);
+    // console.log(json);
     if(json.length == 0){
-        ele_result.innerHTML = 'NOT FOUND';
+        ele_info.innerHTML = 'NOT FOUND';
         return ;
     }
 
     if(ele_type.value == 'coauthor') {
-        ele_result.innerHTML = '<tr> <th>Co-Author(s)</th> </tr>';
+        ele_thead.innerHTML = '<tr> <th>Co-Author(s)</th> </tr>';
         for(let i = 0; i < json.length; ++i){
-            ele_result.innerHTML += '<td class="search-author-other" onclick="searchAuthor(this)">' + json[i] + '</td>';
+            ele_tbody.innerHTML += '<td class="search-author-other" onclick="searchAuthor(this)">' + json[i] + '</td>';
         }
     }else if(ele_type.value == 'title') {
-        ele_result.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
+        ele_thead.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
@@ -88,10 +95,10 @@ var handleSearch = function(data) {
             tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
             tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
             tr.innerHTML += '<td>' + json[i].mdate + '</td>';
-            ele_result.appendChild(tr);
+            ele_tbody.appendChild(tr);
         }
     }else if(ele_type.value == 'author') {
-        ele_result.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
+        ele_thead.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
@@ -106,7 +113,7 @@ var handleSearch = function(data) {
             tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
             tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
             tr.innerHTML += '<td>' + json[i].year + '</td>';
-            ele_result.appendChild(tr);
+            ele_tbody.appendChild(tr);
             label = label + 1;
         }
     }
