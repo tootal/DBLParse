@@ -29,7 +29,7 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &word, const QString &type)
 {
-//    qDebug() << word << type;
+    qDebug() << word << type;
     QString result;
     if(type == "author"){
         auto list = indexOfAuthor(word);

@@ -18,20 +18,24 @@ var ele_type = $('#type');
 var ele_result = $('#result');
 var ele_search = $('#search');
 
-var search = function() {
-    if(ele_type.value == 'title' && 
-        disable_title_word.indexOf(word.value) != -1) {
+var search = function(type, word) {
+    if(type == 'title' && 
+        disable_title_word.indexOf(word) != -1) {
             ele_result.innerHTML = 'NOT FOUND!';
         }
     else {
-        finder.find(ele_word.value, ele_type.value);
+        finder.find(word, type);
     }
 };
 
+// atob : base64 -> str
+// btoa : str -> base64
+
 var searchAuthor = function(authorEle){
     ele_type.value = 'author';
-    ele_word.value = authorEle.innerHTML;
-    search();
+    let author = atob(authorEle.dataset.author);
+    ele_word.value = author;
+    search('author', author);
 };
 
 var formatTitle = function(record) {
@@ -42,7 +46,7 @@ var formatAuthors = function(record) {
     let ref = record.authors;
     for(let j = 0; j < ref.length; ++j) {
         if(ele_type == 'title' || ref[j] != ele_word.value){
-            ref[j] = '<span class="search-author-other" onclick="searchAuthor(this)">' + ref[j] + '</span>';
+            ref[j] = '<span class="search-author-other" onclick="searchAuthor(this)" data-author="'+ btoa(ref[j]) +'">' + ref[j] + '</span>';
         }else{
             ref[j] = '<span class="search-author">' + ref[j] + '</span>';
         }
@@ -94,8 +98,12 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
     finder.ready.connect(handleSearch);
 });
 
-ele_search.onclick = search;
+var handleInput = function() {
+    search(ele_type.value, ele_word.value);
+}
+
+ele_search.onclick = handleInput;
 ele_word.addEventListener('keydown', function(e) {
-    if(e.keyCode == 13) search();
+    if(e.keyCode == 13) handleInput();
 });
 ele_word.focus();
