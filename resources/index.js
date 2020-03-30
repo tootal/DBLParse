@@ -56,11 +56,15 @@ var formatTitle = function(record) {
     return '<a href="dblp://'+ record.mdate + '/'+ record.key +'">' + record.title + '</a>';
 };
 
+var formatAuthor = function(author) {
+    return '<span class="search-author-other" onclick="searchAuthor(this)" data-author="'+ btoa(author) +'">' + author + '</span>';
+}
+
 var formatAuthors = function(record) {
     let ref = record.authors;
     for(let j = 0; j < ref.length; ++j) {
         if(ele_type == 'title' || ref[j] != ele_word.value){
-            ref[j] = '<span class="search-author-other" onclick="searchAuthor(this)" data-author="'+ btoa(ref[j]) +'">' + ref[j] + '</span>';
+            ref[j] = formatAuthor(ref[j]);
         }else{
             ref[j] = '<span class="search-author">' + ref[j] + '</span>';
         }
@@ -99,9 +103,9 @@ var handleSearch = function(data) {
     }
 
     if(ele_type.value == 'coauthor') {
-        ele_thead.innerHTML = '<tr> <th>Co-Author(s)</th> </tr>';
+        ele_thead.innerHTML = '<tr> <th> </th> <th>Co-Author(s)</th> </tr>';
         for(let i = 0; i < json.length; ++i){
-            ele_tbody.innerHTML += '<td class="search-author-other" onclick="searchAuthor(this)">' + json[i] + '</td>';
+            ele_tbody.innerHTML += '<tr><td>' + (i+1) + '</td><td>' + formatAuthor(json[i]) + '</td></tr>';
         }
     }else if(ele_type.value == 'title') {
         ele_thead.innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
