@@ -34,7 +34,7 @@ void Finder::find(const QString &type, const QString &word)
         emit ready("noparsed");
         return ;
     }
-    qDebug() << type << word;
+//    qDebug() << type << word;
     QString result;
     if(type == "author"){
         auto list = indexOfAuthor(word);
@@ -64,18 +64,19 @@ void Finder::handleRequest(QUrl url)
     DetailView *view = new DetailView;
     view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
     view->setAttribute(Qt::WA_DeleteOnClose);
+    QString mdate = url.host();
     QString key = url.path().remove(0, 1);
-//    qDebug() << key;
+//    qDebug() << mdate << key;
     auto list = indexOfKey(key);
     Q_ASSERT(!list.isEmpty());
-    QJsonArray array;
+    QJsonObject o;
     foreach(auto pos, list){
         Record record(Util::findRecord(Util::getXmlFileName(), pos));
-        array.append(record.toJson());
+        if(record.attr("mdate") == mdate) o = record.toJson();
     }
     auto html = Util::readFile(":/resources/detail.html");
-    auto data = QJsonDocument(array).toJson();
-    qDebug() << data;
+    auto data = QJsonDocument(o).toJson();
+//    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
