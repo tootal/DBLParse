@@ -48,7 +48,7 @@ void Finder::find(const QString &type, const QString &word)
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
-            foreach(auto author, record.authors()){
+            foreach(auto author, record.attr("authors").toStringList()){
                 coauthors.insert(author);
             }
         }
@@ -68,34 +68,15 @@ void Finder::handleRequest(QUrl url)
 //    qDebug() << key;
     auto list = indexOfKey(key);
     Q_ASSERT(!list.isEmpty());
-    auto pos = list.at(0);
-    Record record(Util::findRecord(Util::getXmlFileName(), pos));
+    QJsonArray array;
+    foreach(auto pos, list){
+        Record record(Util::findRecord(Util::getXmlFileName(), pos));
+        array.append(record.toJson());
+    }
     auto html = Util::readFile(":/resources/detail.html");
-    Util::htmlRender(html, record.title(), "title", "%1");
-    Util::htmlRender(html, record.authors(), "authors", "<li>%1</li>");
-    Util::htmlRender(html, record.name(), "name", "%1");
-    Util::htmlRender(html, record.journal(), "journal", tr("Journal: %1"));
-    Util::htmlRender(html, record.volume(), "volume", tr("Volume: %1"));
-    Util::htmlRender(html, record.year(), "year", tr("Year: %1"));
-    Util::htmlRender(html, record.ee(), "ee", tr("Link: <a href=\"%1\">%1</a>"));
-    Util::htmlRender(html, record.url(), "url", tr("Url: <a href=\"%1\">%1</a>"));
-    Util::htmlRender(html, record.editors(), "editors", "<li>%1</li>");
-    Util::htmlRender(html, record.booktitle(), "booktitle", tr("Book Title: %1"));
-    Util::htmlRender(html, record.series(), "series", tr("Series: %1"));
-    Util::htmlRender(html, record.pages(), "pages", tr("Pages: %1"));
-    Util::htmlRender(html, record.note(), "note", tr("Note: %1"));
-    Util::htmlRender(html, record.address(), "address", tr("Address: %1"));
-    Util::htmlRender(html, record.number(), "number", tr("Number: %1"));
-    Util::htmlRender(html, record.month(), "month", tr("Month: %1"));
-    Util::htmlRender(html, record.cdrom(), "cdrom", tr("CD-Rom: %1"));
-    Util::htmlRender(html, record.cites(), "cites", "<li>%1</li>");
-    Util::htmlRender(html, record.publisher(), "publisher", tr("Publisher: %1"));
-    Util::htmlRender(html, record.crossref(), "crossref", tr("Cross Reference: %1"));
-    Util::htmlRender(html, record.isbn(), "isbn", tr("ISBN: %1"));
-    Util::htmlRender(html, record.school(), "school", tr("School: %1"));
-    Util::htmlRender(html, record.chapter(), "chapter", tr("Chapter: %1"));
-    Util::htmlRender(html, record.publnr(), "publnr", tr("Publnr: %1"));
-//    qDebug() << html;
+    auto data = QJsonDocument(array).toJson();
+    qDebug() << data;
+    html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
 }
@@ -166,13 +147,7 @@ QString Finder::getJson(const QList<quint32> &posList)
     for(int i = 0; i < posList.size(); ++i){
         auto pos = posList.at(i);
         Record record(Util::findRecord(Util::getXmlFileName(), pos));
-        QJsonObject o;
-        o.insert("title", record.title());
-        o.insert("year", record.year());
-        o.insert("authors", QJsonValue::fromVariant(record.authors()));
-        o.insert("mdate", record.mdate());
-        o.insert("key", record.key());
-        array.append(o);
+        array.append(record.toJson());
     }
     auto ret = QJsonDocument(array).toJson();
     return ret;

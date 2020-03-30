@@ -65,6 +65,7 @@ var formatAuthors = function(record) {
 
 var clearBefore = function() {
     ele_info.innerHTML = "";
+    ele_thead.innerHTML = "";
     ele_tbody.innerHTML = "";
     ele_homepage.style.display = "none";
 }
@@ -145,6 +146,10 @@ ele_search.onclick = handleInput;
 ele_word.addEventListener('keydown', function(e) {
     if(e.keyCode == 13) handleInput();
 });
-ele_word.focus();
 
-if(local) handleSearch(testdata_searchAuthor);
+if(local){
+    ele_word.value = 'Katja Lenz';
+    handleSearch(testdata_searchAuthor);
+}
+
+ele_word.focus();
