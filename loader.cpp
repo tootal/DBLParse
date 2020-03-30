@@ -13,6 +13,8 @@ Loader::Loader(QObject *parent)
 void Loader::run()
 {
     if(!Finder::parsed()) return ;
+    QTime timing;
+    timing.start();
     emit stateChanged(tr("Loading author index..."));
     QFile file("author.dat");
     file.open(QFile::ReadOnly);
@@ -60,6 +62,7 @@ void Loader::run()
         Finder::authorStac.append(tempAuthorStac);
     }
     file.close();
-
-    emit loadDone();
+    int ms = timing.elapsed();
+    qDebug() << QString("load finished in %1 ms").arg(ms);
+    emit loadDone(ms);
 }

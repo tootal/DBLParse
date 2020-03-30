@@ -39,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
         statusBar()->showMessage(state); 
     });
     connect(m_loader, &Loader::loadDone,
-            this, [this](){
-        statusBar()->showMessage(tr("Load done."), 3000); 
+            this, [this](int ms){
+        statusBar()->showMessage(tr("Load finished in %1 ms.").arg(ms), 3000); 
     });
     
     connect(ui->webview->page(), &WebPage::request,
