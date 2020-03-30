@@ -13,20 +13,22 @@ public:
     Q_INVOKABLE void find(const QString &type, const QString &word);
     void handleRequest(QUrl url);
     static bool parsed();
-    static void clearIndex();
+    void clearIndex();
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     QList<quint32> indexOfKey(const QString &key) const;
     static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
-
+    bool loaded() const;
+    void setLoaded();
 signals:
     void ready(const QString &data);
-    void noParsed();
+    void notReady();
     void detailReady(const QString &data);
     
 private:
     QString getJson(const QList<quint32> &posList) ;
+    bool m_loaded;
 
 public:
     static QFile *s_file;

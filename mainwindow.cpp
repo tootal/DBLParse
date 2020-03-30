@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::load);
     
     m_finder = new Finder(this);
-    connect(m_finder, &Finder::noParsed,
+    connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
     
     m_loader = new Loader(this);
@@ -39,9 +39,11 @@ MainWindow::MainWindow(QWidget *parent)
         statusBar()->showMessage(state); 
     });
     connect(m_loader, &Loader::loadDone,
-            this, [this](int ms){
-        statusBar()->showMessage(tr("Load finished in %1 ms.").arg(ms), 3000); 
+            this, [this](){
+        statusBar()->showMessage(tr("Load finished."), 3000); 
     });
+    connect(m_loader, &Loader::loadDone,
+            m_finder, &Finder::setLoaded);
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
@@ -69,7 +71,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
 void MainWindow::on_action_About_Dblparse_triggered()
 {
     QString info = tr(R"(DBLParse<br/><br/>
-DBLParse is a free and open source application that bases on dblp computer science bibliography.<br/><br/>
+DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
 Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)");
     QMessageBox::about(this, tr("About DBLParse"), info);
 }
@@ -130,12 +132,25 @@ void MainWindow::on_action_Open_triggered()
 void MainWindow::on_action_Status_triggered()
 {
     QMessageBox msgBox(this);
+    QString text;
+    QString parserStatus;
+    QString loaderStatus;
     if(m_finder->parsed()){
-        msgBox.setText(tr("%1 records has been parsed.").arg(QFile("title.dat").size() >> 3));
+        parserStatus = QString(R"(<font color="green">OK</font>)");
+    }else{
+        parserStatus = QString(R"(<font color="red">NO</font>)");
+    }
+    if(m_finder->loaded()){
+        loaderStatus = QString(R"(<font color="green">OK</font>)");
+    }else{
+        loaderStatus = QString(R"(<font color="red">NO</font>)");
+    }
+    text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus).arg(loaderStatus);
+    msgBox.setText(text);
+    if(m_finder->parsed()){
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
-        msgBox.setText(tr("No XML file has been parsed."));
         msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
         msgBox.button(QMessageBox::Open)->setText(tr("Open XML file"));
         msgBox.button(QMessageBox::Cancel)->setText(tr("Cancel"));
@@ -191,9 +206,8 @@ void MainWindow::load()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(!m_finder->parsed()){
-        QMessageBox::information(this, tr("Information"),
-                                 tr("Please parse first."));
+     if(!m_finder->parsed() || !m_finder->loaded()){
+        on_action_Status_triggered();
         return ;
     }
     AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);

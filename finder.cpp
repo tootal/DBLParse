@@ -25,13 +25,14 @@ QList<QPair<QString,int> >  Finder::authorStac;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
+    m_loaded = false;
 }
 
 void Finder::find(const QString &type, const QString &word)
 {
-    if(!parsed()){
-        emit noParsed();
-        emit ready("noparsed");
+    if(!parsed() || !loaded()){
+        emit notReady();
+        emit ready("not_ready");
         return ;
     }
 //    qDebug() << type << word;
@@ -92,6 +93,7 @@ bool Finder::parsed()
 
 void Finder::clearIndex()
 {
+    m_loaded = false;
     delete s_authorIndex;
     delete s_titleIndex;
     delete s_keyIndex;
@@ -132,6 +134,16 @@ QList<quint32> Finder::indexOfKey(const QString &key) const
         list.append(i->l);
     }
     return list;
+}
+
+bool Finder::loaded() const
+{
+    return m_loaded;
+}
+
+void Finder::setLoaded()
+{
+    m_loaded = true;
 }
 
 QString Finder::readText(const Parser::StringRef &ref)

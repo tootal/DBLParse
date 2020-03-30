@@ -12,7 +12,7 @@ public:
     
 signals:
     void stateChanged(const QString &state);
-    void loadDone(int ms);
+    void loadDone();
 };
 
 #endif // LOADER_H

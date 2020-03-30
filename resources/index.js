@@ -89,7 +89,7 @@ var handleHomePage = function(record) {
 var handleSearch = function(data) {
     clearBefore();
 
-    if(data == "noparsed") return ;
+    if(data == "not_ready") return ;
     let json = JSON.parse(data);
     // console.log(json);
     if(json.length == 0){
