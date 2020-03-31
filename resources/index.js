@@ -5,7 +5,7 @@ var disable_title_word = [
 var search = function(type, word) {
     if(type == 'title' && 
         disable_title_word.indexOf(word) != -1) {
-            ele_result.innerHTML = 'NOT FOUND!';
+            ele_result.innerHTML = tr('NOT FOUND!');
         }
     else {
         finder.find(type, word);
@@ -53,8 +53,7 @@ var clearBefore = function() {
 
 var handleHomePage = function(record) {
     $('#homepage').href = 'dblp://' + record.mdate + '/' + record.key;
-    let metaText = 'Katja Lenz';
-    if(!local) metaText = $('#word').value;
+    metaText = $('#word').value;
     $('#homepage-meta').innerText = metaText;
     $('#homepage').style.display = "block";
 }
@@ -68,18 +67,18 @@ var handleSearch = function(data) {
     let json = JSON.parse(data);
     // console.log(json);
     if(json.length == 0){
-        $('#info').innerHTML = "NOT FOUND!";
+        $('#info').innerHTML = tr("NOT FOUND!");
         $('#info').style.display = "block";
         return ;
     }
 
     if($('#type').value == 'coauthor') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>Co-Author(s)</th> </tr>';
+        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Co-Author(s)') + '</th> </tr>';
         for(let i = 0; i < json.length; ++i){
             $('#tbody').innerHTML += '<tr><td>' + (i+1) + '</td><td>' + formatAuthor(json[i]) + '</td></tr>';
         }
     }else if($('#type').value == 'title') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Modified</th> </tr>';
+        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Modified') + '</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
@@ -92,7 +91,7 @@ var handleSearch = function(data) {
             $('#tbody').appendChild(tr);
         }
     }else if($('#type').value == 'author') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>Title</th> <th>Author(s)</th> <th>Year</th> </tr>';
+        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Year') + '</th> </tr>';
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
@@ -113,7 +112,7 @@ var handleSearch = function(data) {
     }
 };
 
-if(!local){
+if(typeof QWebChannel == "object"){
     new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
@@ -130,3 +129,9 @@ $('#word').addEventListener('keydown', function(e) {
 });
 
 $('#word').focus();
+
+if(location.href.startsWith('file:')) {
+    $.load('index.test.js', function() {
+        // test.coauthor;
+    });
+}

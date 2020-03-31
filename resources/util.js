@@ -8,28 +8,35 @@ function $(s) {
     return document.querySelectorAll(s);
 }
 
-$.load = function(src) {
+$.load = function(src, callback) {
     let script = $('<script>');
     script.src = src;
     document.body.appendChild(script);
+    if(typeof callback == 'function')
+        script.onload = callback;
     return script;
 };
 
-if(location.href.startsWith('file:')) {
-    local = true;
-    !function loadLocalTest() {
-        let s = location.href;
-        let name = s.slice(s.lastIndexOf('/') + 1, s.lastIndexOf('.'));
-        $.load(name + '.test.js');
-    }();
+var tr = function(s) {
+    if(typeof strings == "undefined") return s;
+    if(s in strings) {
+        return strings[s];
+    } else {
+        console.log(s);
+        return s;
+    }
 }
 
-!function translate() {
-    var tr = function(str) {
-        return tr[str];
-    };
-    $.load('strings_zh.js');
-    for(let node of $('[tr]')) {
-        console.log(node.innerText);
+Object.defineProperty(window, 'language', {
+    get: () => this.m_language,
+    set: function(v) {
+        this.m_language = v;
+        if(v == 'en-US') return ;
+        $.load(`strings_${v}.js`).onload = function() {
+            for(let node of $('[tr]')) {
+                node.innerText = tr(node.innerText);
+            }
+        };
     }
-}();
+});
+language = navigator.language;

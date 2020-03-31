@@ -1,4 +1,4 @@
-let test = {
+var test = {
     data: {
         author: 'Katja Lenz',
         title: 'The Conjunctive Complexity of Quadratic Boolean Functions.',
