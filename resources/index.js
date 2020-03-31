@@ -1,14 +1,3 @@
-function $(id) {
-    if(typeof id == 'string') {
-        if(id[0] == '#') {
-            return document.getElementById(id.substr(1));
-        }
-        if(id[0] == '<' && id[id.length - 1] == '>') {
-            return document.createElement(id.slice(1, -1));
-        }
-    }
-}
-
 if(location.href.startsWith('file:')) {
     var local = true;
     var testdata_author = 'Katja Lenz';

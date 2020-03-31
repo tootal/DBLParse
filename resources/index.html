@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="index.css">
-    <script src="qwebchannel.js"></script>
+    <script src="qwebchannel.js" defer></script>
+    <script src="util.js" defer></script>
+    <script src="index.js" defer></script>
 </head>
 <body>
     <h1>DBLParse</h1>
     <div class="search-box">
         <select id="type">
-            <option value="author">Author</option>
-            <option value="title">Title</option>
-            <option value="coauthor">Co-Author</option>
+            <option value="author" tr>Author</option>
+            <option value="title" tr>Title</option>
+            <option value="coauthor" tr>Co-Author</option>
             <!-- <option value="keyword">Keyword</option> -->
         </select>
         <input type="text" id="word">
@@ -31,6 +33,5 @@
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
     </table>
-    <script src="index.js"></script>
 </body>
 </html>

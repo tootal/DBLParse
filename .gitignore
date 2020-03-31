@@ -75,5 +75,3 @@ Thumbs.db
 *.vswp
 _v_images
 
-# Deploy script
-deploy.bat

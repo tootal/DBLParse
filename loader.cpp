@@ -63,6 +63,6 @@ void Loader::run()
     }
     file.close();
     int ms = timing.elapsed();
-    qDebug() << QString("load finished in %1 ms").arg(ms);
+    qInfo() << QString("load finished in %1 ms").arg(ms);
     emit loadDone();
 }
