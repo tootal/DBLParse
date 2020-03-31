@@ -8,12 +8,28 @@ function $(s) {
     return document.querySelectorAll(s);
 }
 
-!function loadLocalTest() {
-    let s = location.href;
-    if(s.startsWith('file:')) {
+$.load = function(src) {
+    let script = $('<script>');
+    script.src = src;
+    document.body.appendChild(script);
+    return script;
+};
+
+if(location.href.startsWith('file:')) {
+    local = true;
+    !function loadLocalTest() {
+        let s = location.href;
         let name = s.slice(s.lastIndexOf('/') + 1, s.lastIndexOf('.'));
-        let script = $('<script>');
-        script.src = name + '.test.js';
-        document.body.appendChild(script);
+        $.load(name + '.test.js');
+    }();
+}
+
+!function translate() {
+    var tr = function(str) {
+        return tr[str];
+    };
+    $.load('strings_zh.js');
+    for(let node of $('[tr]')) {
+        console.log(node.innerText);
     }
 }();
