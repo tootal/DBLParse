@@ -8,6 +8,7 @@ var search = function(type, word) {
             ele_result.innerHTML = tr('NOT FOUND!');
         }
     else {
+        // console.log('search ', type, word);
         finder.find(type, word);
     }
 };
@@ -112,7 +113,7 @@ var handleSearch = function(data) {
     }
 };
 
-if(typeof QWebChannel == "object"){
+if(typeof QWebChannel != "undefined"){
     new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);

@@ -26,19 +26,19 @@ void logger(QtMsgType type, const QMessageLogContext &context, const QString &ms
     
     switch(type){
     case QtDebugMsg:
-        header = "Debug: ";
+        header = QObject::tr("Debug: ");
         break;
     case QtInfoMsg:
-        header = "Info: ";
+        header = QObject::tr("Info: ");
         break;
     case QtWarningMsg:
-        header = "Warning: ";
+        header = QObject::tr("Warning: ");
         break;
     case QtCriticalMsg:
-        header = "Critical: ";
+        header = QObject::tr("Critical: ");
         break;
     case QtFatalMsg:
-        header = "Fatal: ";
+        header = QObject::tr("Fatal: ");
         break;
     }
     
@@ -65,12 +65,21 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("SCUT_CS");
     QCoreApplication::setApplicationName("DBLParse");
     
+    
+    
 #ifdef QT_NO_DEBUG
     initLogFile("DBLParse.log");
 #endif // QT_NO_DEBUG
     qInstallMessageHandler(logger);
     
     qInfo() << "DBLParse start";
+    
+    QString locale = VUtils::getLocale();
+    // Set default locale.
+    if (locale == "zh_CN") {
+        QLocale::setDefault(QLocale(QLocale::Chinese, QLocale::China));
+    }
+    
     MainWindow w;
     w.show();
     return a.exec();

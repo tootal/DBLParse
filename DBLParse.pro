@@ -52,6 +52,9 @@ HEADERS += \
     webpage.h \
     webview.h
 
+TRANSLATIONS += \
+    translations/DBLParse_zh_CN.ts
+
 FORMS += \
     authorstacdialog.ui \
     mainwindow.ui \
@@ -63,4 +66,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    DBLParse.qrc
+    DBLParse.qrc \
+    translations/translations.qrc

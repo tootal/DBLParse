@@ -83,3 +83,13 @@ QString Util::formatUrl(const QString &url)
     if(QUrl(url).isRelative()) return "https://dblp.uni-trier.de/" + url;
     else return url;
 }
+
+QString Util::getLocale()
+{
+    QString locale = g_config->getLanguage();
+    if (locale == "System" || !isValidLanguage(locale)) {
+        locale = QLocale::system().name();
+    }
+
+    return locale;
+}

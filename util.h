@@ -14,6 +14,7 @@ public:
     static QString readFile(const QString &fileName);
     static QString getXmlFileName();
     static QString formatUrl(const QString &url);
+    static QString getLocale();
 };
 
 #endif // UTIL_H

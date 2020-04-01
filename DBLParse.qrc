@@ -10,6 +10,7 @@
 <file>resources\index.js</file>  
 <file>resources\index.test.js</file>  
 <file>resources\qwebchannel.js</file>  
+<file>resources\strings_en-US.js</file>  
 <file>resources\strings_zh-CN.js</file>  
 <file>resources\util.js</file>  
 </qresource></RCC> 
