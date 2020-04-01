@@ -18,23 +18,29 @@ $.load = function(src, callback) {
 };
 
 var tr = function(s) {
-    if(typeof strings == "undefined") return s;
-    if(s in strings) {
-        return strings[s];
-    } else {
-        console.log(s);
-        return s;
+    let res = s;
+    if(typeof strings == "object" && s in strings) {
+        res = strings[s];
     }
+    return `<span tr="${s}">${res}</span>`;
 }
 
 Object.defineProperty(window, 'language', {
     get: () => this.m_language,
     set: function(v) {
         this.m_language = v;
-        if(v == 'en-US') return ;
         $.load(`strings_${v}.js`).onload = function() {
             for(let node of $('[tr]')) {
-                node.innerText = tr(node.innerText);
+                let src = node.getAttribute('tr');
+                if(src == ""){
+                    src = node.innerText;
+                    node.setAttribute('tr', src);
+                }
+                if(src in strings) {
+                    node.innerText = strings[src];
+                } else {
+                    node.innerText = src;
+                }
             }
         };
     }
