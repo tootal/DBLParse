@@ -34,6 +34,7 @@ SOURCES += \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
+    settingsdialog.cpp \
     util.cpp \
     webpage.cpp \
     webview.cpp
@@ -48,6 +49,7 @@ HEADERS += \
     parsedialog.h \
     parser.h \
     record.h \
+    settingsdialog.h \
     util.h \
     webpage.h \
     webview.h
@@ -58,7 +60,8 @@ TRANSLATIONS += \
 FORMS += \
     authorstacdialog.ui \
     mainwindow.ui \
-    parsedialog.ui
+    parsedialog.ui \
+    settingsdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
