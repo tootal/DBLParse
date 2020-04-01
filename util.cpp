@@ -77,9 +77,7 @@ QString Util::readFile(const QString &fileName)
 
 QString Util::getXmlFileName()
 {
-    QSettings settings;
-    Q_ASSERT(settings.contains("lastOpenFileName"));
-    return settings.value("lastOpenFileName").toString();
+    return g_config->value("lastOpenFileName");
 }
 
 QString Util::formatUrl(const QString &url)
