@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "util.h"
 
 #include <QApplication>
 #include <QFile>
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
     
     qInfo() << "DBLParse start";
     
-    QString locale = VUtils::getLocale();
+    QString locale = Util::getLocale();
     // Set default locale.
     if (locale == "zh_CN") {
         QLocale::setDefault(QLocale(QLocale::Chinese, QLocale::China));

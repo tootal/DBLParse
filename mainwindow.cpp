@@ -8,6 +8,7 @@
 #include "webpage.h"
 #include "loader.h"
 #include "authorstacdialog.h"
+#include "settingsdialog.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -219,4 +220,10 @@ void MainWindow::on_actionView_Log_triggered()
 #ifdef QT_NO_DEBUG
     QDesktopServices::openUrl(QUrl::fromLocalFile("DBLParse.log"));
 #endif
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->open();
 }
