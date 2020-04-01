@@ -110,7 +110,7 @@ const QVector<QPair<QString, QString> > Util::availableLanguages()
 
 QString Util::getLocale()
 {
-    QString locale = g_config->value("language").toString();
+    QString locale = g_config->value("language");
     if (locale == "System") {
         locale = QLocale::system().name();
     }
