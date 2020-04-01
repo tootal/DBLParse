@@ -149,6 +149,7 @@ void Parser::parse()
     m_costMsecs = m_timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
+    qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
 }
 

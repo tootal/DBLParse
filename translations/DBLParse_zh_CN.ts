@@ -147,8 +147,8 @@
         <source>DBLParse&lt;br/&gt;&lt;br/&gt;
 DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
 Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation>DBLParse&lt;br/&gt;&lt;br/&gt;
-DBLParse 是一个基于DBLP数据的应用。
+        <translation type="unfinished">DBLParse&lt;br/&gt;&lt;br/&gt;
+DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;
 请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
@@ -280,7 +280,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="13"/>
+        <location filename="../settingsdialog.cpp" line="15"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
@@ -293,12 +293,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="98"/>
+        <location filename="../util.cpp" line="96"/>
         <source>English (United States)</source>
         <translation>英语 （美国）</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="99"/>
+        <location filename="../util.cpp" line="97"/>
         <source>Chinese (China)</source>
         <translation>中文 （中国）</translation>
     </message>
