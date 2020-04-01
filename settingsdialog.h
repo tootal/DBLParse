@@ -15,6 +15,11 @@ public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
     
+private slots:
+    void on_pushButton_clicked();
+    
+    void on_comboBox_currentIndexChanged(int index);
+    
 private:
     Ui::SettingsDialog *ui;
 };

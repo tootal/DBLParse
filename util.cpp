@@ -1,4 +1,5 @@
 #include "util.h"
+#include "configmanager.h"
 
 #include <QTime>
 #include <QFile>
@@ -6,6 +7,10 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include <QUrl>
+
+extern ConfigManager *g_config;
+
+QVector<QPair<QString, QString>> Util::s_availableLanguages;
 
 QString Util::formatTime(int ms)
 {
@@ -84,12 +89,30 @@ QString Util::formatUrl(const QString &url)
     else return url;
 }
 
-QString Util::getLocale()
+void Util::initAvailableLanguage()
 {
-    QString locale = g_config->getLanguage();
-    if (locale == "System" || !isValidLanguage(locale)) {
-        locale = QLocale::system().name();
+    if (!s_availableLanguages.isEmpty()) {
+        return;
     }
 
+    s_availableLanguages.append({"en_US", tr("English (United States)")});
+    s_availableLanguages.append({"zh_CN", tr("Chinese (China)")});
+}
+
+const QVector<QPair<QString, QString> > Util::availableLanguages()
+{
+    if(s_availableLanguages.isEmpty()) {
+        initAvailableLanguage();
+    }
+    
+    return s_availableLanguages;
+}
+
+QString Util::getLocale()
+{
+    QString locale = g_config->value("language").toString();
+    if (locale == "System") {
+        locale = QLocale::system().name();
+    }
     return locale;
 }

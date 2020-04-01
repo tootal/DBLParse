@@ -14,7 +14,12 @@ public:
     static QString readFile(const QString &fileName);
     static QString getXmlFileName();
     static QString formatUrl(const QString &url);
+    static void initAvailableLanguage();
+    static const QVector<QPair<QString, QString>> availableLanguages();
     static QString getLocale();
+    
+private:
+    static QVector<QPair<QString, QString>> s_availableLanguages;
 };
 
 #endif // UTIL_H
