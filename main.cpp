@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "util.h"
+#include "configmanager.h"
 
 #include <QApplication>
 #include <QFile>
@@ -8,6 +9,8 @@
 #include <iostream>
 #include <QDebug>
 #include <QDateTime>
+
+ConfigManager *g_config;
 
 #ifdef QT_NO_DEBUG
 
@@ -66,6 +69,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("SCUT_CS");
     QCoreApplication::setApplicationName("DBLParse");
     
+    ConfigManager config;
+    g_config = &config;
     
     
 #ifdef QT_NO_DEBUG
