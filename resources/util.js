@@ -28,6 +28,9 @@ var tr = function(s) {
 Object.defineProperty(window, 'language', {
     get: () => this.m_language,
     set: function(v) {
+        if(v.indexOf('-') != -1) {
+            v = v.split('-')[0];
+        }
         this.m_language = v;
         $.load(`strings_${v}.js`).onload = function() {
             for(let node of $('[tr]')) {

@@ -7,7 +7,7 @@ class DetailPage : public QWebEnginePage
 {
     Q_OBJECT
 public:
-    explicit DetailPage(QObject *parent = nullptr) : QWebEnginePage(parent) {}
+    explicit DetailPage(QObject *parent = nullptr);
     
 signals:
     void request(QUrl url);

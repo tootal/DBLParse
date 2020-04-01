@@ -7,7 +7,7 @@ class WebPage : public QWebEnginePage
 {
     Q_OBJECT
 public:
-    explicit WebPage(QObject *parent = nullptr) : QWebEnginePage(parent) {}
+    explicit WebPage(QObject *parent = nullptr);
     
 signals:
     void request(QUrl url);

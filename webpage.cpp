@@ -2,6 +2,12 @@
 
 #include <QDesktopServices>
 
+WebPage::WebPage(QObject *parent)
+    :QWebEnginePage(parent)
+{
+    
+}
+
 bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
 //    qDebug() << url;

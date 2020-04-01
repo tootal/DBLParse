@@ -9,6 +9,8 @@
 #include <iostream>
 #include <QDebug>
 #include <QDateTime>
+#include <QTranslator>
+#include <QLocale>
 
 ConfigManager *g_config;
 
@@ -30,19 +32,19 @@ void logger(QtMsgType type, const QMessageLogContext &context, const QString &ms
     
     switch(type){
     case QtDebugMsg:
-        header = QObject::tr("Debug: ");
+        header = "Debug: ";
         break;
     case QtInfoMsg:
-        header = QObject::tr("Info: ");
+        header = "Info: ";
         break;
     case QtWarningMsg:
-        header = QObject::tr("Warning: ");
+        header = "Warning: ";
         break;
     case QtCriticalMsg:
-        header = QObject::tr("Critical: ");
+        header = "Critical: ";
         break;
     case QtFatalMsg:
-        header = QObject::tr("Fatal: ");
+        header = "Fatal: ";
         break;
     }
     
@@ -81,9 +83,10 @@ int main(int argc, char *argv[])
     qInfo() << "DBLParse start";
     
     QString locale = Util::getLocale();
-    // Set default locale.
-    if (locale == "zh_CN") {
-        QLocale::setDefault(QLocale(QLocale::Chinese, QLocale::China));
+    QLocale::setDefault(QLocale(locale));
+    QTranslator translator;
+    if(translator.load("DBLParse_" + locale, ":/")) {
+        a.installTranslator(&translator);
     }
     
     MainWindow w;
