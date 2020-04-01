@@ -11,7 +11,7 @@ class ConfigManager : public QObject
 public:
     explicit ConfigManager(QObject *parent = nullptr);
     
-    QVariant value(const QString &key) const;
+    QString value(const QString &key) const;
     void setValue(const QString &key, const QString &value);
     
 private:

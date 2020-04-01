@@ -9,6 +9,7 @@
 #include "loader.h"
 #include "authorstacdialog.h"
 #include "settingsdialog.h"
+#include "configmanager.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -18,6 +19,8 @@
 #include <QPushButton>
 #include <QWebChannel>
 #include <QDesktopServices>
+
+extern ConfigManager *g_config;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -95,20 +98,13 @@ void MainWindow::on_actionE_xit_triggered()
 
 void MainWindow::on_action_Open_triggered()
 {
-    QString lastOpenFileName;
-    QSettings settings;
-    if(settings.contains("lastOpenFileName")){
-        lastOpenFileName = settings.value("lastOpenFileName").toString();
-    }else{
-        // use document location as default
-        lastOpenFileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    }
+    QString lastOpenFileName = g_config->value("lastOpenFileName");
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Select XML file"),
                                                     lastOpenFileName,
                                                     tr("XML file (*.xml)"));
     if(fileName.isEmpty()) return ;
-    settings.setValue("lastOpenFileName", fileName);
+    g_config->setValue("lastOpenFileName", fileName);
     // question when size greater than 64MiB
     if(QFile(fileName).size() > (1 << 26)){
         QMessageBox box(this);

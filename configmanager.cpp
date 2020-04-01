@@ -11,9 +11,9 @@ ConfigManager::ConfigManager(QObject *parent) : QObject(parent)
     m_settings->setValue("language", "System");
 }
 
-QVariant ConfigManager::value(const QString &key) const
+QString ConfigManager::value(const QString &key) const
 {
-    return m_settings->value(key);
+    return m_settings->value(key).toString();
 }
 
 void ConfigManager::setValue(const QString &key, const QString &value)
