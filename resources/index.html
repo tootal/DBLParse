@@ -8,30 +8,32 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <h1>DBLParse</h1>
-    <div class="search-box">
-        <select id="type">
-            <option value="author" tr>Author</option>
-            <option value="title" tr>Title</option>
-            <option value="coauthor" tr>Co-Author</option>
-        </select>
-        <input type="text" id="word">
-        <button id="search" tr>Search</button>
-    </div>
-    <a id="homepage" class="link-card" style="display: none;">
-        <div class="link-card-content">
-            <div class="link-card-text">
-                <div class="link-card-title" tr>Home Page</div>
-                <div id="homepage-meta" class="link-card-meta"></div>
-            </div>
-            <img src="homepage.svg" alt="homepage" class="link-card-icon" width="60" height="60">
+    <div class="container">
+        <h1>DBLParse</h1>
+        <div class="search-box">
+            <select id="type">
+                <option value="author" tr>Author</option>
+                <option value="title" tr>Title</option>
+                <option value="coauthor" tr>Co-Author</option>
+            </select>
+            <input type="text" id="word">
+            <button id="search" tr>Search</button>
         </div>
-    </a>
-    <div id="info" class="info" style="display: none;"></div>
-    <table>
-        <thead id="thead"></thead>
-        <tbody id="tbody"></tbody>
-    </table>
+        <a id="homepage" class="link-card" style="display: none;">
+            <div class="link-card-content">
+                <div class="link-card-text">
+                    <div class="link-card-title" tr>Home Page</div>
+                    <div id="homepage-meta" class="link-card-meta"></div>
+                </div>
+                <img src="homepage.svg" alt="homepage" class="link-card-icon" width="60" height="60">
+            </div>
+        </a>
+        <div id="info" class="info" style="display: none;"></div>
+        <table>
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
 
     <script src="qwebchannel.js"></script>
     <script src="util.js"></script>
