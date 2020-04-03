@@ -1,5 +1,6 @@
 <RCC><qresource prefix="/"> 
 <file>resources\Belgrano.woff2</file>  
+<file>resources\bootstrap.min.css</file>  
 <file>resources\dblp.png</file>  
 <file>resources\detail.css</file>  
 <file>resources\detail.html</file>  
