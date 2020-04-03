@@ -107,10 +107,14 @@ var handleSearch = function(data) {
     }
 };
 
-if(typeof QWebChannel != "undefined"){
+if(location.href.startsWith('qrc:')){
     new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
+    });
+} else {
+    $.load('index.test.js', function() {
+        // test.coauthor;
     });
 }
 
@@ -124,9 +128,3 @@ $('#word').addEventListener('keydown', function(e) {
 });
 
 $('#word').focus();
-
-if(location.href.startsWith('file:')) {
-    $.load('index.test.js', function() {
-        // test.coauthor;
-    });
-}
