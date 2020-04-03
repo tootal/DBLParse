@@ -1,13 +1,7 @@
-var disable_title_word = [
-    'Home Page'
-];
-
 var search = function(type, word) {
-    if(type == 'title' && 
-        disable_title_word.indexOf(word) != -1) {
-            ele_result.innerHTML = tr('NOT FOUND!');
-        }
-    else {
+    if(type == 'title' && ['Home Page'].indexOf(word) != -1) {
+        ele_result.innerHTML = tr('NOT FOUND!');
+    } else {
         // console.log('search ', type, word);
         finder.find(type, word);
     }
