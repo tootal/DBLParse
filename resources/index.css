@@ -1,36 +1,3 @@
-.search-box {
-    height: 40px;
-    font-size: 0;
-}
-
-.search-box > * {
-    height: inherit;
-    font-size: 20px;
-    border: 1px solid #666;
-}
-
-.search-box > select {
-    width: 125px;
-}
-
-.search-box > input {
-    width: 300px;
-    padding: 11px 17px;
-    border-left: 0;
-    border-right: 0;
-}
-
-.search-box > button {
-    width: 110px;
-    cursor: pointer;
-    background: #fafafa;
-    padding: 0;
-}
-
-.search-box > button:hover {
-    background: #f2f2f2;
-}
-
 table {
     max-width: 800px;
     margin: 50px auto;
