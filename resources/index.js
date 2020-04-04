@@ -64,9 +64,12 @@ var clearBefore = function() {
 }
 
 var handleHomePage = function(record) {
-    $('#homepage').href = 'dblp://' + record.mdate + '/' + record.key;
-    metaText = $('#word').value;
-    $('#homepage-meta').innerText = metaText;
+    if (location.href.startsWith('qrc:')) {
+        $('#homepage').href = `dblp://${record.mdate}/${record.key}`;
+    } else {
+        $('#homepage').href = 'detail.html';
+    }
+    $('#homepage-meta').innerText = $('#word').value;
     $('#homepage').style.display = "block";
 }
 
@@ -127,7 +130,7 @@ if(location.href.startsWith('qrc:')){
     });
 } else {
     $.load('index.test.js', function() {
-        test.authornotfound;
+        test.author;
     });
 }
 
