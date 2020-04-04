@@ -73,6 +73,14 @@ var handleHomePage = function(record) {
     $('#homepage').style.display = "block";
 }
 
+var setHeader = function(list) {
+    let s = '';
+    for (i of list) {
+        s += `<th>${tr(i)}</th>`;
+    }
+    $('#thead').innerHTML = `<tr>${s}</tr>`;
+};
+
 var handleSearch = function(data) {
     clearBefore();
     if(data == "not_ready") return ;
@@ -84,12 +92,12 @@ var handleSearch = function(data) {
     }
 
     if($('#type').value == 'coauthor') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Co-Author(s)') + '</th> </tr>';
+        setHeader(['', 'Co-Author(s)']);
         for(let i = 0; i < json.length; ++i){
             $('#tbody').innerHTML += '<tr><td>' + (i+1) + '</td><td>' + formatAuthor(json[i]) + '</td></tr>';
         }
     }else if($('#type').value == 'title') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Modified') + '</th> </tr>';
+        setHeader(['', 'Title', 'Author(s)', 'Modified']);
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
@@ -102,7 +110,7 @@ var handleSearch = function(data) {
             $('#tbody').appendChild(tr);
         }
     }else if($('#type').value == 'author') {
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Year') + '</th> </tr>';
+        setHeader(['', 'Title', 'Author(s)', 'Year']);
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
