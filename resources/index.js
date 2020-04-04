@@ -138,7 +138,7 @@ if(location.href.startsWith('qrc:')){
     });
 } else {
     $.load('index.test.js', function() {
-        test.author;
+        test.title;
     });
 }
 
