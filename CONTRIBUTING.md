@@ -50,17 +50,24 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
 
 其中`ready`是C++类`Finder`的一个信号，`handleSearch`是一个JS定义的函数。
 
-利用JS调用C++函数（通过函数参数传递信息）以及JS端函数绑定信号（利用信号传递信息到JS函数参数中）可以实现前后端的双向交互。
+利用JS调用C++函数（通过函数参数传递信息）以及JS端函数绑定信号（利用信号传递信息到JS函数参数中）可以实现前后端的双向交互。  
 
 ## 前端测试
-为了方便测试前端效果，在JS文件中做了特殊的处理，使得前端文件支持本地打开（利用`location.href`判断）。在浏览器中打开HTML文件会自动加载对应的测试文件`*.test.js`。  
+为了方便测试前端效果，在JS文件中做了特殊的处理，使得前端文件支持本地打开（利用`location.href`判断）。在浏览器中打开HTML文件会自动加载对应的测试文件`*.test.js`。    
 
-目前支持的本地测试数据记录如下：  
-作者名：`Katja Lenz`  
-标题：`The Conjunctive Complexity of Quadratic Boolean Functions.`  
-禁用标题：`Home Page`
+目前支持的本地测试数据记录如下：    
+作者名：`Katja Lenz`    
+标题：`The Conjunctive Complexity of Quadratic Boolean Functions.`    
+禁用标题：`Home Page`  
 
-以上数据定义在`index.test.js`文件中。
+以上数据定义在`index.test.js`文件中。  
+
+以下是常见的测试方式：（在浏览器控制台中输入）  
+
+`test.author`、`test.title`、`test.homepage`等命令，测试对应结果的样式。  
+`language='en'`、`language='zh'`测试翻译是否正确。  
+
+可以在JS文件中加入上述命令来自动执行。
 
 ## 发布
 
