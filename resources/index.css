@@ -4,38 +4,10 @@
 }
 
 a.link-card {
-    display: block;
     padding: 12px;
     border-radius: 10px;
     width: 380px;
     height: 90px;
-    margin: 30px auto;
     background: #f6f6f6;
-    text-decoration: none;
     color: #1a1a1a;
-}
-
-.link-card-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.link-card-text {
-    float: left;
-    text-align: left;
-}
-
-.link-card-icon {
-    float: right;
-}
-
-.link-card-title {
-    font-size: 22px;
-    margin: 5px 0;
-}
-
-.link-card-meta {
-    color: #999;
-    font-size: 16px;
 }
