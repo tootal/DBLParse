@@ -48,31 +48,40 @@ void Parser::parse()
     QVector<StringRef> keyIndex;
     quint32 x = 0;
     QMap<StringRef,int> s_authorStacTemp;
-    while(x < len){
-        if(ref.startsWith("key=\"", x)){
+    while (x < len){
+        if (ref.startsWith("key=\"", x)) {
             x += 5;
             StringRef key;
             key.l = x;
             while(ref[x] != '\"') ++x;
             key.r = x;
             keyIndex.append(key);
+//            qDebug() << "--record--";
 //            qDebug() << key;
-        }else if(ref[x] == '<'){
-            if(ref.startsWith("author", x + 1)){
-                StringRef author = readElementText(ref, x);
-                if(!s_authorStacTemp.contains(author)){
-                    s_authorStacTemp.insert(author,1);
+            ++x;
+            while (x < len) {
+                if (ref.startsWith("key=\"", x + 1)) break;
+                if (ref[x] == '<') {
+                    if (ref.startsWith("author", x + 1)) {
+                        StringRef author = readElementText(ref, x);
+                        if(!s_authorStacTemp.contains(author)) {
+                            s_authorStacTemp.insert(author,1);
+                        } else {
+                            s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
+//                            qDebug()<<s_authorStacTemp.find(author).key();
+                        }
+                        authorIndex.append(author);
+//                        qDebug() << author;
+                    } else if (ref.startsWith("title", x + 1)) {
+                        StringRef title = readElementText(ref, x);
+                        titleIndex.append(title);
+//                        qDebug() << title;
+                    } else if (ref.startsWith("year", x + 1)) {
+                        StringRef year = readElementText(ref, x);
+//                        qDebug() << year;
+                    }
                 }
-                else{
-                    s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
-//                    qDebug()<<s_authorStacTemp.find(author).key();
-                }
-                authorIndex.append(author);
-//                qDebug() << author;
-            }else if(ref.startsWith("title", x + 1)){
-                StringRef title = readElementText(ref, x);
-                titleIndex.append(title);
-//                qDebug() << title;
+                ++x;
             }
         }
         ++x;
