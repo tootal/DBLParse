@@ -20,15 +20,22 @@
 <body>
     <div class="container">
         <h1 class="display-1 text-center" style="font-family: Belgrano;">DBLParse</h1>
-        <div class="input-group">
-            <select id="type">
-                <option value="author" tr>Author</option>
-                <option value="title" tr>Title</option>
-                <option value="coauthor" tr>Co-Author</option>
-            </select>
-            <input type="text" id="word">
-            <button class="btn btn-outline-success" id="search" tr>Search</button>
-        </div>
+        <form action="javascript:void(0)">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <select id="type" class="pr-4">
+                        <option value="author" tr>Author</option>
+                        <option value="title" tr>Title</option>
+                        <option value="coauthor" tr>Co-Author</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" id="word">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success pl-4 pr-4" id="search" tr>Search</button>
+                </div>
+            </div>
+        </form>
+        
         <a id="homepage" class="link-card" style="display: none;">
             <div class="link-card-content">
                 <div class="link-card-text">
