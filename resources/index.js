@@ -10,7 +10,7 @@ var search = function(type, word) {
 // atob : base64 -> str
 // btoa : str -> base64
 
-var searchAuthor = function(authorEle){
+var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     $('#type').value = 'author';
     let author = atob(authorEle.dataset.author);
@@ -27,15 +27,15 @@ var formatTitle = function(record) {
 };
 
 var formatAuthor = function(author) {
-    return '<span class="search-author-other" onclick="searchAuthor(this)" data-author="'+ btoa(author) +'">' + author + '</span>';
+    return `<span class="search-author-other" onclick="searchAuthor(this)" data-author="${btoa(author)}">${author}</span>`;
 }
 
 var formatAuthors = function(record) {
     let ref = record.authors;
-    for(let j = 0; j < ref.length; ++j) {
-        if($('#type') == 'title' || ref[j] != $('#word').value){
+    for (let j = 0; j < ref.length; ++j) {
+        if ($('#type') == 'title' || ref[j] != $('#word').value) {
             ref[j] = formatAuthor(ref[j]);
-        }else{
+        } else {
             ref[j] = '<span class="search-author">' + ref[j] + '</span>';
         }
     }
