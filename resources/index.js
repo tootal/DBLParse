@@ -1,9 +1,23 @@
+var alert = function(type, msg) {
+    $('#alert').className = `alert alert-${type}`;
+    $('#alert').innerHTML = tr(msg);
+    $('#alert').style.display = 'block';
+}
+
 var search = function(type, word) {
-    if(type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        ele_result.innerHTML = tr('NOT FOUND!');
+    if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
+        alert('warning', 'You can not search this title.');
     } else {
         // console.log('search ', type, word);
-        finder.find(type, word);
+        if (location.href.startsWith('qrc:')) {
+            finder.find(type, word);
+        } else {
+            if (word == eval(`test.data.${type}`)) {
+                handleSearch(eval(`test.data.${type}_ret`));
+            } else {
+                handleSearch(test.data.not_found_ret);
+            }
+        }
     }
 };
 
@@ -43,11 +57,10 @@ var formatAuthors = function(record) {
 }
 
 var clearBefore = function() {
-    $('#info').innerHTML = "";
     $('#thead').innerHTML = "";
     $('#tbody').innerHTML = "";
     $('#homepage').style.display = "none";
-    $('#info').style.display = "none";
+    $('#alert').style.display = "none";
 }
 
 var handleHomePage = function(record) {
@@ -61,13 +74,11 @@ var handleHomePage = function(record) {
 
 var handleSearch = function(data) {
     clearBefore();
-
     if(data == "not_ready") return ;
     let json = JSON.parse(data);
     // console.log(json);
     if(json.length == 0){
-        $('#info').innerHTML = tr("NOT FOUND!");
-        $('#info').style.display = "block";
+        alert('danger', `${$('#type').value} not found!`);
         return ;
     }
 
