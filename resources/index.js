@@ -123,7 +123,8 @@ var handleSearch = function(data) {
                 handleHomePage(json[i]);
                 continue;
             }
-            tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
+            // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
+            tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i])}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             label = label + 1;
         }
     }
