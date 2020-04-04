@@ -1,5 +1,5 @@
 var alert = function(type, msg) {
-    $('#alert').className = `alert alert-${type}`;
+    $('#alert').className = `mt-5 alert alert-${type}`;
     $('#alert').innerHTML = tr(msg);
     $('#alert').style.display = 'block';
 }
@@ -69,8 +69,6 @@ var handleHomePage = function(record) {
     $('#homepage-meta').innerText = metaText;
     $('#homepage').style.display = "block";
 }
-
-
 
 var handleSearch = function(data) {
     clearBefore();
