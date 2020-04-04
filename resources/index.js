@@ -81,33 +81,36 @@ var setHeader = function(list) {
     $('#thead').innerHTML = `<tr>${s}</tr>`;
 };
 
+var addRow = function(list) {
+    let s = '';
+    for (i of list) {
+        s += `<td>${i}</td>`;
+    }
+    $('#tbody').innerHTML += `<tr>${s}</tr>`;
+};
+
 var handleSearch = function(data) {
     clearBefore();
-    if(data == "not_ready") return ;
+    if (data == "not_ready") return ;
     let json = JSON.parse(data);
     // console.log(json);
-    if(json.length == 0){
+    if (json.length == 0){
         alert('danger', `${$('#type').value} not found!`);
         return ;
     }
 
-    if($('#type').value == 'coauthor') {
+    if ($('#type').value == 'coauthor') {
         setHeader(['', 'Co-Author(s)']);
-        for(let i = 0; i < json.length; ++i){
-            $('#tbody').innerHTML += '<tr><td>' + (i+1) + '</td><td>' + formatAuthor(json[i]) + '</td></tr>';
+        for (let i = 0; i < json.length; ++i) {
+            addRow([i+1, formatAuthor(json[i])]);
         }
-    }else if($('#type').value == 'title') {
+    } else if ($('#type').value == 'title') {
         setHeader(['', 'Title', 'Author(s)', 'Modified']);
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
-        for(let i = 0; i < json.length; ++i) {
-            let tr = $('<tr>');
-            tr.innerHTML += '<td>' + (i+1) + '</td>';
-            tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + json[i].mdate + '</td>';
-            $('#tbody').appendChild(tr);
+        for (let i = 0; i < json.length; ++i) {
+            addRow([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
         }
     }else if($('#type').value == 'author') {
         setHeader(['', 'Title', 'Author(s)', 'Year']);
@@ -120,12 +123,7 @@ var handleSearch = function(data) {
                 handleHomePage(json[i]);
                 continue;
             }
-            let tr = $('<tr>');
-            tr.innerHTML += '<td>' + label + '</td>';
-            tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + json[i].year + '</td>';
-            $('#tbody').appendChild(tr);
+            addRow([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
             label = label + 1;
         }
     }
