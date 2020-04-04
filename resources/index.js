@@ -1,12 +1,13 @@
 var alert = function(type, msg) {
     $('#alert').className = `mt-5 alert alert-${type}`;
-    $('#alert').innerHTML = tr(msg);
+    $('#alert').innerHTML = msg;
     $('#alert').style.display = 'block';
 }
 
 var search = function(type, word) {
+    clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        alert('warning', 'You can not search this title.');
+        alert('warning', tr('You can not search this title.'));
     } else {
         // console.log('search ', type, word);
         if (location.href.startsWith('qrc:')) {
@@ -90,12 +91,11 @@ var addRow = function(list) {
 };
 
 var handleSearch = function(data) {
-    clearBefore();
     if (data == "not_ready") return ;
     let json = JSON.parse(data);
     // console.log(json);
     if (json.length == 0){
-        alert('danger', `${$('#type').value} not found!`);
+        alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
         return ;
     }
 

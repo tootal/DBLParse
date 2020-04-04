@@ -8,7 +8,9 @@ var strings = {
     "Year": "年份",
     "Modified": "修改日期",
     "Co-Author(s)": "合作者",
-
+    "coauthor": "合作者",
+    "author": "作者",
+    " not found!": "未找到！",
     "authors": "作者",
     "ee": "链接",
     "journal": "期刊",
@@ -31,4 +33,5 @@ var strings = {
     "isbn": "ISBN",
     "school": "学校",
     "chapter": "章节",
+    "You can not search this title.": "无法搜索此标题。"
 };
