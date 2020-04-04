@@ -19,7 +19,11 @@ var searchAuthor = function(authorEle){
 };
 
 var formatTitle = function(record) {
-    return '<a href="dblp://'+ record.mdate + '/'+ record.key +'">' + record.title + '</a>';
+    let href = 'detail.html';
+    if (location.href.startsWith('qrc:')) {
+        href = `dblp://${record.mdate}/${record.key}`;
+    }
+    return `<a href="${href}">${record.title}</a>`;
 };
 
 var formatAuthor = function(author) {
@@ -114,7 +118,7 @@ if(location.href.startsWith('qrc:')){
     });
 } else {
     $.load('index.test.js', function() {
-        // test.coauthor;
+        test.author;
     });
 }
 
