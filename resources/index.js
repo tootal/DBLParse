@@ -58,8 +58,6 @@ var formatAuthors = function(record) {
 }
 
 var clearBefore = function() {
-    $('#thead').innerHTML = "";
-    $('#tbody').innerHTML = "";
     $('#homepage').style.display = "none";
     $('#alert').style.display = "none";
 }
@@ -82,12 +80,12 @@ var setHeader = function(list) {
     $('#thead').innerHTML = `<tr>${s}</tr>`;
 };
 
-var addRow = function(list) {
+var rowHTML = function(list) {
     let s = '';
     for (i of list) {
         s += `<td>${i}</td>`;
     }
-    $('#tbody').innerHTML += `<tr>${s}</tr>`;
+    return `<tr>${s}</tr>`;
 };
 
 var handleSearch = function(data) {
@@ -98,11 +96,11 @@ var handleSearch = function(data) {
         alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
         return ;
     }
-
+    let tbodyHTML = '';
     if ($('#type').value == 'coauthor') {
         setHeader(['', 'Co-Author(s)']);
         for (let i = 0; i < json.length; ++i) {
-            addRow([i+1, formatAuthor(json[i])]);
+            tbodyHTML += rowHTML([i+1, formatAuthor(json[i])]);
         }
     } else if ($('#type').value == 'title') {
         setHeader(['', 'Title', 'Author(s)', 'Modified']);
@@ -110,7 +108,7 @@ var handleSearch = function(data) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
         for (let i = 0; i < json.length; ++i) {
-            addRow([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
+            tbodyHTML += rowHTML([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
         }
     } else if ($('#type').value == 'author') {
         setHeader(['', 'Title', 'Author(s)', 'Year']);
@@ -123,10 +121,11 @@ var handleSearch = function(data) {
                 handleHomePage(json[i]);
                 continue;
             }
-            addRow([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
+            tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
             label = label + 1;
         }
     }
+    $('#tbody').innerHTML = tbodyHTML;
 };
 
 if (location.href.startsWith('qrc:')) {
