@@ -19,10 +19,17 @@ let items = [
     'chapter'
 ];
 
-var stylish = function(data) {
-    let json = JSON.parse(data);
+var stylish_special = function(json) {
+    for (let key of json.key.split('/')) {
+        $('#key').innerHTML += `<li class="breadcrumb-item active">${key}</li>`;
+    }
     $('#name').innerText = json.name;
     $('#title').innerHTML = json.title;
+};
+
+var stylish = function(data) {
+    let json = JSON.parse(data);
+    stylish_special(json);
     
     for (let item of items) {
         if (item in json) {
