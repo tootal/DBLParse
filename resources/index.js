@@ -36,7 +36,7 @@ var formatAuthors = function(record) {
         if ($('#type') == 'title' || ref[j] != $('#word').value) {
             ref[j] = formatAuthor(ref[j]);
         } else {
-            ref[j] = '<span class="search-author">' + ref[j] + '</span>';
+            ref[j] = `<span class="font-weight-bold">${ref[j]}</span>`;
         }
     }
     return ref.join('; ');
