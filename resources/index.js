@@ -112,14 +112,14 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             addRow([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
         }
-    }else if($('#type').value == 'author') {
+    } else if ($('#type').value == 'author') {
         setHeader(['', 'Title', 'Author(s)', 'Year']);
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
         let label = 1;
-        for(let i = 0; i < json.length; ++i){
-            if(json[i].title == "Home Page"){
+        for (let i = 0; i < json.length; ++i) {
+            if (json[i].title == "Home Page") {
                 handleHomePage(json[i]);
                 continue;
             }
@@ -129,7 +129,7 @@ var handleSearch = function(data) {
     }
 };
 
-if(location.href.startsWith('qrc:')){
+if (location.href.startsWith('qrc:')) {
     new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
