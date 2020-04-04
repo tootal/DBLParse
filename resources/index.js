@@ -58,6 +58,8 @@ var formatAuthors = function(record) {
 }
 
 var clearBefore = function() {
+    $('#thead').innerHTML = "";
+    $('#tbody').innerHTML = "";
     $('#homepage').style.display = "none";
     $('#alert').style.display = "none";
 }
