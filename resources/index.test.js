@@ -21,5 +21,20 @@ var test = {
         $('#type').value = 'coauthor';
         $('#word').value = this.data.author;
         handleSearch(this.data.coauthor_ret);
+    },
+    get titlenotfound() {
+        $('#type').value = 'title';
+        $('#word').value = this.data.title;
+        handleSearch(this.data.not_found_ret);
+    },
+    get authornotfound() {
+        $('#type').value = 'author';
+        $('#word').value = this.data.author;
+        handleSearch(this.data.not_found_ret);
+    },
+    get coauthornotfound() {
+        $('#type').value = 'coauthor';
+        $('#word').value = this.data.author;
+        handleSearch(this.data.not_found_ret);
     }
 };
