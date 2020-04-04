@@ -17,7 +17,7 @@ var strings = {
     "number": "编号",
     "pages": "页码",
     "title": "标题",
-    "url": "链接",
+    "url": "网址",
     "volume": "卷",
     "year": "年份",
     "booktitle": "书名",

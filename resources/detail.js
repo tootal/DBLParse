@@ -25,6 +25,11 @@ var stylish_special = function(json) {
     }
     $('#name').innerText = json.name;
     $('#title').innerHTML = json.title;
+    for (let link of ['url', 'ee']) {
+        if (link in json) {
+            $('#link').innerHTML += `<a href="${json[link]}" class="btn btn-outline-primary">${tr(link)}</a>`;
+        }
+    }
 };
 
 var stylish = function(data) {
