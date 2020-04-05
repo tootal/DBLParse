@@ -46,6 +46,7 @@ var formatAuthor = function(author) {
 }
 
 var formatAuthors = function(record) {
+    if (typeof record.authors == "undefined") return "";
     let ref = record.authors;
     for (let j = 0; j < ref.length; ++j) {
         if ($('#type') == 'title' || ref[j] != $('#word').value) {
@@ -93,7 +94,7 @@ var rowHTML = function(list) {
 var handleSearch = function(data) {
     if (data == "not_ready") return ;
     let json = JSON.parse(data);
-    // console.log(json);
+    console.log(json);
     if (json.length == 0){
         alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
         return ;
