@@ -136,6 +136,36 @@ QList<quint32> Finder::indexOfKey(const QString &key) const
     return list;
 }
 
+bool Finder::authorLoaded() const
+{
+    return m_authorLoaded;
+}
+
+void Finder::setAuthorLoaded()
+{
+    m_authorLoaded = true;
+}
+
+bool Finder::titleLoaded() const
+{
+    return m_titleLoaded;
+}
+
+void Finder::setTitleLoaded()
+{
+    m_titleLoaded = true;
+}
+
+bool Finder::keyLoaded() const
+{
+    return m_keyLoaded;
+}
+
+void Finder::setKeyLoaded()
+{
+    m_keyLoaded = true;
+}
+
 bool Finder::loaded() const
 {
     return m_loaded;
