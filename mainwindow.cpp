@@ -30,14 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(ui->webview);
 
     m_parser = new Parser(this);
+    m_finder = new Finder(this);
+    m_loader = new Loader(this);
+    
+    ui->webview->registerObject("finder", m_finder);
+    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
+    
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
     
-    m_finder = new Finder(this);
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
     
-    m_loader = new Loader(this);
     connect(m_loader, &Loader::stateChanged,
             this, [this](const QString &state){
         statusBar()->showMessage(state); 
@@ -57,8 +61,6 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
-    ui->webview->registerObject("finder", m_finder);
-    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
     
     load();
 }
