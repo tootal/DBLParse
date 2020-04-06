@@ -25,28 +25,24 @@ QList<QPair<QString,int> >  Finder::authorStac;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
-    m_loaded = false;
-    m_authorLoaded = false;
-    m_titleLoaded = false;
-    m_keyLoaded = false;
+    clearIndex();
 }
 
 void Finder::find(const QString &type, const QString &word)
 {
-    if(!parsed() || !loaded()){
-        emit notReady();
-        emit ready("not_ready");
-        return ;
-    }
-//    qDebug() << type << word;
     QString result;
-    if(type == "author"){
+    if (!parsed()) goto not_ready;
+//    qDebug() << type << word;
+    if (type == "author"){
+        if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         result = getJson(list);
-    }else if(type == "title"){
+    } else if (type == "title"){
+        if (!titleLoaded()) goto not_ready;
         auto list = indexOfTitle(word);
         result = getJson(list);
-    }else if(type == "coauthor"){
+    } else if (type == "coauthor"){
+        if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         QSet<QString> coauthors;
         for(int i = 0; i < list.size(); ++i){
@@ -61,6 +57,11 @@ void Finder::find(const QString &type, const QString &word)
     }
 //    qDebug() << result;
     emit ready(result);
+    return ;
+not_ready:
+    emit notReady();
+    emit ready("not_ready");
+    return ;
 }
 
 void Finder::handleRequest(QUrl url)
@@ -97,12 +98,27 @@ bool Finder::parsed()
 void Finder::clearIndex()
 {
     m_loaded = false;
-    delete s_authorIndex;
-    delete s_titleIndex;
-    delete s_keyIndex;
-    s_authorIndex = nullptr;
-    s_titleIndex = nullptr;
-    s_keyIndex = nullptr;
+    m_authorLoaded = false;
+    m_titleLoaded = false;
+    m_keyLoaded = false;
+    m_authorStacLoaded = false;
+    
+    s_authorIndexs = 0;
+    if (s_authorIndex != nullptr) {
+        delete s_authorIndex;
+        s_authorIndex = nullptr;
+    }
+    s_titleIndexs = 0;
+    if (s_titleIndex != nullptr) {
+        delete s_titleIndex;
+        s_titleIndex = nullptr;
+    }
+    s_keyIndexs = 0;
+    if (s_keyIndex != nullptr) {
+        delete s_keyIndex;
+        s_keyIndex = nullptr;
+    }
+    
     authorStac.clear();
 }
 
