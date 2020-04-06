@@ -94,7 +94,7 @@ var rowHTML = function(list) {
 var handleSearch = function(data) {
     if (data == "not_ready") return ;
     let json = JSON.parse(data);
-    console.log(json);
+    // console.log(json);
     if (json.length == 0){
         alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
         return ;
