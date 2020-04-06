@@ -10,7 +10,7 @@ AuthorStacDialog::AuthorStacDialog(QWidget *parent,Finder *finder) :
 {
     ui->setupUi(this);
     ui->tableWidget->setColumnWidth(0, static_cast<int>(width() * 0.5));
-    QList<QPair<QString,int> > authorStac=finder->returnAuthorStac();
+    QList<QPair<QString,int> > authorStac=finder->authorStac();
 
     ui->tableWidget->clearContents();
 

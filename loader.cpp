@@ -20,7 +20,7 @@ void Loader::run()
     QDataStream stream;
     
     emit stateChanged(tr("Loading authorStac index..."));
-    Finder::authorStac.clear();
+    Finder::s_authorStac.clear();
     file.setFileName("authorStac.dat");
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
@@ -29,7 +29,7 @@ void Loader::run()
     QPair<QString,int>   tempAuthorStac;
     while(!in.atEnd()){
         in >> tempAuthorStac.first >> tempAuthorStac.second;
-        Finder::authorStac.append(tempAuthorStac);
+        Finder::s_authorStac.append(tempAuthorStac);
     }
     emit authorStacLoadDone();
     file.close();

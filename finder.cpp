@@ -21,7 +21,7 @@ quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 quint32 Finder::s_keyIndexs = 0;
 QFile *Finder::s_file = nullptr;
-QList<QPair<QString,int> >  Finder::authorStac;
+QList<QPair<QString,int> >  Finder::s_authorStac;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -119,7 +119,7 @@ void Finder::clearIndex()
         s_keyIndex = nullptr;
     }
     
-    authorStac.clear();
+    s_authorStac.clear();
 }
 
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
