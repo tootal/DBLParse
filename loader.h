@@ -13,6 +13,9 @@ public:
 signals:
     void stateChanged(const QString &state);
     void loadDone();
+    void authorLoadDone();
+    void titleLoadDone();
+    void keyLoadDone();
 };
 
 #endif // LOADER_H
