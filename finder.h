@@ -19,6 +19,8 @@ public:
     QList<quint32> indexOfTitle(const QString &title) const;
     QList<quint32> indexOfKey(const QString &key) const;
     static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
+    bool authorStacLoaded() const;
+    void setAuthorStacLoaded();
     bool authorLoaded() const;
     void setAuthorLoaded();
     bool titleLoaded() const;
@@ -38,6 +40,7 @@ private:
     bool m_authorLoaded;
     bool m_titleLoaded;
     bool m_keyLoaded;
+    bool m_authorStacLoaded;
 
 public:
     static QFile *s_file;

@@ -139,6 +139,16 @@ QList<quint32> Finder::indexOfKey(const QString &key) const
     return list;
 }
 
+bool Finder::authorStacLoaded() const
+{
+    return m_authorStacLoaded;
+}
+
+void Finder::setAuthorStacLoaded()
+{
+    m_authorStacLoaded = true;
+}
+
 bool Finder::authorLoaded() const
 {
     return m_authorLoaded;

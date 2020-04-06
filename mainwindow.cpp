@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, [this](const QString &state){
         statusBar()->showMessage(state); 
     });
+    connect(m_loader, &Loader::authorStacLoadDone,
+            m_finder, &Finder::setAuthorStacLoaded);
     connect(m_loader, &Loader::authorLoadDone,
             m_finder, &Finder::setAuthorLoaded);
     connect(m_loader, &Loader::titleLoadDone,
@@ -211,7 +213,7 @@ void MainWindow::load()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(!m_finder->parsed() || !m_finder->loaded()){
+     if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }
