@@ -26,6 +26,9 @@ QList<QPair<QString,int> >  Finder::authorStac;
 Finder::Finder(QObject *parent) : QObject(parent)
 {
     m_loaded = false;
+    m_authorLoaded = false;
+    m_titleLoaded = false;
+    m_keyLoaded = false;
 }
 
 void Finder::find(const QString &type, const QString &word)
