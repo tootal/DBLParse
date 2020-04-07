@@ -31,6 +31,7 @@ void Parser::parse()
     
     QFile file;
     QTextStream textStream(&file);
+    QDataStream dataStream(&file);
     
     file.setFileName(Util::getXmlFileName());
     file.open(QFile::ReadOnly);
@@ -151,37 +152,35 @@ void Parser::parse()
     elapsedTime = m_costMsecs;
     delete[] s_data;
     file.setFileName("author.dat");
-    QDataStream stream(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, authorIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
+    
     file.setFileName("title.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, titleIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
+    
     file.setFileName("key.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, keyIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
 
     file.setFileName("authorStac.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     int num = s_authorStac.size()<=100 ? s_authorStac.size() : 100;
     for(int i=0;i<num;i++){
-        stream << s_authorStac[i].first << s_authorStac[i].second;
+        dataStream << s_authorStac[i].first << s_authorStac[i].second;
     }
     file.close();
     s_authorStac.clear();
