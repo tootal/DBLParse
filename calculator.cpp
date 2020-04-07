@@ -14,12 +14,13 @@ void Calculator::calc()
     
     QString fileName("authors_relation.txt");
     QFile file(fileName);
+    QTextStream in(&file);
     Q_ASSERT(file.exists());
     file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
-    QTextStream in(&file);
     
     
     
+    file.close();
     emit resultReady();
 }
