@@ -28,7 +28,10 @@ void Parser::parse()
     timing.start();
     emit stateChanged(tr("Parsing start."));
     int elapsedTime = 0;
+    
     QFile file;
+    QTextStream textStream;
+    
     file.setFileName(Util::getXmlFileName());
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
@@ -108,9 +111,9 @@ void Parser::parse()
     
     file.setFileName("authors.txt");
     file.open(QFile::WriteOnly | QFile::Text);
+    textStream.setDevice(&file);
     foreach (StringRef author, authors) {
-        file.write(author.toString().toUtf8());
-        file.write("\n");
+        textStream << author.toString() << '\n';
     }
     file.close();
     
