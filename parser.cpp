@@ -17,11 +17,6 @@ Parser::Parser(QObject *parent)
     
 }
 
-void Parser::setFileName(const QString &fileName)
-{
-    m_fileName = fileName;
-}
-
 void Parser::run()
 {
     parse();
@@ -32,8 +27,8 @@ void Parser::parse()
     m_timing.start();
     emit stateChanged(tr("Parsing start."));
     int elapsedTime = 0;
-    Q_ASSERT(!m_fileName.isEmpty());
-    QFile file(m_fileName);
+    QFile file;
+    file.setFileName(Util::getXmlFileName());
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
     s_data = new char[static_cast<quint64>(file.size())];
@@ -160,11 +155,6 @@ void Parser::parse()
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
-}
-
-QString Parser::fileName() const
-{
-    return m_fileName;
 }
 
 Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &from)

@@ -18,8 +18,6 @@ public:
     Parser(QObject *parent = nullptr);
     void run() override;
     void parse();
-    QString fileName() const;
-    void setFileName(const QString &fileName);
     int costMsecs();
     static void clearIndex();
 signals:
@@ -54,7 +52,6 @@ public:
 //    static QList<int> returnValues(){return values;}
 
 private:
-    QString m_fileName;
     int m_costMsecs;
     QTime m_timing;
     static QList<QPair<QString,int> > authorStac;

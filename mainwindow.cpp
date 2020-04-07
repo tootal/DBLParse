@@ -140,7 +140,6 @@ void MainWindow::on_action_Open_triggered()
     connect(m_parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
     dialog->open();
-    m_parser->setFileName(fileName);
     m_parser->start();
 }
 
