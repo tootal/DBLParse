@@ -44,6 +44,10 @@ void Parser::parse()
     QVector<StringRef> keyIndex;
     quint32 x = 0;
     QMap<StringRef,int> s_authorStacTemp;
+    int totalAuthor = 0;
+    QMap<StringRef, int> authorId;
+    QVector<StringRef> authors;
+    QVector<QStringList> authors_relation;
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
