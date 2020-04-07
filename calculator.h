@@ -2,6 +2,7 @@
 #define CALCULATOR_H
 
 #include <QObject>
+#include <QVector>
 
 class Calculator : public QObject
 {
@@ -11,6 +12,10 @@ public:
 
 public slots:
     void calc();
+    
+private:
+    QVector<QVector<int>> G;
+    void printG();
     
 signals:
     void resultReady();

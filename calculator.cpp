@@ -22,7 +22,7 @@ void Calculator::calc()
     
     int totalAuthor;
     in >> totalAuthor;
-    QVector<QVector<int>> G(totalAuthor + 1);
+    G.resize(totalAuthor + 1);
     while (!in.atEnd()) {
         QString line = in.readLine();
         QVector<int> nodes;
@@ -36,7 +36,14 @@ void Calculator::calc()
             }
         }
     }
-    for (int i = 1; i <= totalAuthor; ++i) {
+//    printG();
+    file.close();
+    emit resultReady();
+}
+
+void Calculator::printG()
+{
+    for (int i = 1; i < G.size(); ++i) {
         QString msg;
         QTextStream out(&msg);
         out << "G[" << i << "] = {";
@@ -47,6 +54,4 @@ void Calculator::calc()
         out << '}';
         qDebug() << msg;
     }
-    file.close();
-    emit resultReady();
 }
