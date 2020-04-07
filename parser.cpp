@@ -9,7 +9,7 @@
 #include <QList>
 
 char *Parser::s_data;
-QList<QPair<QString,int> > Parser::authorStac;
+QList<QPair<QString,int> > Parser::s_authorStac;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -43,7 +43,7 @@ void Parser::parse()
     QVector<StringRef> titleIndex;
     QVector<StringRef> keyIndex;
     quint32 x = 0;
-    QMap<StringRef,int> s_authorStacTemp;
+    QMap<StringRef,int> authorStacTemp;
     int totalAuthor = 0;
     // authorId starts from 1
     QMap<StringRef, int> authorId;
@@ -76,10 +76,10 @@ void Parser::parse()
                             authorId[author] = totalAuthor;
                             authors.append(author);
                         }
-                        if(!s_authorStacTemp.contains(author)) {
-                            s_authorStacTemp.insert(author,1);
+                        if(!authorStacTemp.contains(author)) {
+                            authorStacTemp.insert(author,1);
                         } else {
-                            s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
+                            authorStacTemp.insert(author,authorStacTemp.find(author).value()+1);
 //                            qDebug()<<s_authorStacTemp.find(author).key();
                         }
                         authorIndex.append(author);
@@ -125,20 +125,20 @@ void Parser::parse()
 
     QList<QPair<Parser::StringRef,int> > temp;
 
-    QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
-    while(it!=s_authorStacTemp.end()){
+    QMap<StringRef, int>::iterator it=authorStacTemp.begin();
+    while(it!=authorStacTemp.end()){
         temp.append(qMakePair(it.key(),it.value()));
         it++;
     }
 
-    s_authorStacTemp.clear();
+    authorStacTemp.clear();
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
-    authorStac.clear();
+    s_authorStac.clear();
 
     for(qint32 t=0;t<temp.size();t++){
-        authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
+        s_authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
     }
 
     std::sort(authorIndex.begin(), authorIndex.end());
@@ -177,12 +177,12 @@ void Parser::parse()
     stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    int num=authorStac.size()<=100?authorStac.size():100;
+    int num = s_authorStac.size()<=100 ? s_authorStac.size() : 100;
     for(int i=0;i<num;i++){
-        stream << authorStac[i].first << authorStac[i].second;
+        stream << s_authorStac[i].first << s_authorStac[i].second;
     }
     file.close();
-    authorStac.clear();
+    s_authorStac.clear();
 
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));

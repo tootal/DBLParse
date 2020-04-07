@@ -47,13 +47,13 @@ public:
         return debug;
     }
     static bool sortByDesc(QPair<StringRef,int> l,QPair<StringRef,int> r){return l.second>r.second;}
-    static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
+    static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
 //    static QList<QString> returnKeys(){return keys;}
 //    static QList<int> returnValues(){return values;}
 
 private:
     int m_costMsecs;
-    static QList<QPair<QString,int> > authorStac;
+    static QList<QPair<QString,int> > s_authorStac;
 //    static QList<QString> keys;
 //    static QList<int> values;
 
