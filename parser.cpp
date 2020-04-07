@@ -45,7 +45,7 @@ void Parser::parse()
     quint32 x = 0;
     QMap<StringRef,int> s_authorStacTemp;
     int totalAuthor = 0;
-    // authorId starts from 0
+    // authorId starts from 1
     QMap<StringRef, int> authorId;
     QVector<StringRef> authors;
     QVector<QStringList> authorsIdRelation;
@@ -72,8 +72,8 @@ void Parser::parse()
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
                         if (!authorId.contains(author)) {
-                            authorId[author] = totalAuthor;
                             ++totalAuthor;
+                            authorId[author] = totalAuthor;
                             authors.append(author);
                         }
                         if(!s_authorStacTemp.contains(author)) {
@@ -103,6 +103,25 @@ void Parser::parse()
     emit stateChanged(tr("XML file parse successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
+    // Save authors to authors.txt
+    // The author's ID in line x is x
+    
+    file.setFileName("authors.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    foreach (StringRef author, authors) {
+        file.write(author.toString().toUtf8());
+        file.write("\n");
+    }
+    file.close();
+    
+    // Save authors relation to authors_relation.txt
+    file.setFileName("authors_relation.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    foreach (QStringList relation, authorsIdRelation) {
+        file.write(relation.join(' ').toUtf8());
+        file.write("\n");
+    }
+    file.close();
 
 //    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
 //    values=s_authorStacTemp.values();
