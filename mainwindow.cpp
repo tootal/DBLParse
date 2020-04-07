@@ -29,13 +29,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->webview);
-
-    m_parser = new Parser(this);
     m_finder = new Finder(this);
-    m_loader = new Loader(this);
-    
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
+
+    m_parser = new Parser(this);
+    m_loader = new Loader(this);
+    m_calculator = new Calculator;
+    
+    m_calculator->moveToThread(&m_calcThread);
+    connect(this, &MainWindow::startCalc,
+            m_calculator, &Calculator::calc);
+    connect(m_calculator, &Calculator::resultReady,
+            this, &MainWindow::handleCalc);
+    m_calcThread.start();
     
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
@@ -196,15 +203,6 @@ void MainWindow::load()
 
 void MainWindow::calc()
 {
-    Calculator *calculator = new Calculator;
-    calculator->moveToThread(&m_calcThread);
-    connect(&m_calcThread, &QThread::finished,
-            calculator, &QObject::deleteLater);
-    connect(this, &MainWindow::startCalc,
-            calculator, &Calculator::calc);
-    connect(calculator, &Calculator::resultReady,
-            this, &MainWindow::handleCalc);
-    m_calcThread.start();
     emit startCalc();
 }
 

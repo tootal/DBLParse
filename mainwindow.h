@@ -8,6 +8,7 @@ class Parser;
 class ParseDialog;
 class Finder;
 class Loader;
+class Calculator;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -51,6 +52,7 @@ private:
     Parser *m_parser;
     Finder *m_finder;
     Loader *m_loader;
+    Calculator *m_calculator;
     QThread m_calcThread;
     
     void load();
