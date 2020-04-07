@@ -123,9 +123,6 @@ void Parser::parse()
     }
     file.close();
 
-//    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
-//    values=s_authorStacTemp.values();
-
     QList<QPair<Parser::StringRef,int> > temp;
 
     QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
