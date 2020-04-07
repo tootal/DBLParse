@@ -30,7 +30,7 @@ void Parser::parse()
     int elapsedTime = 0;
     
     QFile file;
-    QTextStream textStream;
+    QTextStream textStream(&file);
     
     file.setFileName(Util::getXmlFileName());
     file.open(QFile::ReadOnly);
@@ -111,7 +111,6 @@ void Parser::parse()
     
     file.setFileName("authors.txt");
     file.open(QFile::WriteOnly | QFile::Text);
-    textStream.setDevice(&file);
     foreach (StringRef author, authors) {
         textStream << author.toString() << '\n';
     }
@@ -120,11 +119,9 @@ void Parser::parse()
     // Save authors relation to authors_relation.txt
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
-    file.write(QString::number(totalAuthor).toUtf8());
-    file.write("\n");
+    textStream << totalAuthor << '\n';
     foreach (QStringList relation, authorsIdRelation) {
-        file.write(relation.join(' ').toUtf8());
-        file.write("\n");
+        textStream << relation.join(' ') << '\n';
     }
     file.close();
 
