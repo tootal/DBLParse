@@ -117,6 +117,8 @@ void Parser::parse()
     // Save authors relation to authors_relation.txt
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
+    file.write(QString::number(totalAuthor).toUtf8());
+    file.write("\n");
     foreach (QStringList relation, authorsIdRelation) {
         file.write(relation.join(' ').toUtf8());
         file.write("\n");
