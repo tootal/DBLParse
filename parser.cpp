@@ -24,7 +24,8 @@ void Parser::run()
 
 void Parser::parse()
 {
-    m_timing.start();
+    QTime timing;
+    timing.start();
     emit stateChanged(tr("Parsing start."));
     int elapsedTime = 0;
     QFile file;
@@ -35,7 +36,7 @@ void Parser::parse()
     quint32 len = static_cast<quint32>(file.read(s_data, file.size()));
     StringRef ref(0, len);
     file.close();
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("XML file read successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
     QVector<StringRef> authorIndex;
@@ -81,7 +82,7 @@ void Parser::parse()
         }
         ++x;
     }
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("XML file parse successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
@@ -110,7 +111,7 @@ void Parser::parse()
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
     std::sort(keyIndex.begin(), keyIndex.end());
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
     delete[] s_data;
@@ -150,7 +151,7 @@ void Parser::parse()
     file.close();
     authorStac.clear();
 
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);

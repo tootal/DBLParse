@@ -53,7 +53,6 @@ public:
 
 private:
     int m_costMsecs;
-    QTime m_timing;
     static QList<QPair<QString,int> > authorStac;
 //    static QList<QString> keys;
 //    static QList<int> values;
