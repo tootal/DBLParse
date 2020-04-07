@@ -10,6 +10,7 @@
 #include "authorstacdialog.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
+#include "calculator.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -38,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
+    connect(m_parser, &Parser::done,
+            this, &MainWindow::calc);
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
@@ -74,6 +77,8 @@ MainWindow::~MainWindow()
     m_loader->wait();
     m_parser->quit();
     m_parser->wait();
+    m_calcThread.quit();
+    m_calcThread.wait();
 }
 
 
@@ -212,6 +217,25 @@ void MainWindow::load()
 {
     m_loader->start();
     Finder::init();
+}
+
+void MainWindow::calc()
+{
+    Calculator *calculator = new Calculator;
+    calculator->moveToThread(&m_calcThread);
+    connect(&m_calcThread, &QThread::finished,
+            calculator, &QObject::deleteLater);
+    connect(this, &MainWindow::startCalc,
+            calculator, &Calculator::calc);
+    connect(calculator, &Calculator::resultReady,
+            this, &MainWindow::handleCalc);
+    m_calcThread.start();
+    emit startCalc();
+}
+
+void MainWindow::handleCalc()
+{
+    qDebug() << "calc finished";
 }
 
 void MainWindow::on_actionAuthorStac_triggered()

@@ -49,7 +49,13 @@ private:
     Parser *m_parser;
     Finder *m_finder;
     Loader *m_loader;
+    QThread m_calcThread;
     
     void load();
+    void calc();
+    void handleCalc();
+    
+signals:
+    void startCalc();
 };
 #endif // MAINWINDOW_H
