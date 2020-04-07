@@ -45,9 +45,10 @@ void Parser::parse()
     quint32 x = 0;
     QMap<StringRef,int> s_authorStacTemp;
     int totalAuthor = 0;
+    // authorId starts from 0
     QMap<StringRef, int> authorId;
     QVector<StringRef> authors;
-    QVector<QStringList> authors_relation;
+    QVector<QStringList> authorsIdRelation;
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
@@ -59,11 +60,22 @@ void Parser::parse()
 //            qDebug() << "--record--";
 //            qDebug() << key;
             ++x;
-            while (x < len) {
-                if (ref.startsWith("key=\"", x + 1)) break;
+            QStringList recordAuthorsId;
+            while (x <= len) {
+                if (x == len || ref.startsWith("key=\"", x + 1)) {
+                    if (recordAuthorsId.size() > 1) {
+                        authorsIdRelation.append(recordAuthorsId);
+                    }
+                    break;
+                }
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
+                        if (!authorId.contains(author)) {
+                            authorId[author] = totalAuthor;
+                            ++totalAuthor;
+                            authors.append(author);
+                        }
                         if(!s_authorStacTemp.contains(author)) {
                             s_authorStacTemp.insert(author,1);
                         } else {
@@ -71,6 +83,7 @@ void Parser::parse()
 //                            qDebug()<<s_authorStacTemp.find(author).key();
                         }
                         authorIndex.append(author);
+                        recordAuthorsId.append(QString::number(authorId[author]));
 //                        qDebug() << author;
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
