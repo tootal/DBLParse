@@ -44,6 +44,8 @@ private slots:
     
     void on_action_Settings_triggered();
     
+    void on_action_Count_Clique_triggered();
+    
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;

@@ -39,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
-    connect(m_parser, &Parser::done,
-            this, &MainWindow::calc);
+//    connect(m_parser, &Parser::done,
+//            this, &MainWindow::calc);
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
@@ -234,4 +234,9 @@ void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dialog = new SettingsDialog(this);
     dialog->open();
+}
+
+void MainWindow::on_action_Count_Clique_triggered()
+{
+    calc();
 }

@@ -63,6 +63,7 @@
     </property>
     <addaction name="action_Clear_Index"/>
     <addaction name="action_Open_Index_Folder"/>
+    <addaction name="action_Count_Clique"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -123,6 +124,11 @@
   <action name="action_Settings">
    <property name="text">
     <string>&amp;Settings</string>
+   </property>
+  </action>
+  <action name="action_Count_Clique">
+   <property name="text">
+    <string>&amp;Count Clique</string>
    </property>
   </action>
  </widget>
