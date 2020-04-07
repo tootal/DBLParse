@@ -125,6 +125,10 @@ void Parser::parse()
         textStream << relation.join(' ') << '\n';
     }
     file.close();
+    
+    m_costMsecs = timing.elapsed();
+    emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
+    elapsedTime = m_costMsecs;
 
     QList<QPair<Parser::StringRef,int> > temp;
 
@@ -151,6 +155,7 @@ void Parser::parse()
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
     delete[] s_data;
+    
     file.setFileName("author.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
