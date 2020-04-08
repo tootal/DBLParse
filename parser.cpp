@@ -51,14 +51,14 @@ void Parser::parse()
     // authorId starts from 0
     QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfo;
     QVector<StringRef> authors;
-    QVector<QStringList> authorsIdRelation;
+    QVector<QVector<int>> authorsIdRelation;
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
             StringRef key = readElementAttr(ref, x);
             keyIndex.append(key);
             x = key.r + 1;
-            QStringList recordAuthorsId;
+            QVector<int> recordAuthorsId;
             while (x <= len) {
                 if (x == len || ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
@@ -80,7 +80,7 @@ void Parser::parse()
                         }
                         ++info->second;
                         authorIndex.append(author);
-                        recordAuthorsId.append(QString::number(info->first/*id*/));
+                        recordAuthorsId.append(info->first/*id*/);
 //                        qDebug() << author;
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
@@ -114,8 +114,12 @@ void Parser::parse()
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
     textStream << totalAuthor << '\n';
-    foreach (QStringList relation, authorsIdRelation) {
-        textStream << relation.join(' ') << '\n';
+    for (auto relation : authorsIdRelation) {
+        textStream << relation[0];
+        for (int i = 1; i < relation.size(); ++i) {
+            textStream << ' ' << relation[i];
+        }
+        textStream << '\n';
     }
     file.close();
     
