@@ -25,8 +25,13 @@ public:
         return QString::number(v);
     }
     
-    template <typename T>
-    static QString str(T v) {
+    template <typename A, typename B>
+    static QString str(QPair<A, B> p) {
+        return QString("(%1, %2)").arg(str(p.first)).arg(str(p.second));
+    }
+    
+    template <typename A>
+    static QString str(A v) {
         bool first = true;
         QString res = "{";
         for (const auto &x : v) {
