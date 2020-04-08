@@ -80,12 +80,7 @@ void Parser::parse()
                             ++totalAuthor;
                             authors.append(author);
                         }
-                        if(!authorStacTemp.contains(author)) {
-                            authorStacTemp.insert(author,1);
-                        } else {
-                            authorStacTemp.insert(author,authorStacTemp.find(author).value()+1);
-//                            qDebug()<<s_authorStacTemp.find(author).key();
-                        }
+                        ++authorStacTemp[author];
                         authorIndex.append(author);
                         recordAuthorsId.append(QString::number(authorId[author]));
 //                        qDebug() << author;
