@@ -11,7 +11,7 @@ ConfigManager::ConfigManager(QObject *parent) : QObject(parent)
 
 void ConfigManager::init()
 {
-    setDefault("version", "2.4");
+    setDefault("version", "2.5");
     setDefault("lastOpenFileName", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     setDefault("language", "System");
 }
