@@ -4,9 +4,11 @@
 IDE：Qt Creator  
 编译器：Qt 5.12.7 MSVC2017 64bit  
 
-## 前缀约定
-
-全局变量：`g_`  
+## 命名风格
+类名称：单词首字母大写  
+文件名：全部小写  
+普通变量、函数名：首字母小写、其余单词首字母大写  
+全局变量：`g_`    
 常量：`c_`  
 成员变量：`m_`  
 静态成员变量：`s_`  
@@ -36,8 +38,7 @@ IDE：Qt Creator
 后端使用Qt Creator内置的UI设计师进行界面设计。
 
 ### 前端
-引入前端框架[Bootstrap](https://getbootstrap.com/)的样式文件（`bootstrap.min.css`，版本为4.4.1），注意没有引入JS文件。
-
+引入前端框架[Bootstrap](https://getbootstrap.com/)进行布局。  
 
 ## 前后端交互
 ### WebView
