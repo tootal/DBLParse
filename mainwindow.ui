@@ -127,6 +127,9 @@
    </property>
   </action>
   <action name="action_Count_Clique">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Count Clique</string>
    </property>
