@@ -424,10 +424,10 @@ var handleSearch = function(data) {
 
 var resSaveMes= function(data){
     if(data){
-        alert("保存成功，请前往索引文件目录查看");
+        alert(tr("Save successfully, please go to the index file directory to view."));
     }
     else{
-        alert("保存失败！");
+        alert(tr("Save failed!"));
     }
 }
 
