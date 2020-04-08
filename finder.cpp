@@ -61,12 +61,12 @@ void Finder::find(const QString &type, const QString &word)
 //        for(int i=0;i<cograph.size();i++){
 //            cograph.removeAt(i);
 //        }
-        qDebug()<<word;
+//        qDebug()<<word;
         cograph=cographBFS(word);
 //        qDebug()<<"cograph"<<cograph;
         result=QJsonDocument(cograph).toJson();
     }
-    qDebug() << result;
+//    qDebug() << result;
     emit ready(result);
     return ;
 not_ready:
@@ -356,7 +356,7 @@ QJsonArray Finder::cographBFS(QString node) {
 //            qDebug()<<222<<coNode;
             cograph.append(coNode);
             num++;
-            qDebug()<<num;
+//            qDebug()<<num;
             coauthors.clear();
         }
 
