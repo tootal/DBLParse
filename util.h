@@ -2,6 +2,9 @@
 #define UTIL_H
 
 #include <QObject>
+#include <QDebug>
+#include <string>
+#include <type_traits>
 
 class Util : public QObject
 {
@@ -18,8 +21,31 @@ public:
     static const QVector<QPair<QString, QString>> availableLanguages();
     static QString getLocale();
     
+    static QString str(int v) {
+        return QString::number(v);
+    }
+    
+    template <typename A, typename B>
+    static QString str(QPair<A, B> p) {
+        return QString("(%1, %2)").arg(str(p.first)).arg(str(p.second));
+    }
+    
+    template <typename A>
+    static QString str(A v) {
+        bool first = true;
+        QString res = "{";
+        for (const auto &x : v) {
+            if (!first) res += ", ";
+            first = false;
+            res += str(x);
+        }
+        res += "}";
+        return res;
+    }
+    
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
 };
+
 
 #endif // UTIL_H

@@ -9,17 +9,12 @@
 #include <QList>
 
 char *Parser::s_data;
-QList<QPair<QString,int> > Parser::authorStac;
+QList<QPair<QString,int> > Parser::s_authorStac;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
     
-}
-
-void Parser::setFileName(const QString &fileName)
-{
-    m_fileName = fileName;
 }
 
 void Parser::run()
@@ -29,133 +24,172 @@ void Parser::run()
 
 void Parser::parse()
 {
-    m_timing.start();
+    QTime timing;
+    timing.start();
     emit stateChanged(tr("Parsing start."));
     int elapsedTime = 0;
-    Q_ASSERT(!m_fileName.isEmpty());
-    QFile file(m_fileName);
+    
+    QFile file;
+    QTextStream textStream(&file);
+    QDataStream dataStream(&file);
+    
+    file.setFileName(Util::getXmlFileName());
     file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
     s_data = new char[static_cast<quint64>(file.size())];
     quint32 len = static_cast<quint32>(file.read(s_data, file.size()));
     StringRef ref(0, len);
     file.close();
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("XML file read successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
     QVector<StringRef> authorIndex;
     QVector<StringRef> titleIndex;
     QVector<StringRef> keyIndex;
     quint32 x = 0;
-    QMap<StringRef,int> s_authorStacTemp;
-    while(x < len){
-        if(ref.startsWith("key=\"", x)){
+    QMap<StringRef,int> authorStacTemp;
+    int totalAuthor = 0;
+    // authorId starts from 0
+    QMap<StringRef, int> authorId;
+    QVector<StringRef> authors;
+    QVector<QStringList> authorsIdRelation;
+    while (x < len){
+        if (ref.startsWith("key=\"", x)) {
             x += 5;
             StringRef key;
             key.l = x;
             while(ref[x] != '\"') ++x;
             key.r = x;
             keyIndex.append(key);
+//            qDebug() << "--record--";
 //            qDebug() << key;
-        }else if(ref[x] == '<'){
-            if(ref.startsWith("author", x + 1)){
-                StringRef author = readElementText(ref, x);
-                if(!s_authorStacTemp.contains(author)){
-                    s_authorStacTemp.insert(author,1);
+            ++x;
+            QStringList recordAuthorsId;
+            while (x <= len) {
+                if (x == len || ref.startsWith("key=\"", x + 1)) {
+                    if (recordAuthorsId.size() > 1) {
+                        authorsIdRelation.append(recordAuthorsId);
+                    }
+                    break;
                 }
-                else{
-                    s_authorStacTemp.insert(author,s_authorStacTemp.find(author).value()+1);
-//                    qDebug()<<s_authorStacTemp.find(author).key();
+                if (ref[x] == '<') {
+                    if (ref.startsWith("author", x + 1)) {
+                        StringRef author = readElementText(ref, x);
+                        if (!authorId.contains(author)) {
+                            authorId[author] = totalAuthor;
+                            ++totalAuthor;
+                            authors.append(author);
+                        }
+                        ++authorStacTemp[author];
+                        authorIndex.append(author);
+                        recordAuthorsId.append(QString::number(authorId[author]));
+//                        qDebug() << author;
+                    } else if (ref.startsWith("title", x + 1)) {
+                        StringRef title = readElementText(ref, x);
+                        titleIndex.append(title);
+//                        qDebug() << title;
+                    } else if (ref.startsWith("year", x + 1)) {
+                        StringRef year = readElementText(ref, x);
+//                        qDebug() << year;
+                    }
                 }
-                authorIndex.append(author);
-//                qDebug() << author;
-            }else if(ref.startsWith("title", x + 1)){
-                StringRef title = readElementText(ref, x);
-                titleIndex.append(title);
-//                qDebug() << title;
+                ++x;
             }
         }
         ++x;
     }
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("XML file parse successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
-
-//    QList<Parser::StringRef> tempkeys=s_authorStacTemp.keys();
-//    values=s_authorStacTemp.values();
+    // Save authors to authors.txt
+    // The author's ID in line x is x
+    
+    file.setFileName("authors.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    foreach (StringRef author, authors) {
+        textStream << author.toString() << '\n';
+    }
+    file.close();
+    
+    // Save authors relation to authors_relation.txt
+    file.setFileName("authors_relation.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    textStream << totalAuthor << '\n';
+    foreach (QStringList relation, authorsIdRelation) {
+        textStream << relation.join(' ') << '\n';
+    }
+    file.close();
+    
+    m_costMsecs = timing.elapsed();
+    emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
+    elapsedTime = m_costMsecs;
 
     QList<QPair<Parser::StringRef,int> > temp;
 
-    QMap<StringRef, int>::iterator it=s_authorStacTemp.begin();
-    while(it!=s_authorStacTemp.end()){
+    QMap<StringRef, int>::iterator it=authorStacTemp.begin();
+    while(it!=authorStacTemp.end()){
         temp.append(qMakePair(it.key(),it.value()));
         it++;
     }
 
-    s_authorStacTemp.clear();
+    authorStacTemp.clear();
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
-    authorStac.clear();
+    s_authorStac.clear();
 
     for(qint32 t=0;t<temp.size();t++){
-        authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
+        s_authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
     }
 
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
     std::sort(keyIndex.begin(), keyIndex.end());
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
     delete[] s_data;
+    
     file.setFileName("author.dat");
-    QDataStream stream(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, authorIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
+    
     file.setFileName("title.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, titleIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
+    
     file.setFileName("key.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, keyIndex){
-        stream << i.l << i.r;
+        dataStream << i.l << i.r;
     }
     file.close();
 
     file.setFileName("authorStac.dat");
-    stream.setDevice(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    int num=authorStac.size()<=100?authorStac.size():100;
+    int num = s_authorStac.size()<=100 ? s_authorStac.size() : 100;
     for(int i=0;i<num;i++){
-        stream << authorStac[i].first << authorStac[i].second;
+        dataStream << s_authorStac[i].first << s_authorStac[i].second;
     }
     file.close();
-    authorStac.clear();
+    s_authorStac.clear();
 
-    m_costMsecs = m_timing.elapsed();
+    m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
-}
-
-QString Parser::fileName() const
-{
-    return m_fileName;
 }
 
 Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &from)

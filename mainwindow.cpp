@@ -10,6 +10,7 @@
 #include "authorstacdialog.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
+#include "calculator.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -28,20 +29,41 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->webview);
+    m_finder = new Finder(this);
+    ui->webview->registerObject("finder", m_finder);
+    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
 
     m_parser = new Parser(this);
+    m_loader = new Loader(this);
+    m_calculator = new Calculator;
+    
+    m_calculator->moveToThread(&m_calcThread);
+    connect(this, &MainWindow::startCalc,
+            m_calculator, &Calculator::calc);
+    connect(m_calculator, &Calculator::resultReady,
+            this, &MainWindow::handleCalc);
+    m_calcThread.start();
+    
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
+//    connect(m_parser, &Parser::done,
+//            this, &MainWindow::calc);
     
-    m_finder = new Finder(this);
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
     
-    m_loader = new Loader(this);
     connect(m_loader, &Loader::stateChanged,
             this, [this](const QString &state){
         statusBar()->showMessage(state); 
     });
+    connect(m_loader, &Loader::authorStacLoadDone,
+            m_finder, &Finder::setAuthorStacLoaded);
+    connect(m_loader, &Loader::authorLoadDone,
+            m_finder, &Finder::setAuthorLoaded);
+    connect(m_loader, &Loader::titleLoadDone,
+            m_finder, &Finder::setTitleLoaded);
+    connect(m_loader, &Loader::keyLoadDone,
+            m_finder, &Finder::setKeyLoaded);
     connect(m_loader, &Loader::loadDone,
             this, [this](){
         statusBar()->showMessage(tr("Load finished."), 3000); 
@@ -51,8 +73,6 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
-    ui->webview->registerObject("finder", m_finder);
-    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
     
     load();
 }
@@ -64,6 +84,8 @@ MainWindow::~MainWindow()
     m_loader->wait();
     m_parser->quit();
     m_parser->wait();
+    m_calcThread.quit();
+    m_calcThread.wait();
 }
 
 
@@ -74,9 +96,12 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_action_About_Dblparse_triggered()
 {
-    QString info = tr(R"(DBLParse<br/><br/>
+    QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
 DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
-Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)");
+Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
+            .arg(g_config->value("version"))
+            .arg(__TIMESTAMP__);
+    
     QMessageBox::about(this, tr("About DBLParse"), info);
 }
 
@@ -122,7 +147,6 @@ void MainWindow::on_action_Open_triggered()
     connect(m_parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
     dialog->open();
-    m_parser->setFileName(fileName);
     m_parser->start();
 }
 
@@ -170,30 +194,6 @@ void MainWindow::on_action_Open_Index_Folder_triggered()
 {
     QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
 }
-//void MainWindow::on_authorStacRadioButton_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(4);
-//    ui->keyEdit->setFocus();
-
-//    QList<QPair<QString,int> > authorStac=m_finder->returnAuthorStac();
-
-//    if(authorStac.isEmpty()){
-//        QMessageBox::information(this, tr("Information"),
-//                                 tr("please parse first."));
-//        return ;
-//    }
-//    ui->tableWidget_2->clearContents();
-
-//    int num=authorStac.size()<=100?authorStac.size():100;
-//    ui->tableWidget_2->setRowCount(num);
-
-//        for(qint32 t=0;t<num;t++){
-//            ui->tableWidget_2->setItem(t, 0, new QTableWidgetItem(authorStac[t].first));
-//            ui->tableWidget_2->setItem(t, 1, new QTableWidgetItem(QString::number(authorStac[t].second)));
-//        }
-
-//    ui->tableWidget->resizeRowsToContents();
-//}
 
 void MainWindow::load()
 {
@@ -201,9 +201,19 @@ void MainWindow::load()
     Finder::init();
 }
 
+void MainWindow::calc()
+{
+    emit startCalc();
+}
+
+void MainWindow::handleCalc()
+{
+    qDebug() << "calc finished";
+}
+
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(!m_finder->parsed() || !m_finder->loaded()){
+     if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }
@@ -222,4 +232,9 @@ void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dialog = new SettingsDialog(this);
     dialog->open();
+}
+
+void MainWindow::on_action_Count_Clique_triggered()
+{
+    calc();
 }

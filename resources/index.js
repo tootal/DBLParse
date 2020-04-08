@@ -1,22 +1,31 @@
-var disable_title_word = [
-    'Home Page'
-];
+var alert = function(type, msg) {
+    $('#alert').className = `mt-5 alert alert-${type}`;
+    $('#alert').innerHTML = msg;
+    $('#alert').style.display = 'block';
+}
 
 var search = function(type, word) {
-    if(type == 'title' && 
-        disable_title_word.indexOf(word) != -1) {
-            ele_result.innerHTML = tr('NOT FOUND!');
-        }
-    else {
+    clearBefore();
+    if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
+        alert('warning', tr('You can not search this title.'));
+    } else {
         // console.log('search ', type, word);
-        finder.find(type, word);
+        if (location.href.startsWith('qrc:')) {
+            finder.find(type, word);
+        } else {
+            if (word == eval(`test.data.${type}`)) {
+                handleSearch(eval(`test.data.${type}_ret`));
+            } else {
+                handleSearch(test.data.not_found_ret);
+            }
+        }
     }
 };
 
 // atob : base64 -> str
 // btoa : str -> base64
 
-var searchAuthor = function(authorEle){
+var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     $('#type').value = 'author';
     let author = atob(authorEle.dataset.author);
@@ -25,38 +34,45 @@ var searchAuthor = function(authorEle){
 };
 
 var formatTitle = function(record) {
-    return '<a href="dblp://'+ record.mdate + '/'+ record.key +'">' + record.title + '</a>';
+    let href = 'detail.html';
+    if (location.href.startsWith('qrc:')) {
+        href = `dblp://${record.mdate}/${record.key}`;
+    }
+    return `<a href="${href}">${record.title}</a>`;
 };
 
 var formatAuthor = function(author) {
-    return '<span class="search-author-other" onclick="searchAuthor(this)" data-author="'+ btoa(author) +'">' + author + '</span>';
+    return `<span class="search-author-other" onclick="searchAuthor(this)" data-author="${btoa(author)}">${author}</span>`;
 }
 
 var formatAuthors = function(record) {
+    if (typeof record.authors == "undefined") return "";
     let ref = record.authors;
-    for(let j = 0; j < ref.length; ++j) {
-        if($('#type') == 'title' || ref[j] != $('#word').value){
+    for (let j = 0; j < ref.length; ++j) {
+        if ($('#type') == 'title' || ref[j] != $('#word').value) {
             ref[j] = formatAuthor(ref[j]);
-        }else{
-            ref[j] = '<span class="search-author">' + ref[j] + '</span>';
+        } else {
+            ref[j] = `<span class="font-weight-bold">${ref[j]}</span>`;
         }
     }
     return ref.join('; ');
 }
 
 var clearBefore = function() {
-    $('#info').innerHTML = "";
     $('#thead').innerHTML = "";
     $('#tbody').innerHTML = "";
     $('#homepage').style.display = "none";
-    $('#info').style.display = "none";
+    $('#alert').style.display = "none";
     $('#coGraph').style.display = "none";
 }
 
 var handleHomePage = function(record) {
-    $('#homepage').href = 'dblp://' + record.mdate + '/' + record.key;
-    metaText = $('#word').value;
-    $('#homepage-meta').innerText = metaText;
+    if (location.href.startsWith('qrc:')) {
+        $('#homepage').href = `dblp://${record.mdate}/${record.key}`;
+    } else {
+        $('#homepage').href = 'detail.html';
+    }
+    $('#homepage-meta').innerText = $('#word').value;
     $('#homepage').style.display = "block";
 }
 
@@ -127,67 +143,70 @@ var setLinkData = function(childList, parentnode, links) {
         });
     }
 }
+var setHeader = function(list) {
+    let s = '';
+    for (i of list) {
+        s += `<th>${tr(i)}</th>`;
+    }
+    $('#thead').innerHTML = `<tr>${s}</tr>`;
+};
 
+var rowHTML = function(list) {
+    let s = '';
+    for (i of list) {
+        s += `<td>${i}</td>`;
+    }
+    return `<tr>${s}</tr>`;
+};
 
 var handleSearch = function(data) {
-    clearBefore();
-
-    if(data == "not_ready") return ;
+    if (data == "not_ready") return ;
     let json = JSON.parse(data);
-//     console.log(json);
-    if(json.length == 0){
-        $('#info').innerHTML = tr("NOT FOUND!");
-        $('#info').style.display = "block";
+    // console.log(json);
+    if (json.length == 0){
+        alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
+        $('#alert').style.display = 'block';
         return ;
     }
-
-    if($('#type').value == 'coauthor') {
+    let tbodyHTML = '';
+    if ($('#type').value == 'coauthor') {
 
         $('#result').style.display='inline-block';
         $('#coGraph').style.display = "none";
 
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Co-Author(s)') + '</th> </tr>';
-        for(let i = 0; i < json.length; ++i){
-            $('#tbody').innerHTML += '<tr><td>' + (i+1) + '</td><td>' + formatAuthor(json[i]) + '</td></tr>';
+        setHeader(['', 'Co-Author(s)']);
+        for (let i = 0; i < json.length; ++i) {
+            tbodyHTML += rowHTML([i+1, formatAuthor(json[i])]);
         }
-    }else if($('#type').value == 'title') {
+    } else if ($('#type').value == 'title') {
 
         $('#result').style.display='inline-block';
         $('#coGraph').style.display = "none";
 
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Modified') + '</th> </tr>';
+        setHeader(['', 'Title', 'Author(s)', 'Modified']);
         json.sort(function(x, y) {
             return parseInt(x.mdate) - parseInt(y.mdate);
         });
-        for(let i = 0; i < json.length; ++i) {
-            let tr = $('<tr>');
-            tr.innerHTML += '<td>' + (i+1) + '</td>';
-            tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + json[i].mdate + '</td>';
-            $('#tbody').appendChild(tr);
+        for (let i = 0; i < json.length; ++i) {
+            tbodyHTML += rowHTML([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
         }
-    }else if($('#type').value == 'author') {
+    } else if ($('#type').value == 'author') {
 
         $('#result').style.display='inline-block';
         $('#coGraph').style.display = "none";
 
-        $('#thead').innerHTML = '<tr> <th> </th> <th>' + tr('Title') + '</th> <th>' + tr('Author(s)') + '</th> <th>' + tr('Year') + '</th> </tr>';
+        setHeader(['', 'Title', 'Author(s)', 'Year']);
         json.sort(function(x, y) {
             return parseInt(x.year) - parseInt(y.year);
         });
         let label = 1;
-        for(let i = 0; i < json.length; ++i){
-            if(json[i].title == "Home Page"){
+        for (let i = 0; i < json.length; ++i) {
+            if (json[i].title == "Home Page") {
                 handleHomePage(json[i]);
                 continue;
             }
-            let tr = $('<tr>');
-            tr.innerHTML += '<td>' + label + '</td>';
-            tr.innerHTML += '<td>' + formatTitle(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + formatAuthors(json[i]) + '</td>';
-            tr.innerHTML += '<td>' + json[i].year + '</td>';
-            $('#tbody').appendChild(tr);
+            // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
+            tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i])}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             label = label + 1;
         }
     }else if($('#type').value == 'cograph'){
@@ -284,8 +303,8 @@ var handleSearch = function(data) {
                 show : true,
                 feature : {
                     dataView: {readOnly: false},
-                               restore: {},
-//                               saveAsImage: {}
+                    restore: {},
+//                    saveAsImage: {}
                 }
             },
             backgroundColor: '#e7e7e7',
@@ -388,6 +407,7 @@ var handleSearch = function(data) {
                }
            });
     }
+    $('#tbody').innerHTML = tbodyHTML;
 };
 
 var resSaveMes= function(data){
@@ -399,11 +419,15 @@ var resSaveMes= function(data){
     }
 }
 
-if(typeof QWebChannel != "undefined"){
+if (location.href.startsWith('qrc:')) {
     new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
         finder.saveImg.connect(resSaveMes);
+    });
+} else {
+    $.load('index.test.js', function() {
+        // test.author;
     });
 }
 
@@ -417,9 +441,3 @@ $('#word').addEventListener('keydown', function(e) {
 });
 
 $('#word').focus();
-
-if(location.href.startsWith('file:')) {
-    $.load('index.test.js', function() {
-        // test.coauthor;
-    });
-}

@@ -10,6 +10,9 @@ var strings = {
     "Co-Author(s)": "合作者",
     "Co-Graph": "合作关系图",
 
+    "coauthor": "合作者",
+    "author": "作者",
+    " not found!": "未找到！",
     "authors": "作者",
     "ee": "链接",
     "journal": "期刊",
@@ -18,7 +21,7 @@ var strings = {
     "number": "编号",
     "pages": "页码",
     "title": "标题",
-    "url": "链接",
+    "url": "网址",
     "volume": "卷",
     "year": "年份",
     "booktitle": "书名",
@@ -32,4 +35,5 @@ var strings = {
     "isbn": "ISBN",
     "school": "学校",
     "chapter": "章节",
+    "You can not search this title.": "无法搜索此标题。"
 };

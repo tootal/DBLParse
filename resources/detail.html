@@ -3,19 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+
     <title>Record detail</title>
-    <link rel="stylesheet" href="detail.css">
-    <script src="util.js" defer></script>
-    <script src="detail.js" defer></script>
 </head>
 <body>
-    <div class="header">
-        <span id="name" class="name"></span>
-        <h2 id="title" class="title"></h2>
+    <div class="container">
+        <ol class="breadcrumb mt-4 p-2" id="key"></ol>
+        <h2 class="my-3">
+            <span id="name" class="badge badge-secondary"></span>
+            <span id="title"></span>
+        </h2>
+        <div class="btn-group mb-3" id="link"></div>
+        <ul id="list" class="list-group mb-5"></ul>
     </div>
-    <ul id="list"></ul>
+    
     <script type="text/json" id="src">
         <!-- DATA_HOLDER -->
     </script>
+    <script src="util.js"></script>
+    <script src="detail.js"></script>
 </body>
 </html>

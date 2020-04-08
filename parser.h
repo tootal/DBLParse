@@ -18,8 +18,6 @@ public:
     Parser(QObject *parent = nullptr);
     void run() override;
     void parse();
-    QString fileName() const;
-    void setFileName(const QString &fileName);
     int costMsecs();
     static void clearIndex();
 signals:
@@ -49,15 +47,13 @@ public:
         return debug;
     }
     static bool sortByDesc(QPair<StringRef,int> l,QPair<StringRef,int> r){return l.second>r.second;}
-    static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
+    static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
 //    static QList<QString> returnKeys(){return keys;}
 //    static QList<int> returnValues(){return values;}
 
 private:
-    QString m_fileName;
     int m_costMsecs;
-    QTime m_timing;
-    static QList<QPair<QString,int> > authorStac;
+    static QList<QPair<QString,int> > s_authorStac;
 //    static QList<QString> keys;
 //    static QList<int> values;
 

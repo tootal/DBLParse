@@ -18,7 +18,16 @@ public:
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     QList<quint32> indexOfKey(const QString &key) const;
-    static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
+    static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
+    
+    bool authorStacLoaded() const;
+    void setAuthorStacLoaded();
+    bool authorLoaded() const;
+    void setAuthorLoaded();
+    bool titleLoaded() const;
+    void setTitleLoaded();
+    bool keyLoaded() const;
+    void setKeyLoaded();
     bool loaded() const;
     void setLoaded();
     QJsonArray cographBFS(QString node);
@@ -32,6 +41,10 @@ signals:
 private:
     QString getJson(const QList<quint32> &posList) ;
     bool m_loaded;
+    bool m_authorLoaded;
+    bool m_titleLoaded;
+    bool m_keyLoaded;
+    bool m_authorStacLoaded;
 
 public:
     static QFile *s_file;
@@ -41,7 +54,7 @@ public:
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static quint32 s_keyIndexs;
-    static QList<QPair<QString,int> > authorStac;
+    static QList<QPair<QString,int> > s_authorStac;
     static QString readText(const Parser::StringRef &ref);
     // thanks to stl algo
     static QPair<const Parser::StringRef*, const Parser::StringRef*>
