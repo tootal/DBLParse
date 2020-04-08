@@ -21,10 +21,13 @@ public:
     static QList<QPair<QString,int> > returnAuthorStac() {return authorStac;}
     bool loaded() const;
     void setLoaded();
+    QJsonArray cographBFS(QString node);
+    Q_INVOKABLE void image(const QString &img , const QString &filename);
 signals:
     void ready(const QString &data);
     void notReady();
     void detailReady(const QString &data);
+    void saveImg(const bool isOk);
     
 private:
     QString getJson(const QList<quint32> &posList) ;

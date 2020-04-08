@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="index.css">
     <script src="qwebchannel.js" defer></script>
     <script src="util.js" defer></script>
+    <script src="echarts.min.js" defer></script>
     <script src="index.js" defer></script>
 </head>
 <body>
@@ -14,6 +15,7 @@
             <option value="author" tr>Author</option>
             <option value="title" tr>Title</option>
             <option value="coauthor" tr>Co-Author</option>
+            <option value="cograph" tr>Co-Graph</option>
             <!-- <option value="keyword">Keyword</option> -->
         </select>
         <input type="text" id="word">
@@ -29,9 +31,13 @@
         </div>
     </a>
     <div id="info" class="info" style="display: none;"></div>
-    <table>
+    <table id="result">
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
     </table>
+    <div id="coGraph" style="display: none;">
+        <div id="graph"></div>
+        <button id="save">保存</button>
+    </div>
 </body>
 </html>

@@ -8,6 +8,7 @@ var strings = {
     "Year": "年份",
     "Modified": "修改日期",
     "Co-Author(s)": "合作者",
+    "Co-Graph": "合作关系图",
 
     "authors": "作者",
     "ee": "链接",

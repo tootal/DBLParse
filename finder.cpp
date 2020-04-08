@@ -13,6 +13,8 @@
 #include <QJsonDocument>
 #include <QUrl>
 #include <QIcon>
+#include <QQueue>
+#include <QBuffer>
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
@@ -55,8 +57,17 @@ void Finder::find(const QString &type, const QString &word)
         }
         coauthors.remove(word);
         result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
+    }else if(type == "cograph"){
+        QJsonArray cograph;
+//        for(int i=0;i<cograph.size();i++){
+//            cograph.removeAt(i);
+//        }
+        qDebug()<<word;
+        cograph=cographBFS(word);
+//        qDebug()<<"cograph"<<cograph;
+        result=QJsonDocument(cograph).toJson();
     }
-//    qDebug() << result;
+    qDebug() << result;
     emit ready(result);
 }
 
@@ -245,4 +256,62 @@ Finder::upperBound(const Parser::StringRef *first,
         }
     }
     return first;
+}
+
+QJsonArray Finder::cographBFS(QString node) {
+    QQueue<QPair<QString,QString> > q;
+    QJsonArray cograph;
+    QPair<QString,QString> parent("",node);
+    q.enqueue(parent);
+    int num=0;
+    while(num<2 && !q.empty()){
+        QPair<QString,QString> t=q.head();
+        q.dequeue();
+        QJsonObject coNode;
+//        qDebug()<<"q "<<t;
+        auto list = indexOfAuthor(t.second);
+        QSet<QString> coauthors;
+        for(int i = 0; i < list.size(); ++i){
+            auto pos = list.at(i);
+            Record record(Util::findRecord(Util::getXmlFileName(), pos));
+            foreach(auto author, record.attr("authors").toStringList()){
+                coauthors.insert(author);
+            }
+        }
+        coauthors.remove(t.second);
+
+        if(!t.first.isEmpty()){
+            coauthors.remove(t.first);
+        }
+
+        coNode.insert("parentNode",t.second);
+
+        if(coauthors.size()>0){
+            coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.toList()));
+
+            foreach (const QString &value, coauthors){
+                QPair<QString,QString> temp(t.second,value);
+//                qDebug()<<value;
+                q.enqueue(temp);
+            }
+//            qDebug()<<222<<coNode;
+            cograph.append(coNode);
+            num++;
+            qDebug()<<num;
+            coauthors.clear();
+        }
+
+    }
+    q.clear();
+    return cograph;
+}
+
+void Finder::image(const QString &img , const QString &filename)
+{
+    QPixmap image;    
+    image.loadFromData(QByteArray::fromBase64(img.section(",", 1).toLocal8Bit()));
+    bool isOk=image.save("./"+filename+"の合作关系图.png");
+//    qDebug()<<isOk;
+    emit saveImg(isOk);
+
 }
