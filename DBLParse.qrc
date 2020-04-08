@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/Belgrano.woff2</file>
-        <file>resources\bootstrap.min.css</file> 
+        <file>resources/bootstrap.min.css</file>
         <file>resources/dblp.png</file>
         <file>resources/detail.html</file>
         <file>resources/detail.js</file>
         <file>resources/detail.test.js</file>
-        <file>resources\homepage.svg</file>  
+        <file>resources/homepage.svg</file>
         <file>resources/index.html</file>
         <file>resources/index.js</file>
         <file>resources/index.test.js</file>
@@ -15,5 +15,10 @@
         <file>resources/strings_zh.js</file>
         <file>resources/util.js</file>
         <file>resources/echarts.min.js</file>
+        <file>resources/bootstrap-select.min.css</file>
+        <file>resources/bootstrap-select.min.js</file>
+        <file>resources/bootstrap.min.js</file>
+        <file>resources/jquery.js</file>
+        <file>resources/popper.js</file>
     </qresource>
 </RCC>

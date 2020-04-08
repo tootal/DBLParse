@@ -1,13 +1,24 @@
-var alert = function(type, msg) {
-    $('#alert').className = `mt-5 alert alert-${type}`;
-    $('#alert').innerHTML = msg;
-    $('#alert').style.display = 'block';
+var t;
+
+var alertMsg = function(type, msg) {
+    document.getElementById('alert').className = `mt-5 alert alert-${type} alert-dismissible fade show col-4`;
+    document.getElementById('alert').innerHTML =msg;
+    document.getElementById('alert').style.display = 'block';
+    document.getElementById('alert').style.margin = '0 auto';
+    var t = setTimeout(function () {
+        document.getElementById('alert').style.display='none';
+    },2000);
+}
+
+var clearT = function(){
+  clearTimeout(t);
 }
 
 var search = function(type, word) {
     clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        alert('warning', tr('You can not search this title.'));
+        alertMsg('warning', tr('You can not search this title.'));
+        clearT();
     } else {
         // console.log('search ', type, word);
         if (location.href.startsWith('qrc:')) {
@@ -27,9 +38,9 @@ var search = function(type, word) {
 
 var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
-    $('#type').value = 'author';
+    document.getElementById('type').value = 'author';
     let author = atob(authorEle.dataset.author);
-    $('#word').value = author;
+    document.getElementById('word').value = author;
     search('author', author);
 };
 
@@ -49,7 +60,7 @@ var formatAuthors = function(record) {
     if (typeof record.authors == "undefined") return "";
     let ref = record.authors;
     for (let j = 0; j < ref.length; ++j) {
-        if ($('#type') == 'title' || ref[j] != $('#word').value) {
+        if (document.getElementById('type') == 'title' || ref[j] != document.getElementById('word').value) {
             ref[j] = formatAuthor(ref[j]);
         } else {
             ref[j] = `<span class="font-weight-bold">${ref[j]}</span>`;
@@ -59,21 +70,21 @@ var formatAuthors = function(record) {
 }
 
 var clearBefore = function() {
-    $('#thead').innerHTML = "";
-    $('#tbody').innerHTML = "";
-    $('#homepage').style.display = "none";
-    $('#alert').style.display = "none";
-    $('#coGraph').style.display = "none";
+    document.getElementById('thead').innerHTML = "";
+    document.getElementById('tbody').innerHTML = "";
+    document.getElementById('homepage').style.display = "none";
+    document.getElementById('alert').style.display = "none";
+    document.getElementById('coGraph').style.display = "none";
 }
 
 var handleHomePage = function(record) {
     if (location.href.startsWith('qrc:')) {
-        $('#homepage').href = `dblp://${record.mdate}/${record.key}`;
+        document.getElementById('homepage').href = `dblp://${record.mdate}/${record.key}`;
     } else {
-        $('#homepage').href = 'detail.html';
+        document.getElementById('homepage').href = 'detail.html';
     }
-    $('#homepage-meta').innerText = $('#word').value;
-    $('#homepage').style.display = "block";
+    document.getElementById('homepage-meta').innerText = document.getElementById('word').value;
+    document.getElementById('homepage').style.display = "block";
 }
 
 var getNodes = function(parentNode,childNodes,nodes){
@@ -148,7 +159,7 @@ var setHeader = function(list) {
     for (i of list) {
         s += `<th>${tr(i)}</th>`;
     }
-    $('#thead').innerHTML = `<tr>${s}</tr>`;
+    document.getElementById('thead').innerHTML = `<tr>${s}</tr>`;
 };
 
 var rowHTML = function(list) {
@@ -164,24 +175,25 @@ var handleSearch = function(data) {
     let json = JSON.parse(data);
     // console.log(json);
     if (json.length == 0){
-        alert('danger', `${tr($('#type').value)}${tr(' not found!')}`);
-        $('#alert').style.display = 'block';
+        alertMsg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
+        clearT();
+        document.getElementById('alert').style.display = 'block';
         return ;
     }
     let tbodyHTML = '';
-    if ($('#type').value == 'coauthor') {
+    if (document.getElementById('type').value == 'coauthor') {
 
-        $('#result').style.display='inline-block';
-        $('#coGraph').style.display = "none";
+        document.getElementById('result').style.display='inline-table';
+        document.getElementById('coGraph').style.display = "none";
 
         setHeader(['', 'Co-Author(s)']);
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i+1, formatAuthor(json[i])]);
         }
-    } else if ($('#type').value == 'title') {
+    } else if (document.getElementById('type').value == 'title') {
 
-        $('#result').style.display='inline-block';
-        $('#coGraph').style.display = "none";
+        document.getElementById('result').style.display='inline-table';
+        document.getElementById('coGraph').style.display = "none";
 
         setHeader(['', 'Title', 'Author(s)', 'Modified']);
         json.sort(function(x, y) {
@@ -190,10 +202,10 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
         }
-    } else if ($('#type').value == 'author') {
+    } else if (document.getElementById('type').value == 'author') {
 
-        $('#result').style.display='inline-block';
-        $('#coGraph').style.display = "none";
+        document.getElementById('result').style.display='inline-table';
+        document.getElementById('coGraph').style.display = "none";
 
         setHeader(['', 'Title', 'Author(s)', 'Year']);
         json.sort(function(x, y) {
@@ -209,10 +221,10 @@ var handleSearch = function(data) {
             tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i])}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             label = label + 1;
         }
-    }else if($('#type').value == 'cograph'){
+    }else if(document.getElementById('type').value == 'cograph'){
 
-        $('#result').style.display = "none";
-        $('#coGraph').style.display = "block";
+        document.getElementById('result').style.display = "none";
+        document.getElementById('coGraph').style.display = "block";
 
 //        var parent = document.getElementById("coGraph");
 //        var saveButton = document.createElement('button');
@@ -220,7 +232,7 @@ var handleSearch = function(data) {
 
 //        saveButton.innerHTML = '保存';
 
-        $("#save").onclick = function () {
+        document.getElementById("save").onclick = function () {
             var myChart = echarts.getInstanceByDom(document.getElementById("graph"));
             var url = myChart.getDataURL();
             console.log(url);
@@ -396,18 +408,18 @@ var handleSearch = function(data) {
 
         myChart.setOption(option);
 
-        var first=$("#graph").firstChild.style.margin='0 auto';
+        document.getElementById("graph").firstChild.style.margin='0 auto';
 
         var data=myChart._model.option.series[0].data;
            myChart.on("click", function (chartParam){
                 console.log(chartParam);
                if(chartParam.borderColor){
-                   $('#word').value=data[chartParam.dataIndex].name;
-                   search($('#type').value, $('#word').value);
+                    document.getElementById('word').value=data[chartParam.dataIndex].name;
+                    search(document.getElementById('type').value, document.getElementById('word').value);
                }
            });
     }
-    $('#tbody').innerHTML = tbodyHTML;
+    document.getElementById('tbody').innerHTML = tbodyHTML;
 };
 
 var resSaveMes= function(data){
@@ -432,12 +444,12 @@ if (location.href.startsWith('qrc:')) {
 }
 
 var handleInput = function() {
-    search($('#type').value, $('#word').value);
+    search(document.getElementById('type').value, document.getElementById('word').value);
 }
 
-$('#search').onclick = handleInput;
-$('#word').addEventListener('keydown', function(e) {
+document.getElementById('search').onclick = handleInput;
+document.getElementById('word').addEventListener('keydown', function(e) {
     if(e.keyCode == 13) handleInput();
 });
 
-$('#word').focus();
+document.getElementById('word').focus();

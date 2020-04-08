@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DBLParse</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-select.min.css">
     <style>
         @font-face {
             font-family: 'Belgrano';
@@ -44,6 +45,10 @@
             width: 100px;
             height: 30px;
         }
+
+        .input-group-prepend {
+            width: 150px !important;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +57,7 @@
         <form action="javascript:void(0)">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <select id="type" class="pr-4">
+                    <select id="type" class="selectpicker" data-style="btn-outline-info">
                         <option value="author" tr>Author</option>
                         <option value="title" tr>Title</option>
                         <option value="coauthor" tr>Co-Author</option>
@@ -76,13 +81,13 @@
             </div>
         </a>
         <div id="alert" style="display: none;"></div>
-        <table class="table table-bordered table-hover my-5" id="result">
+        <table class="table table-bordered table-hover table-striped my-5" id="result">
             <thead id="thead" class="thead-light"></thead>
             <tbody id="tbody"></tbody>
         </table>
         <div id="coGraph" style="display: none;">
             <div id="graph"></div>
-            <button id="save" tr>Save</button>
+            <button class="btn btn-outline-success float-right" id="save" tr>Save</button>
         </div>
     </div>
 
@@ -90,5 +95,9 @@
     <script src="util.js"></script>
     <script src="echarts.min.js" defer></script>
     <script src="index.js"></script>
+    <script src="jquery.js"></script>
+    <script src="popper.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="bootstrap-select.min.js"></script>
 </body>
 </html>

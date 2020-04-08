@@ -11,6 +11,7 @@ var strings = {
     "Co-Graph": "合作关系图",
     "Save": "保存",
 
+    "cograph": "合作关系图",
     "coauthor": "合作者",
     "author": "作者",
     " not found!": "未找到！",
