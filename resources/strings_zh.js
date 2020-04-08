@@ -9,6 +9,7 @@ var strings = {
     "Modified": "修改日期",
     "Co-Author(s)": "合作者",
     "Co-Graph": "合作关系图",
+    "Save": "保存",
 
     "coauthor": "合作者",
     "author": "作者",
