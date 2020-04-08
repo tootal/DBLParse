@@ -5,7 +5,7 @@
 #include <QDataStream>
 #include <QTime>
 #include <QDebug>
-#include<QMap>
+#include <QMap>
 #include <QList>
 
 char *Parser::s_data;
@@ -47,10 +47,9 @@ void Parser::parse()
     QVector<StringRef> titleIndex;
     QVector<StringRef> keyIndex;
     quint32 x = 0;
-    QMap<StringRef,int> authorStacTemp;
     int totalAuthor = 0;
     // authorId starts from 0
-    QMap<StringRef, int> authorId;
+    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfo;
     QVector<StringRef> authors;
     QVector<QStringList> authorsIdRelation;
     while (x < len){
@@ -74,15 +73,15 @@ void Parser::parse()
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
                         int id;
-                        if (authorId.contains(author)) {
-                            id = authorId[author];
+                        if (authorInfo.contains(author)) {
+                            id = authorInfo[author].first;
                         } else {
                             id = totalAuthor;
-                            authorId[author] = totalAuthor;
+                            authorInfo[author].first = totalAuthor;
                             ++totalAuthor;
                             authors.append(author);
                         }
-                        ++authorStacTemp[author];
+                        ++authorInfo[author].second;
                         authorIndex.append(author);
                         recordAuthorsId.append(QString::number(id));
 //                        qDebug() << author;
@@ -127,15 +126,13 @@ void Parser::parse()
     emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
-    QList<QPair<Parser::StringRef,int> > temp;
+    QList<QPair<Parser::StringRef, int>> temp;
 
-    QMap<StringRef, int>::iterator it=authorStacTemp.begin();
-    while(it!=authorStacTemp.end()){
-        temp.append(qMakePair(it.key(),it.value()));
+    auto it=authorInfo.begin();
+    while (it != authorInfo.end()) {
+        temp.append(qMakePair(it.key(),it.value().second));
         it++;
     }
-
-    authorStacTemp.clear();
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
