@@ -73,9 +73,12 @@ void Parser::parse()
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
-                        auto &id = authorId[author];
-                        if (!authorId.contains(author)) {
+                        int id;
+                        if (authorId.contains(author)) {
+                            id = authorId[author];
+                        } else {
                             id = totalAuthor;
+                            authorId[author] = totalAuthor;
                             ++totalAuthor;
                             authors.append(author);
                         }
