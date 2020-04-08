@@ -78,67 +78,72 @@
         <translation>工具 (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="75"/>
+        <location filename="../mainwindow.ui" line="76"/>
         <source>About &amp;Qt</source>
         <translation>关于Qt （&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="80"/>
+        <location filename="../mainwindow.ui" line="81"/>
         <source>&amp;About DBLParse</source>
         <translation>关于DBLParse (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="85"/>
+        <location filename="../mainwindow.ui" line="86"/>
         <source>About &amp;DBLP</source>
         <translation>关于DBLP (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="90"/>
+        <location filename="../mainwindow.ui" line="91"/>
         <source>E&amp;xit</source>
         <translation>退出 (&amp;X)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="95"/>
+        <location filename="../mainwindow.ui" line="96"/>
         <source>&amp;Open</source>
         <translation>打开 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="100"/>
+        <location filename="../mainwindow.ui" line="101"/>
         <source>&amp;Status</source>
         <translation>状态 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="105"/>
+        <location filename="../mainwindow.ui" line="106"/>
         <source>&amp;Clear Index</source>
         <translation>清除索引 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="110"/>
+        <location filename="../mainwindow.ui" line="111"/>
         <source>&amp;Open Index Folder</source>
         <translation>打开索引文件夹 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="115"/>
+        <location filename="../mainwindow.ui" line="116"/>
         <source>AuthorStac</source>
         <translation>作者统计</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="120"/>
+        <location filename="../mainwindow.ui" line="121"/>
         <source>View &amp;Log</source>
         <translation>查看日志 (&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="126"/>
         <source>&amp;Settings</source>
         <translation>设置 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="59"/>
+        <location filename="../mainwindow.ui" line="134"/>
+        <source>&amp;Count Clique</source>
+        <translation>聚团分析 (&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="69"/>
         <source>Load finished.</source>
         <translation>加载完成。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="82"/>
+        <location filename="../mainwindow.cpp" line="94"/>
         <source>About Qt</source>
         <translation>关于Qt</translation>
     </message>
@@ -151,21 +156,21 @@ DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;
 请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="87"/>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>DBLParse %1&lt;br/&gt;Built on %2&lt;br/&gt;&lt;br/&gt;
 DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
 Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation>DBLParse %1&lt;br/&gt;Built on %2&lt;br/&gt;&lt;br/&gt;
+        <translation type="unfinished">DBLParse %1&lt;br/&gt;构建于 %2&lt;br/&gt;&lt;br/&gt;
 DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;
 请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="93"/>
+        <location filename="../mainwindow.cpp" line="105"/>
         <source>About DBLParse</source>
         <translation>关于DBLParse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="98"/>
+        <location filename="../mainwindow.cpp" line="110"/>
         <source>DBLP&lt;br/&gt;&lt;br/&gt;
 The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides
 open bibliographic information on major computer science journals and proceedings.
@@ -179,47 +184,47 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="104"/>
+        <location filename="../mainwindow.cpp" line="116"/>
         <source>About DBLP</source>
         <translation>关于DBLP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="116"/>
+        <location filename="../mainwindow.cpp" line="128"/>
         <source>Select XML file</source>
         <translation>选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="118"/>
+        <location filename="../mainwindow.cpp" line="130"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件 (*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="125"/>
+        <location filename="../mainwindow.cpp" line="137"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="126"/>
+        <location filename="../mainwindow.cpp" line="138"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>Parser: %1 &lt;br&gt;Loader: %2</source>
         <translation>解析器: %1 &lt;br&gt;加载器：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="165"/>
+        <location filename="../mainwindow.cpp" line="176"/>
         <source>Open XML file</source>
         <translation>打开XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="177"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
@@ -240,7 +245,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="33"/>
+        <location filename="../parser.cpp" line="29"/>
         <source>Parsing start.</source>
         <translation>解析开始。</translation>
     </message>
@@ -250,22 +255,27 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>读入XML文件成功。（耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="90"/>
+        <location filename="../parser.cpp" line="102"/>
         <source>XML file parse successful. (%1 ms)</source>
         <translation>解析XML文件成功。（耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="119"/>
+        <location filename="../parser.cpp" line="125"/>
+        <source>Authors information saved. (%1 ms)</source>
+        <translation>作者信息已保存。（耗时 %1 毫秒）</translation>
+    </message>
+    <message>
+        <location filename="../parser.cpp" line="150"/>
         <source>Index file generated. (%1 ms)</source>
         <translation>索引文件已生成。 （耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="159"/>
+        <location filename="../parser.cpp" line="189"/>
         <source>Index file saved. (%1 ms)</source>
         <translation>索引文件已保存。（耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="160"/>
+        <location filename="../parser.cpp" line="190"/>
         <source>Parse done. Cost time: %1</source>
         <translation>解析完成。用时：%1</translation>
     </message>
