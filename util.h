@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <string>
+#include <type_traits>
 
 class Util : public QObject
 {
@@ -19,10 +21,26 @@ public:
     static const QVector<QPair<QString, QString>> availableLanguages();
     static QString getLocale();
     
+    static QString str(int v) {
+        return QString::number(v);
+    }
+    
+    template <typename T>
+    static QString str(T v) {
+        bool first = true;
+        QString res = "{";
+        for (const auto &x : v) {
+            if (!first) res += ", ";
+            first = false;
+            res += str(x);
+        }
+        res += "}";
+        return res;
+    }
+    
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
 };
-
 
 
 #endif // UTIL_H

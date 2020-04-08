@@ -49,7 +49,7 @@ void Parser::parse()
     quint32 x = 0;
     QMap<StringRef,int> authorStacTemp;
     int totalAuthor = 0;
-    // authorId starts from 1
+    // authorId starts from 0
     QMap<StringRef, int> authorId;
     QVector<StringRef> authors;
     QVector<QStringList> authorsIdRelation;
@@ -76,8 +76,8 @@ void Parser::parse()
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
                         if (!authorId.contains(author)) {
-                            ++totalAuthor;
                             authorId[author] = totalAuthor;
+                            ++totalAuthor;
                             authors.append(author);
                         }
                         if(!authorStacTemp.contains(author)) {

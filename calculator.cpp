@@ -25,10 +25,9 @@ void Calculator::calc()
     
     int totalAuthor;
     in >> totalAuthor;
-    G.resize(totalAuthor + 1);
+    G.resize(totalAuthor);
     visited.resize(totalAuthor);
     cnt[1] = totalAuthor;
-    
     
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -44,8 +43,13 @@ void Calculator::calc()
             }
         }
     }
-//    printG();
     file.close();
+    for (int i = 0; i < G.size(); ++i) {
+        std::sort(G[i].begin(), G[i].end());
+        G[i].erase(std::unique(G[i].begin(), G[i].end()), G[i].end());
+    }
+    
+    qDebug() << Util::str(G);
     
     emit resultReady();
 }
@@ -54,7 +58,7 @@ void Calculator::enumerateAllCliques()
 {
     typedef QVector<int> list;
     QQueue<QPair<list, list>> queue;
-    for (int i = 1; i <= G.size(); ++i) {
+    for (int i = 1; i < G.size(); ++i) {
         queue.enqueue(qMakePair<list, list>({i}, G[i]));
     }
     
