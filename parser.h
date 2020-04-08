@@ -61,9 +61,9 @@ private:
     // last position of the end element
     static StringRef readElementText(const StringRef &r, quint32 &from);
     
-    // read element attribute, if key exists return its value of StringRef
-    // else return empty StringRef
-    static StringRef readElementAttr(const StringRef &r, quint32 from, const char *key);
+    // read element attribute, return its value of StringRef
+    // from equal to the start position of the attr value
+    static StringRef readElementAttr(const StringRef &r, quint32 from);
 
 };
 

@@ -55,12 +55,9 @@ void Parser::parse()
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
-            StringRef key;
-            key.l = x;
-            while(ref[x] != '\"') ++x;
-            key.r = x;
+            StringRef key = readElementAttr(ref, x);
             keyIndex.append(key);
-            ++x;
+            x = key.r + 1;
             QStringList recordAuthorsId;
             while (x <= len) {
                 if (x == len || ref.startsWith("key=\"", x + 1)) {
@@ -215,17 +212,11 @@ Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &f
     return s.mid(i + 1, x - i - 1);
 }
 
-Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from, const char *key)
+Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from)
 {
-    StringRef s = r.mid(from);
-    Q_ASSERT(s[0] == '<');
-    quint32 i = 1;
-    while(!s.startsWith(key, i)) ++i;
-    while(s[i] != '\"') ++i;
-    ++i;
-    quint32 j = i;
-    while(s[j] != '\"') ++j;
-    return s.mid(i, j - i);
+    quint32 i = from;
+    while (r[i] != '\"') ++i;
+    return r.mid(from, i - from);
 }
 
 int Parser::costMsecs()
