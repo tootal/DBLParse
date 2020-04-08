@@ -61,8 +61,6 @@ void Parser::parse()
             while(ref[x] != '\"') ++x;
             key.r = x;
             keyIndex.append(key);
-//            qDebug() << "--record--";
-//            qDebug() << key;
             ++x;
             QStringList recordAuthorsId;
             while (x <= len) {
@@ -75,14 +73,15 @@ void Parser::parse()
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
+                        auto &id = authorId[author];
                         if (!authorId.contains(author)) {
-                            authorId[author] = totalAuthor;
+                            id = totalAuthor;
                             ++totalAuthor;
                             authors.append(author);
                         }
                         ++authorStacTemp[author];
                         authorIndex.append(author);
-                        recordAuthorsId.append(QString::number(authorId[author]));
+                        recordAuthorsId.append(QString::number(id));
 //                        qDebug() << author;
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
