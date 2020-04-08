@@ -22,7 +22,7 @@ void Calculator::calc()
     QString fileName("authors_relation.txt");
     QFile file(fileName);
     QTextStream in(&file);
-    Q_ASSERT(file.exists());
+    if (!file.exists()) return ;
     file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
     
