@@ -72,18 +72,18 @@ void Parser::parse()
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
-                        int id;
+                        QPair<int, int> *info;
                         if (authorInfo.contains(author)) {
-                            id = authorInfo[author].first;
+                            info = &authorInfo[author];
                         } else {
-                            id = totalAuthor;
-                            authorInfo[author].first = totalAuthor;
+                            info = &authorInfo[author];
+                            info->first/*id*/ = totalAuthor;
                             ++totalAuthor;
                             authors.append(author);
                         }
-                        ++authorInfo[author].second;
+                        ++info->second;
                         authorIndex.append(author);
-                        recordAuthorsId.append(QString::number(id));
+                        recordAuthorsId.append(QString::number(info->first/*id*/));
 //                        qDebug() << author;
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
