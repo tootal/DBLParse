@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QQueue>
+#include <QTime>
 
 #include <algorithm>
 
@@ -15,6 +16,8 @@ Calculator::Calculator(QObject *parent) : QObject(parent)
 void Calculator::calc()
 {
     qDebug() << "start calc";
+    QTime timing;
+    timing.start();
     
     QString fileName("authors_relation.txt");
     QFile file(fileName);
@@ -27,7 +30,6 @@ void Calculator::calc()
     in >> totalAuthor;
     G.resize(totalAuthor);
     visited.resize(totalAuthor);
-    cnt[1] = totalAuthor;
     
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -49,8 +51,11 @@ void Calculator::calc()
         G[i].erase(std::unique(G[i].begin(), G[i].end()), G[i].end());
     }
     
-    qDebug() << Util::str(G);
+//    qDebug() << Util::str(G);
+    enumerateAllCliques();
+    qDebug() << Util::str(cnt);
     
+    qDebug() << timing.elapsed() << "ms";
     emit resultReady();
 }
 
@@ -58,14 +63,17 @@ void Calculator::enumerateAllCliques()
 {
     typedef QVector<int> list;
     QQueue<QPair<list, list>> queue;
-    for (int i = 1; i < G.size(); ++i) {
-        queue.enqueue(qMakePair<list, list>({i}, G[i]));
+    for (int i = 0; i < G.size(); ++i) {
+        auto item = qMakePair<list, list>({i}, G[i]);
+        queue.enqueue(item);
+//        qDebug() << Util::str(item);
     }
     
     while (!queue.isEmpty()) {
         list base = queue.head().first;
         // cnbrs is a set of common neighbors of nodes in base.
         list cnbrs = queue.head().second;
+        queue.dequeue();
         ++cnt[base.size()];
         
         for (int i = 0; i < cnbrs.size(); ++i) {
@@ -77,10 +85,9 @@ void Calculator::enumerateAllCliques()
                     new_cnbrs.append(cnbrs[j]);
                 }
             }
-            queue.enqueue(qMakePair<list, list>(
-                new_base,
-                new_cnbrs
-            ));
+            auto item = qMakePair<list, list>(new_base, new_cnbrs);
+            queue.enqueue(item);
+//            qDebug() << Util::str(item);
         }
     }
 }
