@@ -88,10 +88,10 @@ void Parser::parse()
                         StringRef title = readElementText(ref, x);
                         titleIndex.append(title);
 //                        qDebug() << title;
-                    } else if (ref.startsWith("year", x + 1)) {
+                    }/* else if (ref.startsWith("year", x + 1)) {
                         StringRef year = readElementText(ref, x);
 //                        qDebug() << year;
-                    }
+                    }*/
                 }
                 ++x;
             }
