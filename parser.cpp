@@ -124,6 +124,7 @@ void Parser::parse()
     elapsedTime = m_costMsecs;
 
     QList<QPair<Parser::StringRef, int>> temp;
+    temp.reserve(authorInfo.size());
 
     auto it=authorInfo.begin();
     while (it != authorInfo.end()) {
