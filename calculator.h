@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include <QMap>
 
 class Calculator : public QObject
 {
@@ -15,7 +16,9 @@ public slots:
     
 private:
     QVector<QVector<int>> G;
-    void printG();
+    QMap<int, int> cnt;
+    QVector<bool> visited;
+    void enumerateAllCliques();
     
 signals:
     void resultReady();

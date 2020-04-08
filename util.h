@@ -23,4 +23,6 @@ private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
 };
 
+
+
 #endif // UTIL_H

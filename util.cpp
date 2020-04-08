@@ -114,3 +114,4 @@ QString Util::getLocale()
     }
     return locale;
 }
+
