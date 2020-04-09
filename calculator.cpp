@@ -22,7 +22,10 @@ void Calculator::calc()
     QString fileName("authors_relation.txt");
     QFile file(fileName);
     QTextStream in(&file);
-    if (!file.exists()) return ;
+    if (!file.exists()) {
+        qDebug() << "authors_relation.txt not exists!";    
+        return ;
+    }
     file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
     
@@ -52,16 +55,17 @@ void Calculator::calc()
     }
     
 //    qDebug() << Util::str(G);
-    enumerateAllCliques();
-    qDebug() << Util::str(cnt);
+//    enumerateAllCliques();
+//    qDebug() << Util::str(cnt);
     
-    qDebug() << timing.elapsed() << "ms";
+    connectedComponents();
+    
+    qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();
 }
 
 void Calculator::enumerateAllCliques()
 {
-    typedef QVector<int> list;
     QQueue<QPair<list, list>> queue;
     for (int i = 0; i < G.size(); ++i) {
         auto item = qMakePair<list, list>({i}, G[i]);
@@ -90,4 +94,35 @@ void Calculator::enumerateAllCliques()
 //            qDebug() << Util::str(item);
         }
     }
+}
+
+void Calculator::connectedComponents()
+{
+    int numberOfComponents = 0;
+    int maxSizeComponent = 0;
+    visited.fill(false);
+    for (int i = 0; i < G.size(); ++i) {
+        if (!visited[i]) {
+            list component;
+            // bfs
+            list nextlevel(1, i);
+            while (!nextlevel.isEmpty()) {
+                list thislevel = nextlevel;
+                nextlevel.clear();
+                for (int u : thislevel) {
+                    if (!visited[u]) {
+                        component.append(u);
+                        visited[u] = true;
+                        for (int v : G[u]) {
+                            nextlevel.append(v);
+                        }
+                    }
+                }
+            }
+            maxSizeComponent = std::max(maxSizeComponent, component.size());
+            ++numberOfComponents;
+        }
+    }
+    qDebug() << "number of components: " << numberOfComponents;
+    qDebug() << "max size components: " << maxSizeComponent;
 }

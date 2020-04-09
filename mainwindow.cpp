@@ -208,7 +208,7 @@ void MainWindow::calc()
 
 void MainWindow::handleCalc()
 {
-    qDebug() << "calc finished";
+    statusBar()->showMessage(tr("Count finished!"), 3000);
 }
 
 void MainWindow::on_actionAuthorStac_triggered()
@@ -236,5 +236,6 @@ void MainWindow::on_action_Settings_triggered()
 
 void MainWindow::on_action_Count_Clique_triggered()
 {
+    statusBar()->showMessage(tr("Counting..."));
     calc();
 }

@@ -9,6 +9,7 @@ class Calculator : public QObject
 {
     Q_OBJECT
 public:
+    typedef QVector<int> list;
     explicit Calculator(QObject *parent = nullptr);
 
 public slots:
@@ -19,6 +20,7 @@ private:
     QMap<int, int> cnt;
     QVector<bool> visited;
     void enumerateAllCliques();
+    void connectedComponents();
     
 signals:
     void resultReady();
