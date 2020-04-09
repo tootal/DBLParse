@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QQueue>
 #include <QTime>
+#include <QStack>
 
 #include <algorithm>
 
@@ -32,7 +33,6 @@ void Calculator::calc()
     int totalAuthor;
     in >> totalAuthor;
     G.resize(totalAuthor);
-    visited.resize(totalAuthor);
     
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -42,9 +42,10 @@ void Calculator::calc()
         }
         for (int i = 0; i < nodes.size() - 1; ++i) {
             for (int j = i + 1; j < nodes.size(); ++j) {
-                if (nodes[i] > nodes[j]) std::swap(nodes[i], nodes[j]);
+//                if (nodes[i] > nodes[j]) std::swap(nodes[i], nodes[j]);
                 // nodes[i] < nodes[j]
                 G[nodes[i]].append(nodes[j]);
+                G[nodes[j]].append(nodes[i]);
             }
         }
     }
@@ -54,11 +55,12 @@ void Calculator::calc()
         G[i].erase(std::unique(G[i].begin(), G[i].end()), G[i].end());
     }
     
-//    qDebug() << Util::str(G);
+    qDebug() << Util::str(G);
 //    enumerateAllCliques();
 //    qDebug() << Util::str(cnt);
     
-    connectedComponents();
+//    connectedComponents();
+    cutBridges();
     
     qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();
@@ -100,7 +102,7 @@ void Calculator::connectedComponents()
 {
     int numberOfComponents = 0;
     int maxSizeComponent = 0;
-    visited.fill(false);
+    QVector<bool> visited(G.size());
     for (int i = 0; i < G.size(); ++i) {
         if (!visited[i]) {
             list component;
@@ -125,4 +127,52 @@ void Calculator::connectedComponents()
     }
     qDebug() << "number of components: " << numberOfComponents;
     qDebug() << "max size components: " << maxSizeComponent;
+}
+
+void Calculator::cutBridges()
+{
+    list preorder(G.size());
+    list lowlink(G.size());
+    list parent(G.size());
+    int i = 0; // Preorder counter
+    for (int s = 0; s < G.size(); ++s) {
+        if (preorder[s] != 0) continue;
+        parent[s] = s;
+        QStack<int> stack;
+        stack.push(s);
+        while (!stack.isEmpty()) {
+            int u = stack.top();
+            if (preorder[u] == 0) preorder[u] = ++i;
+            bool done = true;
+            for (int v : G[u]) {
+                if (preorder[v] != 0) continue;
+                parent[v] = u;
+                stack.push(v);
+                done = false;
+                break;
+            }
+            if (!done) continue;
+            lowlink[u] = preorder[u];
+            for (int v : G[u]) {
+                if (v == parent[u]) continue;
+                if (preorder[v] > preorder[u]) {
+                    lowlink[u] = std::min(lowlink[u], lowlink[v]);
+                } else {
+                    lowlink[u] = std::min(lowlink[u], preorder[v]);
+                }
+            }
+            stack.pop();
+        }
+    }
+//    qDebug() << "parent" << Util::str(parent);
+//    qDebug() << "preorder" << Util::str(preorder);
+//    qDebug() << "lowlink" << Util::str(lowlink);
+    for (int u = 0; u < G.size(); ++u) {
+        for (int v : G[u]) {
+            if (v < u) continue;
+            if (lowlink[u] > preorder[v] || lowlink[v] > preorder[u]) {
+                qDebug() << "bridge:" << u << v;
+            }
+        }
+    }
 }

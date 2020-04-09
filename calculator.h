@@ -18,9 +18,9 @@ public slots:
 private:
     QVector<QVector<int>> G;
     QMap<int, int> cnt;
-    QVector<bool> visited;
     void enumerateAllCliques();
     void connectedComponents();
+    void cutBridges();
     
 signals:
     void resultReady();
