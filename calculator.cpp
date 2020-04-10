@@ -32,7 +32,9 @@ void Calculator::calc()
     
     int totalAuthor;
     in >> totalAuthor;
+    qInfo() << "(Graph) number of nodes:" << totalAuthor; 
     G.resize(totalAuthor);
+    cnt.clear();
     
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -50,36 +52,55 @@ void Calculator::calc()
         }
     }
     file.close();
+    
+    int maxDegree = 0;
     for (int i = 0; i < G.size(); ++i) {
         std::sort(G[i].begin(), G[i].end());
         G[i].erase(std::unique(G[i].begin(), G[i].end()), G[i].end());
+        maxDegree = std::max(maxDegree, G[i].size());
     }
+    qInfo() << "(Graph) max degree:" << maxDegree;
     
-    qDebug() << Util::str(G);
+    int edges = 0;
+    for (int u = 0; u < G.size(); ++u) {
+        for (int v : G[u]) {
+            if (v < u) continue;
+            ++edges;
+        }
+    }
+    qInfo() << "(Graph) number of edges:" << edges;
+    
+//    qDebug() << Util::str(G);
 //    enumerateAllCliques();
-//    qDebug() << Util::str(cnt);
     
+//    cutBridges();
 //    connectedComponents();
-    cutBridges();
     
+    findCliques();
+    
+    qDebug() << Util::str(cnt);
     qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();
 }
 
 void Calculator::enumerateAllCliques()
 {
-    QQueue<QPair<list, list>> queue;
-    for (int i = 0; i < G.size(); ++i) {
-        auto item = qMakePair<list, list>({i}, G[i]);
-        queue.enqueue(item);
+    QQueue<QPair<list, list>> que;
+    for (int u = 0; u < G.size(); ++u) {
+        QPair<list, list> item;
+        item.first.append(u);
+        for (int v : G[u]) {
+            if (v > u) item.second.append(v);
+        }
+        que.enqueue(item);
 //        qDebug() << Util::str(item);
     }
     
-    while (!queue.isEmpty()) {
-        list base = queue.head().first;
+    while (!que.isEmpty()) {
+        list base = que.head().first;
         // cnbrs is a set of common neighbors of nodes in base.
-        list cnbrs = queue.head().second;
-        queue.dequeue();
+        list cnbrs = que.head().second;
+        que.dequeue();
         ++cnt[base.size()];
         
         for (int i = 0; i < cnbrs.size(); ++i) {
@@ -92,7 +113,7 @@ void Calculator::enumerateAllCliques()
                 }
             }
             auto item = qMakePair<list, list>(new_base, new_cnbrs);
-            queue.enqueue(item);
+            que.enqueue(item);
 //            qDebug() << Util::str(item);
         }
     }
@@ -125,8 +146,8 @@ void Calculator::connectedComponents()
             ++numberOfComponents;
         }
     }
-    qDebug() << "number of components: " << numberOfComponents;
-    qDebug() << "max size components: " << maxSizeComponent;
+    qInfo() << "(Graph) number of components:" << numberOfComponents;
+    qInfo() << "(Graph) max size components:" << maxSizeComponent;
 }
 
 void Calculator::cutBridges()
@@ -138,16 +159,16 @@ void Calculator::cutBridges()
     for (int s = 0; s < G.size(); ++s) {
         if (preorder[s] != 0) continue;
         parent[s] = s;
-        QStack<int> stack;
-        stack.push(s);
-        while (!stack.isEmpty()) {
-            int u = stack.top();
+        stack st;
+        st.push(s);
+        while (!st.isEmpty()) {
+            int u = st.top();
             if (preorder[u] == 0) preorder[u] = ++i;
             bool done = true;
             for (int v : G[u]) {
                 if (preorder[v] != 0) continue;
                 parent[v] = u;
-                stack.push(v);
+                st.push(v);
                 done = false;
                 break;
             }
@@ -161,18 +182,87 @@ void Calculator::cutBridges()
                     lowlink[u] = std::min(lowlink[u], preorder[v]);
                 }
             }
-            stack.pop();
+            st.pop();
         }
     }
 //    qDebug() << "parent" << Util::str(parent);
 //    qDebug() << "preorder" << Util::str(preorder);
 //    qDebug() << "lowlink" << Util::str(lowlink);
+    int bridges = 0;
     for (int u = 0; u < G.size(); ++u) {
         for (int v : G[u]) {
             if (v < u) continue;
             if (lowlink[u] > preorder[v] || lowlink[v] > preorder[u]) {
-                qDebug() << "bridge:" << u << v;
+                ++bridges;
+//                qDebug() << "bridge:" << u << v;
+                G[u].removeAll(v);
+                G[v].removeAll(u);
+                ++cnt[2];
             }
+        }
+    }
+    qInfo() << "(Graph) number of bridges:" << bridges;
+}
+
+void Calculator::findCliques()
+{
+    QMap<int, set> adj;
+    for (int u = 0; u < G.size(); ++u) {
+        for (int v : G[u]) {
+            adj[u].insert(v);
+        }
+    }
+    list Q(1, -1);
+    set subg, cand;
+    int u = 0;
+    for (int i = 0; i < G.size(); ++i) {
+        subg.insert(i);
+        cand.insert(i);
+        if (G[i].size() > G[u].size()) {
+            u = i;
+        }
+    }
+    set ext_u = cand - adj[u];
+    typedef std::tuple<set, set, set> args_type;
+    QStack<args_type> st;
+    while (true) {
+        if (!ext_u.isEmpty()) {
+            int q = *ext_u.begin();
+            ext_u.erase(ext_u.begin());
+            cand.remove(q);
+            Q.back() = q;
+            auto &adj_q = adj[q];
+            auto subg_q = subg &adj_q;
+            if (subg_q.isEmpty()) {
+                // Q is maximal clique
+//                qDebug() << "find clique:" << Util::str(Q);
+                ++cnt[Q.size()];
+            } else {
+                auto cand_q = cand & adj_q;
+                if (!cand_q.isEmpty()) {
+                    st.append(std::make_tuple(subg, cand, ext_u));
+                    Q.append(-1);
+                    subg = subg_q;
+                    cand = cand_q;
+                    u = *subg.begin();
+                    int maxu = (cand & adj[u]).size();
+                    for (int i : subg) {
+                        int maxi = (cand & adj[i]).size();
+                        if (maxi > maxu) {
+                            u = i;
+                            maxu = maxi;
+                        }
+                    }
+                    ext_u = cand - adj[u];
+                }
+            }
+        } else {
+            Q.pop_back();
+            if (st.isEmpty()) break;
+            subg = std::get<0>(st.top());
+            cand = std::get<1>(st.top());
+            ext_u = std::get<2>(st.top());
+            st.pop();
         }
     }
 }
