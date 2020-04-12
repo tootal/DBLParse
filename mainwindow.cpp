@@ -8,7 +8,6 @@
 #include "webpage.h"
 #include "detailview.h"
 #include "loader.h"
-#include "authorstacdialog.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
 #include "calculator.h"
