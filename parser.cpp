@@ -237,6 +237,8 @@ void Parser::clearIndex()
     QFile("authorStac.dat").remove();
     QFile("authors.txt").remove();
     QFile("authors_relation.txt").remove();
+    QFile("authors.edges").remove();
+    QFile("cliques_count.txt").remove();
 }
 
 char &Parser::StringRef::operator[](quint32 x) const
