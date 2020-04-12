@@ -41,8 +41,8 @@ void Calculator::handleAuthorRelations()
     int totalAuthor;
     in >> totalAuthor;
     qInfo() << "(Graph) number of nodes:" << totalAuthor; 
+    G.clear();
     G.resize(totalAuthor);
-    cnt.clear();
     
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -73,6 +73,7 @@ void Calculator::handleAuthorRelations()
     edges = 0;
     for (int u = 0; u < G.size(); ++u) {
         for (int v : G[u]) {
+            qDebug() << u << v;
             if (v <= u) continue;
             ++edges;
         }
@@ -85,7 +86,7 @@ void Calculator::generateAuthorsEdges()
     QFile file("authors.edges");
     QTextStream out(&file);
     // expert authors.edges
-    file.open(QFile::WriteOnly);
+    file.open(QFile::WriteOnly | QFile::Text);
     out << G.size() << ' ' << edges << '\n';
     for (int u = 0; u < G.size(); ++u) {
         for (int v : G[u]) {
