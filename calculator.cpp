@@ -23,6 +23,7 @@ void Calculator::calc()
     QString fileName("authors_relation.txt");
     QFile file(fileName);
     QTextStream in(&file);
+    QTextStream out(&file);
     if (!file.exists()) {
         qDebug() << "authors_relation.txt not exists!";    
         return ;
@@ -44,6 +45,7 @@ void Calculator::calc()
         }
         for (int i = 0; i < nodes.size() - 1; ++i) {
             for (int j = i + 1; j < nodes.size(); ++j) {
+                if (nodes[i] == nodes[j]) continue;
 //                if (nodes[i] > nodes[j]) std::swap(nodes[i], nodes[j]);
                 // nodes[i] < nodes[j]
                 G[nodes[i]].append(nodes[j]);
@@ -64,11 +66,23 @@ void Calculator::calc()
     int edges = 0;
     for (int u = 0; u < G.size(); ++u) {
         for (int v : G[u]) {
-            if (v < u) continue;
+            if (v <= u) continue;
             ++edges;
         }
     }
     qInfo() << "(Graph) number of edges:" << edges;
+    
+    // expert authors.edges
+    file.setFileName("authors.edges");
+    file.open(QFile::WriteOnly);
+    out << G.size() << ' ' << edges << '\n';
+    for (int u = 0; u < G.size(); ++u) {
+        for (int v : G[u]) {
+            if (v <= u) continue;
+            out << u << ' ' << v << '\n';
+        }
+    }
+    file.close();
     
 //    qDebug() << Util::str(G);
 //    enumerateAllCliques();
@@ -76,9 +90,9 @@ void Calculator::calc()
 //    cutBridges();
 //    connectedComponents();
     
-    findCliques();
+//    findCliques();
     
-    qDebug() << Util::str(cnt);
+//    qDebug() << Util::str(cnt);
     qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();
 }
