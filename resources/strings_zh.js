@@ -39,5 +39,6 @@ var strings = {
     "chapter": "章节",
     "You can not search this title.": "无法搜索此标题。",
     "Save successfully, please go to the index file directory to view.": "保存成功，请前往索引文件目录查看。",
-    "Save failed!": "保存失败！"
+    "Save failed!": "保存失败！",
+    "The number of k-cliques": "k阶完全子图的个数"
 };

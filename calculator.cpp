@@ -6,6 +6,7 @@
 #include <QQueue>
 #include <QTime>
 #include <QStack>
+#include <QProcess>
 
 #include <algorithm>
 
@@ -19,11 +20,22 @@ void Calculator::calc()
     qDebug() << "start calc";
     QTime timing;
     timing.start();
-    
-    QString fileName("authors_relation.txt");
-    QFile file(fileName);
+    if (!QFile("authors.edges").exists()) {
+        generateAuthorsEdges();
+    }
+    if (degeneracyCliques()) {
+        qDebug() << "degeneracy_cliques ok";
+    } else {
+        qDebug() << "degeneracy_cliques no";
+    }
+    qDebug() << "calc cost " << timing.elapsed() << "ms";
+    emit resultReady();
+}
+
+void Calculator::handleAuthorRelations()
+{
+    QFile file("authors_relation.txt");
     QTextStream in(&file);
-    QTextStream out(&file);
     if (!file.exists()) {
         qDebug() << "authors_relation.txt not exists!";    
         return ;
@@ -63,7 +75,7 @@ void Calculator::calc()
     }
     qInfo() << "(Graph) max degree:" << maxDegree;
     
-    int edges = 0;
+    edges = 0;
     for (int u = 0; u < G.size(); ++u) {
         for (int v : G[u]) {
             if (v <= u) continue;
@@ -71,9 +83,14 @@ void Calculator::calc()
         }
     }
     qInfo() << "(Graph) number of edges:" << edges;
-    
+}
+
+void Calculator::generateAuthorsEdges()
+{
+    handleAuthorRelations();
+    QFile file("authors.edges");
+    QTextStream out(&file);
     // expert authors.edges
-    file.setFileName("authors.edges");
     file.open(QFile::WriteOnly);
     out << G.size() << ' ' << edges << '\n';
     for (int u = 0; u < G.size(); ++u) {
@@ -83,18 +100,21 @@ void Calculator::calc()
         }
     }
     file.close();
-    
-//    qDebug() << Util::str(G);
-//    enumerateAllCliques();
-    
-//    cutBridges();
-//    connectedComponents();
-    
-//    findCliques();
-    
-//    qDebug() << Util::str(cnt);
-    qDebug() << "calc cost " << timing.elapsed() << "ms";
-    emit resultReady();
+}
+
+bool Calculator::degeneracyCliques()
+{
+    QString command = "degeneracy_cliques.exe -i authors.edges -t A -k 0 -d 0";
+    QProcess *process = new QProcess(this);
+    process->start(command);
+    bool ret = process->waitForFinished(-1);
+    if (ret) {
+        QFile file("cliques_count.txt");
+        file.open(QFile::WriteOnly | QFile::Text);
+        file.write(process->readAllStandardOutput());
+        file.close();
+    }
+    return ret;
 }
 
 void Calculator::enumerateAllCliques()

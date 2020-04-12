@@ -16,10 +16,14 @@ public:
 
 public slots:
     void calc();
+    void handleAuthorRelations();
+    void generateAuthorsEdges();
+    bool degeneracyCliques();
     
 private:
     QVector<QVector<int>> G;
     QMap<int, int> cnt;
+    int edges;
     void enumerateAllCliques();
     void connectedComponents();
     void cutBridges();
