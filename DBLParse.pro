@@ -11,7 +11,7 @@ TARGET = DBLParse
 TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
-VERSION = 2.5
+VERSION = 2.7
 DEFINES += VERSION=$${VERSION}
 
 # The following define makes your compiler emit warnings if you use
