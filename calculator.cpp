@@ -20,9 +20,8 @@ void Calculator::calc()
     qDebug() << "start calc";
     QTime timing;
     timing.start();
-    if (!QFile("authors.edges").exists()) {
-        generateAuthorsEdges();
-    }
+    handleAuthorRelations();
+    generateAuthorsEdges();
     if (degeneracyCliques()) {
         qDebug() << "degeneracy_cliques ok";
     } else {
@@ -36,10 +35,6 @@ void Calculator::handleAuthorRelations()
 {
     QFile file("authors_relation.txt");
     QTextStream in(&file);
-    if (!file.exists()) {
-        qDebug() << "authors_relation.txt not exists!";    
-        return ;
-    }
     file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
     
@@ -87,7 +82,6 @@ void Calculator::handleAuthorRelations()
 
 void Calculator::generateAuthorsEdges()
 {
-    handleAuthorRelations();
     QFile file("authors.edges");
     QTextStream out(&file);
     // expert authors.edges

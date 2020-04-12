@@ -102,7 +102,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
     QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
 DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
 Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
-            .arg(g_config->value("version"))
+            .arg(STR(VERSION))
             .arg(__TIMESTAMP__);
     
     QMessageBox::about(this, tr("About DBLParse"), info);
@@ -144,6 +144,7 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
+    m_parser->clearIndex();
     ParseDialog *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
@@ -217,7 +218,7 @@ void MainWindow::handleCalc()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
+    if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }

@@ -131,7 +131,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Count Clique</string>
+    <string>Coun&amp;t Clique</string>
    </property>
   </action>
  </widget>
