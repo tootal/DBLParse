@@ -241,6 +241,10 @@ void MainWindow::on_action_Settings_triggered()
 
 void MainWindow::on_action_Count_Clique_triggered()
 {
+    if(!m_finder->parsed()){
+        on_action_Status_triggered();
+        return ;
+    }
     QFile file("cliques_count.txt");
     if (file.exists()) {
         DetailView *view = new DetailView;
