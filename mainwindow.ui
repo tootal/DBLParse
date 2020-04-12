@@ -113,7 +113,7 @@
   </action>
   <action name="actionAuthorStac">
    <property name="text">
-    <string>AuthorStac</string>
+    <string>&amp;AuthorStac</string>
    </property>
   </action>
   <action name="actionView_Log">
