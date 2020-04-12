@@ -32,20 +32,28 @@ public:
     
     template <typename A>
     static QString str(A v) {
-        bool first = true;
-        QString res = "{";
+        QStringList res;
         for (const auto &x : v) {
-            if (!first) res += ", ";
-            first = false;
-            res += str(x);
+            res.append(str(x));
         }
-        res += "}";
-        return res;
+        return "{" + res.join(", ") + "}";
+    }
+    
+    template <typename A, typename B>
+    static QString str(QMap<A, B> p) {
+        QStringList res;
+        for (auto i = p.begin(); i != p.end(); ++i) {
+            res.append(str(i.key()) + ": " + str(i.value()));
+        }
+        return "{" + res.join(", ") + "}";
     }
     
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
 };
 
+
+#define STR_RAW(x) #x
+#define STR(x) STR_RAW(x)
 
 #endif // UTIL_H

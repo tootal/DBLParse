@@ -5,7 +5,7 @@
 #include <QDataStream>
 #include <QTime>
 #include <QDebug>
-#include<QMap>
+#include <QMap>
 #include <QList>
 
 char *Parser::s_data;
@@ -47,24 +47,18 @@ void Parser::parse()
     QVector<StringRef> titleIndex;
     QVector<StringRef> keyIndex;
     quint32 x = 0;
-    QMap<StringRef,int> authorStacTemp;
     int totalAuthor = 0;
     // authorId starts from 0
-    QMap<StringRef, int> authorId;
+    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfo;
     QVector<StringRef> authors;
-    QVector<QStringList> authorsIdRelation;
+    QVector<QVector<int>> authorsIdRelation;
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
-            StringRef key;
-            key.l = x;
-            while(ref[x] != '\"') ++x;
-            key.r = x;
+            StringRef key = readElementAttr(ref, x);
             keyIndex.append(key);
-//            qDebug() << "--record--";
-//            qDebug() << key;
-            ++x;
-            QStringList recordAuthorsId;
+            x = key.r + 1;
+            QVector<int> recordAuthorsId;
             while (x <= len) {
                 if (x == len || ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
@@ -75,14 +69,18 @@ void Parser::parse()
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
-                        if (!authorId.contains(author)) {
-                            authorId[author] = totalAuthor;
+                        QPair<int, int> *info;
+                        if (authorInfo.contains(author)) {
+                            info = &authorInfo[author];
+                        } else {
+                            info = &authorInfo[author];
+                            info->first/*id*/ = totalAuthor;
                             ++totalAuthor;
                             authors.append(author);
                         }
-                        ++authorStacTemp[author];
+                        ++info->second;
                         authorIndex.append(author);
-                        recordAuthorsId.append(QString::number(authorId[author]));
+                        recordAuthorsId.append(info->first/*id*/);
 //                        qDebug() << author;
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
@@ -116,8 +114,12 @@ void Parser::parse()
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
     textStream << totalAuthor << '\n';
-    foreach (QStringList relation, authorsIdRelation) {
-        textStream << relation.join(' ') << '\n';
+    for (auto relation : authorsIdRelation) {
+        textStream << relation[0];
+        for (int i = 1; i < relation.size(); ++i) {
+            textStream << ' ' << relation[i];
+        }
+        textStream << '\n';
     }
     file.close();
     
@@ -125,15 +127,14 @@ void Parser::parse()
     emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
-    QList<QPair<Parser::StringRef,int> > temp;
+    QList<QPair<Parser::StringRef, int>> temp;
+    temp.reserve(authorInfo.size());
 
-    QMap<StringRef, int>::iterator it=authorStacTemp.begin();
-    while(it!=authorStacTemp.end()){
-        temp.append(qMakePair(it.key(),it.value()));
+    auto it=authorInfo.begin();
+    while (it != authorInfo.end()) {
+        temp.append(qMakePair(it.key(),it.value().second));
         it++;
     }
-
-    authorStacTemp.clear();
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
@@ -216,17 +217,11 @@ Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &f
     return s.mid(i + 1, x - i - 1);
 }
 
-Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from, const char *key)
+Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from)
 {
-    StringRef s = r.mid(from);
-    Q_ASSERT(s[0] == '<');
-    quint32 i = 1;
-    while(!s.startsWith(key, i)) ++i;
-    while(s[i] != '\"') ++i;
-    ++i;
-    quint32 j = i;
-    while(s[j] != '\"') ++j;
-    return s.mid(i, j - i);
+    quint32 i = from;
+    while (r[i] != '\"') ++i;
+    return r.mid(from, i - from);
 }
 
 int Parser::costMsecs()
@@ -242,6 +237,8 @@ void Parser::clearIndex()
     QFile("authorStac.dat").remove();
     QFile("authors.txt").remove();
     QFile("authors_relation.txt").remove();
+    QFile("authors.edges").remove();
+    QFile("cliques_count.txt").remove();
 }
 
 char &Parser::StringRef::operator[](quint32 x) const

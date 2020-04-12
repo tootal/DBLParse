@@ -11,6 +11,7 @@
 #include "settingsdialog.h"
 #include "configmanager.h"
 #include "calculator.h"
+#include "detailview.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -102,7 +103,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
     QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
 DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
 Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
-            .arg(g_config->value("version"))
+            .arg(STR(VERSION))
             .arg(__TIMESTAMP__);
     
     QMessageBox::about(this, tr("About DBLParse"), info);
@@ -144,6 +145,7 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
+    m_parser->clearIndex();
     ParseDialog *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
@@ -211,12 +213,13 @@ void MainWindow::calc()
 
 void MainWindow::handleCalc()
 {
-    qDebug() << "calc finished";
+    statusBar()->showMessage(tr("Count finished!"), 3000);
+    on_action_Count_Clique_triggered();
 }
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-     if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
+    if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }
@@ -264,5 +267,36 @@ void MainWindow::on_action_Settings_triggered()
 
 void MainWindow::on_action_Count_Clique_triggered()
 {
-    calc();
+    if(!m_finder->parsed()){
+        on_action_Status_triggered();
+        return ;
+    }
+    QFile file("cliques_count.txt");
+    if (file.exists()) {
+        DetailView *view = new DetailView;
+        view->setAttribute(Qt::WA_DeleteOnClose);
+        view->resize(850, 600);
+        file.open(QFile::ReadOnly | QFile::Text);
+        QTextStream in(&file);
+        QString line;
+        QJsonObject o;
+        while (in.readLineInto(&line)) {
+            if (line.endsWith("total cliques")) {
+                o.insert("total", line.split('.')[0]);
+            } else {
+                auto part = line.split(", ");
+                if (part.size() != 2) continue;
+                o.insert(part[0], part[1].split('.')[0]);
+            }
+        }
+        auto html = Util::readFile(":/resources/clique.html");
+        auto data = QJsonDocument(o).toJson();
+        html.replace("<!-- DATA_HOLDER -->", data);
+        view->setHtml(html, QUrl("qrc:/resources/"));
+//        qDebug() << data;
+        view->show();
+    } else {
+        statusBar()->showMessage(tr("Counting..."));
+        calc();
+    }
 }

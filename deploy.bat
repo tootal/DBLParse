@@ -9,7 +9,9 @@ echo Generating files...
 mkdir DBLParse
 copy DBLParse.exe DBLParse
 cd DBLParse
-windeployqt DBLParse.exe 
+windeployqt DBLParse.exe
+copy ..\..\..\DBLParse\degeneracy_cliques.exe .
+copy ..\..\..\DBLParse\nCr.txt .
 cd ..
 echo Compressing...
 bc c DBLParse.zip DBLParse

@@ -7,12 +7,19 @@ CONFIG += c++11
 # Enable message log in release build
 DEFINES += QT_MESSAGELOGCONTEXT
 
+TARGET = DBLParse
+TEMPLATE = app
+
+RC_ICONS = resources/DBLParse.ico
+VERSION = 2.7
+DEFINES += VERSION=$${VERSION}
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
+    
 # Disables automatic conversions from C string literals and pointers to Unicode.
 # Disables automatic conversion from QString to C strings.
 #DEFINES += QT_NO_CAST_FROM_ASCII \
