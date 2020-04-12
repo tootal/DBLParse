@@ -70,6 +70,7 @@ Thumbs.db
 # --------
 *.dll
 *.exe
+!degeneracy_cliques.exe
 
 # VNote temporary files 
 *.vswp
