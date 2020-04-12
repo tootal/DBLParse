@@ -53,4 +53,7 @@ private:
 };
 
 
+#define STR_RAW(x) #x
+#define STR(x) STR_RAW(x)
+
 #endif // UTIL_H
