@@ -20,5 +20,8 @@
         <file>resources/bootstrap.min.js</file>
         <file>resources/jquery.js</file>
         <file>resources/popper.js</file>
+        <file>resources/authorStac.html</file>
+        <file>resources/authorStac.js</file>
+        <file>resources/authorStac.test.js</file>
     </qresource>
 </RCC>

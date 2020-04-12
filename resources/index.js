@@ -226,26 +226,12 @@ var handleSearch = function(data) {
         document.getElementById('result').style.display = "none";
         document.getElementById('coGraph').style.display = "block";
 
-//        var parent = document.getElementById("coGraph");
-//        var saveButton = document.createElement('button');
-//        parent.appendChild(saveButton);
-
-//        saveButton.innerHTML = '保存';
-
         document.getElementById("save").onclick = function () {
             var myChart = echarts.getInstanceByDom(document.getElementById("graph"));
             var url = myChart.getDataURL();
-            console.log(url);
+            // console.log(url);
             finder.image(url,json[0].parentNode);
-//            var a = document.createElement('a');
-//            var event = new MouseEvent('click');
-
-//                a.download = json[0].parentNode||'default';
-//                a.href = url;
-
-//                a.dispatchEvent(event);
         };
-//        parent.appendChild(saveButton);
 
         var myChart = echarts.init(document.getElementById('graph'));
 
@@ -260,7 +246,6 @@ var handleSearch = function(data) {
                 "parentnode":0
             }];
 
-        //handle data
         for(var i=0; i < json.length; i++){
             getNodes(json[i].parentNode,json[i].childNodes,nodes);
             setLinkData( json[i].childNodes, json[i].parentNode, linksdata);
@@ -412,7 +397,7 @@ var handleSearch = function(data) {
 
         var data=myChart._model.option.series[0].data;
            myChart.on("click", function (chartParam){
-                console.log(chartParam);
+                // console.log(chartParam);
                if(chartParam.borderColor){
                     document.getElementById('word').value=data[chartParam.dataIndex].name;
                     search(document.getElementById('type').value, document.getElementById('word').value);

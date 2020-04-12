@@ -28,7 +28,6 @@ SOURCES += \
     configmanager.cpp \
     detailpage.cpp \
     detailview.cpp \
-    authorstacdialog.cpp \
     finder.cpp \
     loader.cpp \
     main.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
     configmanager.h \
     detailpage.h \
     detailview.h \
-    authorstacdialog.h \
     finder.h \
     loader.h \
     mainwindow.h \
@@ -62,7 +60,6 @@ TRANSLATIONS += \
     translations/DBLParse_zh_CN.ts
 
 FORMS += \
-    authorstacdialog.ui \
     mainwindow.ui \
     parsedialog.ui \
     settingsdialog.ui

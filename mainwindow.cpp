@@ -6,6 +6,7 @@
 #include "record.h"
 #include "finder.h"
 #include "webpage.h"
+#include "detailview.h"
 #include "loader.h"
 #include "authorstacdialog.h"
 #include "settingsdialog.h"
@@ -20,6 +21,9 @@
 #include <QPushButton>
 #include <QWebChannel>
 #include <QDesktopServices>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 extern ConfigManager *g_config;
 
@@ -217,8 +221,33 @@ void MainWindow::on_actionAuthorStac_triggered()
         on_action_Status_triggered();
         return ;
     }
-    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
-    dialog->open();
+//    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
+//    dialog->open();
+
+     DetailView *view = new DetailView;
+     view->setWindowIcon(windowIcon());
+     view->setAttribute(Qt::WA_DeleteOnClose);
+
+     QList<QPair<QString,int> > authorStac=Finder::authorStac();
+     QJsonArray authorStacArray;
+
+     int num=authorStac.size()<=100?authorStac.size():100;
+
+     for(qint32 t=0;t<num;t++){
+         QJsonObject obj;
+         obj.insert("author",authorStac[t].first);
+         obj.insert("articleNum",QString::number(authorStac[t].second));
+         authorStacArray.append(obj);
+     }
+
+     auto html = Util::readFile(":/resources/authorStac.html");
+     auto data = QJsonDocument(authorStacArray).toJson();
+
+//     qDebug() << data;
+
+     html.replace("<!-- DATA_HOLDER -->", data);
+     view->setHtml(html, QUrl("qrc:/resources/"));
+     view->show();
 }
 
 void MainWindow::on_actionView_Log_triggered()

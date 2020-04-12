@@ -5,6 +5,7 @@ var strings = {
     "Search": "搜索",
     "Home Page": "主页",
     "Author(s)": "作者",
+    "ArticleNum": "文章数",
     "Year": "年份",
     "Modified": "修改日期",
     "Co-Author(s)": "合作者",
