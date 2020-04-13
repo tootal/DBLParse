@@ -19,7 +19,7 @@ let items = [
     'chapter'
 ];
 
-var stylish_special = function(json) {
+var stylish_special = function (json) {
     for (let key of json.key.split('/')) {
         $('#key').innerHTML += `<li class="breadcrumb-item active">${key}</li>`;
     }
@@ -32,10 +32,10 @@ var stylish_special = function(json) {
     }
 };
 
-var stylish = function(data) {
+var stylish = function (data) {
     let json = JSON.parse(data);
     stylish_special(json);
-    
+
     for (let item of items) {
         if (item in json) {
             $('#list').innerHTML += `<li class="list-group-item"><span class="font-weight-bold mr-1">${tr(item)}: </span>${json[item]}</li>`;
@@ -46,7 +46,7 @@ var stylish = function(data) {
 if (location.href.startsWith('qrc:')) {
     stylish($('#src').innerText);
 } else {
-    $.load('detail.test.js', function() {
+    $.load('detail.test.js', function () {
         stylish(test.data);
     });
 }
