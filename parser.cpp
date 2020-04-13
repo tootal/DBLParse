@@ -8,8 +8,6 @@
 #include <QMap>
 #include <QList>
 
-QList<QPair<QString,int> > Parser::s_authorStac;
-
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
@@ -131,10 +129,9 @@ void Parser::parse()
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
-    s_authorStac.clear();
-
-    for(qint32 t=0;t<temp.size();t++){
-        s_authorStac.append(qMakePair(temp[t].first.toString(),temp[t].second));
+    QVector<QPair<QString, int>> authorStac;
+    for (qint32 t=0; t<temp.size(); t++) {
+        authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
     }
 
     std::sort(authorIndex.begin(), authorIndex.end());
@@ -164,12 +161,11 @@ void Parser::parse()
     file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    int num = s_authorStac.size()<=100 ? s_authorStac.size() : 100;
+    int num = authorStac.size()<=100 ? authorStac.size() : 100;
     for(int i=0;i<num;i++){
-        dataStream << s_authorStac[i].first << s_authorStac[i].second;
+        dataStream << authorStac[i].first << authorStac[i].second;
     }
     file.close();
-    s_authorStac.clear();
 
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));

@@ -26,17 +26,10 @@ signals:
     void done();
     
 public:
-    
     static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
-    static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
-//    static QList<QString> returnKeys(){return keys;}
-//    static QList<int> returnValues(){return values;}
 
 private:
     int m_costMsecs;
-    static QList<QPair<QString,int> > s_authorStac;
-//    static QList<QString> keys;
-//    static QList<int> values;
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element
