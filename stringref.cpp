@@ -9,7 +9,7 @@ char *StringRef::s_data;
 void StringRef::init(const QString &fileName)
 {
     QFile file(fileName);
-    file.open(QFile::ReadOnly | QFile::Text);
+    file.open(QFile::ReadOnly);
     Q_ASSERT(file.isOpen());
     s_data = new char[static_cast<quint64>(file.size())];
     s_len = static_cast<quint32>(file.read(s_data, file.size()));
