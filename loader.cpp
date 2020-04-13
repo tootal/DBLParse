@@ -40,7 +40,7 @@ void Loader::run()
     Q_ASSERT(file.isOpen());
     stream.setDevice(&file);
     Finder::s_authorIndexs = static_cast<quint32>(file.size() >> 3);
-    Finder::s_authorIndex = new Parser::StringRef[Finder::s_authorIndexs];
+    Finder::s_authorIndex = new StringRef[Finder::s_authorIndexs];
     for(quint32 i = 0; i < Finder::s_authorIndexs; ++i){
         stream >> Finder::s_authorIndex[i].l >> Finder::s_authorIndex[i].r;
     }
@@ -53,7 +53,7 @@ void Loader::run()
     Q_ASSERT(file.isOpen());
     stream.setDevice(&file);
     Finder::s_titleIndexs = static_cast<quint32>(file.size() >> 3);
-    Finder::s_titleIndex = new Parser::StringRef[Finder::s_titleIndexs];
+    Finder::s_titleIndex = new StringRef[Finder::s_titleIndexs];
     for(quint32 i = 0; i < Finder::s_titleIndexs; ++i){
         stream >> Finder::s_titleIndex[i].l >> Finder::s_titleIndex[i].r;
     }

@@ -15,8 +15,8 @@
 #include <QQueue>
 #include <QBuffer>
 
-Parser::StringRef *Finder::s_authorIndex = nullptr;
-Parser::StringRef *Finder::s_titleIndex = nullptr;
+StringRef *Finder::s_authorIndex = nullptr;
+StringRef *Finder::s_titleIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
@@ -170,7 +170,7 @@ void Finder::setLoaded()
     m_loaded = true;
 }
 
-QString Finder::readText(const Parser::StringRef &ref)
+QString Finder::readText(const StringRef &ref)
 {
     Q_ASSERT(s_file != nullptr);
     Q_ASSERT(s_file->isOpen());
@@ -200,15 +200,15 @@ void Finder::init()
     s_file->open(QFile::ReadOnly);
 }
 
-QPair<const Parser::StringRef *, const Parser::StringRef *> 
-Finder::equalRange(const Parser::StringRef *first, 
-                   const Parser::StringRef *last, 
+QPair<const StringRef *, const StringRef *> 
+Finder::equalRange(const StringRef *first, 
+                   const StringRef *last, 
                    const QString &val)
 {
     quint32 len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
-        const Parser::StringRef *mid = first + half;
+        const StringRef *mid = first + half;
         QString text = readText(*mid);
         int cmp = QString::compare(text, val);
         if(cmp < 0){
@@ -218,24 +218,24 @@ Finder::equalRange(const Parser::StringRef *first,
         }else if(cmp > 0){
             len = half;
         }else{
-            const Parser::StringRef *left = lowerBound(first, mid, val);
+            const StringRef *left = lowerBound(first, mid, val);
             first += len;
-            const Parser::StringRef *right = upperBound(++mid, first, val);
+            const StringRef *right = upperBound(++mid, first, val);
             return qMakePair(left, right);
         }
     }
     return qMakePair(first, first);
 }
 
-const Parser::StringRef *
-Finder::lowerBound(const Parser::StringRef *first, 
-                   const Parser::StringRef *last, 
+const StringRef *
+Finder::lowerBound(const StringRef *first, 
+                   const StringRef *last, 
                    const QString &val)
 {
     quint32 len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
-        const Parser::StringRef *mid = first + half;
+        const StringRef *mid = first + half;
         QString text = readText(*mid);
         int ret = QString::compare(text, val);
         if(ret < 0){
@@ -249,15 +249,15 @@ Finder::lowerBound(const Parser::StringRef *first,
     return first;
 }
 
-const Parser::StringRef *
-Finder::upperBound(const Parser::StringRef *first, 
-                   const Parser::StringRef *last, 
+const StringRef *
+Finder::upperBound(const StringRef *first, 
+                   const StringRef *last, 
                    const QString &val)
 {
     quint32 len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
-        const Parser::StringRef *mid = first + half;
+        const StringRef *mid = first + half;
         QString text = readText(*mid);
         int ret = QString::compare(val, text);
         if(ret < 0){

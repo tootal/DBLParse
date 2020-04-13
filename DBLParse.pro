@@ -43,6 +43,7 @@ SOURCES += \
     parser.cpp \
     record.cpp \
     settingsdialog.cpp \
+    stringref.cpp \
     util.cpp \
     webpage.cpp \
     webview.cpp
@@ -59,6 +60,7 @@ HEADERS += \
     parser.h \
     record.h \
     settingsdialog.h \
+    stringref.h \
     util.h \
     webpage.h \
     webview.h

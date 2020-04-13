@@ -8,7 +8,6 @@
 #include <QMap>
 #include <QList>
 
-char *Parser::s_data;
 QList<QPair<QString,int> > Parser::s_authorStac;
 
 Parser::Parser(QObject *parent)
@@ -33,11 +32,9 @@ void Parser::parse()
     QTextStream textStream(&file);
     QDataStream dataStream(&file);
     
-    file.setFileName(Util::getXmlFileName());
-    file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
-    s_data = new char[static_cast<quint64>(file.size())];
-    quint32 len = static_cast<quint32>(file.read(s_data, file.size()));
+    StringRef::init(Util::getXmlFileName());
+    quint32 len = StringRef::s_len;
+    
     StringRef ref(0, len);
     file.close();
     m_costMsecs = timing.elapsed();
@@ -123,7 +120,7 @@ void Parser::parse()
     emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
 
-    QList<QPair<Parser::StringRef, int>> temp;
+    QList<QPair<StringRef, int>> temp;
     temp.reserve(authorInfo.size());
 
     auto it=authorInfo.begin();
@@ -145,7 +142,8 @@ void Parser::parse()
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
-    delete[] s_data;
+    
+    StringRef::clean();
     
     file.setFileName("author.dat");
     file.open(QFile::WriteOnly);
@@ -180,7 +178,7 @@ void Parser::parse()
     emit done();
 }
 
-Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &from)
+StringRef Parser::readElementText(const StringRef &r, quint32 &from)
 {
     StringRef s = r.mid(from);
     Q_ASSERT(s[0] == '<');
@@ -204,7 +202,7 @@ Parser::StringRef Parser::readElementText(const Parser::StringRef &r, quint32 &f
     return s.mid(i + 1, x - i - 1);
 }
 
-Parser::StringRef Parser::readElementAttr(const Parser::StringRef &r, quint32 from)
+StringRef Parser::readElementAttr(const StringRef &r, quint32 from)
 {
     quint32 i = from;
     while (r[i] != '\"') ++i;
@@ -227,78 +225,3 @@ void Parser::clearIndex()
     QFile("cliques_count.txt").remove();
 }
 
-char &Parser::StringRef::operator[](quint32 x) const
-{
-    Q_ASSERT(0 <= x && x < r - l);
-    return s_data[l + x];
-}
-
-bool Parser::StringRef::operator<(const Parser::StringRef &s) const
-{
-    quint32 len = r - l;
-    if(s.r - s.l < len) len = s.r - s.l;
-    for(quint32 i = 0; i < len; ++i){
-        if(s_data[l + i] != s_data[s.l + i]){
-            return s_data[l + i] < s_data[s.l + i];
-        }
-    }
-    if(len == s.r - s.l) return false;
-    else return true;
-}
-
-Parser::StringRef Parser::StringRef::mid(quint32 pos) const
-{
-    Q_ASSERT(0 <= pos && pos < r - l);
-    return StringRef(l + pos, r);
-}
-
-Parser::StringRef Parser::StringRef::mid(quint32 pos, quint32 len) const
-{
-    Q_ASSERT(0 <= pos && pos < r - l);
-    Q_ASSERT(pos + len <= r - l);
-    return StringRef(l + pos, l + pos + len);
-}
-
-bool Parser::StringRef::startsWith(const char *str, quint32 from) const
-{
-    quint32 x = l + from;
-    while(*str != 0){
-        if(*str != s_data[x]) return false;
-        ++str;
-        ++x;
-        if(x >= r) return false;
-    }
-    return true;
-}
-
-int Parser::StringRef::startsWith(const QStringList &strs, quint32 from) const
-{
-    for(int i = 0; i < strs.length(); ++i){
-        if(startsWith(strs[i].toUtf8(), from)){
-            return i;
-        }
-    }
-    return -1;
-}
-
-qint32 Parser::StringRef::indexOf(const char *str, quint32 from) const
-{
-    for(quint32 t = l + from; t < r; ++t){
-        bool flag = true;
-        for(const char *x = str; *x != 0; ++x){
-            if(*x != s_data[t + x - str]){
-                flag = false;
-                break;
-            }
-        }
-        if(flag){
-            return static_cast<qint32>(t - l);
-        }
-    }
-    return -1;
-}
-
-QString Parser::StringRef::toString() const
-{
-    return QByteArray::fromRawData(s_data + l, static_cast<int>(r - l));
-}

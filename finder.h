@@ -5,6 +5,7 @@
 #include <QJsonArray>
 
 #include "parser.h"
+#include "stringref.h"
 
 class Finder : public QObject
 {
@@ -46,25 +47,25 @@ private:
 
 public:
     static QFile *s_file;
-    static Parser::StringRef *s_authorIndex;
-    static Parser::StringRef *s_titleIndex;
+    static StringRef *s_authorIndex;
+    static StringRef *s_titleIndex;
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static QList<QPair<QString,int> > s_authorStac;
-    static QString readText(const Parser::StringRef &ref);
+    static QString readText(const StringRef &ref);
     // thanks to stl algo
-    static QPair<const Parser::StringRef*, const Parser::StringRef*>
-            equalRange(const Parser::StringRef *first,
-                                         const Parser::StringRef *last,
-                                         const QString &val);
-    static const Parser::StringRef*
-            lowerBound(const Parser::StringRef *first,
-                                         const Parser::StringRef *last,
-                                         const QString &val);
-    static const Parser::StringRef*
-            upperBound(const Parser::StringRef *first,
-                                         const Parser::StringRef *last,
-                                         const QString &val);
+    static QPair<const StringRef*, const StringRef*>
+            equalRange(const StringRef *first,
+                         const StringRef *last,
+                         const QString &val);
+    static const StringRef*
+            lowerBound(const StringRef *first,
+                         const StringRef *last,
+                         const QString &val);
+    static const StringRef*
+            upperBound(const StringRef *first,
+                         const StringRef *last,
+                         const QString &val);
 };
 
 #endif // FINDER_H
