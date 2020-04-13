@@ -38,19 +38,25 @@ jobs:
           qmake
           nmake
       - name: Package
-        if: startsWith(github.ref, 'refs/tags/')
+        # if: startsWith(github.ref, 'refs/tags/')
         env:
           VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC'
-          archiveName: 5.12.7-desktop-win64_msvc2017_64
         shell: pwsh
         run: |
-          New-Item -ItemType Directory ${env:archiveName}
-          Copy-Item bin\${env:targetName} ${env:archiveName}\
-          windeployqt --qmldir . ${env:archiveName}\${env:targetName}
-          Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
-          $name = ${env:archiveName}
-          echo "::set-env name=packageName::$name"
-          Write-Host 'packageName:'${env:packageName}
+          New-Item -ItemType Directory DBLParse
+          Copy-Item release\DBLParse.exe DBLParse\
+          cd DBLParse
+          windeployqt DBLParse.exe
+          cd ..
+          Copy-Item .\degeneracy_cliques.exe .\DBLParse\
+          python .\generate_nCr.py
+          Copy-Item .\nCr.txt .\DBLParse\
+          Compress-Archive -Path .\DBLParse\ DBLParse.zip
+      - name: Upload package
+        uses: actions/upload-artifact@v1
+        with: 
+          name: DBLParse.zip
+          path: DBLParse.zip
       - name: Query Release Win
         id: queryReleaseWin
         if: startsWith(github.ref, 'refs/tags/')
