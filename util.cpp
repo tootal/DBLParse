@@ -53,8 +53,8 @@ QString Util::findRecord(const QString &fileName, quint32 pos)
     QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
     auto m = re.match(data, static_cast<int>(pos));
     if(!m.hasMatch()){
-        qDebug() << pos;
-        qDebug() << data;
+//        qDebug() << pos;
+//        qDebug() << data;
     }
     Q_ASSERT(m.hasMatch());
     QString name = m.captured(1);
