@@ -9,7 +9,7 @@ var alertMsg = function(type, msg) {
     document.getElementById('alert').style.margin = '0 auto';
     var t = setTimeout(function () {
         document.getElementById('alert').style.display='none';
-    },5000);
+    },4000);
 }
 
 var clearT = function(){
@@ -413,8 +413,12 @@ var handleSearch = function(data) {
     document.getElementById('tbody').innerHTML = tbodyHTML;
     clearInterval(costTiming);
     if (document.getElementById('type').value != 'cograph') {
-        let msg = 
-        alertMsg('success', tr('Find item(s): ') + document.getElementById("tbody").rows.length + ', ' + tr('cost time (s): ') + costMsec / 1000);
+        let nums = document.getElementById("tbody").rows.length;
+        let msg = tr('Find') + nums + tr('results.');
+        if (costMsec >= 100) {
+            msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
+        }
+        alertMsg('success', msg);
     }
 };
 
