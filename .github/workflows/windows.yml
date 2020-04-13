@@ -1,7 +1,8 @@
 name: Windows
 on:
   push:
-    branches: [dev]
+    branches:
+      - master
 jobs:
   build:
     name: Build
