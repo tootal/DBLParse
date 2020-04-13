@@ -4,6 +4,8 @@ on:
     branches: [dev]
     paths-ignore:
       - 'README.md'
+  create:
+    branches: [dev]
 jobs:
   build:
     name: Build
