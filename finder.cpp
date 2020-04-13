@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QDataStream>
 #include <QSettings>
-#include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QUrl>
@@ -32,18 +31,17 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &type, const QString &word)
 {
-    QString result;
+    QJsonArray result;
     if (!parsed()) goto not_ready;
-//    qDebug() << type << word;
-    if (type == "author"){
+    if (type == "author") {
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         result = getJson(list);
-    } else if (type == "title"){
+    } else if (type == "title") {
         if (!titleLoaded()) goto not_ready;
         auto list = indexOfTitle(word);
         result = getJson(list);
-    } else if (type == "coauthor"){
+    } else if (type == "coauthor") {
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         QSet<QString> coauthors;
@@ -55,19 +53,14 @@ void Finder::find(const QString &type, const QString &word)
             }
         }
         coauthors.remove(word);
-        result = QJsonDocument(QJsonArray::fromStringList(coauthors.toList())).toJson();
-    }else if(type == "cograph"){
+        result = QJsonArray::fromStringList(coauthors.toList());
+    } else if(type == "cograph") {
         QJsonArray cograph;
-//        for(int i=0;i<cograph.size();i++){
-//            cograph.removeAt(i);
-//        }
-//        qDebug()<<word;
         cograph=cographBFS(word);
-//        qDebug()<<"cograph"<<cograph;
-        result=QJsonDocument(cograph).toJson();
+        result = cograph;
     }
-//    qDebug() << result;
-    emit ready(result);
+    m_lastResult = result;
+    emit ready(QJsonDocument(result).toJson());
     return ;
 not_ready:
     emit notReady();
@@ -77,21 +70,12 @@ not_ready:
 
 void Finder::handleRequest(QUrl url)
 {
+    int idx = url.path().remove(0, 1).toInt();
     DetailView *view = new DetailView;
     view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
     view->setAttribute(Qt::WA_DeleteOnClose);
-    QString mdate = url.host();
-    QString key = url.path().remove(0, 1);
-//    qDebug() << mdate << key;
-    auto list = indexOfKey(key);
-    Q_ASSERT(!list.isEmpty());
-    QJsonObject o;
-    foreach(auto pos, list){
-        Record record(Util::findRecord(Util::getXmlFileName(), pos));
-        if(record.attr("mdate") == mdate) o = record.toJson();
-    }
     auto html = Util::readFile(":/resources/detail.html");
-    auto data = QJsonDocument(o).toJson();
+    auto data = QJsonDocument(m_lastResult[idx].toObject()).toJson();
 //    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
@@ -224,7 +208,7 @@ QString Finder::readText(const Parser::StringRef &ref)
     return s_file->read(ref.r - ref.l);
 }
 
-QString Finder::getJson(const QList<quint32> &posList)
+QJsonArray Finder::getJson(const QList<quint32> &posList)
 {
     QJsonArray array;
     for(int i = 0; i < posList.size(); ++i){
@@ -232,7 +216,7 @@ QString Finder::getJson(const QList<quint32> &posList)
         Record record(Util::findRecord(Util::getXmlFileName(), pos));
         array.append(record.toJson());
     }
-    auto ret = QJsonDocument(array).toJson();
+    auto ret = array;
     return ret;
 }
 void Finder::init()

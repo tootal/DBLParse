@@ -2,6 +2,7 @@
 #define FINDER_H
 
 #include <QObject>
+#include <QJsonArray>
 
 #include "parser.h"
 
@@ -39,12 +40,13 @@ signals:
     void saveImg(const bool isOk);
     
 private:
-    QString getJson(const QList<quint32> &posList) ;
+    QJsonArray getJson(const QList<quint32> &posList) ;
     bool m_loaded;
     bool m_authorLoaded;
     bool m_titleLoaded;
     bool m_keyLoaded;
     bool m_authorStacLoaded;
+    QJsonArray m_lastResult;
 
 public:
     static QFile *s_file;

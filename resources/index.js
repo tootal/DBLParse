@@ -50,12 +50,12 @@ var searchAuthor = function(authorEle) {
     search('author', author);
 };
 
-var formatTitle = function(record) {
+var formatTitle = function(title, index) {
     let href = 'detail.html';
     if (location.href.startsWith('qrc:')) {
-        href = `dblp://${record.mdate}/${record.key}`;
+        href = `dblp://get/${index}`;
     }
-    return `<a href="${href}">${record.title}</a>`;
+    return `<a href="${href}">${title}</a>`;
 };
 
 var formatAuthor = function(author) {
@@ -202,11 +202,11 @@ var handleSearch = function(data) {
         document.getElementById('coGraph').style.display = "none";
 
         setHeader(['', 'Title', 'Author(s)', 'Modified']);
-        json.sort(function(x, y) {
-            return parseInt(x.mdate) - parseInt(y.mdate);
-        });
+        // json.sort(function(x, y) {
+        //     return parseInt(x.mdate) - parseInt(y.mdate);
+        // });
         for (let i = 0; i < json.length; ++i) {
-            tbodyHTML += rowHTML([i+1, formatTitle(json[i]), formatAuthors(json[i]), json[i].mdate]);
+            tbodyHTML += rowHTML([i+1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
         }
     } else if (document.getElementById('type').value == 'author') {
 
@@ -214,9 +214,9 @@ var handleSearch = function(data) {
         document.getElementById('coGraph').style.display = "none";
 
         setHeader(['', 'Title', 'Author(s)', 'Year']);
-        json.sort(function(x, y) {
-            return parseInt(x.year) - parseInt(y.year);
-        });
+        // json.sort(function(x, y) {
+        //     return parseInt(x.year) - parseInt(y.year);
+        // });
         let label = 1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
@@ -224,7 +224,7 @@ var handleSearch = function(data) {
                 continue;
             }
             // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
-            tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i])}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
+            tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i].title, i)}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             label = label + 1;
         }
     }else if(document.getElementById('type').value == 'cograph'){
