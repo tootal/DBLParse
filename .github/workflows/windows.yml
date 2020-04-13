@@ -49,5 +49,5 @@ jobs:
       - name: Upload package
         uses: actions/upload-artifact@v1
         with: 
-          name: DBLParse.zip
+          name: DBLParse
           path: DBLParse.zip
