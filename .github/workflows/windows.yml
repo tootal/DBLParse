@@ -44,7 +44,7 @@ jobs:
           cd ..
           Copy-Item .\degeneracy_cliques.exe .\DBLParse\
           pip install numpy
-          python .\generate_nCr.py
+          python .\scripts\generate_nCr.py
           Copy-Item .\nCr.txt .\DBLParse\
           Compress-Archive -Path .\DBLParse\ DBLParse.zip
           echo "Build with GitHub actions." > deploy.log

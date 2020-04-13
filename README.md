@@ -3,6 +3,9 @@
   <a href="https://github.com/tootal/DBLParse/releases">
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
+  <a href="https://github.com/tootal/DBLParse/actions">
+    <img alt="Github Actions" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg?branch=master" target="_blank" />
+  </a>
 </p>
 
 [数据结构大作业任务书](docs/DOCUMENT.md)  
