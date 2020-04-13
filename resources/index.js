@@ -414,7 +414,7 @@ var handleSearch = function(data) {
     clearInterval(costTiming);
     if (document.getElementById('type').value != 'cograph') {
         let nums = document.getElementById("tbody").rows.length;
-        let msg = tr('Find') + nums + tr('results.');
+        let msg = tr('Find ') + nums + tr(' results.');
         if (costMsec >= 100) {
             msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
         }
