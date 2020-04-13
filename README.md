@@ -5,9 +5,9 @@
   </a>
 </p>
 
-[数据结构大作业任务书](DOCUMENT.md)  
-[开发文档](CONTRIBUTING.md)  
-[关于DBLP的一些信息](DBLPXML.md)  
+[数据结构大作业任务书](docs/DOCUMENT.md)  
+[开发文档](docs/CONTRIBUTING.md)  
+[关于DBLP的一些信息](docs/DBLPXML.md)  
 
 ## 功能实现
 
