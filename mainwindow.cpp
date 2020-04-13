@@ -66,8 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
             m_finder, &Finder::setAuthorLoaded);
     connect(m_loader, &Loader::titleLoadDone,
             m_finder, &Finder::setTitleLoaded);
-    connect(m_loader, &Loader::keyLoadDone,
-            m_finder, &Finder::setKeyLoaded);
     connect(m_loader, &Loader::loadDone,
             this, [this](){
         statusBar()->showMessage(tr("Load finished."), 3000); 

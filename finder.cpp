@@ -17,10 +17,8 @@
 
 Parser::StringRef *Finder::s_authorIndex = nullptr;
 Parser::StringRef *Finder::s_titleIndex = nullptr;
-Parser::StringRef *Finder::s_keyIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
-quint32 Finder::s_keyIndexs = 0;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
 
@@ -86,7 +84,6 @@ bool Finder::parsed()
 {
     return QFile("author.dat").exists() 
             && QFile("title.dat").exists()
-            && QFile("key.dat").exists()
             && QFile("authorStac.dat").exists();
 }
 
@@ -95,7 +92,6 @@ void Finder::clearIndex()
     m_loaded = false;
     m_authorLoaded = false;
     m_titleLoaded = false;
-    m_keyLoaded = false;
     m_authorStacLoaded = false;
     
     s_authorIndexs = 0;
@@ -107,11 +103,6 @@ void Finder::clearIndex()
     if (s_titleIndex != nullptr) {
         delete s_titleIndex;
         s_titleIndex = nullptr;
-    }
-    s_keyIndexs = 0;
-    if (s_keyIndex != nullptr) {
-        delete s_keyIndex;
-        s_keyIndex = nullptr;
     }
     
     s_authorStac.clear();
@@ -133,17 +124,6 @@ QList<quint32> Finder::indexOfTitle(const QString &title) const
     QList<quint32> list;
     if(s_titleIndex == nullptr) return list;
     auto range = equalRange(s_titleIndex, s_titleIndex + s_titleIndexs, title);
-    for(auto i = range.first; i != range.second; ++i){
-        list.append(i->l);
-    }
-    return list;
-}
-
-QList<quint32> Finder::indexOfKey(const QString &key) const
-{
-    QList<quint32> list;
-    if(s_keyIndex == nullptr) return list;
-    auto range = equalRange(s_keyIndex, s_keyIndex + s_keyIndexs, key);
     for(auto i = range.first; i != range.second; ++i){
         list.append(i->l);
     }
@@ -178,16 +158,6 @@ bool Finder::titleLoaded() const
 void Finder::setTitleLoaded()
 {
     m_titleLoaded = true;
-}
-
-bool Finder::keyLoaded() const
-{
-    return m_keyLoaded;
-}
-
-void Finder::setKeyLoaded()
-{
-    m_keyLoaded = true;
 }
 
 bool Finder::loaded() const

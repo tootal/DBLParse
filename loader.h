@@ -15,7 +15,6 @@ signals:
     void loadDone();
     void authorLoadDone();
     void titleLoadDone();
-    void keyLoadDone();
     void authorStacLoadDone();
 };
 
