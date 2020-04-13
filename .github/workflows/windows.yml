@@ -46,9 +46,8 @@ jobs:
           pip install numpy
           python .\generate_nCr.py
           Copy-Item .\nCr.txt .\DBLParse\
-          Compress-Archive -Path .\DBLParse\ DBLParse.zip
       - name: Upload package
         uses: actions/upload-artifact@v1
         with: 
           name: DBLParse
-          path: DBLParse.zip
+          path: DBLParse\
