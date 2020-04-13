@@ -45,7 +45,6 @@ void Parser::parse()
     elapsedTime = m_costMsecs;
     QVector<StringRef> authorIndex;
     QVector<StringRef> titleIndex;
-    QVector<StringRef> keyIndex;
     quint32 x = 0;
     int totalAuthor = 0;
     // authorId starts from 0
@@ -55,9 +54,6 @@ void Parser::parse()
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
-            StringRef key = readElementAttr(ref, x);
-            keyIndex.append(key);
-            x = key.r + 1;
             QVector<int> recordAuthorsId;
             while (x <= len) {
                 if (x == len || ref.startsWith("key=\"", x + 1)) {
@@ -146,7 +142,6 @@ void Parser::parse()
 
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
-    std::sort(keyIndex.begin(), keyIndex.end());
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;
@@ -164,14 +159,6 @@ void Parser::parse()
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     foreach(auto i, titleIndex){
-        dataStream << i.l << i.r;
-    }
-    file.close();
-    
-    file.setFileName("key.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    foreach(auto i, keyIndex){
         dataStream << i.l << i.r;
     }
     file.close();
@@ -233,7 +220,6 @@ void Parser::clearIndex()
 {
     QFile("author.dat").remove();
     QFile("title.dat").remove();
-    QFile("key.dat").remove();
     QFile("authorStac.dat").remove();
     QFile("authors.txt").remove();
     QFile("authors_relation.txt").remove();
