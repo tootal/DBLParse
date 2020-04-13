@@ -2,16 +2,10 @@ name: Windows
 on:
   push:
     branches: [dev]
-    paths-ignore:
-      - 'README.md'
-  create:
-    branches: [dev]
 jobs:
   build:
     name: Build
     runs-on: windows-latest
-    env:
-      targetName: DBLParse.exe
     steps:
       - name: Cache Qt
         id: cache-qt
@@ -38,7 +32,6 @@ jobs:
           qmake
           nmake
       - name: Package
-        # if: startsWith(github.ref, 'refs/tags/')
         env:
           VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC'
         shell: pwsh
