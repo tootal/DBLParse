@@ -1,4 +1,6 @@
 var t;
+var costTiming;
+var costMsec;
 
 var alertMsg = function(type, msg) {
     document.getElementById('alert').className = `mt-5 alert alert-${type} alert-dismissible fade show col-4`;
@@ -7,7 +9,7 @@ var alertMsg = function(type, msg) {
     document.getElementById('alert').style.margin = '0 auto';
     var t = setTimeout(function () {
         document.getElementById('alert').style.display='none';
-    },2000);
+    },5000);
 }
 
 var clearT = function(){
@@ -20,6 +22,10 @@ var search = function(type, word) {
         alertMsg('warning', tr('You can not search this title.'));
         clearT();
     } else {
+        costMsec = 0;
+        costTiming = setInterval(function() {
+            costMsec += 100;
+        }, 100);
         // console.log('search ', type, word);
         if (location.href.startsWith('qrc:')) {
             finder.find(type, word);
@@ -405,6 +411,11 @@ var handleSearch = function(data) {
            });
     }
     document.getElementById('tbody').innerHTML = tbodyHTML;
+    clearInterval(costTiming);
+    if (document.getElementById('type').value != 'cograph') {
+        let msg = 
+        alertMsg('success', tr('Find item(s): ') + document.getElementById("tbody").rows.length + ', ' + tr('cost time (s): ') + costMsec / 1000);
+    }
 };
 
 var resSaveMes= function(data){
