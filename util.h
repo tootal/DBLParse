@@ -20,6 +20,7 @@ public:
     static void initAvailableLanguage();
     static const QVector<QPair<QString, QString>> availableLanguages();
     static QString getLocale();
+    static void clearIndexs();
     
     static QString str(int v) {
         return QString::number(v);

@@ -115,3 +115,18 @@ QString Util::getLocale()
     return locale;
 }
 
+void Util::clearIndexs()
+{
+    for (const QString &fileName : QStringList{
+         "author.dat",
+         "title.dat",
+         "authorStac.dat",
+         "authors.txt",
+         "authors_relation.txt",
+         "authors.edges",
+         "cliques_count.txt"
+    }) {
+        QFile(fileName).remove();
+    }
+}
+

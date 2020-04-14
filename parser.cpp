@@ -136,17 +136,6 @@ int Parser::costMsecs()
     return m_costMsecs;
 }
 
-void Parser::clearIndex()
-{
-    QFile("author.dat").remove();
-    QFile("title.dat").remove();
-    QFile("authorStac.dat").remove();
-    QFile("authors.txt").remove();
-    QFile("authors_relation.txt").remove();
-    QFile("authors.edges").remove();
-    QFile("cliques_count.txt").remove();
-}
-
 void Parser::timeMark(const QString &msg)
 {
     m_costMsecs = m_timing.elapsed();

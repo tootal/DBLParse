@@ -21,7 +21,6 @@ public:
     void run();
     void parse();
     int costMsecs();
-    static void clearIndex();
     
 signals:
     void stateChanged(const QString &state);

@@ -147,7 +147,7 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
-    m_parser->clearIndex();
+    Util::clearIndexs();
     ParseDialog *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
@@ -192,7 +192,7 @@ void MainWindow::on_action_Status_triggered()
 
 void MainWindow::on_action_Clear_Index_triggered()
 {
-    m_parser->clearIndex();
+    Util::clearIndexs();
     m_finder->clearIndex();
     statusBar()->showMessage(tr("Clear index file successful!"));
 }
