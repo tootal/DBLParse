@@ -25,9 +25,22 @@ public:
         return QString::number(v);
     }
     
+    static QString str(const QString &s) {
+        return s;
+    }
+    
     template <typename A, typename B>
     static QString str(QPair<A, B> p) {
         return QString("(%1, %2)").arg(str(p.first)).arg(str(p.second));
+    }
+    
+    template <typename A, typename B>
+    static QString str(const QMap<A, B> &p) {
+        QStringList res;
+        for (auto i = p.begin(); i != p.end(); ++i) {
+            res.append(str(i.key()) + ": " + str(i.value()));
+        }
+        return "{" + res.join(", ") + "}";
     }
     
     template <typename A>
@@ -39,14 +52,6 @@ public:
         return "{" + res.join(", ") + "}";
     }
     
-    template <typename A, typename B>
-    static QString str(QMap<A, B> p) {
-        QStringList res;
-        for (auto i = p.begin(); i != p.end(); ++i) {
-            res.append(str(i.key()) + ": " + str(i.value()));
-        }
-        return "{" + res.join(", ") + "}";
-    }
     
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;

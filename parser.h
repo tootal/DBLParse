@@ -31,7 +31,7 @@ public:
 
 private:
     int m_costMsecs;
-    static QString s_yearword[70];
+    static QMap<int/*year*/, QMap<QString/*word*/, int/*count*/>> s_yearword;
     // treat child element as text, after reading, from equal to the
     // last position of the end element
     static StringRef readElementText(const StringRef &r, quint32 &from);

@@ -7,8 +7,9 @@
 #include <QDebug>
 #include <QMap>
 #include <QList>
+#include <QRegularExpression>
 
-QString Parser::s_yearword[70];
+QMap<int/*year*/, QMap<QString/*word*/, int/*count*/>> Parser::s_yearword;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -49,9 +50,10 @@ void Parser::parse()
     QVector<StringRef> authors;
     QVector<QVector<int>> authorsIdRelation;
 
-    quint32 titlelen = 0;
+//    quint32 titlelen = 0;
     QString temp1,temp2;
-    QMap<QString,int> yearwordsTemp[70];
+    QMap<int/*year*/, QMap<QString/*word*/, int/*count*/>> yearwordsTemp;
+//    QMap<QString,int> yearwordsTemp[70];
     QString commonwords = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,an,are,all,any,been,both,each,either,one,two,three,four,five,"
                           "six,seven,eight,nine,ten,none,little,few,many,much,other,another,some,no,every,nobody,anybody,somebody,everybody,"
                           "when,on,under,as,first,second,third,forth,fifth,sixth,seventh,above,over,below,under,beside,behind,of,the,after,from,"
@@ -102,20 +104,18 @@ void Parser::parse()
 //                        qDebug() << title;
                     }else if (ref.startsWith("year", x + 1)) {
                         StringRef year = readElementText(ref, x);
-                        int yearyy= year.toString().toInt() - 1950;
-                        if(yearyy <70 && yearyy >= 0)
-                        {
-                            StringRef temy = xxxxx;
-                            QStringList tem = temy.toString().split(QRegExp("[ .,*/^:;()!?@&]"));
+                        QString temy = xxxxx.toString();
+                        temy.replace(QRegularExpression(R"(<\/?.*?\/?>|&#\d+;)")," ");
+                        qDebug() << temy;
+                        QStringList tem = temy.split(QRegExp("[ .,*/^:;()!?@&-]"));
 
-                            QStringListIterator strIterator(tem);
-                            while(strIterator.hasNext())
-                            {
-                                temp1 = strIterator.next();
-                                temp1 = temp1.toLower();
-                                if(temp1 != "" && commonwords.contains(temp1) == 0)
-                                    ++yearwordsTemp[yearyy][temp1];
-                            }
+                        QStringListIterator strIterator(tem);
+                        while(strIterator.hasNext())
+                        {
+                            temp1 = strIterator.next();
+                            temp1 = temp1.toLower();
+                            if(temp1 != "" && commonwords.contains(temp1) == 0)
+                                ++yearwordsTemp[year.toString().toInt()][temp1];
                         }
 //                        qDebug() << year;
                     }
@@ -175,9 +175,11 @@ void Parser::parse()
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
 
+    
     QList<QPair<QString,int> > temz;
     QMap<QString, int>::iterator its;
-    for(int i=0;i<70;i++)
+//    for(int i=0;i<70;i++)
+    for (int i : yearwordsTemp.keys())
     {
 
         if(yearwordsTemp[i].begin().key()==nullptr)continue;
@@ -191,13 +193,16 @@ void Parser::parse()
         std::sort(temz.begin(),temz.end(),sortByYear);
         int num1 = temz.size()<=10 ? temz.size() : 10;
         for(qint32 t=0;t<num1;t++)
-            s_yearword[i] = s_yearword[i] + temz[t].first + ",";
+//            s_yearword[i] = s_yearword[i] + temz[t].first + ",";
+            s_yearword[i].insert(temz[t].first, temz[t].second);
         temz.clear();
-        qDebug()<<i;
+//        qDebug()<<i;
     }
-    for(int i = 0; i < 70; i++)
-        qDebug() << i+1950 << ":" << s_yearword[i];
-
+//    for(int i = 0; i < 70; i++)
+//        qDebug() << i+1950 << ":" << s_yearword[i];
+    qDebug() << Util::str(s_yearword);
+    
+    
     
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
