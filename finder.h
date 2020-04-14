@@ -6,6 +6,7 @@
 
 #include "parser.h"
 #include "stringref.h"
+#include "record.h"
 
 class Finder : public QObject
 {
@@ -38,12 +39,12 @@ signals:
     void saveImg(const bool isOk);
     
 private:
-    QJsonArray getJson(const QList<quint32> &posList) ;
+    QVector<Record> getRecord(const QList<quint32> &posList);
     bool m_loaded;
     bool m_authorLoaded;
     bool m_titleLoaded;
     bool m_authorStacLoaded;
-    QJsonArray m_lastResult;
+    QVector<Record> m_lastResult;
 
 public:
     static QFile *s_file;

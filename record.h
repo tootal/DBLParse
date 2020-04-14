@@ -1,19 +1,19 @@
 #ifndef RECORD_H
 #define RECORD_H
 
-#include <QObject>
 #include <QDate>
 #include <QMap>
 #include <QJsonValue>
 
-class Record : public QObject
+class Record
 {
-    Q_OBJECT
 public:
-    explicit Record(const QString &s, QObject *parent = nullptr);
+    Record();
+    Record(const QString &s);
     QString capture(const QString &tag) const;
     QVariant attr(const QString &tag) const;
     QJsonObject toJson() const;
+    QJsonObject toJson(const QString &type) const;
     
 private:
     QString m_src;

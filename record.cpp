@@ -5,8 +5,12 @@
 #include <QRegularExpression>
 #include <QJsonObject>
 
-Record::Record(const QString &s, QObject *parent)
-    : QObject(parent)
+Record::Record()
+{
+    m_src = "";
+}
+
+Record::Record(const QString &s)
 {
     m_src = s;
     QRegularExpression re(R"(<author.*?>(.+)<\/author>)");
@@ -113,4 +117,21 @@ QJsonObject Record::toJson() const
     auto ret = QJsonObject::fromVariantMap(m_attrs);
 //    qDebug() << ret;
     return ret;
+}
+
+QJsonObject Record::toJson(const QString &type) const
+{
+    QJsonObject o;
+    if (type == "author") {
+        o.insert("title", attr("title").toString());
+        o.insert("authors", QJsonValue::fromVariant(attr("authors")));
+        o.insert("year", attr("year").toString());
+    } else if (type == "title") {
+        o.insert("title", attr("title").toString());
+        o.insert("authors", QJsonValue::fromVariant(attr("authors")));
+        o.insert("mdate", attr("mdate").toString());
+    } else {
+        o = toJson();
+    }
+    return o;
 }
