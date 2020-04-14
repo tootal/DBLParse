@@ -298,3 +298,38 @@ void MainWindow::on_action_Count_Clique_triggered()
         calc();
     }
 }
+
+void MainWindow::on_actionKeyWord_triggered()
+{
+    if(!m_finder->parsed() || !m_finder->yearWordLoaded()){
+        on_action_Status_triggered();
+        return ;
+    }
+
+     DetailView *view = new DetailView;
+     view->setWindowIcon(windowIcon());
+     view->setAttribute(Qt::WA_DeleteOnClose);
+
+     QMap<int,QList<QString> > yearWord=Finder::yearWord();
+     qDebug()<<yearWord;
+     QMap<int,QList<QString> >::iterator it= yearWord.begin();
+     QJsonArray yearWordArray;
+
+     while(it!=yearWord.end()){
+//         qDebug()<<it.key()<<it.value();
+         QJsonObject obj;
+         obj.insert("year",it.key());
+         obj.insert("keyWord",it.value().join(","));
+         yearWordArray.append(obj);
+         it++;
+     }
+
+     auto html = Util::readFile(":/resources/yearWord.html");
+     auto data = QJsonDocument(yearWordArray).toJson();
+
+//     qDebug() << data;
+
+     html.replace("<!-- DATA_HOLDER -->", data);
+     view->setHtml(html, QUrl("qrc:/resources/"));
+     view->show();
+}

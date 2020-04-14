@@ -20,7 +20,10 @@ public:
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
+    static QMap<int,QList<QString> > yearWord() {return s_yearWord;}
     
+    bool yearWordLoaded() const;
+    void setYearWordLoaded();
     bool authorStacLoaded() const;
     void setAuthorStacLoaded();
     bool authorLoaded() const;
@@ -43,6 +46,7 @@ private:
     bool m_authorLoaded;
     bool m_titleLoaded;
     bool m_authorStacLoaded;
+    bool m_yearWordLoaded;
     QJsonArray m_lastResult;
 
 public:
@@ -52,6 +56,7 @@ public:
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static QList<QPair<QString,int> > s_authorStac;
+    static QMap<int,QList<QString> > s_yearWord;
     static QString readText(const StringRef &ref);
     // thanks to stl algo
     static QPair<const StringRef*, const StringRef*>

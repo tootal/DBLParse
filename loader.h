@@ -16,6 +16,7 @@ signals:
     void authorLoadDone();
     void titleLoadDone();
     void authorStacLoadDone();
+    void yearWordLoadDone();
 };
 
 #endif // LOADER_H

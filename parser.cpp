@@ -9,7 +9,7 @@
 #include <QList>
 #include <QRegularExpression>
 
-QMap<int/*year*/, QMap<QString/*word*/, int/*count*/>> Parser::s_yearword;
+QMap<int/*year*/, QMap<QString/*word*/, int/*count*/>> Parser::s_yearWord;
 
 Parser::Parser(QObject *parent)
     :QThread(parent)
@@ -193,14 +193,14 @@ void Parser::parse()
         std::sort(temz.begin(),temz.end(),sortByYear);
         int num1 = temz.size()<=10 ? temz.size() : 10;
         for(qint32 t=0;t<num1;t++)
-//            s_yearword[i] = s_yearword[i] + temz[t].first + ",";
-            s_yearword[i].insert(temz[t].first, temz[t].second);
+//            s_yearWord[i] = s_yearWord[i] + temz[t].first + ",";
+            s_yearWord[i].insert(temz[t].first, temz[t].second);
         temz.clear();
 //        qDebug()<<i;
     }
 //    for(int i = 0; i < 70; i++)
-//        qDebug() << i+1950 << ":" << s_yearword[i];
-    qDebug() << Util::str(s_yearword);
+//        qDebug() << i+1950 << ":" << s_yearWord[i];
+    qDebug() << Util::str(s_yearWord);
     
     
     
@@ -234,6 +234,24 @@ void Parser::parse()
         dataStream << authorStac[i].first << authorStac[i].second;
     }
     file.close();
+
+    file.setFileName("yearWord.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    Q_ASSERT(file.isOpen());
+    for (int i : s_yearWord.keys())
+    {
+        its=s_yearWord[i].begin();
+        textStream << i << ' ';
+        while(its!=s_yearWord[i].end())
+        {
+            textStream << its.key()<<' ';
+            its++;
+        }
+        textStream << '\n';
+        s_yearWord[i].clear();
+    }
+    file.close();
+
 
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));

@@ -56,6 +56,7 @@
     </property>
     <addaction name="action_Status"/>
     <addaction name="actionAuthorStac"/>
+    <addaction name="actionKeyWord"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -132,6 +133,11 @@
    </property>
    <property name="text">
     <string>Coun&amp;t Clique</string>
+   </property>
+  </action>
+  <action name="actionKeyWord">
+   <property name="text">
+    <string>KeyWord</string>
    </property>
   </action>
  </widget>

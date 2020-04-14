@@ -60,6 +60,27 @@ void Loader::run()
     file.close();
     emit titleLoadDone();
     
+    emit stateChanged(tr("Loading yearWord index..."));
+    Finder::s_yearWord.clear();
+    file.setFileName("yearWord.txt");
+    file.open(QFile::ReadOnly);
+    Q_ASSERT(file.isOpen());
+//    stream.setDevice(&file);
+    QTextStream read(&file);
+    QPair<int,QList<QString> > tempYearWord;
+    while(!read.atEnd()){
+        QString line = read.readLine();
+        QList<QString> temp;
+        temp=line.split(' ');
+        tempYearWord.first = temp[0].toInt();
+        temp.pop_front();
+        temp.pop_back();
+        tempYearWord.second = temp;
+        Finder::s_yearWord.insert(tempYearWord.first,tempYearWord.second);
+    }
+//    qDebug()<<Finder::s_yearWord;
+    emit yearWordLoadDone();
+    file.close();
     
     int ms = timing.elapsed();
     qInfo() << QString("load finished in %1 ms").arg(ms);

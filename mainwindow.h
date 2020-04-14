@@ -46,6 +46,8 @@ private slots:
     void on_action_Settings_triggered();
     
     void on_action_Count_Clique_triggered();
+
+    void on_actionKeyWord_triggered();
     
 private:
     Ui::MainWindow *ui;

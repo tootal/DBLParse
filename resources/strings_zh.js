@@ -45,5 +45,6 @@ var strings = {
     "Find ": "找到",
     " results.": "条结果。",
     "(Cost time: ": "（用时：",
-    "s)": "秒）"
+    "s)": "秒）",
+    "keyWord(s)": "关键词",
 };
