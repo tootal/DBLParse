@@ -10,8 +10,6 @@
 #include "util.h"
 #include "stringref.h"
 
-class QFile;
-
 class Parser : public QObject
 {
     Q_OBJECT
@@ -47,6 +45,7 @@ private:
     void genIndex();
     void saveAuthors();
     void indexFileSave();
+    void parseClean();
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element

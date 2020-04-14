@@ -43,6 +43,8 @@ void Parser::run()
     
     timeMark(tr("Index file saved. (%1 ms)"));
     
+    parseClean();
+    
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
@@ -96,8 +98,6 @@ void Parser::parse()
         }
         ++x;
     }
-    
-    
 }
 
 StringRef Parser::readElementText(const StringRef &r, quint32 &from)
@@ -148,14 +148,6 @@ void Parser::parseInit()
     // read all file content
     StringRef::init(Util::getXmlFileName());
     m_ref.r = StringRef::s_len;
-    
-    m_authorIndex.clear();
-    m_titleIndex.clear();
-    m_authorInfo.clear();
-    m_authors.clear();
-    m_authorsIdRelation.clear();
-    m_authorStac.clear();
-    
     m_totalAuthor = 0;
 }
 
@@ -208,7 +200,6 @@ void Parser::saveAuthors()
         textStream << '\n';
     }
     file.close();
-    
 }
 
 void Parser::indexFileSave()
@@ -240,5 +231,21 @@ void Parser::indexFileSave()
         dataStream << m_authorStac[i].first << m_authorStac[i].second;
     }
     file.close();
+}
+
+void Parser::parseClean()
+{
+    m_authorIndex.clear();
+    m_titleIndex.clear();
+    m_authorInfo.clear();
+    m_authors.clear();
+    m_authorsIdRelation.clear();
+    m_authorStac.clear();
+    
+    m_authorIndex.squeeze();
+    m_titleIndex.squeeze();
+    m_authors.squeeze();
+    m_authorsIdRelation.squeeze();
+    m_authorStac.squeeze();
 }
 
