@@ -190,9 +190,9 @@ var clearBefore = function () {
     document.getElementById('coGraph').style.display = "none";
 }
 
-var handleHomePage = function (record) {
+var handleHomePage = function (index) {
     if (location.href.startsWith('qrc:')) {
-        document.getElementById('homepage').href = `dblp://${record.mdate}/${record.key}`;
+        document.getElementById('homepage').href = `dblp://get/${index}`;
     } else {
         document.getElementById('homepage').href = 'detail.html';
     }
@@ -327,7 +327,7 @@ var handleSearch = function (data) {
         let label = 1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
-                handleHomePage(json[i]);
+                handleHomePage(i);
                 continue;
             }
             // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
