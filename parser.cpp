@@ -88,10 +88,10 @@ void Parser::parse()
                         StringRef title = readElementText(m_ref, x);
                         m_titleIndex.append(title);
 //                        qDebug() << title;
-                    }/* else if (ref.startsWith("year", x + 1)) {
-                        StringRef year = readElementText(ref, x);
+                    } else if (m_ref.startsWith("year", x + 1)) {
+                        int year = readYear(m_ref, x);
 //                        qDebug() << year;
-                    }*/
+                    }
                 }
                 ++x;
             }
@@ -129,6 +129,17 @@ StringRef Parser::readElementAttr(const StringRef &r, quint32 from)
     quint32 i = from;
     while (r[i] != '\"') ++i;
     return r.mid(from, i - from);
+}
+
+int Parser::readYear(const StringRef &r, quint32 &from)
+{
+    from += 6;
+    int year = 1000 * (r[from] - '0')
+            + 100 * (r[from + 1] - '0')
+            + 10 * (r[from + 2] - '0')
+            + r[from + 3] - '0';
+    from += 11;
+    return year;
 }
 
 int Parser::costMsecs()

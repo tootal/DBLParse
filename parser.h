@@ -55,6 +55,8 @@ private:
     // from equal to the start position of the attr value
     static StringRef readElementAttr(const StringRef &r, quint32 from);
 
+    // read example: "<year>1998</year>"
+    static int readYear(const StringRef &r, quint32 &from);
 };
 
 #endif // PARSER_H
