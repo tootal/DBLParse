@@ -8,6 +8,8 @@
 #include <QMap>
 #include <QList>
 
+QString Parser::s_yearword[70];
+
 Parser::Parser(QObject *parent)
     :QThread(parent)
 {
@@ -46,10 +48,25 @@ void Parser::parse()
     QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfo;
     QVector<StringRef> authors;
     QVector<QVector<int>> authorsIdRelation;
+
+    quint32 titlelen = 0;
+    QString temp1,temp2;
+    QMap<QString,int> yearwordsTemp[70];
+    QString commonwords = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,an,are,all,any,been,both,each,either,one,two,three,four,five,"
+                          "six,seven,eight,nine,ten,none,little,few,many,much,other,another,some,no,every,nobody,anybody,somebody,everybody,"
+                          "when,on,under,as,first,second,third,forth,fifth,sixth,seventh,above,over,below,under,beside,behind,of,the,after,from,"
+                          "since,for,which,by,next,where,how,who,there,is,was,were,do,did,done,this,that,in,last,brfore,because,against,except,beyond,"
+                          "along,among,but,so,towards,to,it,me,he,you,your,his,her,she,its,they,them,and,has,have,had,my,would,then,too,or,our,off,or,we,be,"
+                          "into,weel,can,being,been,having,even,us,these,those,if,ours,with,use,using,used,the,based,-,:,;,problem,problems,systems,methods,"
+                          "ways,ideas,learning,information,works,solve,solving,solved,old,new,analysis,data,big,small,large,their,,between,0,1,2,3,4,5,6,7,8,9";
+
     while (x < len){
         if (ref.startsWith("key=\"", x)) {
             x += 5;
             QVector<int> recordAuthorsId;
+
+            StringRef xxxxx;
+
             while (x <= len) {
                 if (x == len || ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
@@ -76,11 +93,32 @@ void Parser::parse()
                     } else if (ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(ref, x);
                         titleIndex.append(title);
+
+                        xxxxx = title;
+//                        QStringList tem = title.toString().split(QRegExp("[ .,*/^:;()!?@&]"));
+//                        QString temz = QString::number(titlelen) + ",";
+
+                        
 //                        qDebug() << title;
-                    }/* else if (ref.startsWith("year", x + 1)) {
+                    }else if (ref.startsWith("year", x + 1)) {
                         StringRef year = readElementText(ref, x);
+                        int yearyy= year.toString().toInt() - 1950;
+                        if(yearyy <70 && yearyy >= 0)
+                        {
+                            StringRef temy = xxxxx;
+                            QStringList tem = temy.toString().split(QRegExp("[ .,*/^:;()!?@&]"));
+
+                            QStringListIterator strIterator(tem);
+                            while(strIterator.hasNext())
+                            {
+                                temp1 = strIterator.next();
+                                temp1 = temp1.toLower();
+                                if(temp1 != "" && commonwords.contains(temp1) == 0)
+                                    ++yearwordsTemp[yearyy][temp1];
+                            }
+                        }
 //                        qDebug() << year;
-                    }*/
+                    }
                 }
                 ++x;
             }
@@ -136,6 +174,31 @@ void Parser::parse()
 
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
+
+    QList<QPair<QString,int> > temz;
+    QMap<QString, int>::iterator its;
+    for(int i=0;i<70;i++)
+    {
+
+        if(yearwordsTemp[i].begin().key()==nullptr)continue;
+        its=yearwordsTemp[i].begin();
+        while(its!=yearwordsTemp[i].end())
+        {
+            temz.append(qMakePair(its.key(),its.value()));
+            its++;
+        }
+        yearwordsTemp[i].clear();
+        std::sort(temz.begin(),temz.end(),sortByYear);
+        int num1 = temz.size()<=10 ? temz.size() : 10;
+        for(qint32 t=0;t<num1;t++)
+            s_yearword[i] = s_yearword[i] + temz[t].first + ",";
+        temz.clear();
+        qDebug()<<i;
+    }
+    for(int i = 0; i < 70; i++)
+        qDebug() << i+1950 << ":" << s_yearword[i];
+
+    
     m_costMsecs = timing.elapsed();
     emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
     elapsedTime = m_costMsecs;

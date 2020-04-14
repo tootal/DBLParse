@@ -27,10 +27,11 @@ signals:
     
 public:
     static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
+    static bool sortByYear(QPair<QString,int> l,QPair<QString,int> r){return l.second>r.second;}
 
 private:
     int m_costMsecs;
-
+    static QString s_yearword[70];
     // treat child element as text, after reading, from equal to the
     // last position of the end element
     static StringRef readElementText(const StringRef &r, quint32 &from);
