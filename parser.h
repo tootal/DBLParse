@@ -34,8 +34,10 @@ private:
     QTime m_timing;
     int m_costMsecs;
     int m_elapsedTime;
+    StringRef m_ref;
     
     void timeMark(const QString &msg);
+    void parseInit();
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element

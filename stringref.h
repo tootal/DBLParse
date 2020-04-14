@@ -21,8 +21,7 @@ public:
     static void clean();
     
 public:
-    StringRef(){}
-    StringRef(quint32 l_, quint32 r_):l(l_), r(r_){}
+    StringRef(quint32 l_ = 0, quint32 r_ = 0):l(l_), r(r_){}
     
     char &operator[](quint32 x) const;
     
