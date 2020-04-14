@@ -16,16 +16,20 @@ Parser::Parser(QObject *parent)
 
 void Parser::run()
 {
+    m_timing = QTime::currentTime();
+    m_elapsedTime = 0;
+    
+    emit stateChanged(tr("Parsing start."));  
+    
     parse();
+    
+    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
+    qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
+    emit done();
 }
 
 void Parser::parse()
-{
-    QTime timing = QTime::currentTime();
-//    timing.start();
-    emit stateChanged(tr("Parsing start."));
-    int elapsedTime = 0;
-    
+{ 
     QFile file;
     QTextStream textStream(&file);
     QDataStream dataStream(&file);
@@ -35,9 +39,9 @@ void Parser::parse()
     
     StringRef ref(0, len);
     file.close();
-    m_costMsecs = timing.elapsed();
-    emit stateChanged(tr("XML file read successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
-    elapsedTime = m_costMsecs;
+    
+    timeMark(tr("XML file read successful. (%1 ms)"));
+    
     QVector<StringRef> authorIndex;
     QVector<StringRef> titleIndex;
     quint32 x = 0;
@@ -87,9 +91,8 @@ void Parser::parse()
         }
         ++x;
     }
-    m_costMsecs = timing.elapsed();
-    emit stateChanged(tr("XML file parse successful. (%1 ms)").arg(m_costMsecs - elapsedTime));
-    elapsedTime = m_costMsecs;
+    
+    timeMark(tr("XML file parse successful. (%1 ms)"));
 
     // Save authors to authors.txt
     // The author's ID in line x is x
@@ -114,9 +117,7 @@ void Parser::parse()
     }
     file.close();
     
-    m_costMsecs = timing.elapsed();
-    emit stateChanged(tr("Authors information saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
-    elapsedTime = m_costMsecs;
+    timeMark(tr("Authors information saved. (%1 ms)"));
 
     QList<QPair<StringRef, int>> temp;
     temp.reserve(authorInfo.size());
@@ -136,11 +137,9 @@ void Parser::parse()
 
     std::sort(authorIndex.begin(), authorIndex.end());
     std::sort(titleIndex.begin(), titleIndex.end());
-    m_costMsecs = timing.elapsed();
-    emit stateChanged(tr("Index file generated. (%1 ms)").arg(m_costMsecs - elapsedTime));
-    elapsedTime = m_costMsecs;
     
     StringRef::clean();
+    timeMark(tr("Index file generated. (%1 ms)"));
     
     file.setFileName("author.dat");
     file.open(QFile::WriteOnly);
@@ -166,12 +165,9 @@ void Parser::parse()
         dataStream << authorStac[i].first << authorStac[i].second;
     }
     file.close();
-
-    m_costMsecs = timing.elapsed();
-    emit stateChanged(tr("Index file saved. (%1 ms)").arg(m_costMsecs - elapsedTime));
-    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
-    qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
-    emit done();
+    
+    timeMark(tr("Index file saved. (%1 ms)"));
+    
 }
 
 StringRef Parser::readElementText(const StringRef &r, quint32 &from)
@@ -219,5 +215,12 @@ void Parser::clearIndex()
     QFile("authors_relation.txt").remove();
     QFile("authors.edges").remove();
     QFile("cliques_count.txt").remove();
+}
+
+void Parser::timeMark(const QString &msg)
+{
+    m_costMsecs = m_timing.elapsed();
+    emit stateChanged(msg.arg(m_costMsecs - m_elapsedTime));
+    m_elapsedTime = m_costMsecs;
 }
 

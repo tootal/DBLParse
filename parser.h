@@ -15,8 +15,7 @@ class QFile;
 class Parser : public QObject
 {
     Q_OBJECT
-private:
-    QTime m_timing;
+    
 public:
     Parser(QObject *parent = nullptr);
     void run();
@@ -30,9 +29,13 @@ signals:
     
 public:
     static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
-
+    
 private:
+    QTime m_timing;
     int m_costMsecs;
+    int m_elapsedTime;
+    
+    void timeMark(const QString &msg);
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element
