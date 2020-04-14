@@ -151,9 +151,10 @@ var search = function (type, word) {
 
 var searchAuthor = function (authorEle) {
     scrollTo(0, 0);
-    document.getElementById('type').value = 'author';
     let author = atob(authorEle.dataset.author);
     document.getElementById('word').value = author;
+    document.getElementById('type').options[0].selected=true;
+    $('.selectpicker').selectpicker('refresh');
     search('author', author);
 };
 
