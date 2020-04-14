@@ -27,7 +27,7 @@ var showData = function (data) {
             words += json[i].words[j].word + '(' + json[i].words[j].count + ')  ';
         }
 
-        tbodyHTML += rowHTML([json[i].year, json[i].keyWord]);
+        tbodyHTML += rowHTML([json[i].year, words]);
     }
     document.getElementById('tbody').innerHTML = tbodyHTML;
 };
