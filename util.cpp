@@ -12,6 +12,17 @@ extern ConfigManager *g_config;
 
 QVector<QPair<QString, QString>> Util::s_availableLanguages;
 
+QStringList Util::s_parsedFiles = {
+    "author.dat",
+    "title.dat",
+    "authorStac.dat",
+    "authors.txt",
+    "authors_relation.txt",
+    "authors.edges",
+    "cliques_count.txt",
+    "yearWord.txt"
+};
+
 QString Util::formatTime(int ms)
 {
     Q_ASSERT(ms >= 0);
@@ -113,5 +124,22 @@ QString Util::getLocale()
         locale = QLocale::system().name();
     }
     return locale;
+}
+
+void Util::clearIndexs()
+{
+    for (const QString &fileName : s_parsedFiles) {
+        QFile(fileName).remove();
+    }
+}
+
+bool Util::parsed()
+{
+    for (const QString &fileName : s_parsedFiles) {
+        if (QFile(fileName).exists()) {
+            return true;
+        }
+    }
+    return false;
 }
 

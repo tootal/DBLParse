@@ -6,6 +6,7 @@
 
 #include "parser.h"
 #include "stringref.h"
+#include "record.h"
 
 class Finder : public QObject
 {
@@ -14,13 +15,12 @@ public:
     explicit Finder(QObject *parent = nullptr);
     Q_INVOKABLE void find(const QString &type, const QString &word);
     void handleRequest(QUrl url);
-    static bool parsed();
     void clearIndex();
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
-    static QMap<int,QList<QString> > yearWord() {return s_yearWord;}
+    static Parser::YW_T yearWord() {return s_yearWord;}
     
     bool yearWordLoaded() const;
     void setYearWordLoaded();
@@ -41,13 +41,13 @@ signals:
     void saveImg(const bool isOk);
     
 private:
-    QJsonArray getJson(const QList<quint32> &posList) ;
+    QVector<Record> getRecord(const QList<quint32> &posList);
     bool m_loaded;
     bool m_authorLoaded;
     bool m_titleLoaded;
     bool m_authorStacLoaded;
     bool m_yearWordLoaded;
-    QJsonArray m_lastResult;
+    QVector<Record> m_lastResult;
 
 public:
     static QFile *s_file;
@@ -56,7 +56,7 @@ public:
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static QList<QPair<QString,int> > s_authorStac;
-    static QMap<int,QList<QString> > s_yearWord;
+    static Parser::YW_T s_yearWord;
     static QString readText(const StringRef &ref);
     // thanks to stl algo
     static QPair<const StringRef*, const StringRef*>

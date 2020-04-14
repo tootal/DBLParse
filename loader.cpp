@@ -12,7 +12,7 @@ Loader::Loader(QObject *parent)
 
 void Loader::run()
 {
-    if(!Finder::parsed()) return ;
+    if(!Util::parsed()) return ;
     QTime timing;
     timing.start();
     
@@ -63,20 +63,23 @@ void Loader::run()
     emit stateChanged(tr("Loading yearWord index..."));
     Finder::s_yearWord.clear();
     file.setFileName("yearWord.txt");
-    file.open(QFile::ReadOnly);
+    file.open(QFile::ReadOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
 //    stream.setDevice(&file);
     QTextStream read(&file);
-    QPair<int,QList<QString> > tempYearWord;
-    while(!read.atEnd()){
-        QString line = read.readLine();
-        QList<QString> temp;
-        temp=line.split(' ');
-        tempYearWord.first = temp[0].toInt();
-        temp.pop_front();
-        temp.pop_back();
-        tempYearWord.second = temp;
-        Finder::s_yearWord.insert(tempYearWord.first,tempYearWord.second);
+    while (!read.atEnd()) {
+        QStringList temp = read.readLine().split(' ');
+//        qDebug() << temp;
+        QVector<Parser::CW_T> tempYearWord;
+        int year = temp[0].toInt();
+        for (int i = 1; i < temp.size() - 1; i += 2) {
+            tempYearWord.append(qMakePair(
+                temp[i].toInt()/*count*/,
+                temp[i + 1]/*word*/
+            ));
+        }
+//        qDebug() << Util::str(tempYearWord);
+        Finder::s_yearWord.insert(year, tempYearWord);
     }
 //    qDebug()<<Finder::s_yearWord;
     emit yearWordLoadDone();

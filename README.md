@@ -3,11 +3,14 @@
   <a href="https://github.com/tootal/DBLParse/releases">
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
+  <a href="https://github.com/tootal/DBLParse/actions">
+    <img alt="Github Actions" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg?branch=master" target="_blank" />
+  </a>
 </p>
 
-[数据结构大作业任务书](DOCUMENT.md)  
-[开发文档](CONTRIBUTING.md)  
-[关于DBLP的一些信息](DBLPXML.md)  
+[数据结构大作业任务书](docs/TASKBOOK.md)  
+[开发文档](docs/CONTRIBUTING.md)  
+[关于DBLP的一些信息](docs/DBLPXML.md)  
 
 ## 功能实现
 

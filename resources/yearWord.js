@@ -16,12 +16,17 @@ var rowHTML = function (list) {
 
 var showData = function (data) {
     let json = JSON.parse(data);
-    //    console.log(json);
+    console.log(json);
 
     let tbodyHTML = '';
     setHeader(['Year', 'keyWord(s)']);
 
     for (let i = 0; i < json.length; ++i) {
+        let words = '';
+        for (let j = 0; j < json[i].words.length; ++j) {
+            words += json[i].words[j].word + '(' + json[i].words[j].count + ')  ';
+        }
+
         tbodyHTML += rowHTML([json[i].year, json[i].keyWord]);
     }
     document.getElementById('tbody').innerHTML = tbodyHTML;
@@ -29,8 +34,6 @@ var showData = function (data) {
 
 if (location.href.startsWith('qrc:')) {
     showData($('#src').innerText);
-    //    console.log($('#src').innerText);
-
 } else {
     $.load('authorStac.test.js', function () {
         //        console.log('test');

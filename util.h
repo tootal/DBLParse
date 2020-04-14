@@ -20,6 +20,8 @@ public:
     static void initAvailableLanguage();
     static const QVector<QPair<QString, QString>> availableLanguages();
     static QString getLocale();
+    static void clearIndexs();
+    static bool parsed();
     
     static QString str(int v) {
         return QString::number(v);
@@ -55,6 +57,7 @@ public:
     
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
+    static QStringList s_parsedFiles;
 };
 
 

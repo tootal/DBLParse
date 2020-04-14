@@ -15,13 +15,15 @@
 #include <QQueue>
 #include <QBuffer>
 
+#include <algorithm>
+
 StringRef *Finder::s_authorIndex = nullptr;
 StringRef *Finder::s_titleIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
-QMap<int,QList<QString> > Finder::s_yearWord;
+Parser::YW_T Finder::s_yearWord;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -30,16 +32,29 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &type, const QString &word)
 {
-    QJsonArray result;
-    if (!parsed()) goto not_ready;
+    QVector<Record> result;
+    QJsonArray json;
+    if (!Util::parsed()) goto not_ready;
     if (type == "author") {
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
-        result = getJson(list);
+        result = getRecord(list);
+        std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
+            return x.attr("year").toString() < y.attr("year").toString(); 
+        });
+        for (const Record &record : result) {
+            json.append(record.toJson(type));
+        }
     } else if (type == "title") {
         if (!titleLoaded()) goto not_ready;
         auto list = indexOfTitle(word);
-        result = getJson(list);
+        result = getRecord(list);
+        std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
+            return x.attr("mdate").toString() > y.attr("mdate").toString(); 
+        });
+        for (const Record &record : result) {
+            json.append(record.toJson(type));
+        }
     } else if (type == "coauthor") {
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
@@ -52,14 +67,14 @@ void Finder::find(const QString &type, const QString &word)
             }
         }
         coauthors.remove(word);
-        result = QJsonArray::fromStringList(coauthors.toList());
+        json = QJsonArray::fromStringList(coauthors.toList());
     } else if(type == "cograph") {
         QJsonArray cograph;
         cograph=cographBFS(word);
-        result = cograph;
+        json = cograph;
     }
     m_lastResult = result;
-    emit ready(QJsonDocument(result).toJson());
+    emit ready(QJsonDocument(json).toJson());
     return ;
 not_ready:
     emit notReady();
@@ -74,18 +89,11 @@ void Finder::handleRequest(QUrl url)
     view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
     view->setAttribute(Qt::WA_DeleteOnClose);
     auto html = Util::readFile(":/resources/detail.html");
-    auto data = QJsonDocument(m_lastResult[idx].toObject()).toJson();
+    auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
 //    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
-}
-
-bool Finder::parsed()
-{
-    return QFile("author.dat").exists() 
-            && QFile("title.dat").exists()
-            && QFile("authorStac.dat").exists();
 }
 
 void Finder::clearIndex()
@@ -189,13 +197,13 @@ QString Finder::readText(const StringRef &ref)
     return s_file->read(ref.r - ref.l);
 }
 
-QJsonArray Finder::getJson(const QList<quint32> &posList)
+QVector<Record> Finder::getRecord(const QList<quint32> &posList)
 {
-    QJsonArray array;
+    QVector<Record> array;
     for(int i = 0; i < posList.size(); ++i){
         auto pos = posList.at(i);
         Record record(Util::findRecord(Util::getXmlFileName(), pos));
-        array.append(record.toJson());
+        array.append(record);
     }
     auto ret = array;
     return ret;

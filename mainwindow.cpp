@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
 
-    m_parser = new Parser(this);
+    m_parser = new Parser;
     m_loader = new Loader(this);
     m_calculator = new Calculator;
     
@@ -48,10 +48,14 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::handleCalc);
     m_calcThread.start();
     
+    m_parser->moveToThread(&m_parseThread);
+    connect(this, &MainWindow::startParse,
+            m_parser, &Parser::run);
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
 //    connect(m_parser, &Parser::done,
 //            this, &MainWindow::calc);
+    m_parseThread.start();
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
@@ -66,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_finder, &Finder::setAuthorLoaded);
     connect(m_loader, &Loader::titleLoadDone,
             m_finder, &Finder::setTitleLoaded);
+    connect(m_loader, &Loader::yearWordLoadDone,
+            m_finder, &Finder::setYearWordLoaded);
     connect(m_loader, &Loader::loadDone,
             this, [this](){
         statusBar()->showMessage(tr("Load finished."), 3000); 
@@ -84,8 +90,8 @@ MainWindow::~MainWindow()
     delete ui;
     m_loader->quit();
     m_loader->wait();
-    m_parser->quit();
-    m_parser->wait();
+    m_parseThread.quit();
+    m_parseThread.wait();
     m_calcThread.quit();
     m_calcThread.wait();
 }
@@ -143,14 +149,14 @@ void MainWindow::on_action_Open_triggered()
         int ret = box.exec();
         if(ret == QMessageBox::No) return ;
     }
-    m_parser->clearIndex();
+    Util::clearIndexs();
     ParseDialog *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
     connect(m_parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
     dialog->open();
-    m_parser->start();
+    emit startParse();
 }
 
 void MainWindow::on_action_Status_triggered()
@@ -159,7 +165,7 @@ void MainWindow::on_action_Status_triggered()
     QString text;
     QString parserStatus;
     QString loaderStatus;
-    if(m_finder->parsed()){
+    if(Util::parsed()){
         parserStatus = QString(R"(<font color="green">OK</font>)");
     }else{
         parserStatus = QString(R"(<font color="red">NO</font>)");
@@ -171,7 +177,7 @@ void MainWindow::on_action_Status_triggered()
     }
     text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus).arg(loaderStatus);
     msgBox.setText(text);
-    if(m_finder->parsed()){
+    if(Util::parsed()){
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
@@ -188,7 +194,7 @@ void MainWindow::on_action_Status_triggered()
 
 void MainWindow::on_action_Clear_Index_triggered()
 {
-    m_parser->clearIndex();
+    Util::clearIndexs();
     m_finder->clearIndex();
     statusBar()->showMessage(tr("Clear index file successful!"));
 }
@@ -217,7 +223,7 @@ void MainWindow::handleCalc()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
-    if(!m_finder->parsed() || !m_finder->authorStacLoaded()){
+    if(!Util::parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }
@@ -265,7 +271,7 @@ void MainWindow::on_action_Settings_triggered()
 
 void MainWindow::on_action_Count_Clique_triggered()
 {
-    if(!m_finder->parsed()){
+    if(!Util::parsed()){
         on_action_Status_triggered();
         return ;
     }
@@ -301,7 +307,9 @@ void MainWindow::on_action_Count_Clique_triggered()
 
 void MainWindow::on_actionKeyWord_triggered()
 {
-    if(!m_finder->parsed() || !m_finder->yearWordLoaded()){
+//    qDebug() << Util::parsed();
+//    qDebug() << m_finder->yearWordLoaded();
+    if(!Util::parsed() || !m_finder->yearWordLoaded()){
         on_action_Status_triggered();
         return ;
     }
@@ -310,16 +318,23 @@ void MainWindow::on_actionKeyWord_triggered()
      view->setWindowIcon(windowIcon());
      view->setAttribute(Qt::WA_DeleteOnClose);
 
-     QMap<int,QList<QString> > yearWord=Finder::yearWord();
-     qDebug()<<yearWord;
-     QMap<int,QList<QString> >::iterator it= yearWord.begin();
+     Parser::YW_T yearWord = Finder::yearWord();
+     qDebug()<< Util::str(yearWord);
+     auto it= yearWord.begin();
      QJsonArray yearWordArray;
 
-     while(it!=yearWord.end()){
+     while (it != yearWord.end()) {
 //         qDebug()<<it.key()<<it.value();
          QJsonObject obj;
-         obj.insert("year",it.key());
-         obj.insert("keyWord",it.value().join(","));
+         obj.insert("year", it.key());
+         QJsonArray arr;
+         for (auto &cw : it.value()) {
+             QJsonObject o;
+             o.insert("count", cw.first);
+             o.insert("word", cw.second);
+             arr.append(o);
+         }
+         obj.insert("words", arr);
          yearWordArray.append(obj);
          it++;
      }
