@@ -46,7 +46,7 @@ private:
     int m_minYear;
     QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
     typedef QPair<int/*count*/, QString/*word*/> CW_T;
-    QMap<int/*year*/, QVector<CW_T>> m_topKWords; 
+    QMap<int/*year*/, QVector<CW_T>> m_topKWords;
     
     void timeMark(const QString &msg);
     void parseInit();
