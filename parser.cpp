@@ -27,6 +27,18 @@ void Parser::run()
     
     parse();
     
+    timeMark(tr("XML file parse successful. (%1 ms)"));
+    
+    genIndex();
+    
+    timeMark(tr("Index file generated. (%1 ms)"));
+    
+    saveAuthors();
+    
+    timeMark(tr("Authors information saved. (%1 ms)"));
+    
+    StringRef::clean();
+    
     indexFileSave();
     
     timeMark(tr("Index file saved. (%1 ms)"));
@@ -37,14 +49,10 @@ void Parser::run()
 }
 
 void Parser::parse()
-{ 
-    QFile file;
-    QTextStream textStream(&file);
-    QDataStream dataStream(&file);
-    
+{
     quint32 x = 0;
     quint32 len = m_ref.r;
-    int totalAuthor = 0;
+    
     // authorId starts from 0
     
     while (x < len){
@@ -66,8 +74,8 @@ void Parser::parse()
                             info = &m_authorInfo[author];
                         } else {
                             info = &m_authorInfo[author];
-                            info->first/*id*/ = totalAuthor;
-                            ++totalAuthor;
+                            info->first/*id*/ = m_totalAuthor;
+                            ++m_totalAuthor;
                             m_authors.append(author);
                         }
                         ++info->second;
@@ -89,54 +97,7 @@ void Parser::parse()
         ++x;
     }
     
-    timeMark(tr("XML file parse successful. (%1 ms)"));
-
-    // Save authors to authors.txt
-    // The author's ID in line x is x
     
-    file.setFileName("authors.txt");
-    file.open(QFile::WriteOnly | QFile::Text);
-    foreach (StringRef author, m_authors) {
-        textStream << author.toString() << '\n';
-    }
-    file.close();
-    
-    // Save authors relation to authors_relation.txt
-    file.setFileName("authors_relation.txt");
-    file.open(QFile::WriteOnly | QFile::Text);
-    textStream << totalAuthor << '\n';
-    for (auto relation : m_authorsIdRelation) {
-        textStream << relation[0];
-        for (int i = 1; i < relation.size(); ++i) {
-            textStream << ' ' << relation[i];
-        }
-        textStream << '\n';
-    }
-    file.close();
-    
-    timeMark(tr("Authors information saved. (%1 ms)"));
-
-    QList<QPair<StringRef, int>> temp;
-    temp.reserve(m_authorInfo.size());
-
-    auto it = m_authorInfo.begin();
-    while (it != m_authorInfo.end()) {
-        temp.append(qMakePair(it.key(),it.value().second));
-        it++;
-    }
-
-    std::sort(temp.begin(),temp.end(),sortByDesc);
-
-    
-    for (qint32 t=0; t<temp.size(); t++) {
-        m_authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
-    }
-
-    std::sort(m_authorIndex.begin(), m_authorIndex.end());
-    std::sort(m_titleIndex.begin(), m_titleIndex.end());
-    
-    StringRef::clean();
-    timeMark(tr("Index file generated. (%1 ms)"));
 }
 
 StringRef Parser::readElementText(const StringRef &r, quint32 &from)
@@ -205,12 +166,65 @@ void Parser::parseInit()
     m_authors.clear();
     m_authorsIdRelation.clear();
     m_authorStac.clear();
+    
+    m_totalAuthor = 0;
+}
+
+void Parser::genIndex()
+{
+    QList<QPair<StringRef, int>> temp;
+    temp.reserve(m_authorInfo.size());
+
+    auto it = m_authorInfo.begin();
+    while (it != m_authorInfo.end()) {
+        temp.append(qMakePair(it.key(),it.value().second));
+        it++;
+    }
+
+    std::sort(temp.begin(),temp.end(),sortByDesc);
+
+    
+    for (qint32 t=0; t<temp.size(); t++) {
+        m_authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
+    }
+
+    std::sort(m_authorIndex.begin(), m_authorIndex.end());
+    std::sort(m_titleIndex.begin(), m_titleIndex.end());
+}
+
+void Parser::saveAuthors()
+{
+    QFile file;
+    QTextStream textStream(&file);
+    
+    // Save authors to authors.txt
+    // The author's ID in line x is x
+    
+    file.setFileName("authors.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    foreach (StringRef author, m_authors) {
+        textStream << author.toString() << '\n';
+    }
+    file.close();
+    
+    // Save authors relation to authors_relation.txt
+    file.setFileName("authors_relation.txt");
+    file.open(QFile::WriteOnly | QFile::Text);
+    textStream << m_totalAuthor << '\n';
+    for (auto relation : m_authorsIdRelation) {
+        textStream << relation[0];
+        for (int i = 1; i < relation.size(); ++i) {
+            textStream << ' ' << relation[i];
+        }
+        textStream << '\n';
+    }
+    file.close();
+    
 }
 
 void Parser::indexFileSave()
 {
     QFile file;
-    QTextStream textStream(&file);
     QDataStream dataStream(&file);
     
     file.setFileName("author.dat");

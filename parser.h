@@ -34,6 +34,7 @@ private:
     QTime m_timing;
     int m_costMsecs;
     int m_elapsedTime;
+    int m_totalAuthor;
     StringRef m_ref;
     QVector<StringRef> m_authorIndex;
     QVector<StringRef> m_titleIndex;
@@ -44,6 +45,8 @@ private:
     
     void timeMark(const QString &msg);
     void parseInit();
+    void genIndex();
+    void saveAuthors();
     void indexFileSave();
 
     // treat child element as text, after reading, from equal to the
