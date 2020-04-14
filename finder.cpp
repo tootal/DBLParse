@@ -38,6 +38,9 @@ void Finder::find(const QString &type, const QString &word)
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         result = getRecord(list);
+        std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
+            return x.attr("year").toString() < y.attr("year").toString(); 
+        });
         for (const Record &record : result) {
             json.append(record.toJson(type));
         }
