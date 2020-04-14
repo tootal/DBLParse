@@ -26,6 +26,10 @@ public:
         return QString::number(v);
     }
     
+    static QString str(const QString &s) {
+        return s;
+    }
+    
     template <typename A, typename B>
     static QString str(QPair<A, B> p) {
         return QString("(%1, %2)").arg(str(p.first)).arg(str(p.second));

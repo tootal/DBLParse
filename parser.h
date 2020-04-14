@@ -32,16 +32,25 @@ private:
     int m_costMsecs;
     int m_elapsedTime;
     int m_totalAuthor;
+    
     StringRef m_ref;
+    
     QVector<StringRef> m_authorIndex;
     QVector<StringRef> m_titleIndex;
     QMap<StringRef, QPair<int/*id*/, int/*stac*/>> m_authorInfo;
     QVector<StringRef> m_authors;
     QVector<QVector<int>> m_authorsIdRelation;
-    QVector<QPair<QString, int>> m_authorStac;
+    QVector<QPair<QString/*author*/, int/*stac*/>> m_authorStac;
+    
+    int m_maxYear;
+    int m_minYear;
+    QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
+    typedef QPair<int/*count*/, QString/*word*/> CW_T;
+    QMap<int/*year*/, QVector<CW_T>> m_topKWords; 
     
     void timeMark(const QString &msg);
     void parseInit();
+    void countWordPerYear();
     void genIndex();
     void saveAuthors();
     void indexFileSave();

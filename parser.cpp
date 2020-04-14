@@ -1,12 +1,14 @@
 #include "parser.h"
 
 #include <QFile>
-#include <QXmlStreamReader>
 #include <QDataStream>
 #include <QTime>
 #include <QDebug>
 #include <QMap>
 #include <QList>
+#include <QRegularExpression>
+
+#include <set>
 
 Parser::Parser(QObject *parent)
     :QObject(parent)
@@ -28,6 +30,10 @@ void Parser::run()
     parse();
     
     timeMark(tr("XML file parse successful. (%1 ms)"));
+    
+    countWordPerYear();
+    
+    timeMark(tr("The title of each year has been analyzed. (%1 ms)"));
     
     genIndex();
     
@@ -57,14 +63,21 @@ void Parser::parse()
     
     // authorId starts from 0
     
-    while (x < len){
+    while (x < len) {
         if (m_ref.startsWith("key=\"", x)) {
             x += 5;
             QVector<int> recordAuthorsId;
+            StringRef title;
+            int year = 0;
             while (x <= len) {
                 if (x == len || m_ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
                         m_authorsIdRelation.append(recordAuthorsId);
+                    }
+                    if (year != 0) {
+                        m_titleYear.append(qMakePair(title, year));
+                        m_minYear = std::min(m_minYear, year);
+                        m_maxYear = std::max(m_maxYear, year);
                     }
                     break;
                 }
@@ -83,14 +96,11 @@ void Parser::parse()
                         ++info->second;
                         m_authorIndex.append(author);
                         recordAuthorsId.append(info->first/*id*/);
-//                        qDebug() << author;
                     } else if (m_ref.startsWith("title", x + 1)) {
-                        StringRef title = readElementText(m_ref, x);
+                        title = readElementText(m_ref, x);
                         m_titleIndex.append(title);
-//                        qDebug() << title;
                     } else if (m_ref.startsWith("year", x + 1)) {
-                        int year = readYear(m_ref, x);
-//                        qDebug() << year;
+                        year = readYear(m_ref, x);
                     }
                 }
                 ++x;
@@ -160,6 +170,91 @@ void Parser::parseInit()
     StringRef::init(Util::getXmlFileName());
     m_ref.r = StringRef::s_len;
     m_totalAuthor = 0;
+    m_minYear = 0xffff;
+    m_maxYear = 0;
+}
+
+void Parser::countWordPerYear()
+{
+    static const int TOP_K = 10;
+    static const QString noNeedChars(":,.?");
+    static const QStringList commonwords = {
+        "are", "all", "any", "been", "both", 
+        "each", "either", "one", "two", "three", 
+        "four", "five", "six", "seven", "eight", 
+        "nine", "ten", "none", "little", "few", 
+        "many", "much", "other", "another", "some", 
+        "every", "nobody", "anybody", "somebody", 
+        "everybody", "when", "under",
+        "first", "second", "third", "forth", "fifth", 
+        "sixth", "seventh", "above", "over", "below", 
+        "under", "beside", "behind", "the", "after", 
+        "from", "since", "for", "which", "next", 
+        "where", "how", "who", "there", "was", 
+        "were", "did", "done", "this", "that", 
+        "last", "brfore", "because", "against", 
+        "except", "beyond", "along", "among", "but", 
+        "towards", "you", 
+        "your", "his", "her", "she", "its", "they", 
+        "them", "and", "has", "have", "had", 
+        "would", "then", "too", "our", "off", 
+        "into", "weel", "can", "being", 
+        "been", "having", "even", "these", "those", 
+        "ours", "with", "use", "using", "used", 
+        "the", "based", "problem", "problems", "systems", 
+        "methods", "ways", "ideas", "learning", "information", 
+        "works", "solve", "solving", "solved", "old", "new", 
+        "analysis", "data", "big", "small", "large", 
+        "their", "", "between", "method"
+    };
+    QVector<QVector<QString>> yearWords(m_maxYear - m_minYear + 1);
+    for (const auto &titleYear : m_titleYear) {
+        int year_n = titleYear.second - m_minYear;
+        QString title = titleYear.first.toString();
+        for (const QChar &noNeedChar : noNeedChars) {
+            title.remove(noNeedChar);
+        }
+        title.remove(':');
+        QStringList words = title.split(' ');
+        for (QString &word : words) {
+            if (word.size() <= 2) continue;
+            word = word.toLower();
+            if (commonwords.contains(word)) continue;
+            yearWords[year_n].append(word);
+        }
+    }
+    
+    for (int i = 0; i < yearWords.size(); ++i) {
+        auto &words = yearWords[i];
+        std::sort(words.begin(), words.end());
+        std::set<CW_T> topK;
+        for (int j = 0; j < words.size();) {
+            QString word = words[j];
+            int count = 1;
+            ++j;
+            while (j < words.size() && word == words[j]) {
+                ++count;
+                ++j;
+            }
+            if (topK.size() < TOP_K) {
+                topK.emplace(count, word);
+            } else {
+                if (topK.begin()->first/*count*/ < count) {
+                    topK.erase(topK.begin());
+                    topK.emplace(count, word);
+                }
+            }
+        }
+        if (!topK.empty()) {
+            auto &res = m_topKWords[m_minYear + i];
+            for (auto &cw : topK) {
+                QString word = cw.second/*word*/;
+                word.remove(QRegularExpression(R"(</?.*?/?>)"));
+                res.append(qMakePair(cw.first/*count*/, word));
+            }
+        }
+    }
+    qDebug() << Util::str(m_topKWords);
 }
 
 void Parser::genIndex()
@@ -252,6 +347,7 @@ void Parser::parseClean()
     m_authors.clear();
     m_authorsIdRelation.clear();
     m_authorStac.clear();
+    m_topKWords.clear();
     
     m_authorIndex.squeeze();
     m_titleIndex.squeeze();
