@@ -27,6 +27,10 @@ void Parser::run()
     
     parse();
     
+    indexFileSave();
+    
+    timeMark(tr("Index file saved. (%1 ms)"));
+    
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
@@ -38,15 +42,11 @@ void Parser::parse()
     QTextStream textStream(&file);
     QDataStream dataStream(&file);
     
-    QVector<StringRef> authorIndex;
-    QVector<StringRef> titleIndex;
     quint32 x = 0;
     quint32 len = m_ref.r;
     int totalAuthor = 0;
     // authorId starts from 0
-    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfo;
-    QVector<StringRef> authors;
-    QVector<QVector<int>> authorsIdRelation;
+    
     while (x < len){
         if (m_ref.startsWith("key=\"", x)) {
             x += 5;
@@ -54,7 +54,7 @@ void Parser::parse()
             while (x <= len) {
                 if (x == len || m_ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
-                        authorsIdRelation.append(recordAuthorsId);
+                        m_authorsIdRelation.append(recordAuthorsId);
                     }
                     break;
                 }
@@ -62,21 +62,21 @@ void Parser::parse()
                     if (m_ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(m_ref, x);
                         QPair<int, int> *info;
-                        if (authorInfo.contains(author)) {
-                            info = &authorInfo[author];
+                        if (m_authorInfo.contains(author)) {
+                            info = &m_authorInfo[author];
                         } else {
-                            info = &authorInfo[author];
+                            info = &m_authorInfo[author];
                             info->first/*id*/ = totalAuthor;
                             ++totalAuthor;
-                            authors.append(author);
+                            m_authors.append(author);
                         }
                         ++info->second;
-                        authorIndex.append(author);
+                        m_authorIndex.append(author);
                         recordAuthorsId.append(info->first/*id*/);
 //                        qDebug() << author;
                     } else if (m_ref.startsWith("title", x + 1)) {
                         StringRef title = readElementText(m_ref, x);
-                        titleIndex.append(title);
+                        m_titleIndex.append(title);
 //                        qDebug() << title;
                     }/* else if (ref.startsWith("year", x + 1)) {
                         StringRef year = readElementText(ref, x);
@@ -96,7 +96,7 @@ void Parser::parse()
     
     file.setFileName("authors.txt");
     file.open(QFile::WriteOnly | QFile::Text);
-    foreach (StringRef author, authors) {
+    foreach (StringRef author, m_authors) {
         textStream << author.toString() << '\n';
     }
     file.close();
@@ -105,7 +105,7 @@ void Parser::parse()
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
     textStream << totalAuthor << '\n';
-    for (auto relation : authorsIdRelation) {
+    for (auto relation : m_authorsIdRelation) {
         textStream << relation[0];
         for (int i = 1; i < relation.size(); ++i) {
             textStream << ' ' << relation[i];
@@ -117,54 +117,26 @@ void Parser::parse()
     timeMark(tr("Authors information saved. (%1 ms)"));
 
     QList<QPair<StringRef, int>> temp;
-    temp.reserve(authorInfo.size());
+    temp.reserve(m_authorInfo.size());
 
-    auto it=authorInfo.begin();
-    while (it != authorInfo.end()) {
+    auto it = m_authorInfo.begin();
+    while (it != m_authorInfo.end()) {
         temp.append(qMakePair(it.key(),it.value().second));
         it++;
     }
 
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
-    QVector<QPair<QString, int>> authorStac;
+    
     for (qint32 t=0; t<temp.size(); t++) {
-        authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
+        m_authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
     }
 
-    std::sort(authorIndex.begin(), authorIndex.end());
-    std::sort(titleIndex.begin(), titleIndex.end());
+    std::sort(m_authorIndex.begin(), m_authorIndex.end());
+    std::sort(m_titleIndex.begin(), m_titleIndex.end());
     
     StringRef::clean();
     timeMark(tr("Index file generated. (%1 ms)"));
-    
-    file.setFileName("author.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    foreach(auto i, authorIndex){
-        dataStream << i.l << i.r;
-    }
-    file.close();
-    
-    file.setFileName("title.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    foreach(auto i, titleIndex){
-        dataStream << i.l << i.r;
-    }
-    file.close();
-
-    file.setFileName("authorStac.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    int num = authorStac.size()<=100 ? authorStac.size() : 100;
-    for(int i=0;i<num;i++){
-        dataStream << authorStac[i].first << authorStac[i].second;
-    }
-    file.close();
-    
-    timeMark(tr("Index file saved. (%1 ms)"));
-    
 }
 
 StringRef Parser::readElementText(const StringRef &r, quint32 &from)
@@ -226,5 +198,44 @@ void Parser::parseInit()
     // read all file content
     StringRef::init(Util::getXmlFileName());
     m_ref.r = StringRef::s_len;
+    
+    m_authorIndex.clear();
+    m_titleIndex.clear();
+    m_authorInfo.clear();
+    m_authors.clear();
+    m_authorsIdRelation.clear();
+    m_authorStac.clear();
+}
+
+void Parser::indexFileSave()
+{
+    QFile file;
+    QTextStream textStream(&file);
+    QDataStream dataStream(&file);
+    
+    file.setFileName("author.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    foreach(auto i, m_authorIndex){
+        dataStream << i.l << i.r;
+    }
+    file.close();
+    
+    file.setFileName("title.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    foreach(auto i, m_titleIndex){
+        dataStream << i.l << i.r;
+    }
+    file.close();
+
+    file.setFileName("authorStac.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    int num = m_authorStac.size() <= 100 ? m_authorStac.size() : 100;
+    for(int i = 0; i < num; i++){
+        dataStream << m_authorStac[i].first << m_authorStac[i].second;
+    }
+    file.close();
 }
 

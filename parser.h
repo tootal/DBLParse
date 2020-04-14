@@ -35,9 +35,16 @@ private:
     int m_costMsecs;
     int m_elapsedTime;
     StringRef m_ref;
+    QVector<StringRef> m_authorIndex;
+    QVector<StringRef> m_titleIndex;
+    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> m_authorInfo;
+    QVector<StringRef> m_authors;
+    QVector<QVector<int>> m_authorsIdRelation;
+    QVector<QPair<QString, int>> m_authorStac;
     
     void timeMark(const QString &msg);
     void parseInit();
+    void indexFileSave();
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element
