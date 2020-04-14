@@ -9,7 +9,7 @@
 #include <QList>
 
 Parser::Parser(QObject *parent)
-    :QThread(parent)
+    :QObject(parent)
 {
     
 }
@@ -21,8 +21,8 @@ void Parser::run()
 
 void Parser::parse()
 {
-    QTime timing;
-    timing.start();
+    QTime timing = QTime::currentTime();
+//    timing.start();
     emit stateChanged(tr("Parsing start."));
     int elapsedTime = 0;
     

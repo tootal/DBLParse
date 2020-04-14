@@ -50,6 +50,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Parser *m_parser;
+    QThread m_parseThread;
     Finder *m_finder;
     Loader *m_loader;
     Calculator *m_calculator;
@@ -60,6 +61,7 @@ private:
     void handleCalc();
     
 signals:
+    void startParse();
     void startCalc();
 };
 #endif // MAINWINDOW_H

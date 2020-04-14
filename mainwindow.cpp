@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
 
-    m_parser = new Parser(this);
+    m_parser = new Parser;
     m_loader = new Loader(this);
     m_calculator = new Calculator;
     
@@ -48,10 +48,14 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::handleCalc);
     m_calcThread.start();
     
+    m_parser->moveToThread(&m_parseThread);
+    connect(this, &MainWindow::startParse,
+            m_parser, &Parser::run);
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
 //    connect(m_parser, &Parser::done,
 //            this, &MainWindow::calc);
+    m_parseThread.start();
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_action_Status_triggered);
@@ -84,8 +88,8 @@ MainWindow::~MainWindow()
     delete ui;
     m_loader->quit();
     m_loader->wait();
-    m_parser->quit();
-    m_parser->wait();
+    m_parseThread.quit();
+    m_parseThread.wait();
     m_calcThread.quit();
     m_calcThread.wait();
 }
@@ -150,7 +154,7 @@ void MainWindow::on_action_Open_triggered()
     connect(m_parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
     dialog->open();
-    m_parser->start();
+    emit startParse();
 }
 
 void MainWindow::on_action_Status_triggered()

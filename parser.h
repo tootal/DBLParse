@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QThread>
+#include <QObject>
 #include <QMap>
 #include <QTime>
 #include <QXmlStreamReader>
@@ -12,15 +12,18 @@
 
 class QFile;
 
-class Parser : public QThread
+class Parser : public QObject
 {
     Q_OBJECT
+private:
+    QTime m_timing;
 public:
     Parser(QObject *parent = nullptr);
-    void run() override;
+    void run();
     void parse();
     int costMsecs();
     static void clearIndex();
+    
 signals:
     void stateChanged(const QString &state);
     void done();
