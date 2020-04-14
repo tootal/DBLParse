@@ -106,7 +106,7 @@ void Parser::parse()
                         StringRef year = readElementText(ref, x);
                         QString temy = xxxxx.toString();
                         temy.replace(QRegularExpression(R"(<\/?.*?\/?>|&#\d+;)")," ");
-                        qDebug() << temy;
+//                        qDebug() << temy;
                         QStringList tem = temy.split(QRegExp("[ .,*/^:;()!?@&-]"));
 
                         QStringListIterator strIterator(tem);
