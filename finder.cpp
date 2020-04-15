@@ -100,9 +100,10 @@ void Finder::handleWordCloud(QUrl url)
 {
     qDebug()<<"111";
     int idx = url.path().remove(0, 1).toInt();
-    DetailView *view = new DetailView;
-    view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
-    view->setAttribute(Qt::WA_DeleteOnClose);
+    WebView *view = new WebView(qobject_cast<QWidget*>(parent()));
+    view->resize(800, 600);
+    view->setWindowFlag(Qt::Window);
+    view->registerObject("finder", this);
     auto html = Util::readFile(":/resources/wordCloud.html");
 //    qDebug()<<s_yearWord[idx];
     QJsonArray json;
@@ -116,7 +117,7 @@ void Finder::handleWordCloud(QUrl url)
      json.append(obj);
     }
     auto data = QJsonDocument(json).toJson();
-    qDebug() << data;
+//    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();

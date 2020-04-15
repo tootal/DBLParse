@@ -31,7 +31,9 @@ var showData = function (data) {
 
     for (let i = 0; i < json.length; ++i) {
         let words = '';
-        for (let j = 9; j >= 0; --j) {
+        let maxj = json[i].words.length - 1;
+        if (maxj > 9) maxj = 9;
+        for (let j = maxj; j >= 0; --j) {
             words += json[i].words[j].word + '(' + json[i].words[j].count + ')  ';
         }
 

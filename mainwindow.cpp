@@ -316,7 +316,7 @@ void MainWindow::on_actionKeyWord_triggered()
     }
 
      WebView *view = new WebView(this);
-     ui->webview->registerObject("finder", m_finder);
+     view->registerObject("finder", m_finder);
      view->resize(800,600);
      view->setWindowFlag(Qt::Window);
      connect(view->page(), &WebPage::wordCloud,
