@@ -11,17 +11,29 @@ class Util : public QObject
     Q_OBJECT
 public:
     static const int BUF_SZ = 3000;
+    
     static QString formatTime(int ms);
+    
     static QString readAround(const QString &fileName, quint32 &pos);
+    
     static QString findRecord(const QString &fileName, quint32 pos);
+    
     static QString readFile(const QString &fileName);
+    
     static QString getXmlFileName();
+    
     static QString formatUrl(const QString &url);
+    
     static void initAvailableLanguage();
+    
     static const QVector<QPair<QString, QString>> availableLanguages();
+    
     static QString getLocale();
+    
     static void clearIndexs();
+    
     static bool parsed();
+    
     static bool canLoad();
     
     static QString str(int v) {
@@ -69,5 +81,6 @@ private:
 
 #define STR_RAW(x) #x
 #define STR(x) STR_RAW(x)
+#define VERSION STR(VERSION_NUMBER)
 
 #endif // UTIL_H

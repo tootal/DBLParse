@@ -12,7 +12,7 @@ TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
 VERSION = 2.7
-DEFINES += VERSION=$${VERSION}
+DEFINES += VERSION_NUMBER=$${VERSION}
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
