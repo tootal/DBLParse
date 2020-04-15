@@ -104,7 +104,7 @@
   </action>
   <action name="action_Clear_Index">
    <property name="text">
-    <string>&amp;Clear Index</string>
+    <string>&amp;Clear Cache</string>
    </property>
   </action>
   <action name="action_Open_Index_Folder">
