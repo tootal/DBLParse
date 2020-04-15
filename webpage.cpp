@@ -17,6 +17,10 @@ bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::Navigatio
         emit request(url);
         return false;
     }
+    else if(url.scheme() == "year"){
+        emit wordCloud(url);
+        return false;
+    }
     QDesktopServices::openUrl(url);
     return false;
 }

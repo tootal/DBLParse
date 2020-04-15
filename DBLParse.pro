@@ -81,3 +81,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     DBLParse.qrc \
     translations/translations.qrc
+
+DISTFILES +=

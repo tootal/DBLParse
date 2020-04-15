@@ -12,6 +12,11 @@ DetailView::DetailView(QWidget *parent)
     setPage(m_page);
 }
 
+DetailPage *DetailView::page() const
+{
+    return m_page;
+}
+
 void DetailView::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = new QMenu(this);

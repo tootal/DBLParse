@@ -179,7 +179,7 @@ void Parser::parseInit()
 
 void Parser::countWordPerYear()
 {
-    static const int TOP_K = 10;
+    static const int TOP_K = 100;
     static const QString noNeedChars(":,.?");
     static const QStringList commonwords = {
         "are", "all", "any", "been", "both", 

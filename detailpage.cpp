@@ -10,6 +10,7 @@ DetailPage::DetailPage(QObject *parent)
 
 bool DetailPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
+//    qDebug()<<url;
     if(url.scheme() == "data")
         return true;
     QDesktopServices::openUrl(url);

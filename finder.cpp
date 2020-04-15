@@ -90,7 +90,33 @@ void Finder::handleRequest(QUrl url)
     view->setAttribute(Qt::WA_DeleteOnClose);
     auto html = Util::readFile(":/resources/detail.html");
     auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
-//    qDebug() << data;
+    qDebug() << data;
+    html.replace("<!-- DATA_HOLDER -->", data);
+    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->show();
+}
+
+void Finder::handleWordCloud(QUrl url)
+{
+    qDebug()<<"111";
+    int idx = url.path().remove(0, 1).toInt();
+    DetailView *view = new DetailView;
+    view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
+    view->setAttribute(Qt::WA_DeleteOnClose);
+    auto html = Util::readFile(":/resources/wordCloud.html");
+//    qDebug()<<s_yearWord[idx];
+    QJsonArray json;
+    QJsonObject year;
+    year.insert("year",idx);
+    json.append(year);
+    for(auto it=s_yearWord.find(idx).value().begin();it!=s_yearWord.find(idx).value().end();it++){
+     QJsonObject obj;
+     obj.insert("name",it->second);
+     obj.insert("value",it->first);
+     json.append(obj);
+    }
+    auto data = QJsonDocument(json).toJson();
+    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
@@ -342,7 +368,7 @@ void Finder::image(const QString &img , const QString &filename)
 {
     QPixmap image;    
     image.loadFromData(QByteArray::fromBase64(img.section(",", 1).toLocal8Bit()));
-    bool isOk=image.save("./"+filename+"の合作关系图.png");
+    bool isOk=image.save("./"+filename+".png");
 //    qDebug()<<isOk;
     emit saveImg(isOk);
 

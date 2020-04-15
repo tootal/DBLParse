@@ -10,7 +10,7 @@ class DetailView : public QWebEngineView
     Q_OBJECT
 public:
     DetailView(QWidget *parent = nullptr);
-
+    DetailPage* page() const;
 protected:
     void contextMenuEvent(QContextMenuEvent *) override;
     

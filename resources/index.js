@@ -343,7 +343,7 @@ var handleSearch = function (data) {
         document.getElementById("save").onclick = function () {
             var myChart = echarts.getInstanceByDom(document.getElementById("graph"));
             var url = myChart.getDataURL();
-            finder.image(url, json[0].parentNode);
+            finder.image(url, json[0].parentNode+"の合作关系图");
         };
 
         var myChart = echarts.init(document.getElementById('graph'));

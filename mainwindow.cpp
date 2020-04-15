@@ -7,6 +7,7 @@
 #include "finder.h"
 #include "webpage.h"
 #include "detailview.h"
+#include "detailpage.h"
 #include "loader.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
@@ -314,9 +315,13 @@ void MainWindow::on_actionKeyWord_triggered()
         return ;
     }
 
-     DetailView *view = new DetailView;
-     view->setWindowIcon(windowIcon());
-     view->setAttribute(Qt::WA_DeleteOnClose);
+     WebView *view = new WebView(this);
+     ui->webview->registerObject("finder", m_finder);
+     view->resize(800,600);
+     view->setWindowFlag(Qt::Window);
+     connect(view->page(), &WebPage::wordCloud,
+             m_finder, &Finder::handleWordCloud);
+
 
      Parser::YW_T yearWord = Finder::yearWord();
 //     qDebug()<< Util::str(yearWord);

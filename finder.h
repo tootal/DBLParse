@@ -15,6 +15,7 @@ public:
     explicit Finder(QObject *parent = nullptr);
     Q_INVOKABLE void find(const QString &type, const QString &word);
     void handleRequest(QUrl url);
+    void handleWordCloud(QUrl url);
     void clearIndex();
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
