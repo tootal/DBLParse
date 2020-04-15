@@ -85,9 +85,7 @@ not_ready:
 void Finder::handleRequest(QUrl url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    DetailView *view = new DetailView;
-    view->setWindowIcon(qobject_cast<QWidget*>(parent())->windowIcon());
-    view->setAttribute(Qt::WA_DeleteOnClose);
+    DetailView *view = new DetailView(qobject_cast<QWidget*>(parent()));
     auto html = Util::readFile(":/resources/detail.html");
     auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
 //    qDebug() << data;

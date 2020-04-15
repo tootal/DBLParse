@@ -230,9 +230,7 @@ void MainWindow::on_actionAuthorStac_triggered()
 //    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
 //    dialog->open();
 
-     DetailView *view = new DetailView;
-     view->setWindowIcon(windowIcon());
-     view->setAttribute(Qt::WA_DeleteOnClose);
+     DetailView *view = new DetailView(this);
 
      QList<QPair<QString,int> > authorStac=Finder::authorStac();
      QJsonArray authorStacArray;
@@ -277,8 +275,7 @@ void MainWindow::on_action_Count_Clique_triggered()
     }
     QFile file("cliques_count.txt");
     if (file.exists()) {
-        DetailView *view = new DetailView;
-        view->setAttribute(Qt::WA_DeleteOnClose);
+        DetailView *view = new DetailView(this);
         view->resize(850, 600);
         file.open(QFile::ReadOnly | QFile::Text);
         QTextStream in(&file);
@@ -314,9 +311,7 @@ void MainWindow::on_actionKeyWord_triggered()
         return ;
     }
 
-     DetailView *view = new DetailView;
-     view->setWindowIcon(windowIcon());
-     view->setAttribute(Qt::WA_DeleteOnClose);
+     DetailView *view = new DetailView(this);
 
      Parser::YW_T yearWord = Finder::yearWord();
 //     qDebug()<< Util::str(yearWord);

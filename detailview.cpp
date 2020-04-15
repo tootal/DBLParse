@@ -7,6 +7,7 @@
 DetailView::DetailView(QWidget *parent)
     :QWebEngineView(parent)
 {
+    setWindowFlag(Qt::Window);
     resize(800, 600);
     m_page = new DetailPage(this);
     setPage(m_page);
