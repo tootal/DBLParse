@@ -12,6 +12,13 @@ extern ConfigManager *g_config;
 
 QVector<QPair<QString, QString>> Util::s_availableLanguages;
 
+QStringList Util::s_loadedFiles = {
+    "author.dat",
+    "title.dat",
+    "authorStac.dat",
+    "yearWord.txt"
+};
+
 QStringList Util::s_parsedFiles = {
     "author.dat",
     "title.dat",
@@ -141,5 +148,15 @@ bool Util::parsed()
         }
     }
     return false;
+}
+
+bool Util::canLoad()
+{
+    for (const QString &fileName : s_loadedFiles) {
+        if (!QFile(fileName).exists()) {
+            return false;
+        }
+    }
+    return true;
 }
 

@@ -12,7 +12,7 @@ Loader::Loader(QObject *parent)
 
 void Loader::run()
 {
-    if(!Util::parsed()) return ;
+    if(!Util::canLoad()) return ;
     QTime timing;
     timing.start();
     

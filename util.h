@@ -22,6 +22,7 @@ public:
     static QString getLocale();
     static void clearIndexs();
     static bool parsed();
+    static bool canLoad();
     
     static QString str(int v) {
         return QString::number(v);
@@ -57,6 +58,11 @@ public:
     
 private:
     static QVector<QPair<QString, QString>> s_availableLanguages;
+    
+    // make sure they all exist before loading
+    static QStringList s_loadedFiles;
+    
+    // these files will be clean
     static QStringList s_parsedFiles;
 };
 
