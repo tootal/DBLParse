@@ -137,7 +137,7 @@
   </action>
   <action name="actionKeyWord">
    <property name="text">
-    <string>KeyWord</string>
+    <string>&amp;KeyWord</string>
    </property>
   </action>
  </widget>

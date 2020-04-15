@@ -24,7 +24,7 @@ var showWordCloud = function (list) {
         myChart.setOption({
             backgroundColor: '#fff',
             tooltip : {
-                formatter:"<img style='width:25px;height:25px;' src='hot.png'/> 热度:{c}",	          	
+                formatter:"<img style='width:25px;height:25px;' src='hot.png'/>热度:{c}",	          	
                 backgroundColor:'rgba(255,255,255,0)',
                 textStyle:{
                     fontWeight:'bold', 
@@ -77,21 +77,22 @@ var showWordCloud = function (list) {
                     style: {
                         image: logoUrl,
                         width: 280,
-                        height: 40,
+                        height: 70,
                         opacity: 0.9
 
                     },
                     right: 'center',
-                    bottom: '5%',
+                    bottom: '0%',
                }]
             }
         })
     }
 }
 
-var resSaveMes = function (data) {
+var resSaveCloud = function (data) {
     if (data) {
         alert(tr("Save successfully, please go to the index file directory to view."));
+        console.log("111");
     }
     else {
         alert(tr("Save failed!"));
@@ -101,7 +102,7 @@ var resSaveMes = function (data) {
 if (location.href.startsWith('qrc:')) {
     new QWebChannel(qt.webChannelTransport, function (channel) {
         finder = channel.objects.finder;
-        finder.saveImg.connect(resSaveMes);
+        finder.saveImg.connect(resSaveCloud);
     });
     json = JSON.parse($('#src').innerText);
     // console.log(json[0].year);
