@@ -173,6 +173,7 @@ var formatAuthor = function (author) {
 var formatAuthors = function (record) {
     if (typeof record.authors == "undefined") return "";
     let ref = record.authors;
+    if (ref == null || ref == "") return "";
     for (let j = 0; j < ref.length; ++j) {
         if (document.getElementById('type') == 'title' || ref[j] != document.getElementById('word').value) {
             ref[j] = formatAuthor(ref[j]);
@@ -329,6 +330,8 @@ var handleSearch = function (data) {
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
                 handleHomePage(i);
+                continue;
+            } else if (json[i].title == "") {
                 continue;
             }
             // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
