@@ -7,6 +7,7 @@
 #include "finder.h"
 #include "webpage.h"
 #include "detailview.h"
+#include "detailpage.h"
 #include "loader.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
@@ -311,7 +312,13 @@ void MainWindow::on_actionKeyWord_triggered()
         return ;
     }
 
-     DetailView *view = new DetailView(this);
+     WebView *view = new WebView(this);
+     view->registerObject("finder", m_finder);
+     view->resize(800,600);
+     view->setWindowFlag(Qt::Window);
+     connect(view->page(), &WebPage::wordCloud,
+             m_finder, &Finder::handleWordCloud);
+
 
      Parser::YW_T yearWord = Finder::yearWord();
 //     qDebug()<< Util::str(yearWord);
@@ -337,7 +344,7 @@ void MainWindow::on_actionKeyWord_triggered()
      auto html = Util::readFile(":/resources/yearWord.html");
      auto data = QJsonDocument(yearWordArray).toJson();
 
-//     qDebug() << data;
+    //  qDebug() << data;
 
      html.replace("<!-- DATA_HOLDER -->", data);
      view->setHtml(html, QUrl("qrc:/resources/"));
