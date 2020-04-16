@@ -92,7 +92,7 @@ var showWordCloud = function (list) {
 var resSaveCloud = function (data) {
     if (data) {
         alert(tr("Save successfully, please go to the index file directory to view."));
-        console.log("111");
+        // console.log("111");
     }
     else {
         alert(tr("Save failed!"));
@@ -102,13 +102,13 @@ var resSaveCloud = function (data) {
 document.getElementById("save").onclick = function () {
     var myChart = echarts.getInstanceByDom(document.getElementById("wordCloud"));
     var url = myChart.getDataURL();
-    finder.image(url, json[0].year + "の热点分析词云图");
+    finder.saveWordCloud(url, json[0].year + "の热点分析词云图");
 };
 
 if (location.href.startsWith('qrc:')) {
     new QWebChannel(qt.webChannelTransport, function (channel) {
         finder = channel.objects.finder;
-        finder.saveImg.connect(resSaveCloud);
+        finder.saveWC.connect(resSaveCloud);
     });
     json = JSON.parse($('#src').innerText);
     logoUrl = getBase64(json[0].year);

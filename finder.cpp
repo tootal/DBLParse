@@ -373,3 +373,13 @@ void Finder::image(const QString &img , const QString &filename)
     emit saveImg(isOk);
 
 }
+
+void Finder::saveWordCloud(const QString &img , const QString &filename)
+{
+    QPixmap image;
+    image.loadFromData(QByteArray::fromBase64(img.section(",", 1).toLocal8Bit()));
+    bool isOk=image.save("./"+filename+".png");
+//    qDebug()<<isOk;
+    emit saveWC(isOk);
+
+}

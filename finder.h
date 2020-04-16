@@ -35,11 +35,13 @@ public:
     void setLoaded();
     QJsonArray cographBFS(QString node);
     Q_INVOKABLE void image(const QString &img , const QString &filename);
+    Q_INVOKABLE void saveWordCloud(const QString &img , const QString &filename);
 signals:
     void ready(const QString &data);
     void notReady();
     void detailReady(const QString &data);
     void saveImg(const bool isOk);
+    void saveWC(const bool isOk);
     
 private:
     QVector<Record> getRecord(const QList<quint32> &posList);
