@@ -99,11 +99,6 @@ var resSaveCloud = function (data) {
     }
 }
 
-new QWebChannel(qt.webChannelTransport, function (channel) {
-    finder = channel.objects.finder;
-    finder.saveImg.connect(resSaveCloud);
-});
-
 document.getElementById("save").onclick = function () {
     var myChart = echarts.getInstanceByDom(document.getElementById("wordCloud"));
     var url = myChart.getDataURL();
@@ -111,6 +106,10 @@ document.getElementById("save").onclick = function () {
 };
 
 if (location.href.startsWith('qrc:')) {
+    new QWebChannel(qt.webChannelTransport, function (channel) {
+        finder = channel.objects.finder;
+        finder.saveImg.connect(resSaveCloud);
+    });
     json = JSON.parse($('#src').innerText);
     logoUrl = getBase64(json[0].year);
     var list = json.slice(1, json.length);
