@@ -275,12 +275,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
     <message>
         <location filename="../parser.cpp" line="36"/>
         <source>The title of each year has been analyzed. (%1 ms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">每年的标题已解析。 （耗时 %1 毫秒）</translation>
     </message>
     <message>
         <location filename="../parser.cpp" line="40"/>
         <source>The year word has been saved. (%1 ms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">每年的关键词已保存。 （耗时 %1 毫秒）</translation>
     </message>
     <message>
         <location filename="../parser.cpp" line="48"/>

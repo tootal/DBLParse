@@ -19,7 +19,7 @@ var option = {
         feature: {
             dataView: { readOnly: false },
             restore: {},
-            //                    saveAsImage: {}
+            //saveAsImage: {}
         }
     },
     backgroundColor: '#e7e7e7',
@@ -153,7 +153,7 @@ var searchAuthor = function (authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
     document.getElementById('word').value = author;
-    document.getElementById('type').options[0].selected=true;
+    document.getElementById('type').options[0].selected = true;
     $('.selectpicker').selectpicker('refresh');
     search('author', author);
 };
@@ -343,7 +343,7 @@ var handleSearch = function (data) {
         document.getElementById("save").onclick = function () {
             var myChart = echarts.getInstanceByDom(document.getElementById("graph"));
             var url = myChart.getDataURL();
-            finder.image(url, json[0].parentNode+"の合作关系图");
+            finder.image(url, json[0].parentNode + "の合作关系图");
         };
 
         var myChart = echarts.init(document.getElementById('graph'));
@@ -386,9 +386,9 @@ var handleSearch = function (data) {
 
         option.title.text = json[0].parentNode + "の合作关系图";
         option.legend.data = legend_data;
-        option.series[0].data=listdata;
-        option.series[0].links=linksdata;
-        option.series[0].categories=series_categories;
+        option.series[0].data = listdata;
+        option.series[0].links = linksdata;
+        option.series[0].categories = series_categories;
 
 
         myChart.setOption(option);

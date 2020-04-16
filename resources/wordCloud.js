@@ -1,5 +1,5 @@
 var logoUrl = "";
-var json;
+let json;
 
 var getBase64 = function (data) {
     var c = document.getElementById("myCanvas");
@@ -23,19 +23,19 @@ var showWordCloud = function (list) {
     maskImage.onload = function () {
         myChart.setOption({
             backgroundColor: '#fff',
-            tooltip : {
-                formatter:"<img style='width:25px;height:25px;' src='hot.png'/>热度:{c}",	          	
-                backgroundColor:'rgba(255,255,255,0)',
-                textStyle:{
-                    fontWeight:'bold', 
-                    fontSize:20,
-                    color:'#FF0000',
+            tooltip: {
+                formatter: "<img style='width:25px;height:25px;' src='hot.png'/>热度:{c}",
+                backgroundColor: 'rgba(255,255,255,0)',
+                textStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    color: '#FF0000',
                 }
             },
             toolbox: {
-                right:'5%',
+                right: '5%',
                 feature: {
-                    dataView: {readOnly: true},															
+                    dataView: { readOnly: true },
                     restore: {},
                 }
             },
@@ -54,9 +54,9 @@ var showWordCloud = function (list) {
                                 ', ' + Math.round(Math.random() * 255) + ')'
                         }
                     },
-                    emphasis: {                       	
-                        fontWeight:'bolder', 
-                        fontSize:30,
+                    emphasis: {
+                        fontWeight: 'bolder',
+                        fontSize: 30,
                         color: '#00467A'
                     }
                 },
@@ -83,7 +83,7 @@ var showWordCloud = function (list) {
                     },
                     right: 'center',
                     bottom: '0%',
-               }]
+                }]
             }
         })
     }
@@ -99,24 +99,35 @@ var resSaveCloud = function (data) {
     }
 }
 
+new QWebChannel(qt.webChannelTransport, function (channel) {
+    finder = channel.objects.finder;
+    finder.saveImg.connect(resSaveCloud);
+});
+
+document.getElementById("save").onclick = function () {
+    var myChart = echarts.getInstanceByDom(document.getElementById("wordCloud"));
+    var url = myChart.getDataURL();
+    finder.image(url, json[0].year + "の热点分析词云图");
+};
+
 if (location.href.startsWith('qrc:')) {
-    new QWebChannel(qt.webChannelTransport, function (channel) {
-        finder = channel.objects.finder;
-        finder.saveImg.connect(resSaveCloud);
-    });
     json = JSON.parse($('#src').innerText);
-    // console.log(json[0].year);
-    logoUrl =getBase64(json[0].year);
+    logoUrl = getBase64(json[0].year);
     var list = json.slice(1, json.length);
-    // console.log(list);
     clearCanvas();
+    // console.log(list);
     showWordCloud(list);
-    document.getElementById("save").onclick = function () {
-        var myChart = echarts.getInstanceByDom(document.getElementById("wordCloud"));
-        var url = myChart.getDataURL();
-        finder.image(url, json[0].year+"の热点分析词云图");
-    };
 
 } else {
-
+    $.load('wordCloud.test.js', function () {
+        // 2019 year data
+        json = JSON.parse(test.data);
+        // console.log(json);
+        logoUrl = getBase64(json[0].year);
+        var list = json.slice(1, json.length);
+        clearCanvas();
+        // console.log(list);
+        showWordCloud(list);
+    });
 }
+

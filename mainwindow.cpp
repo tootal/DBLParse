@@ -347,7 +347,7 @@ void MainWindow::on_actionKeyWord_triggered()
      auto html = Util::readFile(":/resources/yearWord.html");
      auto data = QJsonDocument(yearWordArray).toJson();
 
-//     qDebug() << data;
+    //  qDebug() << data;
 
      html.replace("<!-- DATA_HOLDER -->", data);
      view->setHtml(html, QUrl("qrc:/resources/"));

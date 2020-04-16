@@ -33,5 +33,7 @@
         <file>resources/wordCloud.js</file>
         <file>resources/wordCloud.html</file>
         <file>resources/hot.png</file>
+        <file>resources/yearWord.test.js</file>
+        <file>resources/wordCloud.test.js</file>
     </qresource>
 </RCC>

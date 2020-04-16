@@ -24,7 +24,7 @@ var rowHTML = function (list) {
 
 var showData = function (data) {
     let json = JSON.parse(data);
-//    console.log(json);
+    // console.log(json);
 
     let tbodyHTML = '';
     setHeader(['Year', 'keyWord(s)']);
@@ -32,8 +32,8 @@ var showData = function (data) {
     for (let i = 0; i < json.length; ++i) {
         let words = '';
         let maxj = json[i].words.length - 1;
-        if (maxj > 9) maxj = 9;
-        for (let j = maxj; j >= 0; --j) {
+        let minj = maxj - 9 < 0 ? 0 : maxj - 9;
+        for (let j = maxj; j >= minj; --j) {
             words += json[i].words[j].word + '(' + json[i].words[j].count + ')  ';
         }
 
@@ -44,10 +44,10 @@ var showData = function (data) {
 
 if (location.href.startsWith('qrc:')) {
     showData($('#src').innerText);
-    // console.log($('#src').innerText);
+//    console.log($('#src').innerText);
 } else {
-    $.load('authorStac.test.js', function () {
-        //        console.log('test');
+    $.load('yearWord.test.js', function () {
+        // console.log(test.data);
         showData(test.data);
     });
 }

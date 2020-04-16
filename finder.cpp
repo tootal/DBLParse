@@ -119,7 +119,7 @@ void Finder::handleWordCloud(QUrl url)
      it++;
     }
     auto data = QJsonDocument(json).toJson();
-//    qDebug() << data;
+    qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
