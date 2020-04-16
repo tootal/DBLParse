@@ -101,6 +101,8 @@ void Finder::handleWordCloud(QUrl url)
     view->resize(800, 600);
     view->setWindowFlag(Qt::Window);
     view->registerObject("finder", this);
+    view->setAttribute(Qt::WA_DeleteOnClose);
+
     auto html = Util::readFile(":/resources/wordCloud.html");
 //    qDebug()<<s_yearWord[idx];
     QJsonArray json;

@@ -319,7 +319,6 @@ void MainWindow::on_actionKeyWord_triggered()
      connect(view->page(), &WebPage::wordCloud,
              m_finder, &Finder::handleWordCloud);
 
-
      Parser::YW_T yearWord = Finder::yearWord();
 //     qDebug()<< Util::str(yearWord);
      auto it= yearWord.begin();
