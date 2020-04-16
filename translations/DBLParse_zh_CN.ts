@@ -4,7 +4,7 @@
 <context>
     <name>DetailView</name>
     <message>
-        <location filename="../detailview.cpp" line="23"/>
+        <location filename="../detailview.cpp" line="24"/>
         <source>Inspector</source>
         <translation>检查元素</translation>
     </message>
@@ -95,8 +95,12 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="107"/>
+        <source>&amp;Clear Cache</source>
+        <translation type="unfinished">清除缓存 （&amp;C）</translation>
+    </message>
+    <message>
         <source>&amp;Clear Index</source>
-        <translation>清除索引 (&amp;C)</translation>
+        <translation type="vanished">清除索引 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="112"/>
@@ -237,7 +241,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>分析完成！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="304"/>
+        <location filename="../mainwindow.cpp" line="301"/>
         <source>Counting...</source>
         <translation>正在分析中...</translation>
     </message>
@@ -329,17 +333,17 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>Util</name>
     <message>
-        <location filename="../util.cpp" line="32"/>
+        <location filename="../util.cpp" line="39"/>
         <source>s</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="107"/>
+        <location filename="../util.cpp" line="114"/>
         <source>English (United States)</source>
         <translation>英语 （美国）</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="108"/>
+        <location filename="../util.cpp" line="115"/>
         <source>Chinese (China)</source>
         <translation>中文 （中国）</translation>
     </message>
