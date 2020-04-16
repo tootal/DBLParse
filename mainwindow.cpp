@@ -108,7 +108,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
     QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
 DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
 Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
-            .arg(STR(VERSION))
+            .arg(VERSION)
             .arg(__TIMESTAMP__);
     
     QMessageBox::about(this, tr("About DBLParse"), info);
