@@ -411,9 +411,11 @@ var handleSearch = function (data) {
     clearInterval(costTiming);
     if (document.getElementById('type').value != 'cograph') {
         let nums = document.getElementById("tbody").rows.length;
-        let msg = tr('Find ') + nums + tr(' results.');
+        // let msg = tr('Find ') + nums + tr(' results.');
+        let msg = tr('Find %1 results. ').arg(nums);
         if (costMsec >= 100) {
-            msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
+            msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
+            // msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
         }
         alertMsg('success', msg);
     }

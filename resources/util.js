@@ -1,3 +1,15 @@
+String.prototype.arg = function () {
+    let args = [].slice.call(arguments, 0);
+    if (args.length == 1 && typeof args[0] == "object") {
+        return this.replace(/\{(\w+)\}/g, function (match, cap) {
+            return args[0][cap] || match;
+        });
+    }
+    return this.replace(/\%(\d+)/g, function (match, cap) {
+        return String(args[cap - 1]) || match;
+    });
+}
+
 function $(s) {
     if (s[0] == '#') {
         return document.getElementById(s.substr(1));
