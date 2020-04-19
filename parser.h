@@ -68,6 +68,8 @@ private:
 
     // read example: "<year>1998</year>"
     static int readYear(const StringRef &r, quint32 &from);
+
+    static const QStringList commonwords;
 };
 
 #endif // PARSER_H
