@@ -96,5 +96,5 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
 
 ## 发布
 
-目前使用Github Actions自动化构建，在master分支的每次push均会出发构建，构建完成后会自动上传打包文件（Package.zip）解压后可得`DBLParse.zip`，`deploy.log`文件。
+目前使用Github Actions自动化构建，在master分支的每次push均会触发构建，构建完成后会自动上传打包文件（Package.zip）解压后可得`DBLParse.zip`，`deploy.log`文件。
 
