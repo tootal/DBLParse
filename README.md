@@ -1,8 +1,10 @@
 <h1 align="center">DBLParse 科学文献管理系统</h1>
 <p align="center">
+<!--
   <a href="https://github.com/tootal/DBLParse/releases">
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
+-->
   <a href="https://github.com/tootal/DBLParse/actions">
     <img alt="Github Actions" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg?branch=master" target="_blank" />
   </a>
