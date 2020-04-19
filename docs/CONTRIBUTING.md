@@ -1,8 +1,28 @@
 # 开发文档
-## 开发环境
-操作系统：Windows 10 64位  
-IDE：Qt Creator  
-编译器：Qt 5.12.7 MSVC2017 64bit  
+## 构建DBLParse
+DBLParse的源代码在Github上开源，可以下载代码的ZIP存档。如果希望构建历史的某个版本，推荐的方式是使用[Git](https://git-scm.com/)：
+
+```sh
+git clone git@github.com:tootal/DBLParse.git
+cd DBLParse
+```
+
+如果希望构建最新的开发分支，可以使用以下命令：
+
+```sh
+git checkout -b develop origin/develop
+```
+
+目前DBLParse仅对Windows平台提供支持，因此虽然QT理论上支持其他平台，但在构建的过程中可能遇到不可预知的错误。
+
+从[Qt Downloads](http://download.qt.io/official_releases/qt/5.12/5.12.7/)可以下载到Qt 5.12.7的离线安装包。此外，还可以使用下列镜像来加快下载速度：
+
+* [腾讯云镜像](https://mirrors.cloud.tencent.com/qt/official_releases/qt/5.12/5.12.7/)
+* [清华镜像站](https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/5.12/5.12.7/)
+
+此外，还需要**Visual Studio 2017**来编译DBLParse。
+
+打开**Qt Creator**并打开DBLParse.pro作为项目。
 
 ## 整体框架
 整体架构分为前端（Web）和后端（QT），首先需要完整解析一遍`dblp.xml`文件，耗时约2分钟。解析部分在C++类`Parser`中定义，解析时显示信息的窗口使用`ParseDialog`类定义。解析完成后会生成若干数据文件（以`dat`结尾）和作者关系文件（`authors.txt`和`authors_relations.txt`），其中保存了排序后的索引信息以及作者关系信息，运行时需要将这些文件加载到内存中。加载部分使用`Loader`类定义，加载完成后会把数据存在`Finder`类的静态变量中。查找时使用二分查找算法（`equalRange`）获取到对应关键字的位置，再从`dblp.xml`文件中读取出‘记录’信息（`Util::findRecord`），其中‘记录’对应的类为`Record`，利用`Record::attr`函数可以访问对应标签的内容，使用`Record::toJson`可以把`Record`转换成一个Json对象（`QJsonObject`）。
