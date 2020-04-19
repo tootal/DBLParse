@@ -6,13 +6,10 @@
 #include "record.h"
 #include "finder.h"
 #include "webpage.h"
-#include "detailview.h"
-#include "detailpage.h"
 #include "loader.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
 #include "calculator.h"
-#include "detailview.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -231,7 +228,9 @@ void MainWindow::on_actionAuthorStac_triggered()
 //    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
 //    dialog->open();
 
-     DetailView *view = new DetailView(this);
+     WebView *view = new WebView(this);
+     view->setWindowFlag(Qt::Window);
+     view->resize(600, 800);
 
      QList<QPair<QString,int> > authorStac=Finder::authorStac();
      QJsonArray authorStacArray;
@@ -276,7 +275,8 @@ void MainWindow::on_action_Count_Clique_triggered()
     }
     QFile file("cliques_count.txt");
     if (file.exists()) {
-        DetailView *view = new DetailView(this);
+        WebView *view = new WebView(this);
+        view->setWindowFlag(Qt::Window);
         view->resize(850, 600);
         file.open(QFile::ReadOnly | QFile::Text);
         QTextStream in(&file);
@@ -313,9 +313,9 @@ void MainWindow::on_actionKeyWord_triggered()
     }
 
      WebView *view = new WebView(this);
+     view->setWindowFlag(Qt::Window);
      view->registerObject("finder", m_finder);
      view->resize(800,600);
-     view->setWindowFlag(Qt::Window);
      connect(view->page(), &WebPage::wordCloud,
              m_finder, &Finder::handleWordCloud);
 

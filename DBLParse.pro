@@ -11,7 +11,7 @@ TARGET = DBLParse
 TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
-VERSION = 2.7
+VERSION = 2.8
 DEFINES += VERSION_NUMBER=$${VERSION}
 
 # The following define makes your compiler emit warnings if you use
@@ -33,8 +33,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     calculator.cpp \
     configmanager.cpp \
-    detailpage.cpp \
-    detailview.cpp \
     finder.cpp \
     loader.cpp \
     main.cpp \
@@ -51,8 +49,6 @@ SOURCES += \
 HEADERS += \
     calculator.h \
     configmanager.h \
-    detailpage.h \
-    detailview.h \
     finder.h \
     loader.h \
     mainwindow.h \

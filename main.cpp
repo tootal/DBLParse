@@ -13,6 +13,7 @@
 #include <QLocale>
 
 ConfigManager *g_config;
+MainWindow *g_mainwindow;
 
 #ifdef QT_NO_DEBUG
 
@@ -90,6 +91,7 @@ int main(int argc, char *argv[])
     }
     
     MainWindow w;
+    g_mainwindow = &w;
     w.show();
     return a.exec();
 }

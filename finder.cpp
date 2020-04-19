@@ -3,7 +3,7 @@
 #include "webpage.h"
 #include "webview.h"
 #include "loader.h"
-#include "detailview.h"
+#include "mainwindow.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -16,6 +16,8 @@
 #include <QBuffer>
 
 #include <algorithm>
+
+extern MainWindow *g_mainwindow;
 
 StringRef *Finder::s_authorIndex = nullptr;
 StringRef *Finder::s_titleIndex = nullptr;
@@ -85,7 +87,9 @@ not_ready:
 void Finder::handleRequest(QUrl url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    DetailView *view = new DetailView(qobject_cast<QWidget*>(parent()));
+    WebView *view = new WebView(g_mainwindow);
+    view->setWindowFlag(Qt::Window);
+    view->resize(800, 600);
     auto html = Util::readFile(":/resources/detail.html");
     auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
     // qDebug() << data;
@@ -97,11 +101,11 @@ void Finder::handleRequest(QUrl url)
 void Finder::handleWordCloud(QUrl url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    WebView *view = new WebView(qobject_cast<QWidget*>(parent()));
-    view->resize(800, 600);
+    WebView *view = new WebView(g_mainwindow);
     view->setWindowFlag(Qt::Window);
-    view->registerObject("finder", this);
     view->setAttribute(Qt::WA_DeleteOnClose);
+    view->resize(800, 600);
+    view->registerObject("finder", this);
 
     auto html = Util::readFile(":/resources/wordCloud.html");
 //    qDebug()<<s_yearWord[idx];
