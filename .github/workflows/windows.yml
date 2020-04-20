@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - master
+      - develop
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'scripts/**'
 jobs:
   build:
     name: Build
@@ -30,7 +35,7 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          qmake
+          qmake -r
           nmake
       - name: Package
         env:
@@ -38,15 +43,13 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory DBLParse
-          Copy-Item release\DBLParse.exe DBLParse\
+          Copy-Item src\release\DBLParse.exe DBLParse
           cd DBLParse
           windeployqt DBLParse.exe
-          cd ..
-          Copy-Item .\degeneracy_cliques.exe .\DBLParse\
           pip install numpy
-          python .\scripts\generate_nCr.py
-          Copy-Item .\nCr.txt .\DBLParse\
-          Compress-Archive -Path .\DBLParse\ DBLParse.zip
+          python ..\scripts\generate_nCr.py
+          cd ..
+          Compress-Archive -Path DBLParse DBLParse.zip
           echo "Build with GitHub actions." > deploy.log
           Get-Date >> deploy.log
       - name: Upload release
