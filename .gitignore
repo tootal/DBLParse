@@ -77,3 +77,7 @@ nCr.txt
 *.vswp
 _v_images
 
+# Build and deploy
+deploy/
+release/
+debug/
