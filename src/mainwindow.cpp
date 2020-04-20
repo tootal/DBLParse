@@ -273,7 +273,7 @@ void MainWindow::on_action_Count_Clique_triggered()
         on_action_Status_triggered();
         return ;
     }
-    QFile file("cliques_count.txt");
+    QFile file("authors_cliques.txt");
     if (file.exists()) {
         WebView *view = new WebView(this);
         view->setWindowFlag(Qt::Window);
@@ -282,6 +282,16 @@ void MainWindow::on_action_Count_Clique_triggered()
         QTextStream in(&file);
         QString line;
         QJsonObject o;
+        int total;
+        in >> total;
+        for (int i = 1; i <= total; ++i) {
+            QString n, cnt;
+            in >> n >> cnt;
+            o.insert(n, cnt);
+        }
+        in >> total;
+        o.insert("total", total);
+        /*
         while (in.readLineInto(&line)) {
             if (line.endsWith("total cliques")) {
                 o.insert("total", line.split('.')[0]);
@@ -291,6 +301,7 @@ void MainWindow::on_action_Count_Clique_triggered()
                 o.insert(part[0], part[1].split('.')[0]);
             }
         }
+        */
         auto html = Util::readFile(":/resources/clique.html");
         auto data = QJsonDocument(o).toJson();
         html.replace("<!-- DATA_HOLDER -->", data);

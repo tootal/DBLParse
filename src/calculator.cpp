@@ -1,6 +1,10 @@
 #include "calculator.h"
 #include "util.h"
 
+extern "C" {
+#include "degeneracy_cliques.h"
+}
+
 #include <QDebug>
 #include <QFile>
 #include <QQueue>
@@ -22,7 +26,7 @@ void Calculator::calc()
     timing.start();
     handleAuthorRelations();
     generateAuthorsEdges();
-    if (degeneracyCliques()) {
+    if (countCliques()) {
         qDebug() << "degeneracy_cliques ok";
     } else {
         qDebug() << "degeneracy_cliques no";
@@ -97,8 +101,9 @@ void Calculator::generateAuthorsEdges()
     file.close();
 }
 
-bool Calculator::degeneracyCliques()
+bool Calculator::countCliques()
 {
+    /*
     QString command = "degeneracy_cliques.exe -i authors.edges -t A -k 0 -d 0";
     QProcess *process = new QProcess(this);
     process->start(command);
@@ -109,6 +114,11 @@ bool Calculator::degeneracyCliques()
         file.write(process->readAllStandardOutput());
         file.close();
     }
+    */
+    bool ret = false;
+    char fname[] = "authors";
+    degeneracyCliques(fname);
+    ret = true;
     return ret;
 }
 

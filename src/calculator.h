@@ -18,7 +18,7 @@ public slots:
     void calc();
     void handleAuthorRelations();
     void generateAuthorsEdges();
-    bool degeneracyCliques();
+    bool countCliques();
     
 private:
     QVector<QVector<int>> G;
