@@ -14,6 +14,16 @@ RC_ICONS = resources/DBLParse.ico
 VERSION = 2.8
 DEFINES += VERSION_NUMBER=$${VERSION}
 
+INCLUDEPATH += $${PWD}/../pivoter
+
+CONFIG(debug, debug|release) {
+    LIBS += $${OUT_PWD}/../pivoter/debug/pivoter.lib
+}
+
+CONFIG(release, debug|release) {
+    LIBS += $${OUT_PWD}/../pivoter/release/pivoter.lib
+}
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the

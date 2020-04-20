@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
-CONFIG += c++11
-
-SUBDIRS = src
+SUBDIRS = \
+    src \
+    pivoter
