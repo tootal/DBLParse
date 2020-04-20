@@ -70,7 +70,6 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-!degeneracy_cliques.exe
 
 nCr.txt
 
