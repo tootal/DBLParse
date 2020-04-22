@@ -9,7 +9,6 @@ echo Removing cache...
 rmdir /s/q deploy
 
 echo Building...
-qmake --version
 qmake
 nmake
 
@@ -22,9 +21,6 @@ copy src\release\DBLParse.exe deploy\DBLParse
 cd deploy\DBLParse 
 windeployqt DBLParse.exe
 
-echo Generating nCr...
-python ../../scripts/generate_nCr.py 
-
 echo Compressing...
 cd ..
 bc c DBLParse.zip DBLParse
@@ -35,6 +31,8 @@ rmdir /s/q "pivoter/debug"
 rmdir /s/q "pivoter/release"
 rmdir /s/q "src/debug"
 rmdir /s/q "src/release"
+rmdir /s/q "bignumber/debug"
+rmdir /s/q "bignumber/release"
 del /s/q Makefile*
 del .qmake.stash
 

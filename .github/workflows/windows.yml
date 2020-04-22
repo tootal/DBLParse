@@ -46,8 +46,6 @@ jobs:
           Copy-Item src\release\DBLParse.exe DBLParse
           cd DBLParse
           windeployqt DBLParse.exe
-          pip install numpy
-          python ..\scripts\generate_nCr.py
           cd ..
           Compress-Archive -Path DBLParse DBLParse.zip
           echo "Build with GitHub actions." > deploy.log
