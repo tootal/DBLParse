@@ -2,7 +2,7 @@ CONFIG -= qt
 
 TEMPLATE = lib
 CONFIG += staticlib
-
+CONFIG += warn_off
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

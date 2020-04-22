@@ -3,6 +3,18 @@ CONFIG -= qt
 TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += warn_off
+CONFIG += c++11
+INCLUDEPATH += $${PWD}/../bignumber
+
+
+CONFIG(debug, debug|release) {
+    LIBS += $${OUT_PWD}/../bignumber/debug/bignumber.lib
+}
+
+CONFIG(release, debug|release) {
+    LIBS += $${OUT_PWD}/../bignumber/release/bignumber.lib
+}
+
 
 SOURCES += \
     LinkedList.cpp \
