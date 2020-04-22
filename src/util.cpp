@@ -26,7 +26,7 @@ QStringList Util::s_parsedFiles = {
     "authors.txt",
     "authors_relation.txt",
     "authors.edges",
-    "cliques_count.txt",
+    "authors_cliques.txt",
     "yearWord.txt"
 };
 
