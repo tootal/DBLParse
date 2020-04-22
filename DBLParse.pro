@@ -3,7 +3,9 @@ TEMPLATE = subdirs
 SUBDIRS = \
     bignumber \
     src \
-    pivoter
+    pivoter \
+    test
 
 pivoter.depends = bignumber
 src.depends = pivoter
+test.depends = bignumber
