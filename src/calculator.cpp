@@ -1,9 +1,7 @@
 #include "calculator.h"
 #include "util.h"
 
-extern "C" {
 #include "degeneracy_cliques.h"
-}
 
 #include <QDebug>
 #include <QFile>

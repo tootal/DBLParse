@@ -5,14 +5,14 @@ CONFIG += staticlib
 CONFIG += warn_off
 
 SOURCES += \
-    LinkedList.c \
-    MemoryManager.c \
-    degeneracy_algorithm_cliques_A.c \
-    degeneracy_algorithm_cliques_E.c \
-    degeneracy_algorithm_cliques_V.c \
-    degeneracy_cliques.c \
-    degeneracy_helper.c \
-    misc.c
+    LinkedList.cpp \
+    MemoryManager.cpp \
+    degeneracy_algorithm_cliques_A.cpp \
+    degeneracy_algorithm_cliques_E.cpp \
+    degeneracy_algorithm_cliques_V.cpp \
+    degeneracy_cliques.cpp \
+    degeneracy_helper.cpp \
+    misc.cpp
 
 HEADERS += \
     LinkedList.h \
