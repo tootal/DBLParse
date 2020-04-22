@@ -93,8 +93,6 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
 
 1. 在Release构建，生成exe文件，运行。
 2. 点击工具——打开索引文件夹。
-3. 将源代码目录下的`degeneracy_cliques.exe`和`nCr.txt`文件复制到该目录。
-4. 若`nCr.txt`文件不存在，可使用`scripts`文件夹下的`generate_nCr.py`脚本生成。
 5. 点击文件——打开，选择`dblp.xml`，开始解析。
 6. 记录解析信息。
 7. 点击查看——作者统计，复制其中一个作者名。
