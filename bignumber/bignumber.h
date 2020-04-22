@@ -37,7 +37,7 @@ public:
      * @param number - The initial value of the BigNumber
      */
     BigNumber(std::string number);
-    BigNumber(long long number);
+    BigNumber(long long number = 0);
     //@}
 
     /**

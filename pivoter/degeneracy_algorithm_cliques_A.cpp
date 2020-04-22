@@ -38,10 +38,11 @@
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern double nCr[1001][401];
+extern BigNumber nCr[1001][401];
 
 
-void listAllCliquesDegeneracy_A(double * cliqueCounts, NeighborListArray** orderingArray, 
+//void listAllCliquesDegeneracy_A(double * cliqueCounts, NeighborListArray** orderingArray, 
+void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
                                       int size, int max_k, double *nCalls, double *sumP, double *sqP)
 {
     *nCalls = (*nCalls) + 1;
@@ -156,7 +157,8 @@ void listAllCliquesDegeneracy_A(double * cliqueCounts, NeighborListArray** order
 
 */
 
-void listAllCliquesDegeneracyRecursive_A( double * cliqueCounts,
+//void listAllCliquesDegeneracyRecursive_A( double * cliqueCounts,
+void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, 

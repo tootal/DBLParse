@@ -32,6 +32,9 @@
 #include<stdlib.h>
 #include<string.h>
 
+#include <vector>
+
+#include <bignumber.h>
 
 #include"misc.h"
 #include"LinkedList.h"
@@ -39,31 +42,36 @@
 #include"degeneracy_helper.h"
 
 
-double nCr[1001][401];
+BigNumber nCr[1001][401];
 
 void populate_nCr()
 {
+    /*
     FILE *infile;
     infile = fopen("nCr.txt","r");
-    double d=0;
+    */
+//    double d=0;
+    /*
     if(infile==NULL)
     {
         printf("file could not be opened\n");
         exit(1);
     }
-
+    */
 
     for(int row = 0; row < 1001; ++row)
     {
         for (int col = 0; col < 401; ++col)
         {
-            if (!fscanf(infile,"%lf,",&d)) 
-                fprintf(stderr, "Error\n");
-            // fprintf(stderr, "%lf\n", d);
-            nCr[row][col] = d;
+//            if (!fscanf(infile,"%lf,",&d)) 
+//                fprintf(stderr, "Error\n");
+//             fprintf(stderr, "%lf\n", d);
+//            nCr[row][col] = d;
+            if (row == 0 || col == 0 || row == col) nCr[row][col] = 1;
+            else nCr[row][col] = nCr[row-1][col] + nCr[row-1][col-1];
         }
     }
-    fclose(infile);
+//    fclose(infile);
 }
 
 /*! \brief compare integers return -1,0,1 for <,=,>
@@ -365,14 +373,15 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
     int max_k_in = max_k;
 
     clock_t start = clock();
-
-    double totalCliques = 0;
+    
+//    double totalCliques = 0;
+    BigNumber totalCliques = 0;
     int deg = 0, m = 0;
     FILE *fp;
 
     //printf("Before if of flag_d.\n");
     fflush(stdout);
-    if ((flag_d == 1) || (flag_d == 2))
+    /*if ((flag_d == 1) || (flag_d == 2))
     {
         
         char *fname = (char *)Calloc(1000, sizeof(char));
@@ -400,7 +409,7 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
 
         fp = fopen (fname,"w");
         if (!fp) printf("Could not open output file.\n");
-    }
+    }*/
     char *fname = (char *)Calloc(1000, sizeof(char));
     strcpy(fname, gname);
     strcat(fname, "_cliques.txt");
@@ -426,42 +435,42 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
         double *nCalls = (double *)Calloc(1, sizeof(double));
         double *sumP = (double *)Calloc(1, sizeof(double));
         double *sqP = (double *)Calloc(1, sizeof(double));
-
-        double *cliqueCounts = (double *) Calloc((max_k)+1, sizeof(double));
+        std::vector<BigNumber> cliqueCounts(max_k + 1);
+//        double *cliqueCounts = (double *) Calloc((max_k)+1, sizeof(double));
         listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
         clock_t end = clock();
        
 //        printf("time,nCalls,sumP,sqP,max_k,degen\n");
 //        printf("%lf,%lf,%lf,%lf,%d,%d\n\n", (double)(end-start)/(double)(CLOCKS_PER_SEC),*nCalls,*sumP,*sqP,max_k_in,deg);
-        if ((flag_d == 1) || (flag_d == 2))
+        /*if ((flag_d == 1) || (flag_d == 2))
         {
             fprintf(fp, "time,nCalls,sumP,sqP,max_k,degen\n");
             fprintf(fp, "%lf,%lf,%lf,%lf,%d,%d\n\n", (double)(end-start)/(double)(CLOCKS_PER_SEC),*nCalls,*sumP,*sqP,max_k_in,deg);
         }
 
         if (flag_d == 1) fprintf(fp, "k, Ck\n");
-        
+        */
         while (cliqueCounts[max_k] == 0) max_k--;
         fprintf(fp, "%d\n", max_k);
         for (int i=1; i<=max_k; i++)
         {
-            fprintf(fp, "%d %.0lf\n", i, cliqueCounts[i]); 
-            if (flag_d == 1) fprintf(fp, "%d, %lf\n", i, cliqueCounts[i]); 
+            fprintf(fp, "%d %s\n", i, cliqueCounts[i].getString().c_str()); 
+//            if (flag_d == 1) fprintf(fp, "%d, %lf\n", i, cliqueCounts[i]); 
             totalCliques += cliqueCounts[i];
         }
 
-        fprintf(fp, "%.0lf\n", totalCliques);
-        if (flag_d == 1) fprintf(fp, "\n%lf total cliques\n", totalCliques);
+        fprintf(fp, "%s\n", totalCliques.getString().c_str());
+//        if (flag_d == 1) fprintf(fp, "\n%lf total cliques\n", totalCliques);
 
-        Free(cliqueCounts);
+//        Free(cliqueCounts);
     }
-    else if (T == 'V')
+    /*else if (T == 'V')
     {
         double *cliqueCounts = (double *) Calloc(n*((max_k)+1), sizeof(double));
         listAllCliquesDegeneracy_V(cliqueCounts, orderingArray, n, max_k);
         clock_t end = clock();
 
-        double kcliques = 0;
+        BigNumber kcliques = 0;
 
         printf("time,max_k,degen\n");
         printf("%lf,%d,%d\n\n", (double)(end-start)/(double)(CLOCKS_PER_SEC),max_k_in, deg);
@@ -482,14 +491,15 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
                 if ((cliqueCounts[(i*(max_k+1)) + j] != 0) && (flag_d == 1))fprintf(fp,"(%d, %d): %.0lf\n", i, j, cliqueCounts[(i*(max_k+1)) + j]); 
             }
 
-            if (kcliques != 0)
+            if (!(kcliques == BigNumber(0)))
             {
-                printf("%d, %lf\n", j, (double) (kcliques)/(double)(j)); totalCliques += ((double)(kcliques)/(double)(j));
+                printf("%d, %s\n", j, (kcliques/BigNumber(j)); 
+                totalCliques += ((double)(kcliques)/(double)(j));
             }
         }
-        if (flag_d == 1) fprintf(fp,"\n%lf total cliques\n", totalCliques);
+        if (flag_d == 1) fprintf(fp,"\n%s total cliques\n", totalCliques.getString().c_str());
 
-        printf("\n%lf total cliques\n", totalCliques);
+        printf("\n%s total cliques\n", totalCliques.getString().c_str());
         
         Free(cliqueCounts);
     }
@@ -568,7 +578,7 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
         Free(CSCedges);
         Free(kcliques);
     }
-    
+    */
     fclose(fp);
     if (flag_d >= 1) fclose(fp);
     Free(orderingArray);

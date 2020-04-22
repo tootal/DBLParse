@@ -18,10 +18,12 @@ INCLUDEPATH += $${PWD}/../pivoter
 
 CONFIG(debug, debug|release) {
     LIBS += $${OUT_PWD}/../pivoter/debug/pivoter.lib
+    LIBS += $${OUT_PWD}/../bignumber/debug/bignumber.lib
 }
 
 CONFIG(release, debug|release) {
     LIBS += $${OUT_PWD}/../pivoter/release/pivoter.lib
+    LIBS += $${OUT_PWD}/../bignumber/release/bignumber.lib
 }
 
 # The following define makes your compiler emit warnings if you use

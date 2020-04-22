@@ -31,6 +31,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#include <bignumber.h>
 
 #include"misc.h"
 #include"LinkedList.h"
@@ -38,7 +39,7 @@
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_E.h"
 
-extern double nCr[1001][401];
+extern BigNumber nCr[1001][401];
 
 
 /*! 

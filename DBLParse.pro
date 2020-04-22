@@ -5,5 +5,5 @@ SUBDIRS = \
     src \
     pivoter
 
-src.depends = pivoter
 pivoter.depends = bignumber
+src.depends = pivoter

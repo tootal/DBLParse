@@ -1,5 +1,4 @@
 CONFIG -= qt
-
 TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += warn_off

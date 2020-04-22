@@ -34,6 +34,9 @@
 #include<stdlib.h>
 #include<string.h>
 
+#include <vector>
+#include <bignumber.h>
+
 #include"misc.h"
 #include"LinkedList.h"
 #include"MemoryManager.h"
@@ -42,12 +45,12 @@
 
 
 
-void listAllCliquesDegeneracyRecursive_A(double *,
+void listAllCliquesDegeneracyRecursive_A(std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, double *nCalls, double *sumP, double *sqP, int rsize, int drop);
 
-void listAllCliquesDegeneracy_A( double *, NeighborListArray** orderingArray,
+void listAllCliquesDegeneracy_A( std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
                                       int size, int max_k, double *nCalls, double *sumP, double *sqP );
 
 #endif
