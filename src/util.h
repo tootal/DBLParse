@@ -78,9 +78,12 @@ private:
     static QStringList s_parsedFiles;
 };
 
-
+// x will not replaced by macro
 #define STR_RAW(x) #x
+
+// x will be replaced by macro
 #define STR(x) STR_RAW(x)
-#define VERSION STR(VERSION_NUMBER)
+
+#define VERSION_STR STR(VERSION)
 
 #endif // UTIL_H
