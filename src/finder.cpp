@@ -64,7 +64,7 @@ void Finder::find(const QString &type, const QString &word)
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
-            foreach(auto author, record.attr("authors").toStringList()){
+            for (auto &author : record.attr("authors").toStringList()){
                 coauthors.insert(author);
             }
         }
@@ -338,7 +338,7 @@ QJsonArray Finder::cographBFS(QString node) {
         for(int i = 0; i < list.size(); ++i){
             auto pos = list.at(i);
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
-            foreach(auto author, record.attr("authors").toStringList()){
+            for (auto &author : record.attr("authors").toStringList()){
                 coauthors.insert(author);
             }
         }
@@ -353,7 +353,7 @@ QJsonArray Finder::cographBFS(QString node) {
         if(coauthors.size()>0){
             coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.toList()));
 
-            foreach (const QString &value, coauthors){
+            for (const QString &value : coauthors){
                 QPair<QString,QString> temp(t.second,value);
 //                qDebug()<<value;
                 q.enqueue(temp);

@@ -336,7 +336,7 @@ void Parser::indexFileSave()
     file.setFileName("author.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    foreach(auto i, m_authorIndex){
+    for (auto &i : m_authorIndex) {
         dataStream << i.l << i.r;
     }
     file.close();
@@ -344,7 +344,7 @@ void Parser::indexFileSave()
     file.setFileName("title.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    foreach(auto i, m_titleIndex){
+    for (auto &i : m_titleIndex) {
         dataStream << i.l << i.r;
     }
     file.close();

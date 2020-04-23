@@ -14,7 +14,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->comboBox->addItem(tr("System"), "System");
     
-    foreach(const auto &lang, Util::availableLanguages()) {
+    for (const auto &lang : Util::availableLanguages()) {
         ui->comboBox->addItem(lang.second, lang.first);
     }
     

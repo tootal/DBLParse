@@ -86,7 +86,7 @@ Record::Record(const QString &s)
         "publnr"
     };
     
-    foreach(auto attr, attrsList){
+    for (auto attr : attrsList) {
         auto v = capture(attr);
         if(!v.isEmpty()){
             m_attrs[attr] = v;

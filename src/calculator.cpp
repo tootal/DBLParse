@@ -45,7 +45,7 @@ void Calculator::handleAuthorRelations()
     while (!in.atEnd()) {
         QString line = in.readLine();
         QVector<int> nodes;
-        foreach (QString node, line.split(' ')) {
+        for (QString node : line.split(' ')) {
             nodes.append(node.toInt());    
         }
         for (int i = 0; i < nodes.size() - 1; ++i) {
