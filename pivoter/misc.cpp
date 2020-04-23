@@ -286,7 +286,7 @@ LinkedList** readInGraphAdjList(int* n, int* m)
             representation of the graph
 */
 
-LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *)
+LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
 {
     int u, v; // endvertices, to read edges.
 
@@ -341,7 +341,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *)
 }
 
 void runAndPrintStatsCliques(  LinkedList** adjListLinked,
-                               int n, const char *, 
+                               int n,
                                char T, int max_k, int flag_d)
 {
     fflush(stderr);

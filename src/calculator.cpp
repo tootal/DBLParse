@@ -23,8 +23,7 @@ void Calculator::calc()
     timing.start();
     handleAuthorRelations();
     generateAuthorsEdges();
-    char fname[] = "authors";
-    degeneracyCliques(fname);
+    degeneracyCliques();
     qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();
 }

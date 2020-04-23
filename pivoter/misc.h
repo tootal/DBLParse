@@ -51,11 +51,11 @@ void destroyCliqueResults(LinkedList* cliques);
 
 LinkedList** readInGraphAdjList(int* n, int* m);
 
-LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *fpath);
+LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m);
 
 
 void runAndPrintStatsCliques(LinkedList** adjListLinked,
-                               int n, const char * gname, 
+                               int n, 
                                char T, int max_k, int flag_d);
 
 
