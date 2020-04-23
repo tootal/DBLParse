@@ -362,7 +362,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *)
 }
 
 void runAndPrintStatsCliques(  LinkedList** adjListLinked,
-                               int n, const char * gname, 
+                               int n, const char *, 
                                char T, int max_k, int flag_d)
 {
   //printf("In runAndPrint function.\n");
@@ -407,10 +407,7 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
         fp = fopen (fname,"w");
         if (!fp) printf("Could not open output file.\n");
     }*/
-    char *fname = (char *)Calloc(1000, sizeof(char));
-    strcpy(fname, gname);
-    strcat(fname, "_cliques.txt");
-    fp = fopen (fname,"w");
+    fp = fopen ("authors_cliques.txt", "w");
     if (!fp) printf("Could not open output file.\n");
     //printf("Before computeDegeneracy.\n");
     fflush(stdout);
