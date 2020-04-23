@@ -32,8 +32,6 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
-#include"degeneracy_algorithm_cliques_V.h"
-#include"degeneracy_algorithm_cliques_E.h"
 
 #define max(x,y) (x > y? x:y)
 #define min(x,y) (x < y? x:y)
