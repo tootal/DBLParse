@@ -40,7 +40,6 @@ private:
     QVector<StringRef> m_authorIndex;
     QVector<StringRef> m_titleIndex;
     QMap<StringRef, QPair<int/*id*/, int/*stac*/>> m_authorInfo;
-    QVector<StringRef> m_authors;
     QVector<QVector<int>> m_authorsIdRelation;
     QVector<QPair<QString/*author*/, int/*stac*/>> m_authorStac;
     

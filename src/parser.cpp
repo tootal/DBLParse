@@ -124,7 +124,6 @@ void Parser::parse()
                             info = &m_authorInfo[author];
                             info->first/*id*/ = m_totalAuthor;
                             ++m_totalAuthor;
-                            m_authors.append(author);
                         }
                         ++info->second;
                         m_authorIndex.append(author);
@@ -315,16 +314,6 @@ void Parser::saveAuthors()
     QFile file;
     QTextStream textStream(&file);
     
-    // Save authors to authors.txt
-    // The author's ID in line x is x
-    
-    file.setFileName("authors.txt");
-    file.open(QFile::WriteOnly | QFile::Text);
-    foreach (StringRef author, m_authors) {
-        textStream << author.toString() << '\n';
-    }
-    file.close();
-    
     // Save authors relation to authors_relation.txt
     file.setFileName("authors_relation.txt");
     file.open(QFile::WriteOnly | QFile::Text);
@@ -375,14 +364,12 @@ void Parser::parseClean()
     m_authorIndex.clear();
     m_titleIndex.clear();
     m_authorInfo.clear();
-    m_authors.clear();
     m_authorsIdRelation.clear();
     m_authorStac.clear();
     m_topKWords.clear();
     
     m_authorIndex.squeeze();
     m_titleIndex.squeeze();
-    m_authors.squeeze();
     m_authorsIdRelation.squeeze();
     m_authorStac.squeeze();
 }
