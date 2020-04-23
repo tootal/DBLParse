@@ -16,8 +16,6 @@ public:
 
 public slots:
     void calc();
-    void handleAuthorRelations();
-    void generateAuthorsEdges();
     
 private:
     QVector<QVector<int>> G;
