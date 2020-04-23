@@ -304,15 +304,12 @@ LinkedList** readInGraphAdjList(int* n, int* m)
             representation of the graph
 */
 
-LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *fpath)
+LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m, char *)
 {
     int u, v; // endvertices, to read edges.
 
     FILE *fp;
-    char *fname = (char *)Calloc(1000, sizeof(char));
-    strcpy(fname, fpath);
-    strcat(fname, ".edges");
-    fp = fopen (fname,"r");
+    fp = fopen ("authors.edges", "r");
     if (!fp) 
     {
         fprintf(stderr, "Could not open input file.\n");
