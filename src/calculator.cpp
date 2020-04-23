@@ -21,8 +21,8 @@ void Calculator::calc()
     qDebug() << "start calc";
     QTime timing;
     timing.start();
-    handleAuthorRelations();
-    generateAuthorsEdges();
+//    handleAuthorRelations();
+//    generateAuthorsEdges();
     degeneracyCliques();
     qDebug() << "calc cost " << timing.elapsed() << "ms";
     emit resultReady();

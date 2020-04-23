@@ -312,18 +312,43 @@ void Parser::genIndex()
 void Parser::saveAuthors()
 {
     QFile file;
-    QTextStream textStream(&file);
+    QTextStream s(&file);
+    
+    int n = m_totalAuthor;
+    qInfo() << "(Graph) number of nodes:" << n; 
+    QVector<QVector<int>> G(n);
+    for (auto &r : m_authorsIdRelation) {
+        for (int i = 0; i < r.size() - 1; i++) {
+            for (int j = i + 1; j < r.size(); j++) {
+                if (r[i] == r[j]) continue;
+                G[r[i]].append(r[j]);
+                G[r[j]].append(r[i]);
+            }
+        }
+    }
+    for (auto &i : G) {
+        std::sort(i.begin(), i.end());
+        i.erase(std::unique(i.begin(), i.end()), i.end());
+    }
+    
+    int m = 0;
+    for (int u = 0; u < G.size(); ++u) {
+        for (int v : G[u]) {
+            if (v <= u) continue;
+            m++;
+        }
+    }
+    qInfo() << "(Graph) number of edges:" << m;
     
     // Save authors relation to authors_relation.txt
-    file.setFileName("authors_relation.txt");
+    file.setFileName("authors.edges");
     file.open(QFile::WriteOnly | QFile::Text);
-    textStream << m_totalAuthor << '\n';
-    for (auto relation : m_authorsIdRelation) {
-        textStream << relation[0];
-        for (int i = 1; i < relation.size(); ++i) {
-            textStream << ' ' << relation[i];
+    s << n << ' ' << m << '\n';
+    for (int u = 0; u < n; ++u) {
+        for (int v : G[u]) {
+            if (v <= u) continue;
+            s << u << ' ' << v << '\n';
         }
-        textStream << '\n';
     }
     file.close();
 }
