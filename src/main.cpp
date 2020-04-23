@@ -12,22 +12,25 @@
 #include <QTranslator>
 #include <QLocale>
 
+extern ConfigManager *g_config;
 ConfigManager *g_config;
+
+extern MainWindow *g_mainwindow;
 MainWindow *g_mainwindow;
 
 #ifdef QT_NO_DEBUG
 
-QFile g_logFile;
+static QFile s_logFile;
 
 static void initLogFile(const QString &fileName)
 {
-    g_logFile.setFileName(fileName);
-    g_logFile.open(QFile::Append | QFile::Text);
+    s_logFile.setFileName(fileName);
+    s_logFile.open(QFile::Append | QFile::Text);
 }
 
 #endif // QT_NO_DEBUG
 
-void logger(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+static void logger(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QString header;
     
@@ -54,7 +57,7 @@ void logger(QtMsgType type, const QMessageLogContext &context, const QString &ms
             + QString("(%1:%2) ").arg(fileName).arg(context.line)
             + msg;
 #ifdef QT_NO_DEBUG
-    QTextStream stream(&g_logFile);
+    QTextStream stream(&s_logFile);
     
     if (type == QtDebugMsg) {
         std::cerr << text.toStdString() << std::endl;
@@ -63,7 +66,7 @@ void logger(QtMsgType type, const QMessageLogContext &context, const QString &ms
     }
     
     if (type == QtFatalMsg) {
-        g_logFile.close();
+        s_logFile.close();
         abort();
     }
 #else // QT_NO_DEBUG
