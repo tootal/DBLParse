@@ -55,9 +55,14 @@ void logger(QtMsgType type, const QMessageLogContext &context, const QString &ms
             + msg;
 #ifdef QT_NO_DEBUG
     QTextStream stream(&g_logFile);
-    stream << text << QString("[%1]\n").arg(QDateTime::currentDateTime().toString());
     
-    if(type == QtFatalMsg) {
+    if (type == QtDebugMsg) {
+        std::cerr << text.toStdString() << std::endl;
+    } else {
+        stream << text << QString("[%1]\n").arg(QDateTime::currentDateTime().toString());
+    }
+    
+    if (type == QtFatalMsg) {
         g_logFile.close();
         abort();
     }
