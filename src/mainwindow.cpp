@@ -9,7 +9,6 @@
 #include "loader.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
-#include "calculator.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -37,14 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_parser = new Parser;
     m_loader = new Loader(this);
-    m_calculator = new Calculator;
-    
-    m_calculator->moveToThread(&m_calcThread);
-    connect(this, &MainWindow::startCalc,
-            m_calculator, &Calculator::calc);
-    connect(m_calculator, &Calculator::resultReady,
-            this, &MainWindow::handleCalc);
-    m_calcThread.start();
     
     m_parser->moveToThread(&m_parseThread);
     connect(this, &MainWindow::startParse,
@@ -90,8 +81,6 @@ MainWindow::~MainWindow()
     m_loader->wait();
     m_parseThread.quit();
     m_parseThread.wait();
-    m_calcThread.quit();
-    m_calcThread.wait();
 }
 
 
@@ -208,17 +197,6 @@ void MainWindow::load()
     Finder::init();
 }
 
-void MainWindow::calc()
-{
-    emit startCalc();
-}
-
-void MainWindow::handleCalc()
-{
-    statusBar()->showMessage(tr("Count finished!"), 3000);
-    on_action_Count_Clique_triggered();
-}
-
 void MainWindow::on_actionAuthorStac_triggered()
 {
     if(!Util::parsed() || !m_finder->authorStacLoaded()){
@@ -308,10 +286,10 @@ void MainWindow::on_action_Count_Clique_triggered()
         view->setHtml(html, QUrl("qrc:/resources/"));
 //        qDebug() << data;
         view->show();
-    } else {
+    }/* else {
         statusBar()->showMessage(tr("Counting..."));
         calc();
-    }
+    }*/
 }
 
 void MainWindow::on_actionKeyWord_triggered()

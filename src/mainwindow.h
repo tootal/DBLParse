@@ -55,15 +55,10 @@ private:
     QThread m_parseThread;
     Finder *m_finder;
     Loader *m_loader;
-    Calculator *m_calculator;
-    QThread m_calcThread;
     
     void load();
-    void calc();
-    void handleCalc();
     
 signals:
     void startParse();
-    void startCalc();
 };
 #endif // MAINWINDOW_H

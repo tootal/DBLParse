@@ -1,5 +1,7 @@
 #include "parser.h"
 
+#include "degeneracy_cliques.h"
+
 #include <QFile>
 #include <QDataStream>
 #include <QTime>
@@ -84,6 +86,12 @@ void Parser::run()
     timeMark(tr("Index file saved."));
     
     parseClean();
+    
+    timeMark(tr("Memeory cleaned."));
+    
+    degeneracyCliques();
+    
+    timeMark(tr("Count cliques finished."));
     
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
