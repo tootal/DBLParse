@@ -18,16 +18,11 @@ public slots:
     void calc();
     void handleAuthorRelations();
     void generateAuthorsEdges();
-    bool countCliques();
     
 private:
     QVector<QVector<int>> G;
     QMap<int, int> cnt;
     int edges;
-    void enumerateAllCliques();
-    void connectedComponents();
-    void cutBridges();
-    void findCliques();
     
 signals:
     void resultReady();
