@@ -49,7 +49,7 @@ private:
     QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
     YW_T m_topKWords;
     
-    void timeMark(const QString &msg);
+    void timeMark(QString msg);
     void parseInit();
     void countWordPerYear();
     void saveYearWord();

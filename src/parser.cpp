@@ -55,33 +55,33 @@ void Parser::run()
     
     parseInit();
     
-    timeMark(tr("XML file read successful. (%1 ms)"));
+    timeMark(tr("XML file read successful."));
     
     parse();
     
-    timeMark(tr("XML file parse successful. (%1 ms)"));
+    timeMark(tr("XML file parse successful."));
     
     countWordPerYear();
     
-    timeMark(tr("The title of each year has been analyzed. (%1 ms)"));
+    timeMark(tr("The title of each year has been analyzed."));
     
     saveYearWord();
     
-    timeMark(tr("The year word has been saved. (%1 ms)"));
+    timeMark(tr("The year word has been saved."));
     
     genIndex();
     
-    timeMark(tr("Index file generated. (%1 ms)"));
+    timeMark(tr("Index file generated.)"));
     
     saveAuthors();
     
-    timeMark(tr("Authors information saved. (%1 ms)"));
+    timeMark(tr("Authors information saved."));
     
     StringRef::clean();
     
     indexFileSave();
     
-    timeMark(tr("Index file saved. (%1 ms)"));
+    timeMark(tr("Index file saved."));
     
     parseClean();
     
@@ -190,10 +190,11 @@ int Parser::costMsecs()
     return m_costMsecs;
 }
 
-void Parser::timeMark(const QString &msg)
+void Parser::timeMark(QString msg)
 {
     m_costMsecs = m_timing.elapsed();
-    emit stateChanged(msg.arg(m_costMsecs - m_elapsedTime));
+    msg += " " + tr("(%1 ms)").arg(m_costMsecs - m_elapsedTime);
+    emit stateChanged(msg);
     m_elapsedTime = m_costMsecs;
 }
 
