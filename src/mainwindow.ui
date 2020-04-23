@@ -57,6 +57,7 @@
     <addaction name="action_Status"/>
     <addaction name="actionAuthorStac"/>
     <addaction name="actionKeyWord"/>
+    <addaction name="action_Count_Clique_2"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -64,7 +65,6 @@
     </property>
     <addaction name="action_Clear_Index"/>
     <addaction name="action_Open_Index_Folder"/>
-    <addaction name="action_Count_Clique"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -127,17 +127,14 @@
     <string>&amp;Settings</string>
    </property>
   </action>
-  <action name="action_Count_Clique">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Coun&amp;t Clique</string>
-   </property>
-  </action>
   <action name="actionKeyWord">
    <property name="text">
     <string>&amp;KeyWord</string>
+   </property>
+  </action>
+  <action name="action_Count_Clique_2">
+   <property name="text">
+    <string>&amp;Count Clique</string>
    </property>
   </action>
  </widget>

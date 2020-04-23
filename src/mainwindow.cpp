@@ -42,8 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
             m_parser, &Parser::run);
     connect(m_parser, &Parser::done,
             this, &MainWindow::load);
-//    connect(m_parser, &Parser::done,
-//            this, &MainWindow::calc);
     m_parseThread.start();
     
     connect(m_finder, &Finder::notReady,
@@ -203,33 +201,31 @@ void MainWindow::on_actionAuthorStac_triggered()
         on_action_Status_triggered();
         return ;
     }
-//    AuthorStacDialog *dialog=new AuthorStacDialog(this,m_finder);
-//    dialog->open();
 
-     WebView *view = new WebView(this);
-     view->setWindowFlag(Qt::Window);
-     view->resize(600, 800);
-
-     QList<QPair<QString,int> > authorStac=Finder::authorStac();
-     QJsonArray authorStacArray;
-
-     int num=authorStac.size()<=100?authorStac.size():100;
-
-     for(qint32 t=0;t<num;t++){
-         QJsonObject obj;
-         obj.insert("author",authorStac[t].first);
-         obj.insert("articleNum",QString::number(authorStac[t].second));
-         authorStacArray.append(obj);
-     }
-
-     auto html = Util::readFile(":/resources/authorStac.html");
-     auto data = QJsonDocument(authorStacArray).toJson();
-
-//     qDebug() << data;
-
-     html.replace("<!-- DATA_HOLDER -->", data);
-     view->setHtml(html, QUrl("qrc:/resources/"));
-     view->show();
+    WebView *view = new WebView(this);
+    view->setWindowFlag(Qt::Window);
+    view->resize(600, 800);
+    
+    QList<QPair<QString,int> > authorStac=Finder::authorStac();
+    QJsonArray authorStacArray;
+    
+    int num=authorStac.size()<=100?authorStac.size():100;
+    
+    for(qint32 t=0;t<num;t++){
+        QJsonObject obj;
+        obj.insert("author",authorStac[t].first);
+        obj.insert("articleNum",QString::number(authorStac[t].second));
+        authorStacArray.append(obj);
+    }
+    
+    auto html = Util::readFile(":/resources/authorStac.html");
+    auto data = QJsonDocument(authorStacArray).toJson();
+    
+    //     qDebug() << data;
+    
+    html.replace("<!-- DATA_HOLDER -->", data);
+    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->show();
 }
 
 void MainWindow::on_actionView_Log_triggered()
@@ -243,53 +239,6 @@ void MainWindow::on_action_Settings_triggered()
 {
     SettingsDialog *dialog = new SettingsDialog(this);
     dialog->open();
-}
-
-void MainWindow::on_action_Count_Clique_triggered()
-{
-    if(!Util::parsed()){
-        on_action_Status_triggered();
-        return ;
-    }
-    QFile file("authors_cliques.txt");
-    if (file.exists()) {
-        WebView *view = new WebView(this);
-        view->setWindowFlag(Qt::Window);
-        view->resize(850, 600);
-        file.open(QFile::ReadOnly | QFile::Text);
-        QTextStream in(&file);
-        QString line;
-        QJsonObject o;
-        int total;
-        in >> total;
-        for (int i = 1; i <= total; ++i) {
-            QString n, cnt;
-            in >> n >> cnt;
-            o.insert(n, cnt);
-        }
-        in >> total;
-        o.insert("total", total);
-        /*
-        while (in.readLineInto(&line)) {
-            if (line.endsWith("total cliques")) {
-                o.insert("total", line.split('.')[0]);
-            } else {
-                auto part = line.split(", ");
-                if (part.size() != 2) continue;
-                o.insert(part[0], part[1].split('.')[0]);
-            }
-        }
-        */
-        auto html = Util::readFile(":/resources/clique.html");
-        auto data = QJsonDocument(o).toJson();
-        html.replace("<!-- DATA_HOLDER -->", data);
-        view->setHtml(html, QUrl("qrc:/resources/"));
-//        qDebug() << data;
-        view->show();
-    }/* else {
-        statusBar()->showMessage(tr("Counting..."));
-        calc();
-    }*/
 }
 
 void MainWindow::on_actionKeyWord_triggered()
@@ -337,4 +286,35 @@ void MainWindow::on_actionKeyWord_triggered()
      html.replace("<!-- DATA_HOLDER -->", data);
      view->setHtml(html, QUrl("qrc:/resources/"));
      view->show();
+}
+
+void MainWindow::on_action_Count_Clique_2_triggered()
+{
+    if(!Util::parsed()){
+        on_action_Status_triggered();
+        return ;
+    }
+    QFile file("authors_cliques.txt");
+    WebView *view = new WebView(this);
+    view->setWindowFlag(Qt::Window);
+    view->resize(850, 600);
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream in(&file);
+    QString line;
+    QJsonObject o;
+    int total;
+    in >> total;
+    for (int i = 1; i <= total; ++i) {
+        QString n, cnt;
+        in >> n >> cnt;
+        o.insert(n, cnt);
+    }
+    in >> total;
+    o.insert("total", total);
+    auto html = Util::readFile(":/resources/clique.html");
+    auto data = QJsonDocument(o).toJson();
+    html.replace("<!-- DATA_HOLDER -->", data);
+    view->setHtml(html, QUrl("qrc:/resources/"));
+//        qDebug() << data;
+    view->show();
 }
