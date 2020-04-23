@@ -27,14 +27,7 @@ bc c DBLParse.zip DBLParse
 
 echo Clean...
 cd ..
-rmdir /s/q "pivoter/debug"
-rmdir /s/q "pivoter/release"
-rmdir /s/q "src/debug"
-rmdir /s/q "src/release"
-rmdir /s/q "bignumber/debug"
-rmdir /s/q "bignumber/release"
-del /s/q Makefile*
-del .qmake.stash
+nmake distclean
 
 echo Deploy successful!
 start deploy
