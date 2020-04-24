@@ -78,32 +78,15 @@ LinkedList* createLinkedList(void);
 
 void destroyLinkedList(LinkedList* linkedList);
 
-void copyLinkedList(LinkedList* destination, 
-                    LinkedList* source);
-
-int contains(LinkedList* linkedList, int data, int (*comparator)(int,int));
-
 int equal( LinkedList* list1, 
            LinkedList* list2, 
            int (*comparator)(int,int));
-
-void restoreLinksWithReferences(LinkedList* list);
 
 Link* addFirst(LinkedList* linkedList, int data);
 
 Link* addLast(LinkedList* linkedList, int data);
 
-Link* removeFirst(LinkedList* linkedList);
-
-Link* removeLast(LinkedList* linkedList);
-
-void deleteLast(LinkedList* linkedList);
-
 int getFirst(LinkedList* linkedList);
-
-void printListAbbv(LinkedList* linkedList, void (*printFunc)(int));
-
-void printList(LinkedList* linkedList, void (*printFunc)(int));
 
 int length(LinkedList* linkedList);
 

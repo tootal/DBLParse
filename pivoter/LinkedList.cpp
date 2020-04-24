@@ -49,10 +49,6 @@
 
 int isHead(Link* list)
 {
-#ifdef DEBUG
-    printf("isHead...\n");
-#endif
-
     assert(list != NULL);
 
     return (list->prev == NULL);
@@ -67,10 +63,6 @@ int isHead(Link* list)
 
 int isTail(Link* list)
 {
-#ifdef DEBUG
-    printf("isTail...\n");
-#endif
-
     assert(list != NULL);
 
     return (list->next == NULL);
@@ -87,10 +79,6 @@ int isTail(Link* list)
 
 Link* addAfter(Link* list, int data)
 {
-#ifdef DEBUG
-    printf("addAfter...\n");
-#endif
-
     assert(list != NULL);
     assert(list->next != NULL);
 
@@ -103,11 +91,6 @@ Link* addAfter(Link* list, int data)
 
     list->next->prev = newLink;
     list->next = newLink;
-
-#ifdef SMARTLENGTH
-    newLink->linkedList = list->linkedList;
-    newLink->linkedList->length++;
-#endif
 
     return newLink;
 }
@@ -123,10 +106,6 @@ Link* addAfter(Link* list, int data)
 
 Link* addBefore(Link* list, int data)
 {
-#ifdef DEBUG
-    printf("addBefore...\n");
-#endif
-
     assert(list != NULL);
     assert(list->prev != NULL);
 
@@ -139,11 +118,6 @@ Link* addBefore(Link* list, int data)
 
     list->prev->next = newLink;
     list->prev = newLink;
-
-#ifdef SMARTLENGTH
-    newLink->linkedList = list->linkedList;
-    newLink->linkedList->length++;
-#endif
 
     return newLink;
 }
@@ -158,9 +132,6 @@ Link* addBefore(Link* list, int data)
 
 int deleteLink(Link* list)
 {
-#ifdef DEBUG
-    printf("delete...\n");
-#endif
     assert(list != NULL);
     assert(list->next != NULL);
     assert(list->prev != NULL);
@@ -192,12 +163,6 @@ void addLinkBefore(Link* list, Link* newLink)
 
     newLink->next->prev = newLink;
     newLink->prev->next = list->prev;
-
-#ifdef SMARTLENGTH
-    newLink->linkedList = list->linkedList;
-    newLink->linkedList->length++;
-#endif
-    
 }
 
 /*! \brief location-aware method to remove a link, and return it.
@@ -209,9 +174,6 @@ void addLinkBefore(Link* list, Link* newLink)
 
 Link* removeLink(Link* list)
 {
-#ifdef DEBUG
-    printf("removeLink...\n");
-#endif
     assert(list != NULL);
     assert(list->next != NULL);
     assert(list->prev != NULL);
@@ -221,11 +183,6 @@ Link* removeLink(Link* list)
 
     list->next = NULL;
     list->prev = NULL;
-
-#ifdef SMARTLENGTH
-    list->linkedList->length--;
-    list->linkedList = NULL;
-#endif
 
     return list;
 }
@@ -257,11 +214,6 @@ LinkedList* createLinkedList(void)
     linkedList->tail->prev = linkedList->head;
     linkedList->tail->next = NULL;
     linkedList->tail->data = (int) 0xDEADFFFF;
-#ifdef SMARTLENGTH
-    linkedList->length = 0;
-    linkedList->head->linkedList = linkedList;
-    linkedList->tail->linkedList = linkedList;
-#endif
 
     return linkedList;
 }
@@ -313,27 +265,6 @@ void destroyLinkedListWithClean(LinkedList* linkedList, void (*clean)(int))
     free(linkedList);
 }
 
-/*! \brief copy a linked list
-
-    \param destination copy the linked list here
-
-    \param source copy this linked list
-*/
-
-void copyLinkedList(LinkedList* destination, 
-                    LinkedList* source)
-{
-    assert(destination != NULL && source != NULL);
-
-    Link* curr = source->head->next;
-
-    while(!isTail(curr))
-    {
-        addLast(destination, curr->data);
-        curr = curr->next;
-    }
-}
-
 /*! \brief Compare two linked lists to see if they are equal.
 
     \param list1 A linked list.
@@ -374,35 +305,6 @@ int equal( LinkedList* list1,
     }
 
     return (isTail(curr1) && isTail(curr2));
-}
-
-/*! \brief decide if a linked list contains a piece of data.
-
-    \param linkedList A linked list.
-
-    \param data The data that we want to look for in linkedList.
-
-    \param comparator A function that returns 0 when two data elements are equal.
-
-    \return true if linkedList contains data.
-*/
-
-int contains(LinkedList* linkedList, int data, int (*comparator)(int,int))
-{
-    assert(linkedList != NULL);
-
-    Link* curr = linkedList->head->next;
-
-    while(!isTail(curr))
-    {
-        if(comparator(curr->data, data) == 0)
-        {
-            return 1;
-        }
-        curr = curr->next;
-    }
-
-    return 0;
 }
 
 /*! \brief A location-aware function to add data to the beginning of a linked list.
@@ -446,128 +348,10 @@ Link* addLast(LinkedList* linkedList, int data)
 
 int getFirst(LinkedList* linkedList)
 {
-#ifdef DEBUG
-    printf("getFirst...\n");
-#endif
     assert(linkedList != NULL);
     assert(!isEmpty(linkedList));
 
     return linkedList->head->next->data;
-}
-
-/*! \brief remove the first link from a linked list
-
-    \param linkedList A linked list.
-
-    \return The first link of the linked list.
-*/
-
-Link* removeFirst(LinkedList* linkedList)
-{
-    assert(linkedList != NULL);
-
-    if(!isEmpty(linkedList))
-        return removeLink(linkedList->head->next);
-
-    return NULL;
-}
-
-/*! \brief Remove and return the last link from a linked list.
-
-    \param linkedList A linked list.
-
-    \return The last link of the linked list.
-*/
-
-Link* removeLast(LinkedList* linkedList)
-{
-    assert(linkedList != NULL);
-
-    if(!isEmpty(linkedList))
-        return removeLink(linkedList->tail->prev);
-
-    return NULL;
-}
-
-/*! \brief delete the last link in the linked list
-
-    \param linkedList A linked list.
-*/
-
-void deleteLast(LinkedList* linkedList)
-{
-    assert(linkedList != NULL);
-    if(!isEmpty(linkedList))
-        deleteLink(linkedList->tail->prev);
-
-    return;
-}
-
-/*! \brief Print the first 10 items in the linked list
-
-    \param linkedList A linked list.
-
-    \param printFunc A function to print the data elements in
-                     the linked list.
-*/
-
-void printListAbbv(LinkedList* linkedList, void (*printFunc)(int))
-{
-#ifdef DEBUG
-    printf("printListAbbv...\n");
-#endif
-    Link* curr = linkedList->head;
-    curr = curr->next;
-
-    int count = 0;
-
-    while(!isTail(curr) && count != 10)
-    {
-        count++;
-        printFunc(curr->data);
-        if(!isTail(curr->next))
-        {
-            printf(",");
-        }
-        curr = curr->next;
-    }
-
-    if(!isTail(curr))
-    {
-        printf("... plus %d more", length(linkedList)-10);
-    }
-
-    printf("\n");
-   
-}
-
-/*! \brief Print the items in the linked list.
-
-    \param linkedList A linked list.
-
-    \param printFunc A function to print the data elements in
-                     the linked list.
-*/
-
-void printList(LinkedList* linkedList, void (*printFunc)(int))
-{
-#ifdef DEBUG
-    printf("printList...\n");
-#endif
-    Link* curr = linkedList->head->next;
-
-    while(!isTail(curr))
-    {
-        printFunc(curr->data);
-        if(!isTail(curr->next))
-        {
-            printf(" ");
-        }
-        curr = curr->next;
-    }
-
-    printf("\n");
-   
 }
 
 /*! \brief Compute the number of data elements in a linked list.
@@ -579,11 +363,6 @@ void printList(LinkedList* linkedList, void (*printFunc)(int))
 
 int length(LinkedList* linkedList)
 {
-#ifdef DEBUG
-    printf("length...\n");
-#endif
-
-#ifndef SMARTLENGTH
     int length = 0;
     Link* curr = linkedList->head->next;
 
@@ -594,10 +373,6 @@ int length(LinkedList* linkedList)
     }
 
     return length;
-#else
-    assert(linkedList != NULL);
-    return linkedList->length;
-#endif
 }
 
 /*! \brief Determine if a linked list is empty.
@@ -609,10 +384,6 @@ int length(LinkedList* linkedList)
 
 int isEmpty(LinkedList* linkedList)
 {
-#ifdef DEBUG
-    printf("isEmpty...\n");
-#endif
-
     assert(linkedList != NULL);
 
     return isTail(linkedList->head->next);
