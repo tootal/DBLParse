@@ -86,10 +86,6 @@ void Parser::run()
     
     timeMark(tr("Memeory cleaned."));
     
-    countCliques();
-    
-    timeMark(tr("Count cliques finished."));
-    
     emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
     emit done();
@@ -340,18 +336,29 @@ void Parser::saveAuthors()
         }
     }
     qInfo() << "(Graph) number of edges:" << m;
-    
-    // Save authors relation to authors_relation.txt
+    /*
     file.setFileName("authors.edges");
     file.open(QFile::WriteOnly | QFile::Text);
     s << n << ' ' << m << '\n';
+    
+    file.close();
+    */
+    LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
+    for (int i = 0; i < n; i++)
+        adjList[i] = createLinkedList();
     for (int u = 0; u < n; ++u) {
         for (int v : G[u]) {
             if (v <= u) continue;
-            s << u << ' ' << v << '\n';
+            addLast(adjList[u], v);
+            addLast(adjList[v], u);
         }
     }
-    file.close();
+    m = m * 2;
+    populate_nCr();
+    runAndPrintStatsCliques(adjList, n);
+    for (int i = 0; i < n; i++)
+        destroyLinkedList(adjList[i]);
+    free(adjList);
 }
 
 void Parser::indexFileSave()
@@ -399,31 +406,3 @@ void Parser::parseClean()
     m_authorsIdRelation.squeeze();
     m_authorStac.squeeze();
 }
-
-void Parser::countCliques()
-{
-    // number of vertices
-    int n;
-    // 2x number of edges
-    int m;
-    FILE *fp;
-    fp = fopen ("authors.edges", "r");
-    fscanf(fp, "%d %d", &n, &m);
-    LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
-    for (int i = 0; i < n; i++)
-        adjList[i] = createLinkedList();
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        fscanf(fp, "%d %d\n", &u, &v);
-        addLast(adjList[u], v);
-        addLast(adjList[v], u);
-    }
-    m = m * 2;
-    fclose(fp);
-    populate_nCr();
-    runAndPrintStatsCliques(adjList, n);
-    for (int i = 0; i < n; i++)
-        destroyLinkedList(adjList[i]);
-    free(adjList); 
-}
-

@@ -40,9 +40,6 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-
-
-
 void listAllCliquesDegeneracyRecursive_A(std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
