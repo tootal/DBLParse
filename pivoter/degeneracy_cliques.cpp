@@ -13,12 +13,9 @@ int degeneracyCliques() {
     // If 0, calculate for all k.
     int max_k = 0; 
     
-    // data_flag: 1 if information is to be output to a file, 0 otherwise.
-    int flag_d = 0;
-    
     LinkedList** adjacencyList = readInGraphAdjListToDoubleEdges(&n, &m);
     populate_nCr();
-    runAndPrintStatsCliques(adjacencyList, n, 'A', max_k, flag_d);
+    runAndPrintStatsCliques(adjacencyList, n, 'A', max_k);
     
     int i = 0;
     while (i<n) {

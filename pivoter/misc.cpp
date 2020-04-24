@@ -144,7 +144,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
 
 void runAndPrintStatsCliques(  LinkedList** adjListLinked,
                                int n,
-                               char T, int max_k, int flag_d)
+                               char T, int max_k)
 {
     fflush(stderr);
     int max_k_in = max_k;
@@ -190,7 +190,6 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
         fprintf(fp, "%s\n", totalCliques.getString().c_str());
     }
     fclose(fp);
-    if (flag_d >= 1) fclose(fp);
     free(orderingArray);
 }
 
