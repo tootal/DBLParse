@@ -74,54 +74,6 @@ void destroyCliqueResults(LinkedList* cliques)
     destroyLinkedList(cliques); 
 }
 
-/*! \brief read in a graph from stdin and return an 
-           adjacency list, as an array of linked lists
-           of integers.
-
-    \param n this will be the number of vertices in the
-             graph when this function returns.
-
-    \param m this will be 2x the number of edges in the
-             graph when this function returns.
-
-    \return an array of linked lists of integers (adjacency list) 
-            representation of the graph
-*/
-
-LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
-{
-    int u, v; // endvertices, to read edges.
-
-    FILE *fp;
-    fp = fopen ("authors.edges", "r");
-    fscanf(fp, "%d %d", n, m);
-
-    LinkedList** adjList = (LinkedList**)calloc(*n, sizeof(LinkedList*));
-
-    int i = 0;
-    while(i < *n)
-    {
-        adjList[i] = createLinkedList();
-        i++;
-    }
-
-    i = 0;
-    // double maxv = 0;
-    while(i < *m)
-    {
-        fscanf(fp, "%d %d\n", &u, &v);
-        addLast(adjList[u], (int)v);
-        addLast(adjList[v], (int)u);
-        
-        i++;
-    }
-    // printf("maxv = %lf \n", maxv);
-    *m = (*m) * 2;
-
-    fclose(fp);
-    return adjList;
-}
-
 void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     fflush(stderr);
