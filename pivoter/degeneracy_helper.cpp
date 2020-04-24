@@ -53,11 +53,11 @@ int computeDegeneracy(LinkedList** list, int size)
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
-
+    std::vector<LinkedList*> verticesByDegree(size);
+    
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
-
+    std::vector<Link*> vertexLocator(size);
+    
     std::vector<int> degree(size);
 
     for(i = 0; i < size; i++)
@@ -127,12 +127,7 @@ int computeDegeneracy(LinkedList** list, int size)
     }
 
     for(i = 0; i<size;i++)
-    {
         destroyLinkedList(verticesByDegree[i]);
-    }
-
-    free(vertexLocator);
-    free(verticesByDegree);
 
     return degeneracy;
 }
@@ -157,13 +152,13 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
-
+    std::vector<LinkedList*> verticesByDegree(size);
+    
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
-
-    int* degree = (int*) calloc(size, sizeof(int));
-
+    std::vector<Link*> vertexLocator(size);
+    
+    std::vector<int> degree(size);
+    
     for(i = 0; i < size; i++)
     {
         verticesByDegree[i] = createLinkedList();
@@ -244,13 +239,7 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
     }
 
     for(i = 0; i<size;i++)
-    {
         destroyLinkedList(verticesByDegree[i]);
-    }
-
-    free(vertexLocator);
-    free(verticesByDegree);
-    free(degree);
 
     return ordering;
 }
@@ -269,20 +258,20 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 {
 
-    NeighborList** ordering = (NeighborList**)calloc(size, sizeof(NeighborList*));
-
+    std::vector<NeighborList*> ordering(size);
+    
     int i = 0;
 
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
-
+    std::vector<LinkedList*> verticesByDegree(size);
+    
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
-
-    int* degree = (int*) calloc(size, sizeof(int));
-
+    std::vector<Link*> vertexLocator(size);
+    
+    std::vector<int> degree(size);
+    
     for(i = 0; i < size; i++)
     {
         verticesByDegree[i] = createLinkedList();
@@ -401,12 +390,6 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
         free(ordering[i]);
         destroyLinkedList(verticesByDegree[i]);
     }
-
-    free(ordering);
-
-    free(vertexLocator);
-    free(verticesByDegree);
-    free(degree);
 
     return orderingArray;
 }

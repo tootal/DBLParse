@@ -40,7 +40,6 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-
 BigNumber nCr[1001][401];
 
 void populate_nCr()
@@ -53,44 +52,6 @@ void populate_nCr()
             else nCr[row][col] = nCr[row-1][col] + nCr[row-1][col-1];
         }
     }
-}
-
-/*! \brief compare integers return -1,0,1 for <,=,>
-
-    \param node1 an integer
-
-    \param node2 an integer
-
-    \return -1 if <, 0 if =, and 1 if >.
-*/
-
-int nodeComparator(int node1, int node2)
-{
-    if (node1 < node2)
-        return -1;
-    if(node1 > node2)
-        return 1;
-
-    return 0;
-}
-
-/*! \brief print a clique, that is formatted as an integer
-           array ending with -1.
-
-    \param clique the clique.
-*/
-
-void printClique(int* clique)
-{
-    int i = 0;
-    while(clique[i]!=-1)
-    {
-        printf("%d", clique[i]);
-        if(clique[i+1]!=-1)
-            printf(" ");
-        i++;
-    }
-    printf("\n");
 }
 
 /*! \brief destroy a linked list of integer arrays that have

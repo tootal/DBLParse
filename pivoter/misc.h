@@ -40,8 +40,6 @@ extern BigNumber nCr[1001][401];
 
 void populate_nCr();
 
-int nodeComparator(int node1, int node2);
-
 void destroyCliqueResults(LinkedList* cliques);
 
 LinkedList** readInGraphAdjList(int* n, int* m);
