@@ -30,6 +30,7 @@
  */
 class BigNumber {
 public:
+    static const int BASE = 10;
     //@{
     /**
      * BigNumber constructor
@@ -44,14 +45,14 @@ public:
      * @param other - The other BigNumber
      * @return The sum of the two BigNumbers
      */
-    BigNumber add(BigNumber other);
+    BigNumber add(const BigNumber &other);
 
     /**
      * Subtract another BigNumber from the current instance
      * @param other - The other BigNumber
      * @return The difference of the two BigNumbers
      */
-    BigNumber subtract(BigNumber other);
+    BigNumber subtract(const BigNumber &other);
 
     /**
      * Multiply the current instance by another BigNumber

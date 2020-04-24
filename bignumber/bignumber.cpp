@@ -22,12 +22,12 @@
 #include <sstream>
 #include <stack>
 #include <iostream>
-
+#include <utility>
 #include "bignumber.h"
 
 
 BigNumber::BigNumber(std::string number) :
-        _numberString(number)
+        _numberString(std::move(number))
 {
 }
 
@@ -35,19 +35,17 @@ BigNumber::BigNumber(long long number) :
     _numberString(std::to_string(number))
 {}
 
-BigNumber BigNumber::add(BigNumber other) {
+BigNumber BigNumber::add(const BigNumber &other) {
     BigNumber b1 = other > *this ? other : *this;
     BigNumber b2 = other > *this ? *this : other;
     if (b1.isNegative() || b2.isNegative()) {
         if (b1.isNegative() && b2.isNegative()) {
             return b1.negate().add(b2.negate()).negate();
         }
-        else if (b1.isNegative() && !b2.isNegative()) {
+        if (b1.isNegative() && !b2.isNegative()) {
             return b1.negate().subtract(b2).negate();
         }
-        else {
-            return b2.negate().subtract(b1).negate();
-        }
+        return b2.negate().subtract(b1).negate();
     }
     std::string results;
     int carry = 0;
@@ -58,11 +56,11 @@ BigNumber BigNumber::add(BigNumber other) {
     for (int i = int(b1._numberString.size() - 1); i >= 0; --i) {
         int sum = (b1._numberString[i] - '0') + (b2._numberString[i] - '0') + carry;
         carry = 0;
-        if (sum <= 9 || i == 0) {
+        if (sum < BASE || i == 0) {
             results.insert(0, std::to_string(sum));
         }
         else {
-            results.insert(0, std::to_string(sum % 10));
+            results.insert(0, std::to_string(sum % BASE));
             carry = 1;
         }
     }
@@ -78,28 +76,28 @@ BigNumber BigNumber::addstr(const std::string &other) {
 }
 
 
-BigNumber BigNumber::subtract(BigNumber other) {
-    BigNumber b1 = *this, b2 = other;
+BigNumber BigNumber::subtract(const BigNumber &other) {
+    BigNumber b1 = *this;
+    BigNumber b2 = other;
     if (b1.isNegative() || b2.isNegative()) {
         if (b1.isNegative() && b2.isNegative()) {
             return b1.negate().add(b2.negate()).negate();
         }
-        else if (b1.isNegative() && !b2.isNegative()) {
+        if (b1.isNegative() && !b2.isNegative()) {
             return b1.negate().add(b2).negate();
         }
-        else {
-            return b2.negate().add(b1);
-        }
+        return b2.negate().add(b1);
     }
     std::string results;
-    int n = 0, p = 0;
+    int n = 0;
+    int p = 0;
     bool takeOffOne = false;
     bool shouldBeTen = false;
 
     if (b1 < b2) {
         //Negative answer
         std::string t = b2.subtract(*this).negate().getString();
-        for (unsigned int i = 1; i < t.length(); ++i) {
+        for (unsigned long long i = 1; i < t.length(); ++i) {
             if (t[i] != '0') break;
             t.erase(1, 1);
         }
@@ -117,12 +115,12 @@ BigNumber BigNumber::subtract(BigNumber other) {
     int i = int(b1._numberString.size() - 1);
     for (int j = int(b2._numberString.size() - 1); j >= 0; --j) {
         if (((b1._numberString[i] - '0') < (b2._numberString[j] - '0')) && i > 0) {
-            n = char((b1._numberString[i] - '0') + 10);
+            n = char((b1._numberString[i] - '0') + BASE);
             takeOffOne = true;
             if (j > 0 || b1._numberString[i - 1] != '0') {
                 p = char((b1._numberString[i - 1] - '0') - 1);
                 if (p == -1) {
-                    p = 9;
+                    p += BASE;
                     shouldBeTen = true;
                 }
                 takeOffOne = false;
@@ -157,7 +155,7 @@ BigNumber BigNumber::subtract(BigNumber other) {
         n = 0;
     }
     if (takeOffOne) {
-        std::string number = "";
+        std::string number;
         for (int j = b1._numberString.length() - b2._numberString.length() - 1; j >= 0; --j) {
             if (b1._numberString[j] == '0') {
                 number += "0";
