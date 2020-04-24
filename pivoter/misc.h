@@ -28,13 +28,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
 
+#include <algorithm>
+
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
-
-#define max(x,y) (x > y? x:y)
-#define min(x,y) (x < y? x:y)
-#define MAX_CSIZE 400
 
 extern BigNumber nCr[1001][401];
 

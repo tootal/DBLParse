@@ -83,7 +83,7 @@ int computeDegeneracy(LinkedList** list, int size)
     {
         if(!isEmpty(verticesByDegree[currentDegree]))
         {
-            degeneracy = max(degeneracy,currentDegree);
+            degeneracy = std::max(degeneracy,currentDegree);
             
             int vertex = (int)(size_t) getFirst(verticesByDegree[currentDegree]);
 
@@ -186,7 +186,7 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
     {
         if(!isEmpty(verticesByDegree[currentDegree]))
         {
-            degeneracy = max(degeneracy,currentDegree);
+            degeneracy = std::max(degeneracy,currentDegree);
             
             int vertex = (int)(size_t) getFirst(verticesByDegree[currentDegree]);
 
@@ -299,7 +299,7 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
     {
         if(!isEmpty(verticesByDegree[currentDegree]))
         {
-            degeneracy = max(degeneracy,currentDegree);
+            degeneracy = std::max(degeneracy,currentDegree);
             
             int vertex = (int)(size_t) getFirst(verticesByDegree[currentDegree]);
 

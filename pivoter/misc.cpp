@@ -239,7 +239,7 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     while(j<beginR)
     {
         int vertex = vertexSets[j];
-        int numPotentialNeighbors = min(beginR - beginP, numNeighbors[vertex]); //bug resolved by Shweta
+        int numPotentialNeighbors = std::min(beginR - beginP, numNeighbors[vertex]); //bug resolved by Shweta
 
         int numNeighborsInP = 0;
 
@@ -285,7 +285,7 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     // we will decrement numNonNeighbors as we find neighbors
     *numNonNeighbors = beginR-beginP;
 
-    int numPivotNeighbors = min(beginR - beginP, numNeighbors[pivot]); //bug resolved by Shweta
+    int numPivotNeighbors = std::min(beginR - beginP, numNeighbors[pivot]); //bug resolved by Shweta
   
     // mark the neighbors of pivot that are in P.
     j = 0;
@@ -417,7 +417,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
         //printf("Allocating %d space for neighborsInP[vertexInP].\n", min( *pNewBeginR-*pNewBeginP, 
                                            //  orderingArray[vertexInP]->laterDegree 
                                            //+ orderingArray[vertexInP]->earlierDegree));
-        neighborsInP[vertexInP]= (int *)calloc( min( *pNewBeginR-*pNewBeginP, 
+        neighborsInP[vertexInP]= (int *)calloc( std::min( *pNewBeginR-*pNewBeginP, 
                                              orderingArray[vertexInP]->laterDegree 
                                            + orderingArray[vertexInP]->earlierDegree), sizeof(int));
 
@@ -516,7 +516,7 @@ void moveToRDegeneracyCliques( int vertex,
         int neighbor = vertexSets[j];
         int neighborLocation = j;
 
-        int numPotentialNeighbors = min(sizeOfP, numNeighbors[neighbor]); 
+        int numPotentialNeighbors = std::min(sizeOfP, numNeighbors[neighbor]); 
         int k = 0;
         while(k<numPotentialNeighbors)
         {
@@ -541,7 +541,7 @@ void moveToRDegeneracyCliques( int vertex,
     {
         int thisVertex = vertexSets[j];
 
-        int numPotentialNeighbors = min(sizeOfP, numNeighbors[thisVertex]); 
+        int numPotentialNeighbors = std::min(sizeOfP, numNeighbors[thisVertex]); 
 
         int numNeighborsInP = 0;
 
