@@ -336,13 +336,6 @@ void Parser::saveAuthors()
         }
     }
     qInfo() << "(Graph) number of edges:" << m;
-    /*
-    file.setFileName("authors.edges");
-    file.open(QFile::WriteOnly | QFile::Text);
-    s << n << ' ' << m << '\n';
-    
-    file.close();
-    */
     LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
