@@ -223,8 +223,6 @@ LinkedList* createLinkedList(void)
     If you allocated data that is in each link, then
     this will cause a memory leak for you.
 
-    \see destroyLinkedListWithClean
-
     \param linkedList The linked list to destroy.
 */
 
@@ -240,71 +238,6 @@ void destroyLinkedList(LinkedList* linkedList)
     }
 
     free(linkedList);
-}
-
-/*! \brief destroy a linked list and run a clean function
-           on the data in each link.
-
-    \param linkedList The linked list to destroy.
-
-    \param clean A pointer to a function that cleans the data in the links.
-*/
-
-void destroyLinkedListWithClean(LinkedList* linkedList, void (*clean)(int))
-{
-    Link* curr = linkedList->head;
-
-    while(curr != NULL)
-    {
-        Link* currNext = curr->next;
-        clean(curr->data);
-        free(curr);
-        curr = currNext;
-    }
-
-    free(linkedList);
-}
-
-/*! \brief Compare two linked lists to see if they are equal.
-
-    \param list1 A linked list.
-
-    \param list2 Another linked list.
-
-    \param comparator A function to compare data in the links copy this linked list.
-
-    \return true if the input linked lists have the same data in the same order.
-*/
-
-int equal( LinkedList* list1, 
-           LinkedList* list2, 
-           int (*comparator)(int,int))
-{
-    assert(list1 != NULL && list2 !=NULL);
-
-    Link* curr1 = list1->head->next;
-    Link* curr2 = list2->head->next;
-
-    while(!isTail(curr1) && !isTail(curr2))
-    {
-        if(comparator(curr1->data, curr2->data) == 0)
-        {
-            curr1 = curr1->next;
-            curr2 = curr2->next;
-        }
-        else if(comparator(curr1->data, curr2->data) > 0)
-        {
-            return 0;
-            curr2 = curr2->next;
-        }
-        else
-        {
-            return 0;
-            curr1 = curr1->next;
-        }
-    }
-
-    return (isTail(curr1) && isTail(curr2));
 }
 
 /*! \brief A location-aware function to add data to the beginning of a linked list.

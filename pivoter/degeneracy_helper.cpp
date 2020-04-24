@@ -35,8 +35,6 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-
-
 /*! \brief
 
     \param list an input graph, represented as an array of linked lists of integers

@@ -56,10 +56,6 @@ struct Link
     struct Link* prev; //!< the next link in the chain
 };
 
-typedef struct Link Link;
-
-typedef struct LinkedList LinkedList;
-
 int isHead(Link* list);
 
 int isTail(Link* list);
@@ -77,10 +73,6 @@ Link* removeLink(Link* list);
 LinkedList* createLinkedList(void);
 
 void destroyLinkedList(LinkedList* linkedList);
-
-int equal( LinkedList* list1, 
-           LinkedList* list2, 
-           int (*comparator)(int,int));
 
 Link* addFirst(LinkedList* linkedList, int data);
 
