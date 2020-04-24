@@ -17,6 +17,7 @@ RC_ICONS = resources/DBLParse.ico
 VERSION = 2.8
 DEFINES += VERSION=$${VERSION}
 
+INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter
 
 CONFIG(debug, debug|release) {

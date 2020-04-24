@@ -55,6 +55,7 @@ private:
     void saveAuthors();
     void indexFileSave();
     void parseClean();
+    void countCliques();
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element
