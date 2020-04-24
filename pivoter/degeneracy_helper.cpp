@@ -31,6 +31,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#include <vector>
+
 #include"misc.h"
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
@@ -56,7 +58,7 @@ int computeDegeneracy(LinkedList** list, int size)
     // array of lists of vertices, indexed by degree
     Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
 
-    int* degree = (int*) calloc(size, sizeof(int));
+    std::vector<int> degree(size);
 
     for(i = 0; i < size; i++)
     {
@@ -131,7 +133,6 @@ int computeDegeneracy(LinkedList** list, int size)
 
     free(vertexLocator);
     free(verticesByDegree);
-    free(degree);
 
     return degeneracy;
 }
