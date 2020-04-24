@@ -67,10 +67,6 @@ void Parser::run()
     
     timeMark(tr("The title of each year has been analyzed."));
     
-    saveYearWord();
-    
-    timeMark(tr("The year word has been saved."));
-    
     genIndex();
     
     timeMark(tr("Index file generated.)"));
@@ -267,6 +263,7 @@ void Parser::countWordPerYear()
         }
     }
     //    qDebug() << Util::str(m_topKWords);
+    saveYearWord();
 }
 
 void Parser::saveYearWord()
