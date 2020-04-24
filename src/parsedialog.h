@@ -1,5 +1,4 @@
-#ifndef PARSEDIALOG_H
-#define PARSEDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -26,5 +25,3 @@ private slots:
 private:
     Ui::ParseDialog *ui;
 };
-
-#endif // PARSEDIALOG_H

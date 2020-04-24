@@ -1,6 +1,4 @@
-#ifndef _DJS_CLIQUES_H_
-#define _DJS_CLIQUES_H_
+#pragma once
 
 int degeneracyCliques();
 
-#endif

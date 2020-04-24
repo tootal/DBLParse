@@ -1,5 +1,4 @@
-#ifndef _DJS_LINKEDLIST_H_
-#define _DJS_LINKEDLIST_H_
+#pragma once
 
 /* 
     This file contains the algorithm for listing all cliques
@@ -116,4 +115,3 @@ int length(LinkedList* linkedList);
 
 int isEmpty(LinkedList* linkedList);
 
-#endif

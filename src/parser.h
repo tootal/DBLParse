@@ -1,5 +1,4 @@
-#ifndef PARSER_H
-#define PARSER_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -70,5 +69,3 @@ private:
 
     static const QStringList commonwords;
 };
-
-#endif // PARSER_H

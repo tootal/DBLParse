@@ -1,5 +1,4 @@
-#ifndef CONFIGMANAGER_H
-#define CONFIGMANAGER_H
+#pragma once
 
 #include <QObject>
 
@@ -18,5 +17,3 @@ public:
 private:
     QSettings *m_settings;
 };
-
-#endif // CONFIGMANAGER_H

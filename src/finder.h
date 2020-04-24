@@ -1,5 +1,4 @@
-#ifndef FINDER_H
-#define FINDER_H
+#pragma once
 
 #include <QObject>
 #include <QJsonArray>
@@ -75,5 +74,3 @@ public:
                          const StringRef *last,
                          const QString &val);
 };
-
-#endif // FINDER_H

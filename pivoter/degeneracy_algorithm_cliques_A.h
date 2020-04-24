@@ -1,5 +1,4 @@
-#ifndef _DJS_DEGENERACY_ALGORITHM_CLIQUES_H_
-#define _DJS_DEGENERACY_ALGORITHM_CLIQUES_H_
+#pragma once
 
 /* 
     This file contains the algorithm for listing all cliques
@@ -53,4 +52,3 @@ void listAllCliquesDegeneracyRecursive_A(std::vector<BigNumber> &cliqueCounts,
 void listAllCliquesDegeneracy_A( std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
                                       int size, int max_k, double *nCalls, double *sumP, double *sqP );
 
-#endif

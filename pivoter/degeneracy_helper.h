@@ -1,5 +1,4 @@
-#ifndef _DJS_DEGENERACY_HELPER_H_
-#define _DJS_DEGENERACY_HELPER_H_
+#pragma once
 
 /* 
     This file contains the algorithm for listing all cliques
@@ -84,5 +83,3 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size);
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size);
 
 int neighborListComparator(int* nl1, int* nl2);
-
-#endif

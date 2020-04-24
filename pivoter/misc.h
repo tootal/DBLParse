@@ -1,5 +1,4 @@
-#ifndef _DJS_MISC_H_
-#define _DJS_MISC_H_
+#pragma once
 
 /* 
     This file contains the algorithm for listing all cliques
@@ -83,5 +82,4 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
                                                 int** neighborsInP, int* numNeighbors,
                                                 int beginX, int beginP, int beginR);
 
-#endif
 

@@ -1,5 +1,4 @@
-#ifndef STRINGREF_H
-#define STRINGREF_H
+#pragma once
 
 #include <QtGlobal>
 #include <QStringList>
@@ -42,5 +41,3 @@ public:
     
     friend QDebug operator<<(QDebug debug, const StringRef &s);
 };
-
-#endif // STRINGREF_H

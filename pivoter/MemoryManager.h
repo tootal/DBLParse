@@ -1,5 +1,4 @@
-#ifndef _DJS_MEMORYMANAGER_H_
-#define _DJS_MEMORYMANAGER_H_
+#pragma once
 
 /* 
     This file contains the algorithm for listing all cliques
@@ -107,5 +106,4 @@ static void* CallocWithCheck(size_t x, size_t y)
     #endif // ALLOW_ALLOC_ZERO_BYTES
 #endif // MEMORY_DEBUG
 
-#endif
 

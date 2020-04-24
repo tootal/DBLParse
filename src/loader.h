@@ -1,5 +1,4 @@
-#ifndef LOADER_H
-#define LOADER_H
+#pragma once
 
 #include <QThread>
 
@@ -19,4 +18,3 @@ signals:
     void yearWordLoadDone();
 };
 
-#endif // LOADER_H

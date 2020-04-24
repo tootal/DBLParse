@@ -1,5 +1,4 @@
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
 #include <QObject>
 #include <QDebug>
@@ -85,5 +84,3 @@ private:
 #define STR(x) STR_RAW(x)
 
 #define VERSION_STR STR(VERSION)
-
-#endif // UTIL_H

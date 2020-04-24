@@ -1,5 +1,4 @@
-#ifndef WEBVIEW_H
-#define WEBVIEW_H
+#pragma once
 
 #include <QWebEngineView>
 #include <QWebChannel>
@@ -22,5 +21,3 @@ private:
     WebPage *m_page;
     QWebChannel *m_channel;
 };
-
-#endif // WEBVIEW_H

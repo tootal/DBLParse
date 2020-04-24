@@ -1,5 +1,4 @@
-#ifndef WEBENGINEPAGE_H
-#define WEBENGINEPAGE_H
+#pragma once
 
 #include <QWebEnginePage>
 
@@ -16,5 +15,3 @@ signals:
 protected:
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) override;
 };
-
-#endif // WEBENGINEPAGE_H

@@ -1,5 +1,4 @@
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -23,5 +22,3 @@ private slots:
 private:
     Ui::SettingsDialog *ui;
 };
-
-#endif // SETTINGSDIALOG_H

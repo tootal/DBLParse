@@ -1,5 +1,4 @@
-#ifndef RECORD_H
-#define RECORD_H
+#pragma once
 
 #include <QDate>
 #include <QMap>
@@ -19,5 +18,3 @@ private:
     QString m_src;
     QMap<QString, QVariant> m_attrs;
 };
-
-#endif // RECORD_H

@@ -19,8 +19,7 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef BIGNUMBER_H
-#define BIGNUMBER_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -355,6 +354,3 @@ private:
     BigNumber dividestr(const std::string &other);
 };
 
-
-
-#endif
