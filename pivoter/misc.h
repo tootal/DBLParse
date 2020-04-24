@@ -42,8 +42,6 @@ void populate_nCr();
 
 void destroyCliqueResults(LinkedList* cliques);
 
-LinkedList** readInGraphAdjList(int* n, int* m);
-
 LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m);
 
 void runAndPrintStatsCliques(LinkedList** adjListLinked,
@@ -71,5 +69,3 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
                                                 int* vertexSets, int* vertexLookup,
                                                 int** neighborsInP, int* numNeighbors,
                                                 int beginX, int beginP, int beginR);
-
-
