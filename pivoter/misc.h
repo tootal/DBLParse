@@ -42,9 +42,7 @@ void destroyCliqueResults(LinkedList* cliques);
 
 LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m);
 
-void runAndPrintStatsCliques(LinkedList** adjListLinked,
-                               int n, 
-                               char T, int max_k);
+void runAndPrintStatsCliques(LinkedList** adjListLinked, int n);
 
 void moveFromRToXDegeneracyCliques( int vertex, 
                                     int* vertexSets, int* vertexLookup, 

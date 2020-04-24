@@ -9,19 +9,15 @@ int degeneracyCliques() {
     // 2x number of edges
     int m;
     
-    // max_clique_size: max_clique_size. 
-    // If 0, calculate for all k.
-    int max_k = 0; 
-    
-    LinkedList** adjacencyList = readInGraphAdjListToDoubleEdges(&n, &m);
+    LinkedList** adjList = readInGraphAdjListToDoubleEdges(&n, &m);
     populate_nCr();
-    runAndPrintStatsCliques(adjacencyList, n, 'A', max_k);
+    runAndPrintStatsCliques(adjList, n);
     
     int i = 0;
     while (i<n) {
-        destroyLinkedList(adjacencyList[i]);
+        destroyLinkedList(adjList[i]);
         i++;
     }
-    free(adjacencyList); 
+    free(adjList); 
     return 0;
 }

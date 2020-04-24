@@ -94,19 +94,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
 
     FILE *fp;
     fp = fopen ("authors.edges", "r");
-    if (!fp) 
-    {
-        fprintf(stderr, "Could not open input file.\n");
-        exit(1);
-    }
-
-    if(fscanf(fp, "%d %d", n, m)!=2)
-    {
-        fprintf(stderr, "Number of vertices: %d\n", *n);
-        fprintf(stderr, "Number of edges: %d\n", *m);
-        fprintf(stderr, "problem with line 1 in input file\n");
-        exit(1);
-    }
+    fscanf(fp, "%d %d", n, m);
 
     LinkedList** adjList = (LinkedList**)calloc(*n, sizeof(LinkedList*));
 
@@ -121,15 +109,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
     // double maxv = 0;
     while(i < *m)
     {
-        if (fscanf(fp, "%d %d\n", &u, &v)!=2)
-        {
-            printf("problem with line %d in input file, u=%d, v=%d\n", i+2, u, v);
-            exit(1);
-        }
-        assert(u < *n && u > -1);
-        assert(v < *n && v > -1);
-        assert(u != v);
-
+        fscanf(fp, "%d %d\n", &u, &v);
         addLast(adjList[u], (int)v);
         addLast(adjList[v], (int)u);
         
@@ -142,12 +122,10 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
     return adjList;
 }
 
-void runAndPrintStatsCliques(  LinkedList** adjListLinked,
-                               int n,
-                               char T, int max_k)
+void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     fflush(stderr);
-    int max_k_in = max_k;
+    int max_k = 0;
 
     clock_t start = clock();
     
@@ -168,27 +146,23 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
         m += orderingArray[i]->laterDegree;
     }
 
-    if (max_k == 0) max_k = deg + 1;
-
-    if (T == 'A')
+    max_k = deg + 1;
+    double *nCalls = (double *)calloc(1, sizeof(double));
+    double *sumP = (double *)calloc(1, sizeof(double));
+    double *sqP = (double *)calloc(1, sizeof(double));
+    std::vector<BigNumber> cliqueCounts(max_k + 1);
+    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
+    clock_t end = clock();
+   
+    while (cliqueCounts[max_k] == 0) max_k--;
+    fprintf(fp, "%d\n", max_k);
+    for (int i=1; i<=max_k; i++)
     {
-        double *nCalls = (double *)calloc(1, sizeof(double));
-        double *sumP = (double *)calloc(1, sizeof(double));
-        double *sqP = (double *)calloc(1, sizeof(double));
-        std::vector<BigNumber> cliqueCounts(max_k + 1);
-        listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
-        clock_t end = clock();
-       
-        while (cliqueCounts[max_k] == 0) max_k--;
-        fprintf(fp, "%d\n", max_k);
-        for (int i=1; i<=max_k; i++)
-        {
-            fprintf(fp, "%d %s\n", i, cliqueCounts[i].getString().c_str()); 
-            totalCliques += cliqueCounts[i];
-        }
-
-        fprintf(fp, "%s\n", totalCliques.getString().c_str());
+        fprintf(fp, "%d %s\n", i, cliqueCounts[i].getString().c_str()); 
+        totalCliques += cliqueCounts[i];
     }
+
+    fprintf(fp, "%s\n", totalCliques.getString().c_str());
     fclose(fp);
     free(orderingArray);
 }
