@@ -7,6 +7,9 @@ CONFIG += c++11
 # Enable message log in release build
 DEFINES += QT_MESSAGELOGCONTEXT
 
+# Disable foreach keywords
+DEFINES += QT_NO_FOREACH
+
 TARGET = DBLParse
 TEMPLATE = app
 
