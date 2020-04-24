@@ -86,7 +86,7 @@ Record::Record(const QString &s)
         "publnr"
     };
     
-    for (auto attr : attrsList) {
+    for (const auto &attr : attrsList) {
         auto v = capture(attr);
         if(!v.isEmpty()){
             m_attrs[attr] = v;
@@ -106,9 +106,8 @@ QVariant Record::attr(const QString &tag) const
 {
     if(m_attrs.contains(tag)){
         return m_attrs[tag];
-    }else{
-        return QVariant();
     }
+    return QVariant();
 }
 
 QJsonObject Record::toJson() const

@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
+    static const qint64 PROMOT_FILE_SIZE = (1 << 26);
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
     

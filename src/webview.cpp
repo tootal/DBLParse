@@ -25,11 +25,11 @@ void WebView::registerObject(const QString &id, QObject *object)
 
 void WebView::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu *menu = new QMenu(this);
+    auto *menu = new QMenu(this);
     QAction *action = new QAction(tr("Inspector"));
     connect(action, &QAction::triggered,
             this, [this](){
-        QWebEngineView *view = new QWebEngineView();
+        auto *view = new QWebEngineView;
         page()->setDevToolsPage(view->page());
         view->show();
     });

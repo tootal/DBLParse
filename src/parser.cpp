@@ -169,7 +169,7 @@ StringRef Parser::readElementText(const StringRef &r, quint32 &from)
     while(s[i] != '>') ++i;
     qint32 p = s.indexOf(name, i + 1);
     Q_ASSERT(p != -1);
-    quint32 x = static_cast<quint32>(p);
+    auto x = static_cast<quint32>(p);
     from += x + 1;
     return s.mid(i + 1, x - i - 1);
 }
@@ -277,20 +277,15 @@ void Parser::saveYearWord()
     file.setFileName("yearWord.txt");
     file.open(QFile::WriteOnly | QFile::Text);
     Q_ASSERT(file.isOpen());
-    for (int i : m_topKWords.keys())
-    {
-        auto its = m_topKWords[i].begin();
+    for (auto i = m_topKWords.begin(); i != m_topKWords.end(); ++i) {
         // Year <space>
-        textStream << i << ' ';
-        while (its != m_topKWords[i].end())
-        {
+        textStream << i.key() << ' ';
+        for (const auto &j : i.value()) {
             // Count <space> Word <space>
-            textStream << its->first << ' ' << its->second << ' ';
-            its++;
+            textStream << j.first << ' ' << j.second << ' ';
         }
         // <enter>
         textStream << '\n';
-        m_topKWords[i].clear();
     }
     file.close();
 }
@@ -309,8 +304,8 @@ void Parser::genIndex()
     std::sort(temp.begin(),temp.end(),sortByDesc);
 
     
-    for (qint32 t=0; t<temp.size(); t++) {
-        m_authorStac.append(qMakePair(temp[t].first.toString(), temp[t].second));
+    for (auto i : temp) {
+        m_authorStac.append(qMakePair(i.first.toString(), i.second));
     }
 
     std::sort(m_authorIndex.begin(), m_authorIndex.end());

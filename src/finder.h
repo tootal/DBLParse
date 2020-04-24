@@ -13,8 +13,8 @@ class Finder : public QObject
 public:
     explicit Finder(QObject *parent = nullptr);
     Q_INVOKABLE void find(const QString &type, const QString &word);
-    void handleRequest(QUrl url);
-    void handleWordCloud(QUrl url);
+    void handleRequest(const QUrl &url);
+    void handleWordCloud(const QUrl &url);
     void clearIndex();
     static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
@@ -32,7 +32,7 @@ public:
     void setTitleLoaded();
     bool loaded() const;
     void setLoaded();
-    QJsonArray cographBFS(QString node);
+    QJsonArray cographBFS(const QString &node);
     Q_INVOKABLE void image(const QString &img , const QString &filename);
     Q_INVOKABLE void saveWordCloud(const QString &img , const QString &filename);
 signals:
@@ -44,11 +44,11 @@ signals:
     
 private:
     QVector<Record> getRecord(const QList<quint32> &posList);
-    bool m_loaded;
-    bool m_authorLoaded;
-    bool m_titleLoaded;
-    bool m_authorStacLoaded;
-    bool m_yearWordLoaded;
+    bool m_loaded{};
+    bool m_authorLoaded{};
+    bool m_titleLoaded{};
+    bool m_authorStacLoaded{};
+    bool m_yearWordLoaded{};
     QVector<Record> m_lastResult;
 
 public:

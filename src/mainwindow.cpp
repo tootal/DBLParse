@@ -92,8 +92,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
     QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
 DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
 Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
-            .arg(VERSION_STR)
-            .arg(__TIMESTAMP__);
+            .arg(VERSION_STR, __TIMESTAMP__);
     
     QMessageBox::about(this, tr("About DBLParse"), info);
 }
@@ -124,7 +123,7 @@ void MainWindow::on_action_Open_triggered()
     if(fileName.isEmpty()) return ;
     g_config->setValue("lastOpenFileName", fileName);
     // question when size greater than 64MiB
-    if(QFile(fileName).size() > (1 << 26)){
+    if(QFile(fileName).size() > PROMOT_FILE_SIZE){
         QMessageBox box(this);
         box.resize(500, 170);
         box.setText(tr("Parsing the file will last for a while and will take up a lot of memory."));
@@ -135,7 +134,7 @@ void MainWindow::on_action_Open_triggered()
         if(ret == QMessageBox::No) return ;
     }
     Util::clearIndexs();
-    ParseDialog *dialog = new ParseDialog(this);
+    auto *dialog = new ParseDialog(this);
     connect(m_parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
     connect(m_parser, &Parser::done,
@@ -160,7 +159,7 @@ void MainWindow::on_action_Status_triggered()
     }else{
         loaderStatus = QString(R"(<font color="red">NO</font>)");
     }
-    text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus).arg(loaderStatus);
+    text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus, loaderStatus);
     msgBox.setText(text);
     if(Util::parsed()){
         msgBox.setStandardButtons(QMessageBox::Ok);
@@ -197,19 +196,20 @@ void MainWindow::load()
 
 void MainWindow::on_actionAuthorStac_triggered()
 {
+    static const int TOP_K = 100;
     if(!Util::parsed() || !m_finder->authorStacLoaded()){
         on_action_Status_triggered();
         return ;
     }
 
-    WebView *view = new WebView(this);
+    auto *view = new WebView(this);
     view->setWindowFlag(Qt::Window);
     view->resize(600, 800);
     
     QList<QPair<QString,int> > authorStac=Finder::authorStac();
     QJsonArray authorStacArray;
     
-    int num=authorStac.size()<=100?authorStac.size():100;
+    int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
     
     for(qint32 t=0;t<num;t++){
         QJsonObject obj;
@@ -237,7 +237,7 @@ void MainWindow::on_actionView_Log_triggered()
 
 void MainWindow::on_action_Settings_triggered()
 {
-    SettingsDialog *dialog = new SettingsDialog(this);
+    auto *dialog = new SettingsDialog(this);
     dialog->open();
 }
 
@@ -250,7 +250,7 @@ void MainWindow::on_actionKeyWord_triggered()
         return ;
     }
 
-     WebView *view = new WebView(this);
+     auto *view = new WebView(this);
      view->setWindowFlag(Qt::Window);
      view->registerObject("finder", m_finder);
      view->resize(800,600);
@@ -295,17 +295,17 @@ void MainWindow::on_action_Count_Clique_2_triggered()
         return ;
     }
     QFile file("authors_cliques.txt");
-    WebView *view = new WebView(this);
+    auto *view = new WebView(this);
     view->setWindowFlag(Qt::Window);
     view->resize(850, 600);
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&file);
-    QString line;
     QJsonObject o;
     int total;
     in >> total;
     for (int i = 1; i <= total; ++i) {
-        QString n, cnt;
+        QString n;
+        QString cnt;
         in >> n >> cnt;
         o.insert(n, cnt);
     }

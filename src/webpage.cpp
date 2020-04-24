@@ -11,14 +11,15 @@ WebPage::WebPage(QObject *parent)
 bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
 //    qDebug() << url;
-    if (url.scheme() == "data") {
+    if (url.scheme() == "data")
         return true;
-    } else if(url.scheme() == "qrc") {
+    if(url.scheme() == "qrc")
         return true;
-    } else if(url.scheme() == "dblp") {
+    if(url.scheme() == "dblp") {
         emit request(url);
         return false;
-    } else if(url.scheme() == "year") {
+    }
+    if(url.scheme() == "year") {
         emit wordCloud(url);
         return false;
     }

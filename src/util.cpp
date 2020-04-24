@@ -33,14 +33,11 @@ QString Util::formatTime(int ms)
     Q_ASSERT(ms >= 0);
     QTime time = QTime::fromMSecsSinceStartOfDay(ms);
     if(time.hour() == 0){
-        if(time.minute() == 0){
+        if(time.minute() == 0)
             return time.toString("s.zzz ")+tr("s");
-        }else{
-            return time.toString("m:ss.z");
-        }
-    }else{
-        return time.toString("H:mm:ss");
+        return time.toString("m:ss.z");
     }
+    return time.toString("H:mm:ss");
 }
 
 QString Util::readAround(const QString &fileName, quint32 &pos)
@@ -98,9 +95,11 @@ QString Util::getXmlFileName()
 
 QString Util::formatUrl(const QString &url)
 {
-    if(url.isEmpty()) return url;
-    if(QUrl(url).isRelative()) return "https://dblp.uni-trier.de/" + url;
-    else return url;
+    if(url.isEmpty()) 
+        return url;
+    if(QUrl(url).isRelative())
+        return "https://dblp.uni-trier.de/" + url;
+    return url;
 }
 
 void Util::initAvailableLanguage()
@@ -113,7 +112,7 @@ void Util::initAvailableLanguage()
     s_availableLanguages.append({"zh_CN", tr("Chinese (China)")});
 }
 
-const QVector<QPair<QString, QString> > Util::availableLanguages()
+QVector<QPair<QString, QString>> Util::availableLanguages()
 {
     if(s_availableLanguages.isEmpty()) {
         initAvailableLanguage();

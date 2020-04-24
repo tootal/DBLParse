@@ -61,8 +61,7 @@ void Finder::find(const QString &type, const QString &word)
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
         QSet<QString> coauthors;
-        for(int i = 0; i < list.size(); ++i){
-            auto pos = list.at(i);
+        for (auto pos : list) {
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
             for (auto &author : record.attr("authors").toStringList()){
                 coauthors.insert(author);
@@ -81,13 +80,12 @@ void Finder::find(const QString &type, const QString &word)
 not_ready:
     emit notReady();
     emit ready("not_ready");
-    return ;
 }
 
-void Finder::handleRequest(QUrl url)
+void Finder::handleRequest(const QUrl &url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    WebView *view = new WebView(g_mainwindow);
+    auto *view = new WebView(g_mainwindow);
     view->setWindowFlag(Qt::Window);
     view->resize(800, 600);
     auto html = Util::readFile(":/resources/detail.html");
@@ -98,10 +96,10 @@ void Finder::handleRequest(QUrl url)
     view->show();
 }
 
-void Finder::handleWordCloud(QUrl url)
+void Finder::handleWordCloud(const QUrl &url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    WebView *view = new WebView(g_mainwindow);
+    auto *view = new WebView(g_mainwindow);
     view->setWindowFlag(Qt::Window);
     view->setAttribute(Qt::WA_DeleteOnClose);
     view->resize(800, 600);
@@ -165,9 +163,8 @@ QList<quint32> Finder::indexOfTitle(const QString &title) const
     QList<quint32> list;
     if(s_titleIndex == nullptr) return list;
     auto range = equalRange(s_titleIndex, s_titleIndex + s_titleIndexs, title);
-    for(auto i = range.first; i != range.second; ++i){
+    for(auto i = range.first; i != range.second; ++i)
         list.append(i->l);
-    }
     return list;
 }
 
@@ -232,8 +229,7 @@ QString Finder::readText(const StringRef &ref)
 QVector<Record> Finder::getRecord(const QList<quint32> &posList)
 {
     QVector<Record> array;
-    for(int i = 0; i < posList.size(); ++i){
-        auto pos = posList.at(i);
+    for(auto pos : posList) {
         Record record(Util::findRecord(Util::getXmlFileName(), pos));
         array.append(record);
     }
@@ -256,7 +252,7 @@ Finder::equalRange(const StringRef *first,
                    const StringRef *last, 
                    const QString &val)
 {
-    quint32 len = static_cast<quint32>(last - first);
+    auto len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
         const StringRef *mid = first + half;
@@ -283,7 +279,7 @@ Finder::lowerBound(const StringRef *first,
                    const StringRef *last, 
                    const QString &val)
 {
-    quint32 len = static_cast<quint32>(last - first);
+    auto len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
         const StringRef *mid = first + half;
@@ -305,7 +301,7 @@ Finder::upperBound(const StringRef *first,
                    const StringRef *last, 
                    const QString &val)
 {
-    quint32 len = static_cast<quint32>(last - first);
+    auto len = static_cast<quint32>(last - first);
     while(len > 0){
         quint32 half = len >> 1;
         const StringRef *mid = first + half;
@@ -322,8 +318,8 @@ Finder::upperBound(const StringRef *first,
     return first;
 }
 
-QJsonArray Finder::cographBFS(QString node) {
-    QQueue<QPair<QString,QString> > q;
+QJsonArray Finder::cographBFS(const QString &node) {
+    QQueue<QPair<QString,QString>> q;
     QJsonArray cograph;
     QPair<QString,QString> parent("",node);
     q.enqueue(parent);
@@ -332,11 +328,9 @@ QJsonArray Finder::cographBFS(QString node) {
         QPair<QString,QString> t=q.head();
         q.dequeue();
         QJsonObject coNode;
-//        qDebug()<<"q "<<t;
         auto list = indexOfAuthor(t.second);
         QSet<QString> coauthors;
-        for(int i = 0; i < list.size(); ++i){
-            auto pos = list.at(i);
+        for (auto pos : list) {
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
             for (auto &author : record.attr("authors").toStringList()){
                 coauthors.insert(author);
@@ -350,21 +344,16 @@ QJsonArray Finder::cographBFS(QString node) {
 
         coNode.insert("parentNode",t.second);
 
-        if(coauthors.size()>0){
+        if (coauthors.isEmpty()) {
             coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.toList()));
-
             for (const QString &value : coauthors){
                 QPair<QString,QString> temp(t.second,value);
-//                qDebug()<<value;
                 q.enqueue(temp);
             }
-//            qDebug()<<222<<coNode;
             cograph.append(coNode);
             num++;
-//            qDebug()<<num;
             coauthors.clear();
         }
-
     }
     q.clear();
     return cograph;

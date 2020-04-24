@@ -30,9 +30,9 @@ public:
     
 private:
     QTime m_timing;
-    int m_costMsecs;
-    int m_elapsedTime;
-    int m_totalAuthor;
+    int m_costMsecs{};
+    int m_elapsedTime{};
+    int m_totalAuthor{};
     
     StringRef m_ref;
     
@@ -42,8 +42,8 @@ private:
     QVector<QVector<int>> m_authorsIdRelation;
     QVector<QPair<QString/*author*/, int/*stac*/>> m_authorStac;
     
-    int m_maxYear;
-    int m_minYear;
+    int m_maxYear{};
+    int m_minYear{};
     QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
     YW_T m_topKWords;
     

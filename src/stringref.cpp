@@ -36,21 +36,20 @@ bool StringRef::operator<(const StringRef &s) const
             return s_data[l + i] < s_data[s.l + i];
         }
     }
-    if(len == s.r - s.l) return false;
-    else return true;
+    return len != s.r - s.l;
 }
 
 StringRef StringRef::mid(quint32 pos) const
 {
     Q_ASSERT(0 <= pos && pos < r - l);
-    return StringRef(l + pos, r);
+    return {l + pos, r};
 }
 
 StringRef StringRef::mid(quint32 pos, quint32 len) const
 {
     Q_ASSERT(0 <= pos && pos < r - l);
     Q_ASSERT(pos + len <= r - l);
-    return StringRef(l + pos, l + pos + len);
+    return {l + pos, l + pos + len};
 }
 
 bool StringRef::startsWith(const char *str, quint32 from) const

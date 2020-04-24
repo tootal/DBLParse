@@ -25,7 +25,7 @@ public:
     
     static void initAvailableLanguage();
     
-    static const QVector<QPair<QString, QString>> availableLanguages();
+    static QVector<QPair<QString, QString>> availableLanguages();
     
     static QString getLocale();
     

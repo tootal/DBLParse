@@ -29,5 +29,5 @@ void ConfigManager::setValue(const QString &key, const QString &value)
 void ConfigManager::setDefault(const QString &key, const QString &value)
 {
     if(m_settings->contains(key)) return ;
-    else setValue(key, value);
+    setValue(key, value);
 }
