@@ -69,7 +69,7 @@ void Parser::run()
     
     genIndex();
     
-    timeMark(tr("Index file generated.)"));
+    timeMark(tr("Index file generated."));
     
     StringRef::clean();
     

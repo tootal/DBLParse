@@ -288,7 +288,7 @@ void MainWindow::on_actionKeyWord_triggered()
      view->show();
 }
 
-void MainWindow::on_action_Count_Clique_2_triggered()
+void MainWindow::on_action_Count_Clique_triggered()
 {
     if(!Util::parsed()){
         on_action_Status_triggered();
