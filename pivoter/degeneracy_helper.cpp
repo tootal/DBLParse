@@ -33,7 +33,6 @@
 
 #include"misc.h"
 #include"LinkedList.h"
-#include"MemoryManager.h"
 #include"degeneracy_helper.h"
 
 
@@ -54,12 +53,12 @@ int computeDegeneracy(LinkedList** list, int size)
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) Calloc(size, sizeof(LinkedList*));
+    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
 
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) Calloc(size, sizeof(Link*));
+    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
 
-    int* degree = (int*) Calloc(size, sizeof(int));
+    int* degree = (int*) calloc(size, sizeof(int));
 
     for(i = 0; i < size; i++)
     {
@@ -132,9 +131,9 @@ int computeDegeneracy(LinkedList** list, int size)
         destroyLinkedList(verticesByDegree[i]);
     }
 
-    Free(vertexLocator);
-    Free(verticesByDegree);
-    Free(degree);
+    free(vertexLocator);
+    free(verticesByDegree);
+    free(degree);
 
     return degeneracy;
 }
@@ -152,29 +151,24 @@ int computeDegeneracy(LinkedList** list, int size)
 
 NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
 {
-
-#ifdef DEBUG
-    printf("degeneracy is %d\n", computeDegeneracy(list, size));
-#endif
-
-    NeighborList** ordering = (NeighborList**)Calloc(size, sizeof(NeighborList*));
+    NeighborList** ordering = (NeighborList**)calloc(size, sizeof(NeighborList*));
 
     int i = 0;
 
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) Calloc(size, sizeof(LinkedList*));
+    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
 
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) Calloc(size, sizeof(Link*));
+    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
 
-    int* degree = (int*) Calloc(size, sizeof(int));
+    int* degree = (int*) calloc(size, sizeof(int));
 
     for(i = 0; i < size; i++)
     {
         verticesByDegree[i] = createLinkedList();
-        ordering[i] = (NeighborList*)Malloc(sizeof(NeighborList));
+        ordering[i] = (NeighborList*)malloc(sizeof(NeighborList));
         ordering[i]->earlier = createLinkedList();
         ordering[i]->later = createLinkedList();
     }
@@ -255,9 +249,9 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
         destroyLinkedList(verticesByDegree[i]);
     }
 
-    Free(vertexLocator);
-    Free(verticesByDegree);
-    Free(degree);
+    free(vertexLocator);
+    free(verticesByDegree);
+    free(degree);
 
     return ordering;
 }
@@ -276,24 +270,24 @@ NeighborList** computeDegeneracyOrderList(LinkedList** list, int size)
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 {
 
-    NeighborList** ordering = (NeighborList**)Calloc(size, sizeof(NeighborList*));
+    NeighborList** ordering = (NeighborList**)calloc(size, sizeof(NeighborList*));
 
     int i = 0;
 
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    LinkedList** verticesByDegree = (LinkedList**) Calloc(size, sizeof(LinkedList*));
+    LinkedList** verticesByDegree = (LinkedList**) calloc(size, sizeof(LinkedList*));
 
     // array of lists of vertices, indexed by degree
-    Link** vertexLocator = (Link**) Calloc(size, sizeof(Link*));
+    Link** vertexLocator = (Link**) calloc(size, sizeof(Link*));
 
-    int* degree = (int*) Calloc(size, sizeof(int));
+    int* degree = (int*) calloc(size, sizeof(int));
 
     for(i = 0; i < size; i++)
     {
         verticesByDegree[i] = createLinkedList();
-        ordering[i] = (NeighborList*)Malloc(sizeof(NeighborList));
+        ordering[i] = (NeighborList*)malloc(sizeof(NeighborList));
         ordering[i]->earlier = createLinkedList();
         ordering[i]->later = createLinkedList();
     }
@@ -369,17 +363,17 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 
     }
     
-    NeighborListArray** orderingArray = (NeighborListArray**)Calloc(size, sizeof(NeighborListArray*));
+    NeighborListArray** orderingArray = (NeighborListArray**)calloc(size, sizeof(NeighborListArray*));
 
     for(i = 0; i<size;i++)
     {
-        orderingArray[i] = (NeighborListArray*)Malloc(sizeof(NeighborListArray));
+        orderingArray[i] = (NeighborListArray*)malloc(sizeof(NeighborListArray));
         orderingArray[i]->vertex = ordering[i]->vertex;
         orderingArray[i]->orderNumber = ordering[i]->orderNumber;
         // if (orderingArray[i]->vertex == 175421) fprintf(stderr, "175421, orderNumber = %d\n", ordering[i]->orderNumber );
         // if (orderingArray[i]->vertex == 573) fprintf(stderr, "573, orderNumber = %d\n", ordering[i]->orderNumber );
         orderingArray[i]->laterDegree = length(ordering[i]->later);
-        orderingArray[i]->later = (int *)Calloc(orderingArray[i]->laterDegree, sizeof(int));
+        orderingArray[i]->later = (int *)calloc(orderingArray[i]->laterDegree, sizeof(int));
 
         int j=0;
         Link* curr = ordering[i]->later->head->next;
@@ -390,7 +384,7 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
         }
 
         orderingArray[i]->earlierDegree = length(ordering[i]->earlier);
-        orderingArray[i]->earlier = (int *)Calloc(orderingArray[i]->earlierDegree, sizeof(int));
+        orderingArray[i]->earlier = (int *)calloc(orderingArray[i]->earlierDegree, sizeof(int));
 
         j=0;
         curr = ordering[i]->earlier->head->next;
@@ -405,15 +399,15 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
     for(i = 0; i<size;i++)
     {
         // fprintf(stderr, "vertex = %d, orderNumber = %d, laterdeg = %d, earlierdeg = %d\n", orderingArray[i]->vertex, orderingArray[i]->orderNumber, orderingArray[i]->laterDegree, orderingArray[i]->earlierDegree );
-        Free(ordering[i]);
+        free(ordering[i]);
         destroyLinkedList(verticesByDegree[i]);
     }
 
-    Free(ordering);
+    free(ordering);
 
-    Free(vertexLocator);
-    Free(verticesByDegree);
-    Free(degree);
+    free(vertexLocator);
+    free(verticesByDegree);
+    free(degree);
 
     return orderingArray;
 }

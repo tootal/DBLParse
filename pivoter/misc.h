@@ -36,15 +36,11 @@
 #define min(x,y) (x < y? x:y)
 #define MAX_CSIZE 400
 
+extern BigNumber nCr[1001][401];
+
 void populate_nCr();
 
 int nodeComparator(int node1, int node2);
-
-void printArray(int* array, int size);
-
-void printArrayOfLinkedLists(LinkedList** listOfLists, int size);
-
-void printInt(int integer);
 
 void destroyCliqueResults(LinkedList* cliques);
 
@@ -52,13 +48,9 @@ LinkedList** readInGraphAdjList(int* n, int* m);
 
 LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m);
 
-
 void runAndPrintStatsCliques(LinkedList** adjListLinked,
                                int n, 
                                char T, int max_k, int flag_d);
-
-
-int findNbrCSC(int u, int v, int *CSCindex, int *CSCedges);
 
 void moveFromRToXDegeneracyCliques( int vertex, 
                                     int* vertexSets, int* vertexLookup, 

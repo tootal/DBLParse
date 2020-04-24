@@ -1,5 +1,4 @@
 #include "LinkedList.h"
-#include "MemoryManager.h"
 #include "misc.h"
 #include "degeneracy_cliques.h"
 
@@ -26,6 +25,6 @@ int degeneracyCliques() {
         destroyLinkedList(adjacencyList[i]);
         i++;
     }
-    Free(adjacencyList); 
+    free(adjacencyList); 
     return 0;
 }

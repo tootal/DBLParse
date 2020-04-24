@@ -38,7 +38,6 @@
 
 #include"misc.h"
 #include"LinkedList.h"
-#include"MemoryManager.h"
 #include"degeneracy_helper.h"
 
 
@@ -67,76 +66,12 @@ void populate_nCr()
 
 int nodeComparator(int node1, int node2)
 {
-    if ((int)(size_t)node1 < (int)(size_t)node2)
+    if (node1 < node2)
         return -1;
-    if((int)(size_t)node1 > (int)(size_t)node2)
+    if(node1 > node2)
         return 1;
 
     return 0;
-}
-
-/*! \brief compare integer pointers; return -1,0,1 for <,=,>;
-           used for calling sort().
-
-    \param node1 a pointer to an integer
-
-    \param node2 a pointer to an integer
-
-    \return -1 if <, 0 if =, and 1 if >.
-*/
-
-int sortComparator(int node1, int node2)
-{
-    if (*(int*)node1 < *(int*)node2)
-        return -1;
-    if(*(int*)node1 > *(int*)node2)
-        return 1;
-
-    return 0;
-}
-
-int qsortComparator(const void * node1, const void * node2)
-{
-    return ( *(int*)node1 - *(int*)node2 );
-}
-
-/*! \brief print an array of integers to standard out.
-
-    \param array the array to print
-
-    \param size the length of the array
-*/
-
-void printArray(int* array, int size)
-{
-    int i = 0;
-    while(i<size)
-        printf("%d ", array[i++]);
-    printf("\n");
-}
-
-/*! \brief print an abbreviated version of an adjacency list
-
-    \param listOfLists the adjacency list
-
-    \param size the number of vertices in the graph
-*/
-
-void printArrayOfLinkedLists(LinkedList** listOfLists, int size)
-{
-    // list graph contents
-
-    int i=0;
-
-    while(i<size)
-    {
-        if(!isEmpty(listOfLists[i]))
-        {
-            printf("%d:", i);
-            // printListAbbv(listOfLists[i], &printInt);
-        }
-        i++;
-    }
 }
 
 /*! \brief print a clique, that is formatted as an integer
@@ -158,16 +93,6 @@ void printClique(int* clique)
     printf("\n");
 }
 
-/*! \brief print an integer 
-
-    \param integer an integer cast to a int
-*/
-
-void printInt(int integer)
-{
-    printf("%d", (int)(size_t)integer);
-}
-
 /*! \brief destroy a linked list of integer arrays that have
            -1 in the last cell, have have been allocated by
            the user.
@@ -181,19 +106,7 @@ void destroyCliqueResults(LinkedList* cliques)
     while(!isTail(curr))
     {
         int* clique = (int*)curr->data;
-
-#ifdef DEBUG
-        int i=0;
-        while(clique[i] != -1)
-        {
-            printf("%d", clique[i]);
-            if(clique[i+1] != -1)
-                printf(" ");
-            i++;
-        }
-        printf("\n");
-#endif
-        Free(clique);
+        free(clique);
         curr = curr->next;
     } 
 
@@ -235,7 +148,7 @@ LinkedList** readInGraphAdjList(int* n, int* m)
     printf("Number of edges: %d\n", *m);
 #endif
     
-    LinkedList** adjList = (LinkedList**)Calloc(*n, sizeof(LinkedList*));
+    LinkedList** adjList = (LinkedList**)calloc(*n, sizeof(LinkedList*));
 
     int i = 0;
     while(i < *n)
@@ -306,7 +219,7 @@ LinkedList** readInGraphAdjListToDoubleEdges(int* n, int* m)
         exit(1);
     }
 
-    LinkedList** adjList = (LinkedList**)Calloc(*n, sizeof(LinkedList*));
+    LinkedList** adjList = (LinkedList**)calloc(*n, sizeof(LinkedList*));
 
     int i = 0;
     while(i < *n)
@@ -370,9 +283,9 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
 
     if (T == 'A')
     {
-        double *nCalls = (double *)Calloc(1, sizeof(double));
-        double *sumP = (double *)Calloc(1, sizeof(double));
-        double *sqP = (double *)Calloc(1, sizeof(double));
+        double *nCalls = (double *)calloc(1, sizeof(double));
+        double *sumP = (double *)calloc(1, sizeof(double));
+        double *sqP = (double *)calloc(1, sizeof(double));
         std::vector<BigNumber> cliqueCounts(max_k + 1);
         listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
         clock_t end = clock();
@@ -389,7 +302,7 @@ void runAndPrintStatsCliques(  LinkedList** adjListLinked,
     }
     fclose(fp);
     if (flag_d >= 1) fclose(fp);
-    Free(orderingArray);
+    free(orderingArray);
 }
 
 /*! \brief Computes the vertex v in P union X that has the most neighbors in P,
@@ -477,7 +390,7 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     // we initialize enough space for all of P; this is
     // slightly space inefficient, but it results in faster
     // computation of non-neighbors.
-    *pivotNonNeighbors = (int *)Calloc(beginR-beginP, sizeof(int));
+    *pivotNonNeighbors = (int *)calloc(beginR-beginP, sizeof(int));
     memcpy(*pivotNonNeighbors, &vertexSets[beginP], (beginR-beginP)*sizeof(int));
 
     // we will decrement numNonNeighbors as we find neighbors
@@ -611,11 +524,11 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
         //printf("vertexInP = %d, numNeighbors[vertexInP]=%d\n", vertexInP, numNeighbors[vertexInP] );
         //printf("Address being freed: %p\n", neighborsInP[vertexInP]);
         numNeighbors[vertexInP] = 0;
-        Free(neighborsInP[vertexInP]);
+        free(neighborsInP[vertexInP]);
         //printf("Allocating %d space for neighborsInP[vertexInP].\n", min( *pNewBeginR-*pNewBeginP, 
                                            //  orderingArray[vertexInP]->laterDegree 
                                            //+ orderingArray[vertexInP]->earlierDegree));
-        neighborsInP[vertexInP]= (int *)Calloc( min( *pNewBeginR-*pNewBeginP, 
+        neighborsInP[vertexInP]= (int *)calloc( min( *pNewBeginR-*pNewBeginP, 
                                              orderingArray[vertexInP]->laterDegree 
                                            + orderingArray[vertexInP]->earlierDegree), sizeof(int));
 
@@ -793,29 +706,4 @@ void moveFromRToXDegeneracyCliques( int vertex,
 
     *pBeginP = *pBeginP + 1;
     *pBeginR = *pBeginR + 1;
-}
-
-int findNbrCSC(int u, int v, int *CSCindex, int *CSCedges)
-{
-    int index = -1;
-
-    int first = CSCindex[u], last = CSCindex[u+1] - 1;
-    int middle = (first+last)/2;
-
-    while (first <= last) 
-    {
-        if (CSCedges[middle] < v)
-            first = middle + 1;    
-        else if (CSCedges[middle] == v) 
-        {
-            index = middle;
-            break;
-        }
-        else
-            last = middle - 1;
- 
-        middle = (first + last)/2;
-    }
-    
-    return index;
 }

@@ -8,7 +8,6 @@ INCLUDEPATH += $${PWD}/../bignumber
 
 SOURCES += \
     LinkedList.cpp \
-    MemoryManager.cpp \
     degeneracy_algorithm_cliques_A.cpp \
     degeneracy_cliques.cpp \
     degeneracy_helper.cpp \
@@ -16,7 +15,6 @@ SOURCES += \
 
 HEADERS += \
     LinkedList.h \
-    MemoryManager.h \
     degeneracy_algorithm_cliques_A.h \
     degeneracy_cliques.h \
     degeneracy_helper.h \

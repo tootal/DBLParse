@@ -28,7 +28,6 @@
 
 #include"LinkedList.h"
 #include"misc.h"
-#include"MemoryManager.h"
 #include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -95,7 +94,7 @@ Link* addAfter(Link* list, int data)
     assert(list != NULL);
     assert(list->next != NULL);
 
-    Link* newLink = (Link*) Malloc(sizeof(Link));
+    Link* newLink = (Link*) malloc(sizeof(Link));
 
     newLink->data = data;
 
@@ -131,7 +130,7 @@ Link* addBefore(Link* list, int data)
     assert(list != NULL);
     assert(list->prev != NULL);
 
-    Link* newLink = (Link*)Malloc(sizeof(Link));
+    Link* newLink = (Link*)malloc(sizeof(Link));
 
     newLink->data = data;
 
@@ -170,7 +169,7 @@ int deleteLink(Link* list)
 
     Link* linkToFree = removeLink(list);
 
-    Free(linkToFree);
+    free(linkToFree);
 
     return data;
 }
@@ -246,10 +245,10 @@ Link* removeLink(Link* list)
 
 LinkedList* createLinkedList(void)
 {
-    LinkedList* linkedList = (LinkedList*) Malloc(sizeof(LinkedList));
+    LinkedList* linkedList = (LinkedList*) malloc(sizeof(LinkedList));
 
-    linkedList->head = (Link *) Malloc(sizeof(Link));
-    linkedList->tail = (Link *) Malloc(sizeof(Link));
+    linkedList->head = (Link *) malloc(sizeof(Link));
+    linkedList->tail = (Link *) malloc(sizeof(Link));
 
     linkedList->head->prev = NULL;
     linkedList->head->next = linkedList->tail;
@@ -284,11 +283,11 @@ void destroyLinkedList(LinkedList* linkedList)
     while(curr != NULL)
     {
         Link* currNext = curr->next;
-        Free(curr);
+        free(curr);
         curr = currNext;
     }
 
-    Free(linkedList);
+    free(linkedList);
 }
 
 /*! \brief destroy a linked list and run a clean function
@@ -307,11 +306,11 @@ void destroyLinkedListWithClean(LinkedList* linkedList, void (*clean)(int))
     {
         Link* currNext = curr->next;
         clean(curr->data);
-        Free(curr);
+        free(curr);
         curr = currNext;
     }
 
-    Free(linkedList);
+    free(linkedList);
 }
 
 /*! \brief copy a linked list

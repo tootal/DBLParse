@@ -38,7 +38,6 @@
 
 #include"misc.h"
 #include"LinkedList.h"
-#include"MemoryManager.h"
 #include"degeneracy_helper.h"
 
 

@@ -34,14 +34,11 @@
 
 #include"misc.h"
 #include"LinkedList.h"
-#include"MemoryManager.h"
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
 extern BigNumber nCr[1001][401];
 
-
-//void listAllCliquesDegeneracy_A(double * cliqueCounts, NeighborListArray** orderingArray, 
 void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
                                       int size, int max_k, double *nCalls, double *sumP, double *sqP)
 {
@@ -49,13 +46,13 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
 
     // vertex sets are stored in an array like this:
     // |--X--|--P--|
-    int* vertexSets = (int *)Calloc(size, sizeof(int));
+    int* vertexSets = (int *)calloc(size, sizeof(int));
 
     // vertex i is stored in vertexSets[vertexLookup[i]]
-    int* vertexLookup = (int *)Calloc(size, sizeof(int));
+    int* vertexLookup = (int *)calloc(size, sizeof(int));
 
-    int** neighborsInP = (int **)Calloc(size, sizeof(int*));
-    int* numNeighbors = (int *)Calloc(size, sizeof(int));
+    int** neighborsInP = (int **)calloc(size, sizeof(int*));
+    int* numNeighbors = (int *)calloc(size, sizeof(int));
    
     int i = 0;
 
@@ -63,7 +60,7 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
     {
         vertexLookup[i] = i;
         vertexSets[i] = i;
-        neighborsInP[i] = (int *)Calloc(1, sizeof(int));
+        neighborsInP[i] = (int *)calloc(1, sizeof(int));
         numNeighbors[i] = 1;
         i++;
     }
@@ -108,19 +105,19 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
     cliqueCounts[0] = 1;
 
     
-    Free(vertexSets);
-    Free(vertexLookup);
+    free(vertexSets);
+    free(vertexLookup);
 
     for(i = 0; i<size; i++)
     {
-        Free(neighborsInP[i]);
-        Free(orderingArray[i]->later);
-        Free(orderingArray[i]->earlier);
-        Free(orderingArray[i]);
+        free(neighborsInP[i]);
+        free(orderingArray[i]->later);
+        free(orderingArray[i]->earlier);
+        free(orderingArray[i]);
     }
 
-    Free(neighborsInP);
-    Free(numNeighbors);
+    free(neighborsInP);
+    free(numNeighbors);
 
     return;
 }
@@ -157,7 +154,6 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
 
 */
 
-//void listAllCliquesDegeneracyRecursive_A( double * cliqueCounts,
 void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
@@ -253,7 +249,7 @@ void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
     // don't need to check for emptiness before freeing, since
     // something will always be there (we allocated enough memory
     // for all of P, which is nonempty)
-    Free(myCandidatesToIterateThrough);
+    free(myCandidatesToIterateThrough);
     
     return;
 }
