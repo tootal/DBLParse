@@ -142,11 +142,6 @@ LinkedList** readInGraphAdjList(int* n, int* m)
         fprintf(stderr, "problem with line 2 in input file\n");
         exit(1);
     }
-
-#ifdef DEBUG
-    printf("Number of vertices: %d\n", *n);
-    printf("Number of edges: %d\n", *m);
-#endif
     
     LinkedList** adjList = (LinkedList**)calloc(*n, sizeof(LinkedList*));
 
@@ -177,10 +172,6 @@ LinkedList** readInGraphAdjList(int* n, int* m)
 
         i++;
     }
-
-#ifdef DEBUG
-    printArrayOfLinkedLists(adjList, *n);
-#endif
 
     return adjList;
 }

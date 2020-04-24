@@ -41,9 +41,6 @@ struct LinkedList
 {
     struct Link* head; //!< head of the linked list, a dummy sentinel
     struct Link* tail; //!< tail of the linked list, a dummy sentinel
-#ifdef SMARTLENGTH
-    int length; //!< the number of data items in the linked list, if we are maintaining it.
-#endif
 };
 
 /*! \struct Link
@@ -57,9 +54,6 @@ struct Link
     int data; //!< arbitrary data stored in the link
     struct Link* next; //!< the previous link in the chain
     struct Link* prev; //!< the next link in the chain
-#ifdef SMARTLENGTH
-    struct LinkedList* linkedList; //!< the linked list that this link belongs to.
-#endif
 };
 
 typedef struct Link Link;

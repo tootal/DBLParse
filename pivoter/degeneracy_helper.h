@@ -80,5 +80,3 @@ int computeDegeneracy(LinkedList** list, int size);
 NeighborList** computeDegeneracyOrderList(LinkedList** list, int size);
 
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size);
-
-int neighborListComparator(int* nl1, int* nl2);
