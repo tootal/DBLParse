@@ -44,7 +44,7 @@ void WebView::contextMenuEvent(QContextMenuEvent *event)
 void WebView::changeEvent(QEvent *e)
 {
     if (e->type() == QEvent::LanguageChange) {
-        
+        page()->onLanguageChanged();
     }
     QWebEngineView::changeEvent(e);
 }

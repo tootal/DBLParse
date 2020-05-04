@@ -2,10 +2,17 @@
 
 #include <QDesktopServices>
 
+#include "util.h"
+
 WebPage::WebPage(QObject *parent)
     :QWebEnginePage(parent)
 {
     
+}
+
+void WebPage::onLanguageChanged()
+{
+    emit languageChanged(Util::getLocale());
 }
 
 bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)

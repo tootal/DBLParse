@@ -419,6 +419,10 @@ var handleSearch = function(data) {
     }
 };
 
+var handleLanguageChanged = function(lang) {
+    language = lang;
+}
+
 var resSaveMes = function(data) {
     if (data) {
         alert(tr("Save successfully, please go to the index file directory to view."));
@@ -432,10 +436,11 @@ if (location.href.startsWith('qrc:')) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
         finder.saveImg.connect(resSaveMes);
+        finder.languageChanged.connect(handleLanguageChanged);
     });
 } else {
     $.load('index.test.js', function() {
-        test.author;
+        // test.author;
     });
 }
 

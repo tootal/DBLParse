@@ -95,9 +95,8 @@ int main(int argc, char *argv[])
     QString locale = Util::getLocale();
     QLocale::setDefault(QLocale(locale));
     QTranslator translator;
-    if(translator.load("DBLParse_" + locale, ":/")) {
-        a.installTranslator(&translator);
-    }
+    translator.load("DBLParse_" + locale, ":/");
+    a.installTranslator(&translator);
     
     MainWindow w;
     w.setTranslator(&translator);
