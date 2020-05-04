@@ -4,22 +4,22 @@
 <context>
     <name>Loader</name>
     <message>
-        <location filename="../loader.cpp" line="37"/>
+        <location filename="../loader.cpp" line="38"/>
         <source>Loading author index...</source>
         <translation>正在加载作者索引……</translation>
     </message>
     <message>
-        <location filename="../loader.cpp" line="50"/>
+        <location filename="../loader.cpp" line="51"/>
         <source>Loading title index...</source>
         <translation>正在加载标题索引……</translation>
     </message>
     <message>
-        <location filename="../loader.cpp" line="63"/>
+        <location filename="../loader.cpp" line="64"/>
         <source>Loading yearWord index...</source>
         <translation>正在加载年度关键词索引……</translation>
     </message>
     <message>
-        <location filename="../loader.cpp" line="22"/>
+        <location filename="../loader.cpp" line="23"/>
         <source>Loading authorStac index...</source>
         <translation>正在加载作者统计索引……</translation>
     </message>
@@ -117,85 +117,99 @@
         <translation>设置 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="64"/>
+        <location filename="../mainwindow.cpp" line="66"/>
         <source>Load finished.</source>
         <translation>加载完成。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="87"/>
         <source>About Qt</source>
-        <translation>关于Qt</translation>
+        <translation type="vanished">关于Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="92"/>
         <source>DBLParse %1&lt;br/&gt;Built on %2&lt;br/&gt;&lt;br/&gt;
 DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;
 Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
-        <translation>DBLParse %1&lt;br/&gt;构建于 %2&lt;br/&gt;&lt;br/&gt;
+        <translation type="vanished">DBLParse %1&lt;br/&gt;构建于 %2&lt;br/&gt;&lt;br/&gt;
 DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;
 请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="97"/>
         <source>About DBLParse</source>
-        <translation>关于DBLParse</translation>
+        <translation type="vanished">关于DBLParse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="102"/>
         <source>DBLP&lt;br/&gt;&lt;br/&gt;
 The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides
 open bibliographic information on major computer science journals and proceedings.
 Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993,
 dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;
 For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
-        <translation>DBLP&lt;br/&gt;&lt;br/&gt;
+        <translation type="vanished">DBLP&lt;br/&gt;&lt;br/&gt;
 &lt;em&gt;DBLP&lt;/em&gt; 计算机科学文献集提供主要的计算机科学期刊和会议的开放数据信息。
 最初由&lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，
 DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br/&gt;&lt;br/&gt;
 获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="108"/>
         <source>About DBLP</source>
-        <translation>关于DBLP</translation>
+        <translation type="vanished">关于DBLP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="120"/>
         <source>Select XML file</source>
-        <translation>选择XML文件</translation>
+        <translation type="vanished">选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="122"/>
+        <location filename="../mainwindow.cpp" line="90"/>
+        <source>&lt;b&gt;About Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;This program uses Qt version %1.&lt;br&gt;&lt;br&gt;Qt is a C++ toolkit for cross-platform application development.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; for more information.</source>
+        <translation>&lt;b&gt;关于 Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;此程序基于 Qt %1.&lt;br&gt;&lt;br&gt;Qt是一个跨平台C++应用程序开发框架。&lt;br&gt;&lt;br&gt;访问 &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; 获取更多信息。</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="104"/>
+        <source>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;Version: %1&lt;br&gt;&lt;br&gt;Built on %2&lt;br&gt;&lt;br&gt;DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
+        <translation>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;版本：%1&lt;br&gt;&lt;br&gt;构建于 %2&lt;br&gt;&lt;br&gt;DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="119"/>
+        <source>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides open bibliographic information on major computer science journals and proceedings. Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993, dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
+        <translation>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt;DBLP计算机科学文献集&lt;/em&gt;提供主要的计算机科学期刊和会议的开放数据信息。最初由&lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br&gt;&lt;br&gt;获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="146"/>
+        <source>Open DBLP XML File</source>
+        <translation>打开DBLP XML文件</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="149"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件 (*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="129"/>
+        <location filename="../mainwindow.cpp" line="160"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="130"/>
+        <location filename="../mainwindow.cpp" line="162"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="162"/>
+        <location filename="../mainwindow.cpp" line="193"/>
         <source>Parser: %1 &lt;br&gt;Loader: %2</source>
         <translation>解析器: %1 &lt;br&gt;加载器：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="169"/>
+        <location filename="../mainwindow.cpp" line="200"/>
         <source>Open XML file</source>
         <translation>打开XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="170"/>
+        <location filename="../mainwindow.cpp" line="201"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="183"/>
+        <location filename="../mainwindow.cpp" line="214"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
@@ -216,57 +230,56 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="56"/>
+        <location filename="../parser.cpp" line="57"/>
         <source>Parsing start.</source>
         <translation>解析开始。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="60"/>
+        <location filename="../parser.cpp" line="61"/>
         <source>XML file read successful.</source>
         <translation>读入XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="64"/>
+        <location filename="../parser.cpp" line="65"/>
         <source>XML file parse successful.</source>
         <translation>解析XML文件成功。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="68"/>
+        <location filename="../parser.cpp" line="69"/>
         <source>The title of each year has been analyzed.</source>
         <translation>每年的标题已解析。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="72"/>
+        <location filename="../parser.cpp" line="73"/>
         <source>Index file generated.</source>
         <translation>索引文件已生成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="78"/>
+        <location filename="../parser.cpp" line="79"/>
         <source>Authors information saved.</source>
         <translation>作者信息已保存。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="82"/>
+        <location filename="../parser.cpp" line="83"/>
         <source>Index file saved.</source>
         <translation>索引文件已保存。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="86"/>
+        <location filename="../parser.cpp" line="87"/>
         <source>Memeory cleaned.</source>
         <translation>内存已清理。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="90"/>
         <source>Count cliques finished.</source>
-        <translation>聚团分析已完成。</translation>
+        <translation type="vanished">聚团分析已完成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="199"/>
+        <location filename="../parser.cpp" line="196"/>
         <source>(%1 ms)</source>
         <translation>（耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="92"/>
+        <location filename="../parser.cpp" line="89"/>
         <source>Parse done. Cost time: %1</source>
         <translation>解析完成。用时：%1</translation>
     </message>
@@ -289,7 +302,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="15"/>
+        <location filename="../settingsdialog.cpp" line="16"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
@@ -315,7 +328,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>WebView</name>
     <message>
-        <location filename="../webview.cpp" line="29"/>
+        <location filename="../webview.cpp" line="30"/>
         <source>Inspector</source>
         <translation>检查元素</translation>
     </message>
