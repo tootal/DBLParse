@@ -21,6 +21,7 @@ public:
     static const qint64 PROMOT_FILE_SIZE = (1 << 26);
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+    void showAboutBox(QPixmap icon, const QString &info);
     
 private slots:
     void on_actionAboutQt_triggered();

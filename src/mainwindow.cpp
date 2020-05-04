@@ -83,43 +83,43 @@ MainWindow::~MainWindow()
     m_parseThread.wait();
 }
 
-
-void MainWindow::on_actionAboutQt_triggered()
+void MainWindow::showAboutBox(QPixmap icon, const QString &info)
 {
     auto box = new QMessageBox(this);
     box->setModal(false);
-    box->setText(tr(
+    box->setText(info);
+    box->setIconPixmap(icon.scaled(64, 64));
+    box->setStandardButtons(QMessageBox::Ok);
+    box->button(QMessageBox::Ok)->setText(tr("OK"));
+    box->setDefaultButton(QMessageBox::Ok);
+    box->show();
+}
+
+void MainWindow::on_actionAboutQt_triggered()
+{
+    QIcon icon = style()->standardIcon(QStyle::SP_TitleBarMenuButton);
+    showAboutBox(icon.pixmap(64), tr(
         "<b>About Qt</b><br><br>"
         "This program uses Qt version %1.<br><br>"
         "Qt is a C++ toolkit for cross-platform application development.<br><br>"
         "See <a href=\"https://www.qt.io/\">qt.io</a> for more information."
     ).arg(QT_VERSION_STR));
-    QIcon icon = style()->standardIcon(QStyle::SP_TitleBarMenuButton);
-    box->setIconPixmap(icon.pixmap(64));
-    box->show();
 }
 
 void MainWindow::on_actionAboutDBLParse_triggered()
 {
-    auto box = new QMessageBox(this);
-    box->setModal(false);
-    box->setText(tr(
+    showAboutBox(QPixmap(":/resources/DBLParse.png"), tr(
         "<b>DBLParse</b><br>Version: %1<br><br>Built on %2<br><br>"
         "DBLParse is an application that bases on dblp computer "
         "science bibliography.<br/><br/>Please visit "
         "<a href=\"https://github.com/tootal/DBLParse\">DBLParse</a> "
         "for more information."
     ).arg(VERSION_STR, __TIMESTAMP__));
-    QPixmap pixmap(":/resources/DBLParse.png");
-    box->setIconPixmap(pixmap.scaled(64, 64));
-    box->show();
 }
 
 void MainWindow::on_actionAboutDBLP_triggered()
 {
-    auto box = new QMessageBox(this);
-    box->setModal(false);
-    box->setText(tr(
+    showAboutBox(QPixmap(":/resources/dblp.png"), tr(
         "<b>DBLP</b><br><br>"
         "The <em>dblp computer science bibliography</em> provides "
         "open bibliographic information on major computer science "
@@ -130,9 +130,6 @@ void MainWindow::on_actionAboutDBLP_triggered()
         "<br/><br/>For more information <a href=\"https://dblp.uni-trier.de/faq/\">"
         "check out our F.A.Q.</a>"
     ));
-    QPixmap pixmap(":/resources/dblp.png");
-    box->setIconPixmap(pixmap.scaled(64, 64));
-    box->show();
 }
 
 void MainWindow::on_actionExit_triggered()
