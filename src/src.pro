@@ -14,9 +14,20 @@ TARGET = DBLParse
 TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
-VERSION = 2.8
+
+# Version
+VERSION_MAJOR = 2
+VERSION_MINOR = 9
+VERSION_PATCH = 0
+win32 {
+    VERSION_BUILD = $$system(git log --pretty=oneline | find /V \"\" /C)
+    VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_PATCH}.$${VERSION_BUILD}
+} else:unix {
+    VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_PATCH}
+}
 DEFINES += VERSION_STR=\\\"$${VERSION}\\\"
 
+# Header Include
 INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter
 
