@@ -140,10 +140,17 @@ void MainWindow::on_actionE_xit_triggered()
 void MainWindow::on_action_Open_triggered()
 {
     QString lastOpenFileName = g_config->value("lastOpenFileName");
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Select XML file"),
-                                                    lastOpenFileName,
-                                                    tr("XML file (*.xml)"));
+    QString fileName;
+    {
+        QFileDialog dialog(this);
+        dialog.setWindowTitle(tr("Open DBLP XML File"));
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.selectFile(lastOpenFileName);
+        dialog.setNameFilter(tr("XML file (*.xml)"));
+        dialog.setViewMode(QFileDialog::Detail);
+        if (dialog.exec()) fileName = dialog.selectedFiles().first();
+        else return ;
+    }
     if(fileName.isEmpty()) return ;
     g_config->setValue("lastOpenFileName", fileName);
     // question when size greater than 64MiB
