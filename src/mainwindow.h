@@ -23,31 +23,31 @@ public:
     ~MainWindow() override;
     
 private slots:
-    void on_actionAbout_Qt_triggered();
+    void on_actionAboutQt_triggered();
     
-    void on_action_About_Dblparse_triggered();
+    void on_actionAboutDBLParse_triggered();
     
-    void on_actionAbout_DBLP_triggered();
+    void on_actionAboutDBLP_triggered();
     
-    void on_actionE_xit_triggered();
+    void on_actionExit_triggered();
     
-    void on_action_Open_triggered();
+    void on_actionOpen_triggered();
     
-    void on_action_Status_triggered();
+    void on_actionStatus_triggered();
     
-    void on_action_Clear_Index_triggered();
+    void on_actionClearIndex_triggered();
     
-    void on_action_Open_Index_Folder_triggered();
+    void on_actionOpenIndexFolder_triggered();
     
     void on_actionAuthorStac_triggered();
 
-    void on_actionView_Log_triggered();
+    void on_actionViewLog_triggered();
     
-    void on_action_Settings_triggered();
+    void on_actionSettings_triggered();
 
     void on_actionKeyWord_triggered();
     
-    void on_action_Count_Clique_triggered();
+    void on_actionCountClique_triggered();
     
 private:
     Ui::MainWindow *ui;

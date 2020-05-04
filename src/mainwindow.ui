@@ -33,81 +33,81 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="actionView_Log"/>
-    <addaction name="actionAbout_Qt"/>
-    <addaction name="actionAbout_DBLP"/>
-    <addaction name="action_About_Dblparse"/>
+    <addaction name="actionViewLog"/>
+    <addaction name="actionAboutQt"/>
+    <addaction name="actionAboutDBLP"/>
+    <addaction name="actionAboutDBLParse"/>
    </widget>
-   <widget class="QMenu" name="menu_File">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="action_Open"/>
-    <addaction name="action_Settings"/>
-    <addaction name="actionE_xit"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSettings"/>
+    <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menu_View">
+   <widget class="QMenu" name="menuView">
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <addaction name="action_Status"/>
+    <addaction name="actionStatus"/>
     <addaction name="actionAuthorStac"/>
     <addaction name="actionKeyWord"/>
-    <addaction name="action_Count_Clique"/>
+    <addaction name="actionCountClique"/>
    </widget>
-   <widget class="QMenu" name="menu_Tools">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>&amp;Tools</string>
     </property>
-    <addaction name="action_Clear_Index"/>
-    <addaction name="action_Open_Index_Folder"/>
+    <addaction name="actionClearIndex"/>
+    <addaction name="actionOpenIndexFolder"/>
    </widget>
-   <addaction name="menu_File"/>
-   <addaction name="menu_View"/>
-   <addaction name="menu_Tools"/>
-   <addaction name="menu_Help"/>
+   <addaction name="menuFile"/>
+   <addaction name="menuView"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionAbout_Qt">
+  <action name="actionAboutQt">
    <property name="text">
     <string>About &amp;Qt</string>
    </property>
   </action>
-  <action name="action_About_Dblparse">
+  <action name="actionAboutDBLParse">
    <property name="text">
     <string>&amp;About DBLParse</string>
    </property>
   </action>
-  <action name="actionAbout_DBLP">
+  <action name="actionAboutDBLP">
    <property name="text">
     <string>About &amp;DBLP</string>
    </property>
   </action>
-  <action name="actionE_xit">
+  <action name="actionExit">
    <property name="text">
     <string>E&amp;xit</string>
    </property>
   </action>
-  <action name="action_Open">
+  <action name="actionOpen">
    <property name="text">
     <string>&amp;Open</string>
    </property>
   </action>
-  <action name="action_Status">
+  <action name="actionStatus">
    <property name="text">
     <string>&amp;Status</string>
    </property>
   </action>
-  <action name="action_Clear_Index">
+  <action name="actionClearIndex">
    <property name="text">
     <string>&amp;Clear Cache</string>
    </property>
   </action>
-  <action name="action_Open_Index_Folder">
+  <action name="actionOpenIndexFolder">
    <property name="text">
     <string>&amp;Open Index Folder</string>
    </property>
@@ -117,12 +117,12 @@
     <string>&amp;AuthorStac</string>
    </property>
   </action>
-  <action name="actionView_Log">
+  <action name="actionViewLog">
    <property name="text">
     <string>View &amp;Log</string>
    </property>
   </action>
-  <action name="action_Settings">
+  <action name="actionSettings">
    <property name="text">
     <string>&amp;Settings</string>
    </property>
@@ -132,7 +132,7 @@
     <string>&amp;KeyWord</string>
    </property>
   </action>
-  <action name="action_Count_Clique">
+  <action name="actionCountClique">
    <property name="text">
     <string>&amp;Clique Count</string>
    </property>

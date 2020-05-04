@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_parseThread.start();
     
     connect(m_finder, &Finder::notReady,
-            this, &MainWindow::on_action_Status_triggered);
+            this, &MainWindow::on_actionStatus_triggered);
     
     connect(m_loader, &Loader::stateChanged,
             this, [this](const QString &state){
@@ -84,7 +84,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_actionAbout_Qt_triggered()
+void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox box(this);
     box.setText(tr(
@@ -98,7 +98,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
     box.exec();
 }
 
-void MainWindow::on_action_About_Dblparse_triggered()
+void MainWindow::on_actionAboutDBLParse_triggered()
 {
     QMessageBox box(this);
     box.setText(tr(
@@ -113,7 +113,7 @@ void MainWindow::on_action_About_Dblparse_triggered()
     box.exec();
 }
 
-void MainWindow::on_actionAbout_DBLP_triggered()
+void MainWindow::on_actionAboutDBLP_triggered()
 {
     QMessageBox box(this);
     box.setText(tr(
@@ -132,12 +132,12 @@ void MainWindow::on_actionAbout_DBLP_triggered()
     box.exec();
 }
 
-void MainWindow::on_actionE_xit_triggered()
+void MainWindow::on_actionExit_triggered()
 {
     close();
 }
 
-void MainWindow::on_action_Open_triggered()
+void MainWindow::on_actionOpen_triggered()
 {
     QString lastOpenFileName = g_config->value("lastOpenFileName");
     QString fileName;
@@ -174,7 +174,7 @@ void MainWindow::on_action_Open_triggered()
     emit startParse();
 }
 
-void MainWindow::on_action_Status_triggered()
+void MainWindow::on_actionStatus_triggered()
 {
     QMessageBox msgBox(this);
     QString text;
@@ -203,18 +203,18 @@ void MainWindow::on_action_Status_triggered()
     }
     int ret = msgBox.exec();
     if(ret == QMessageBox::Open){
-        on_action_Open_triggered();
+        on_actionOpen_triggered();
     }
 }
 
-void MainWindow::on_action_Clear_Index_triggered()
+void MainWindow::on_actionClearIndex_triggered()
 {
     Util::clearIndexs();
     m_finder->clearIndex();
     statusBar()->showMessage(tr("Clear index file successful!"));
 }
 
-void MainWindow::on_action_Open_Index_Folder_triggered()
+void MainWindow::on_actionOpenIndexFolder_triggered()
 {
     QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
 }
@@ -229,7 +229,7 @@ void MainWindow::on_actionAuthorStac_triggered()
 {
     static const int TOP_K = 100;
     if (!Util::parsed() || !m_finder->authorStacLoaded()) {
-        on_action_Status_triggered();
+        on_actionStatus_triggered();
         return ;
     }
 
@@ -259,14 +259,14 @@ void MainWindow::on_actionAuthorStac_triggered()
     view->show();
 }
 
-void MainWindow::on_actionView_Log_triggered()
+void MainWindow::on_actionViewLog_triggered()
 {
 #ifdef QT_NO_DEBUG
     QDesktopServices::openUrl(QUrl::fromLocalFile("DBLParse.log"));
 #endif
 }
 
-void MainWindow::on_action_Settings_triggered()
+void MainWindow::on_actionSettings_triggered()
 {
     auto *dialog = new SettingsDialog(this);
     dialog->open();
@@ -275,7 +275,7 @@ void MainWindow::on_action_Settings_triggered()
 void MainWindow::on_actionKeyWord_triggered()
 {
     if(!Util::parsed() || !m_finder->yearWordLoaded()){
-        on_action_Status_triggered();
+        on_actionStatus_triggered();
         return ;
     }
 
@@ -313,10 +313,10 @@ void MainWindow::on_actionKeyWord_triggered()
      view->show();
 }
 
-void MainWindow::on_action_Count_Clique_triggered()
+void MainWindow::on_actionCountClique_triggered()
 {
     if(!Util::parsed()){
-        on_action_Status_triggered();
+        on_actionStatus_triggered();
         return ;
     }
     QFile file("authors_cliques.txt");
