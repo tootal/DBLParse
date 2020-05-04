@@ -30,7 +30,9 @@ void WebView::contextMenuEvent(QContextMenuEvent *event)
     QAction *action = new QAction(tr("Inspector"));
     connect(action, &QAction::triggered,
             this, [this](){
-        auto *view = new QWebEngineView;
+        auto *view = new QWebEngineView(this);
+        view->setWindowFlag(Qt::Window);
+        view->resize(800, 600);
         page()->setDevToolsPage(view->page());
         view->show();
     });
