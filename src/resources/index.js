@@ -29,8 +29,7 @@ var option = {
         textStyle: {
             color: '#292421'
         },
-        selector: [
-            {
+        selector: [{
                 type: 'all or inverse',
                 title: '全选'
             },
@@ -109,28 +108,28 @@ var option = {
     }]
 };
 
-var alertMsg = function (type, msg) {
+var alertMsg = function(type, msg) {
     document.getElementById('alert').className = `mt-5 alert alert-${type} alert-dismissible fade show col-4`;
     document.getElementById('alert').innerHTML = msg;
     document.getElementById('alert').style.display = 'block';
     document.getElementById('alert').style.margin = '0 auto';
-    var t = setTimeout(function () {
+    var t = setTimeout(function() {
         document.getElementById('alert').style.display = 'none';
     }, 4000);
 }
 
-var clearT = function () {
+var clearT = function() {
     clearTimeout(t);
 }
 
-var search = function (type, word) {
+var search = function(type, word) {
     clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
         alertMsg('warning', tr('You can not search this title.'));
         clearT();
     } else {
         costMsec = 0;
-        costTiming = setInterval(function () {
+        costTiming = setInterval(function() {
             costMsec += 100;
         }, 100);
         // console.log('search ', type, word);
@@ -149,7 +148,7 @@ var search = function (type, word) {
 // atob : base64 -> str
 // btoa : str -> base64
 
-var searchAuthor = function (authorEle) {
+var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
     document.getElementById('word').value = author;
@@ -158,7 +157,7 @@ var searchAuthor = function (authorEle) {
     search('author', author);
 };
 
-var formatTitle = function (title, index) {
+var formatTitle = function(title, index) {
     let href = 'detail.html';
     if (location.href.startsWith('qrc:')) {
         href = `dblp://get/${index}`;
@@ -166,11 +165,11 @@ var formatTitle = function (title, index) {
     return `<a href="${href}">${title}</a>`;
 };
 
-var formatAuthor = function (author) {
+var formatAuthor = function(author) {
     return `<span class="search-author-other" onclick="searchAuthor(this)" data-author="${btoa(author)}">${author}</span>`;
 }
 
-var formatAuthors = function (record) {
+var formatAuthors = function(record) {
     if (typeof record.authors == "undefined") return "";
     let ref = record.authors;
     if (ref == null || ref == "") return "";
@@ -184,7 +183,7 @@ var formatAuthors = function (record) {
     return ref.join('; ');
 }
 
-var clearBefore = function () {
+var clearBefore = function() {
     document.getElementById('thead').innerHTML = "";
     document.getElementById('tbody').innerHTML = "";
     document.getElementById('homepage').style.display = "none";
@@ -192,7 +191,7 @@ var clearBefore = function () {
     document.getElementById('coGraph').style.display = "none";
 }
 
-var handleHomePage = function (index) {
+var handleHomePage = function(index) {
     if (location.href.startsWith('qrc:')) {
         document.getElementById('homepage').href = `dblp://get/${index}`;
     } else {
@@ -202,7 +201,7 @@ var handleHomePage = function (index) {
     document.getElementById('homepage').style.display = "block";
 }
 
-var getNodes = function (parentNode, childNodes, nodes) {
+var getNodes = function(parentNode, childNodes, nodes) {
     var pnode;
     for (var i = 0; i < nodes.length; i++) {
         if (parentNode === nodes[i].nodename) {
@@ -224,8 +223,7 @@ var getNodes = function (parentNode, childNodes, nodes) {
                 nodelevel: level,
                 parentnode: parentNode,
             });
-        }
-        else {
+        } else {
             nodes.push({
                 nodename: childNodes[i],
                 nodelevel: pnode.nodelevel + 1,
@@ -235,7 +233,7 @@ var getNodes = function (parentNode, childNodes, nodes) {
     }
 }
 
-var setNodeData = function (nodes, listdata) {
+var setNodeData = function(nodes, listdata) {
     var size = 40;
     for (var i = 0; i < nodes.length; i++) {
         var flag = false;
@@ -256,7 +254,7 @@ var setNodeData = function (nodes, listdata) {
     }
 }
 
-var setLinkData = function (childList, parentnode, links) {
+var setLinkData = function(childList, parentnode, links) {
     for (var i = 0; i < childList.length; i++) {
         links.push({
             "source": childList[i],
@@ -269,7 +267,7 @@ var setLinkData = function (childList, parentnode, links) {
         });
     }
 }
-var setHeader = function (list) {
+var setHeader = function(list) {
     let s = '';
     for (i of list) {
         s += `<th>${tr(i)}</th>`;
@@ -277,7 +275,7 @@ var setHeader = function (list) {
     document.getElementById('thead').innerHTML = `<tr>${s}</tr>`;
 };
 
-var rowHTML = function (list) {
+var rowHTML = function(list) {
     let s = '';
     for (i of list) {
         s += `<td>${i}</td>`;
@@ -285,7 +283,7 @@ var rowHTML = function (list) {
     return `<tr>${s}</tr>`;
 };
 
-var handleSearch = function (data) {
+var handleSearch = function(data) {
     if (data == "not_ready") return;
     let json = JSON.parse(data);
     // console.log(json);
@@ -343,7 +341,7 @@ var handleSearch = function (data) {
         document.getElementById('result').style.display = "none";
         document.getElementById('coGraph').style.display = "block";
 
-        document.getElementById("save").onclick = function () {
+        document.getElementById("save").onclick = function() {
             var myChart = echarts.getInstanceByDom(document.getElementById("graph"));
             var url = myChart.getDataURL();
             finder.image(url, json[0].parentNode + "の合作关系图");
@@ -399,7 +397,7 @@ var handleSearch = function (data) {
         document.getElementById("graph").firstChild.style.margin = '0 auto';
 
         var data = myChart._model.option.series[0].data;
-        myChart.on("click", function (chartParam) {
+        myChart.on("click", function(chartParam) {
             if (chartParam.borderColor) {
                 document.getElementById('word').value = data[chartParam.dataIndex].name;
                 search(document.getElementById('type').value, document.getElementById('word').value);
@@ -421,33 +419,32 @@ var handleSearch = function (data) {
     }
 };
 
-var resSaveMes = function (data) {
+var resSaveMes = function(data) {
     if (data) {
         alert(tr("Save successfully, please go to the index file directory to view."));
-    }
-    else {
+    } else {
         alert(tr("Save failed!"));
     }
 }
 
 if (location.href.startsWith('qrc:')) {
-    new QWebChannel(qt.webChannelTransport, function (channel) {
+    new QWebChannel(qt.webChannelTransport, function(channel) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
         finder.saveImg.connect(resSaveMes);
     });
 } else {
-    $.load('index.test.js', function () {
-        // test.author;
+    $.load('index.test.js', function() {
+        test.author;
     });
 }
 
-var handleInput = function () {
+var handleInput = function() {
     search(document.getElementById('type').value, document.getElementById('word').value);
 }
 
 document.getElementById('search').onclick = handleInput;
-document.getElementById('word').addEventListener('keydown', function (e) {
+document.getElementById('word').addEventListener('keydown', function(e) {
     if (e.keyCode == 13) handleInput();
 });
 
