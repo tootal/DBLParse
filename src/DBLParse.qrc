@@ -35,5 +35,6 @@
         <file>resources/hot.png</file>
         <file>resources/yearWord.test.js</file>
         <file>resources/wordCloud.test.js</file>
+        <file>resources/dblp.png</file>
     </qresource>
 </RCC>
