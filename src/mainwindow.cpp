@@ -86,22 +86,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAboutQt_triggered()
 {
-    QMessageBox box(this);
-    box.setText(tr(
+    auto box = new QMessageBox(this);
+    box->setModal(false);
+    box->setText(tr(
         "<b>About Qt</b><br><br>"
         "This program uses Qt version %1.<br><br>"
         "Qt is a C++ toolkit for cross-platform application development.<br><br>"
         "See <a href=\"https://www.qt.io/\">qt.io</a> for more information."
     ).arg(QT_VERSION_STR));
     QIcon icon = style()->standardIcon(QStyle::SP_TitleBarMenuButton);
-    box.setIconPixmap(icon.pixmap(64));
-    box.exec();
+    box->setIconPixmap(icon.pixmap(64));
+    box->show();
 }
 
 void MainWindow::on_actionAboutDBLParse_triggered()
 {
-    QMessageBox box(this);
-    box.setText(tr(
+    auto box = new QMessageBox(this);
+    box->setModal(false);
+    box->setText(tr(
         "<b>DBLParse</b><br>Version: %1<br><br>Built on %2<br><br>"
         "DBLParse is an application that bases on dblp computer "
         "science bibliography.<br/><br/>Please visit "
@@ -109,14 +111,15 @@ void MainWindow::on_actionAboutDBLParse_triggered()
         "for more information."
     ).arg(VERSION_STR, __TIMESTAMP__));
     QPixmap pixmap(":/resources/DBLParse.png");
-    box.setIconPixmap(pixmap.scaled(64, 64));
-    box.exec();
+    box->setIconPixmap(pixmap.scaled(64, 64));
+    box->show();
 }
 
 void MainWindow::on_actionAboutDBLP_triggered()
 {
-    QMessageBox box(this);
-    box.setText(tr(
+    auto box = new QMessageBox(this);
+    box->setModal(false);
+    box->setText(tr(
         "<b>DBLP</b><br><br>"
         "The <em>dblp computer science bibliography</em> provides "
         "open bibliographic information on major computer science "
@@ -128,8 +131,8 @@ void MainWindow::on_actionAboutDBLP_triggered()
         "check out our F.A.Q.</a>"
     ));
     QPixmap pixmap(":/resources/dblp.png");
-    box.setIconPixmap(pixmap.scaled(64, 64));
-    box.exec();
+    box->setIconPixmap(pixmap.scaled(64, 64));
+    box->show();
 }
 
 void MainWindow::on_actionExit_triggered()
