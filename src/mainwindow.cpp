@@ -83,16 +83,21 @@ MainWindow::~MainWindow()
     m_parseThread.wait();
 }
 
-void MainWindow::showAboutBox(QPixmap icon, const QString &info)
+void MainWindow::showAboutBox(QPixmap pixmapIcon, const QString &info)
 {
     auto box = new QMessageBox(this);
     box->setModal(false);
     box->setText(info);
-    box->setIconPixmap(icon.scaled(64, 64));
+    box->setIconPixmap(pixmapIcon.scaled(64, 64));
     box->setStandardButtons(QMessageBox::Ok);
     box->button(QMessageBox::Ok)->setText(tr("OK"));
     box->setDefaultButton(QMessageBox::Ok);
     box->show();
+}
+
+void MainWindow::setTranslator(QTranslator *translator_)
+{
+    translator = translator_;
 }
 
 void MainWindow::on_actionAboutQt_triggered()
@@ -217,6 +222,12 @@ void MainWindow::load()
     Finder::init();
 }
 
+void MainWindow::onLanguageChanged()
+{
+    QString lang = g_config->value("language");
+    qDebug() << "Current language: " << lang;
+}
+
 void MainWindow::on_actionAuthorStac_triggered()
 {
     static const int TOP_K = 100;
@@ -261,6 +272,8 @@ void MainWindow::on_actionViewLog_triggered()
 void MainWindow::on_actionSettings_triggered()
 {
     auto *dialog = new SettingsDialog(this);
+    connect(dialog, &SettingsDialog::languageChanged,
+            this, &MainWindow::onLanguageChanged);
     dialog->open();
 }
 

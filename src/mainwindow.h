@@ -8,6 +8,7 @@ class ParseDialog;
 class Finder;
 class Loader;
 class Calculator;
+class QTranslator;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,7 +22,8 @@ public:
     static const qint64 PROMOT_FILE_SIZE = (1 << 26);
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    void showAboutBox(QPixmap icon, const QString &info);
+    void showAboutBox(QPixmap pixmapIcon, const QString &info);
+    void setTranslator(QTranslator *translator_);
     
 private slots:
     void on_actionAboutQt_triggered();
@@ -52,12 +54,14 @@ private slots:
     
 private:
     Ui::MainWindow *ui;
+    QTranslator *translator;
     Parser *m_parser;
     QThread m_parseThread;
     Finder *m_finder;
     Loader *m_loader;
     
     void load();
+    void onLanguageChanged();
     
 signals:
     void startParse();
