@@ -16,6 +16,7 @@ public:
 
 protected:
     void contextMenuEvent(QContextMenuEvent *) override;
+    void changeEvent(QEvent *e) override;
     
 private:
     WebPage *m_page;

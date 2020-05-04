@@ -52,6 +52,10 @@ private slots:
     
     void on_actionCountClique_triggered();
     
+    
+protected:
+    void changeEvent(QEvent *e) override;
+    
 private:
     Ui::MainWindow *ui;
     QTranslator *translator;

@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QStyle>
+#include <QTranslator>
 
 #include "parser.h"
 #include "parsedialog.h"
@@ -224,8 +225,9 @@ void MainWindow::load()
 
 void MainWindow::onLanguageChanged()
 {
-    QString lang = g_config->value("language");
-    qDebug() << "Current language: " << lang;
+    QString locale = Util::getLocale();
+    QLocale::setDefault(locale);
+    translator->load("DBLParse_" + locale, ":/");
 }
 
 void MainWindow::on_actionAuthorStac_triggered()
@@ -346,4 +348,12 @@ void MainWindow::on_actionCountClique_triggered()
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
     view->show();
+}
+
+void MainWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    QMainWindow::changeEvent(e);
 }
