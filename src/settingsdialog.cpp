@@ -1,9 +1,10 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
-#include "util.h"
-#include "configmanager.h"
 
 #include <QDebug>
+
+#include "util.h"
+#include "configmanager.h"
 
 extern ConfigManager *g_config;
 

@@ -1,9 +1,10 @@
 #include "record.h"
-#include "util.h"
 
 #include <QDebug>
 #include <QRegularExpression>
 #include <QJsonObject>
+
+#include "util.h"
 
 Record::Record()
 {

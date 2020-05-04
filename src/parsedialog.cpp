@@ -1,9 +1,10 @@
 #include "parsedialog.h"
 #include "ui_parsedialog.h"
-#include "util.h"
 
 #include <QDebug>
 #include <QTime>
+
+#include "util.h"
 
 ParseDialog::ParseDialog(QWidget *parent) :
     QDialog(parent),

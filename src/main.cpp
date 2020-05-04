@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "util.h"
-#include "configmanager.h"
 
 #include <QApplication>
 #include <QFile>
@@ -11,6 +9,9 @@
 #include <QDateTime>
 #include <QTranslator>
 #include <QLocale>
+
+#include "util.h"
+#include "configmanager.h"
 
 extern ConfigManager *g_config;
 ConfigManager *g_config;

@@ -1,9 +1,4 @@
 #include "finder.h"
-#include "record.h"
-#include "webpage.h"
-#include "webview.h"
-#include "loader.h"
-#include "mainwindow.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -16,6 +11,12 @@
 #include <QBuffer>
 
 #include <algorithm>
+
+#include "record.h"
+#include "webpage.h"
+#include "webview.h"
+#include "loader.h"
+#include "mainwindow.h"
 
 extern MainWindow *g_mainwindow;
 

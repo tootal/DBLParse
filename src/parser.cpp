@@ -1,8 +1,5 @@
 #include "parser.h"
 
-#include "LinkedList.h"
-#include "misc.h"
-
 #include <QFile>
 #include <QDataStream>
 #include <QTime>
@@ -12,6 +9,9 @@
 #include <QRegularExpression>
 
 #include <set>
+
+#include "LinkedList.h"
+#include "misc.h"
 
 const QStringList Parser::commonwords = {
     "are", "all", "any", "been", "both",

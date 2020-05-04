@@ -1,8 +1,9 @@
 #include "loader.h"
-#include "finder.h"
 
 #include <QFile>
 #include <QDataStream>
+
+#include "finder.h"
 
 Loader::Loader(QObject *parent) 
     : QThread(parent)

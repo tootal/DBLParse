@@ -1,8 +1,9 @@
 #include "configmanager.h"
-#include "util.h"
 
 #include <QSettings>
 #include <QStandardPaths>
+
+#include "util.h"
 
 ConfigManager::ConfigManager(QObject *parent) : QObject(parent)
 {

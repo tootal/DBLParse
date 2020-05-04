@@ -1,5 +1,4 @@
 #include "util.h"
-#include "configmanager.h"
 
 #include <QTime>
 #include <QFile>
@@ -7,6 +6,8 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include <QUrl>
+
+#include "configmanager.h"
 
 extern ConfigManager *g_config;
 
