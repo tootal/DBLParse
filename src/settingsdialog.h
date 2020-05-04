@@ -11,6 +11,7 @@ class SettingsDialog : public QDialog
     Q_OBJECT
     
 public:
+    static const QByteArray SystemLanguage;
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog() override;
     void retranslateUi();

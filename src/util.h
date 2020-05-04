@@ -10,7 +10,8 @@ class Util : public QObject
     Q_OBJECT
 public:
     static const int BUF_SZ = 3000;
-    static const QVector<QPair<QString, QString>> s_availableLanguages;
+    static const QVector<QPair<QString, QByteArray>> 
+    s_availableLanguages;
     static QString formatTime(int ms);
     
     static QString readAround(const QString &fileName, quint32 &pos);
@@ -22,10 +23,6 @@ public:
     static QString getXmlFileName();
     
     static QString formatUrl(const QString &url);
-    
-    static void initAvailableLanguage();
-    
-    static QVector<QPair<QString, QString>> availableLanguages();
     
     static QString getLocale();
     
