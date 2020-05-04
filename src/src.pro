@@ -15,7 +15,7 @@ TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
 VERSION = 2.8
-DEFINES += VERSION=$${VERSION}
+DEFINES += VERSION_STR=\\\"$${VERSION}\\\"
 
 INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter
