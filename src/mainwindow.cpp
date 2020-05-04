@@ -1,14 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "parser.h"
-#include "parsedialog.h"
-#include "util.h"
-#include "record.h"
-#include "finder.h"
-#include "webpage.h"
-#include "loader.h"
-#include "settingsdialog.h"
-#include "configmanager.h"
 
 #include <QMessageBox>
 #include <QDebug>
@@ -21,6 +12,16 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+
+#include "parser.h"
+#include "parsedialog.h"
+#include "util.h"
+#include "record.h"
+#include "finder.h"
+#include "webpage.h"
+#include "loader.h"
+#include "settingsdialog.h"
+#include "configmanager.h"
 
 extern ConfigManager *g_config;
 
