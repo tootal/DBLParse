@@ -26,7 +26,7 @@ void WebView::registerObject(const QString &id, QObject *object)
 
 void WebView::contextMenuEvent(QContextMenuEvent *event)
 {
-    auto *menu = new QMenu(this);
+    auto *menu = page()->createStandardContextMenu();
     QAction *action = new QAction(tr("Inspector"));
     connect(action, &QAction::triggered,
             this, [this](){
@@ -37,5 +37,6 @@ void WebView::contextMenuEvent(QContextMenuEvent *event)
         view->show();
     });
     menu->addAction(action);
-    menu->popup(event->globalPos());
+    menu->exec(event->globalPos());
+    delete menu;
 }
