@@ -38,5 +38,9 @@ void SettingsDialog::on_pushButton_clicked()
 
 void SettingsDialog::on_comboBox_activated(int index)
 {
-    g_config->setValue("language", ui->comboBox->itemData(index).toString());
+    auto lang = ui->comboBox->itemData(index).toString();
+    if (g_config->value("language") != lang) {
+        g_config->setValue("language", lang);
+        emit languageChanged();
+    }
 }

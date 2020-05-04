@@ -14,6 +14,9 @@ public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
     
+signals:
+    void languageChanged();
+    
 private slots:
     void on_pushButton_clicked();
     
