@@ -194,6 +194,7 @@ void MainWindow::on_actionStatus_triggered()
     msgBox.setText(text);
     if(Util::parsed()){
         msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.button(QMessageBox::Ok)->setText(tr("OK"));
         msgBox.setDefaultButton(QMessageBox::Ok);
     }else{
         msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
