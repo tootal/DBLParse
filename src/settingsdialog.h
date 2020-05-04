@@ -12,8 +12,8 @@ class SettingsDialog : public QDialog
     
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
-    ~SettingsDialog();
-    
+    ~SettingsDialog() override;
+    void retranslateUi();
 signals:
     void languageChanged();
     
@@ -21,6 +21,9 @@ private slots:
     void on_pushButton_clicked();
     
     void on_comboBox_activated(int index);
+    
+protected:
+    void changeEvent(QEvent *e) override;
     
 private:
     Ui::SettingsDialog *ui;

@@ -11,7 +11,11 @@
 
 extern ConfigManager *g_config;
 
-QVector<QPair<QString, QString>> Util::s_availableLanguages;
+const QVector<QPair<QString, QString>> 
+Util::s_availableLanguages = {
+    {"en_US", "English (United States)"},
+    {"zh_CN", "Chinese (China)"}
+};
 
 QStringList Util::s_loadedFiles = {
     "author.dat",
@@ -100,25 +104,6 @@ QString Util::formatUrl(const QString &url)
     if(QUrl(url).isRelative())
         return "https://dblp.uni-trier.de/" + url;
     return url;
-}
-
-void Util::initAvailableLanguage()
-{
-    if (!s_availableLanguages.isEmpty()) {
-        return;
-    }
-
-    s_availableLanguages.append({"en_US", tr("English (United States)")});
-    s_availableLanguages.append({"zh_CN", tr("Chinese (China)")});
-}
-
-QVector<QPair<QString, QString>> Util::availableLanguages()
-{
-    if(s_availableLanguages.isEmpty()) {
-        initAvailableLanguage();
-    }
-    
-    return s_availableLanguages;
 }
 
 QString Util::getLocale()

@@ -10,7 +10,7 @@ class Util : public QObject
     Q_OBJECT
 public:
     static const int BUF_SZ = 3000;
-    
+    static const QVector<QPair<QString, QString>> s_availableLanguages;
     static QString formatTime(int ms);
     
     static QString readAround(const QString &fileName, quint32 &pos);
@@ -68,8 +68,6 @@ public:
     
     
 private:
-    static QVector<QPair<QString, QString>> s_availableLanguages;
-    
     // make sure they all exist before loading
     static QStringList s_loadedFiles;
     

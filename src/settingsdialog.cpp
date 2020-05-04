@@ -13,22 +13,25 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-    ui->comboBox->addItem(tr("System"), "System");
-    
-    for (const auto &lang : Util::availableLanguages()) {
-        ui->comboBox->addItem(lang.second, lang.first);
+    ui->comboBox->addItem(tr("System"), "System"); // 0
+    auto &langs = Util::s_availableLanguages;
+    int cur = 0;
+    for (int i = 1; i <= langs.size(); i++) {
+        ui->comboBox->addItem(langs[i-1].second, langs[i-1].first);
+        if (langs[i-1].first == g_config->value("language"))
+            cur = i;
     }
-    
-    for(int i = 0; i < ui->comboBox->count(); ++i) {
-        if(ui->comboBox->itemData(i).toString() == g_config->value("language")) {
-            ui->comboBox->setCurrentIndex(i);
-        }
-    }
+    ui->comboBox->setCurrentIndex(cur);
 }
 
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
+}
+
+void SettingsDialog::retranslateUi()
+{
+    
 }
 
 void SettingsDialog::on_pushButton_clicked()
@@ -43,4 +46,13 @@ void SettingsDialog::on_comboBox_activated(int index)
     if (g_config->value("language") != lang)
         g_config->setValue("language", lang);
     if (locale != Util::getLocale()) emit languageChanged();
+}
+
+void SettingsDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange) {
+        qDebug() << "language changed";
+        ui->retranslateUi(this);
+    }
+    QDialog::changeEvent(e);   
 }
