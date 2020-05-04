@@ -159,17 +159,22 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="90"/>
+        <location filename="../mainwindow.cpp" line="93"/>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="101"/>
         <source>&lt;b&gt;About Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;This program uses Qt version %1.&lt;br&gt;&lt;br&gt;Qt is a C++ toolkit for cross-platform application development.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;关于 Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;此程序基于 Qt %1.&lt;br&gt;&lt;br&gt;Qt是一个跨平台C++应用程序开发框架。&lt;br&gt;&lt;br&gt;访问 &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; 获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="104"/>
+        <location filename="../mainwindow.cpp" line="111"/>
         <source>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;Version: %1&lt;br&gt;&lt;br&gt;Built on %2&lt;br&gt;&lt;br&gt;DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;版本：%1&lt;br&gt;&lt;br&gt;构建于 %2&lt;br&gt;&lt;br&gt;DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="119"/>
+        <location filename="../mainwindow.cpp" line="122"/>
         <source>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides open bibliographic information on major computer science journals and proceedings. Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993, dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
         <translation>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt;DBLP计算机科学文献集&lt;/em&gt;提供主要的计算机科学期刊和会议的开放数据信息。最初由&lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br&gt;&lt;br&gt;获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
@@ -299,7 +304,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
     <message>
         <location filename="../settingsdialog.ui" line="62"/>
         <source>OK</source>
-        <translation>完成</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="16"/>
