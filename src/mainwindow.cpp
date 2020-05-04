@@ -157,12 +157,12 @@ void MainWindow::on_action_Open_triggered()
     if(QFile(fileName).size() > PROMOT_FILE_SIZE){
         QMessageBox box(this);
         box.resize(500, 170);
-        box.setText(tr("Parsing the file will last for a while and will take up a lot of memory."));
+        box.setText(tr("Parsing the file will last for a while "
+                       "and will take up a lot of memory."));
         box.setInformativeText(tr("Do you want to continue?"));
         box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        box.setDefaultButton(QMessageBox::No);
-        int ret = box.exec();
-        if(ret == QMessageBox::No) return ;
+        box.setDefaultButton(QMessageBox::Yes);
+        if(box.exec() == QMessageBox::No) return ;
     }
     Util::clearIndexs();
     auto *dialog = new ParseDialog(this);
