@@ -176,36 +176,27 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionStatus_triggered()
 {
-    QMessageBox msgBox(this);
+    QMessageBox box(this);
     QString text;
-    QString parserStatus;
-    QString loaderStatus;
-    if(Util::parsed()){
-        parserStatus = QString(R"(<font color="green">OK</font>)");
-    }else{
-        parserStatus = QString(R"(<font color="red">NO</font>)");
-    }
-    if(m_finder->loaded()){
-        loaderStatus = QString(R"(<font color="green">OK</font>)");
-    }else{
-        loaderStatus = QString(R"(<font color="red">NO</font>)");
-    }
+    QString parserStatus = Util::parsed()
+                         ? "<font color=\"green\">OK</font>"
+                         : "<font color=\"red\">NO</font>";
+    QString loaderStatus = m_finder->loaded()
+                         ? "<font color=\"green\">OK</font>"
+                         : "<font color=\"red\">NO</font>";
     text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus, loaderStatus);
-    msgBox.setText(text);
-    if(Util::parsed()){
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.button(QMessageBox::Ok)->setText(tr("OK"));
-        msgBox.setDefaultButton(QMessageBox::Ok);
-    }else{
-        msgBox.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
-        msgBox.button(QMessageBox::Open)->setText(tr("Open XML file"));
-        msgBox.button(QMessageBox::Cancel)->setText(tr("Cancel"));
-        msgBox.setDefaultButton(QMessageBox::Cancel);
+    box.setText(text);
+    if (Util::parsed()) {
+        box.setStandardButtons(QMessageBox::Ok);
+        box.button(QMessageBox::Ok)->setText(tr("OK"));
+        box.setDefaultButton(QMessageBox::Ok);
+    } else {
+        box.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
+        box.button(QMessageBox::Open)->setText(tr("Open XML file"));
+        box.button(QMessageBox::Cancel)->setText(tr("Cancel"));
+        box.setDefaultButton(QMessageBox::Cancel);
     }
-    int ret = msgBox.exec();
-    if(ret == QMessageBox::Open){
-        on_actionOpen_triggered();
-    }
+    if (box.exec() == QMessageBox::Open) on_actionOpen_triggered();
 }
 
 void MainWindow::on_actionClearIndex_triggered()
