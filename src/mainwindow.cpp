@@ -100,12 +100,17 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_action_About_Dblparse_triggered()
 {
-    QString info = tr(R"(DBLParse %1<br/>Built on %2<br/><br/>
-DBLParse is an application that bases on dblp computer science bibliography.<br/><br/>
-Please visit <a href="https://github.com/tootal/DBLParse">DBLParse</a> for more information.)")
-            .arg(VERSION_STR, __TIMESTAMP__);
-    
-    QMessageBox::about(this, tr("About DBLParse"), info);
+    QMessageBox box(this);
+    box.setText(tr(
+        "<b>DBLParse</b><br>Version: %1<br><br>Built on %2<br><br>"
+        "DBLParse is an application that bases on dblp computer "
+        "science bibliography.<br/><br/>Please visit "
+        "<a href=\"https://github.com/tootal/DBLParse\">DBLParse</a> "
+        "for more information."
+    ).arg(VERSION_STR, __TIMESTAMP__));
+    QPixmap pixmap(":/resources/DBLParse.png");
+    box.setIconPixmap(pixmap.scaled(64, 64));
+    box.exec();
 }
 
 void MainWindow::on_actionAbout_DBLP_triggered()
