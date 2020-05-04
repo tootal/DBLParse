@@ -12,6 +12,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QStyle>
 
 #include "parser.h"
 #include "parsedialog.h"
@@ -85,7 +86,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-    QMessageBox::aboutQt(this, tr("About Qt"));
+    QMessageBox box(this);
+    box.setText(tr(
+        "<b>About Qt</b><br><br>"
+        "This program uses Qt version %1.<br><br>"
+        "Qt is a C++ toolkit for cross-platform application development.<br><br>"
+        "See <a href=\"https://www.qt.io/\">qt.io</a> for more information."
+    ).arg(QT_VERSION_STR));
+    QIcon icon = style()->standardIcon(QStyle::SP_TitleBarMenuButton);
+    box.setIconPixmap(icon.pixmap(64));
+    box.exec();
 }
 
 void MainWindow::on_action_About_Dblparse_triggered()
