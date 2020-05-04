@@ -274,8 +274,6 @@ void MainWindow::on_action_Settings_triggered()
 
 void MainWindow::on_actionKeyWord_triggered()
 {
-//    qDebug() << Util::parsed();
-//    qDebug() << m_finder->yearWordLoaded();
     if(!Util::parsed() || !m_finder->yearWordLoaded()){
         on_action_Status_triggered();
         return ;
@@ -289,12 +287,10 @@ void MainWindow::on_actionKeyWord_triggered()
              m_finder, &Finder::handleWordCloud);
 
      Parser::YW_T yearWord = Finder::yearWord();
-//     qDebug()<< Util::str(yearWord);
      auto it= yearWord.begin();
      QJsonArray yearWordArray;
 
      while (it != yearWord.end()) {
-//         qDebug()<<it.key()<<it.value();
          QJsonObject obj;
          obj.insert("year", it.key());
          QJsonArray arr;
@@ -311,8 +307,6 @@ void MainWindow::on_actionKeyWord_triggered()
 
      auto html = Util::readFile(":/resources/yearWord.html");
      auto data = QJsonDocument(yearWordArray).toJson();
-
-    //  qDebug() << data;
 
      html.replace("<!-- DATA_HOLDER -->", data);
      view->setHtml(html, QUrl("qrc:/resources/"));
@@ -346,6 +340,5 @@ void MainWindow::on_action_Count_Clique_triggered()
     auto data = QJsonDocument(o).toJson();
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/resources/"));
-//        qDebug() << data;
     view->show();
 }
