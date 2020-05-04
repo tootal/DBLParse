@@ -115,13 +115,21 @@ void MainWindow::on_action_About_Dblparse_triggered()
 
 void MainWindow::on_actionAbout_DBLP_triggered()
 {
-    QString info = tr(R"(DBLP<br/><br/>
-The <em>dblp computer science bibliography</em> provides
-open bibliographic information on major computer science journals and proceedings.
-Originally created at the <a href="https://www.uni-trier.de/">University of Trier</a> in 1993,
-dblp is now operated and further developed by <a href="https://www.dagstuhl.de/">Schloss Dagstuhl</a>.<br/><br/>
-For more information <a href="https://dblp.uni-trier.de/faq/">check out our F.A.Q.</a>)");
-    QMessageBox::about(this, tr("About DBLP"), info);
+    QMessageBox box(this);
+    box.setText(tr(
+        "<b>DBLP</b><br><br>"
+        "The <em>dblp computer science bibliography</em> provides "
+        "open bibliographic information on major computer science "
+        "journals and proceedings. Originally created at the "
+        "<a href=\"https://www.uni-trier.de/\">University of Trier</a> "
+        "in 1993, dblp is now operated and further developed by "
+        "<a href=\"https://www.dagstuhl.de/\">Schloss Dagstuhl</a>."
+        "<br/><br/>For more information <a href=\"https://dblp.uni-trier.de/faq/\">"
+        "check out our F.A.Q.</a>"
+    ));
+    QPixmap pixmap(":/resources/dblp.png");
+    box.setIconPixmap(pixmap.scaled(64, 64));
+    box.exec();
 }
 
 void MainWindow::on_actionE_xit_triggered()
