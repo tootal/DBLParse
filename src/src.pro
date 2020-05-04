@@ -15,6 +15,8 @@ TEMPLATE = app
 
 RC_ICONS = resources/DBLParse.ico
 
+QTQUICK_COMPILER_SKIPPED_RESOURCES += DBLParse.qrc
+
 # Version
 VERSION_MAJOR = 2
 VERSION_MINOR = 9
