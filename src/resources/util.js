@@ -1,11 +1,11 @@
-String.prototype.arg = function () {
+String.prototype.arg = function() {
     let args = [].slice.call(arguments, 0);
     if (args.length == 1 && typeof args[0] == "object") {
-        return this.replace(/\{(\w+)\}/g, function (match, cap) {
+        return this.replace(/\{(\w+)\}/g, function(match, cap) {
             return args[0][cap] || match;
         });
     }
-    return this.replace(/\%(\d+)/g, function (match, cap) {
+    return this.replace(/\%(\d+)/g, function(match, cap) {
         return String(args[cap - 1]) || match;
     });
 }
@@ -20,7 +20,7 @@ function $(s) {
     return document.querySelectorAll(s);
 }
 
-$.load = function (src, callback) {
+load = function(src, callback) {
     let script = $('<script>');
     script.src = src;
     document.body.appendChild(script);
@@ -29,7 +29,7 @@ $.load = function (src, callback) {
     return script;
 };
 
-var tr = function (s) {
+var tr = function(s) {
     let res = s;
     if (typeof strings == "object" && s in strings) {
         res = strings[s];
@@ -39,12 +39,12 @@ var tr = function (s) {
 
 Object.defineProperty(window, 'language', {
     get: () => this.m_language,
-    set: function (v) {
+    set: function(v) {
         if (v.indexOf('-') != -1) {
             v = v.split('-')[0];
         }
         this.m_language = v;
-        $.load(`strings_${v}.js`).onload = function () {
+        load(`strings_${v}.js`).onload = function() {
             for (let node of $('[tr]')) {
                 let src = node.getAttribute('tr');
                 if (src == "") {

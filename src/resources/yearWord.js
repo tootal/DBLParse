@@ -1,4 +1,4 @@
-var setHeader = function (list) {
+var setHeader = function(list) {
     let s = '';
     for (i of list) {
         s += `<th>${tr(i)}</th>`;
@@ -6,7 +6,7 @@ var setHeader = function (list) {
     document.getElementById('thead').innerHTML = `<tr>${s}</tr>`;
 };
 
-var formatYear = function (year) {
+var formatYear = function(year) {
     let href = 'wordCloud.html';
     if (location.href.startsWith('qrc:')) {
         href = `year://get/${year}`;
@@ -14,7 +14,7 @@ var formatYear = function (year) {
     return `<a href="${href}">${year}</a>`;
 };
 
-var rowHTML = function (list) {
+var rowHTML = function(list) {
     let s = '';
     for (i of list) {
         s += `<td>${i}</td>`;
@@ -22,7 +22,7 @@ var rowHTML = function (list) {
     return `<tr>${s}</tr>`;
 };
 
-var showData = function (data) {
+var showData = function(data) {
     let json = JSON.parse(data);
     // console.log(json);
 
@@ -44,9 +44,9 @@ var showData = function (data) {
 
 if (location.href.startsWith('qrc:')) {
     showData($('#src').innerText);
-//    console.log($('#src').innerText);
+    //    console.log($('#src').innerText);
 } else {
-    $.load('yearWord.test.js', function () {
+    load('yearWord.test.js', function() {
         // console.log(test.data);
         showData(test.data);
     });

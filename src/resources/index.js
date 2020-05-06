@@ -439,7 +439,7 @@ if (location.href.startsWith('qrc:')) {
         finder.languageChanged.connect(handleLanguageChanged);
     });
 } else {
-    $.load('index.test.js', function() {
+    load('index.test.js', function() {
         // test.author;
     });
 }
