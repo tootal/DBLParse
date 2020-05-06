@@ -55,7 +55,7 @@ void SettingsDialog::on_comboBox_activated(int index)
     QString locale = Util::getLocale();
     if (g_config->value("language") != lang)
         g_config->setValue("language", lang);
-    if (locale != Util::getLocale()) emit languageChanged();
+    if (locale != Util::getLocale()) emit languageChanged(Util::getLocale());
 }
 
 void SettingsDialog::changeEvent(QEvent *e)

@@ -223,9 +223,8 @@ void MainWindow::load()
     Finder::init();
 }
 
-void MainWindow::onLanguageChanged()
+void MainWindow::onLanguageChanged(const QString &locale)
 {
-    QString locale = Util::getLocale();
     QLocale::setDefault(locale);
     translator->load("DBLParse_" + locale, ":/");
 }
@@ -276,6 +275,8 @@ void MainWindow::on_actionSettings_triggered()
     auto *dialog = new SettingsDialog(this);
     connect(dialog, &SettingsDialog::languageChanged,
             this, &MainWindow::onLanguageChanged);
+    connect(dialog, &SettingsDialog::languageChanged,
+            m_finder, &Finder::languageChanged);
     dialog->open();
 }
 

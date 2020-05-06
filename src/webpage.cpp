@@ -10,11 +10,6 @@ WebPage::WebPage(QObject *parent)
     
 }
 
-void WebPage::onLanguageChanged()
-{
-    emit languageChanged(Util::getLocale());
-}
-
 bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
 //    qDebug() << url;

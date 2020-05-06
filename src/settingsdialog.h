@@ -16,7 +16,7 @@ public:
     ~SettingsDialog() override;
     void retranslateUi();
 signals:
-    void languageChanged();
+    void languageChanged(const QString &locale);
     
 private slots:
     void on_pushButton_clicked();

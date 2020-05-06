@@ -65,7 +65,7 @@ private:
     Loader *m_loader;
     
     void load();
-    void onLanguageChanged();
+    void onLanguageChanged(const QString &locale);
     
 signals:
     void startParse();

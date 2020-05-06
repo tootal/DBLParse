@@ -40,11 +40,3 @@ void WebView::contextMenuEvent(QContextMenuEvent *event)
     menu->exec(event->globalPos());
     delete menu;
 }
-
-void WebView::changeEvent(QEvent *e)
-{
-    if (e->type() == QEvent::LanguageChange) {
-        page()->onLanguageChanged();
-    }
-    QWebEngineView::changeEvent(e);
-}
