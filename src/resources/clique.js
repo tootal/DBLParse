@@ -31,8 +31,7 @@ var showData = function(data) {
 };
 
 if (location.href.startsWith('qrc:')) {
-    showData($('#src').innerText);
-
+    showData(document.getElementById('src').innerText);
 } else {
     load('clique.test.js', function() {
         showData(test.data);

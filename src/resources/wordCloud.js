@@ -109,13 +109,12 @@ if (location.href.startsWith('qrc:')) {
         finder = channel.objects.finder;
         finder.saveWC.connect(resSaveCloud);
     });
-    json = JSON.parse($('#src').innerText);
+    json = JSON.parse(document.getElementById('src').innerText);
     logoUrl = getBase64(json[0].year);
     var list = json.slice(1, json.length);
     clearCanvas();
     // console.log(list);
     showWordCloud(list);
-
 } else {
     load('wordCloud.test.js', function() {
         // 2019 year data

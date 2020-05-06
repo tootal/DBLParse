@@ -28,12 +28,9 @@ var showData = function(data) {
 };
 
 if (location.href.startsWith('qrc:')) {
-    showData($('#src').innerText);
-    //    console.log($('#src').innerText);
-
+    showData(document.getElementById('src').innerText);
 } else {
     load('authorStac.test.js', function() {
-        //        console.log('test');
         showData(test.data);
     });
 }

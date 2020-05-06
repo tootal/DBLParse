@@ -21,13 +21,13 @@ let items = [
 
 var stylish_special = function(json) {
     for (let key of json.key.split('/')) {
-        $('#key').innerHTML += `<li class="breadcrumb-item active">${key}</li>`;
+        document.getElementById('key').innerHTML += `<li class="breadcrumb-item active">${key}</li>`;
     }
-    $('#name').innerText = json.name;
-    $('#title').innerHTML = json.title;
-    for (let link of['url', 'ee']) {
+    document.getElementById('name').innerText = json.name;
+    document.getElementById('title').innerHTML = json.title;
+    for (let link of ['url', 'ee']) {
         if (link in json) {
-            $('#link').innerHTML += `<a href="${json[link]}" class="btn btn-outline-primary">${tr(link)}</a>`;
+            document.getElementById('link').innerHTML += `<a href="${json[link]}" class="btn btn-outline-primary">${tr(link)}</a>`;
         }
     }
 };
@@ -38,13 +38,13 @@ var stylish = function(data) {
 
     for (let item of items) {
         if (item in json) {
-            $('#list').innerHTML += `<li class="list-group-item"><span class="font-weight-bold mr-1">${tr(item)}: </span>${json[item]}</li>`;
+            document.getElementById('list').innerHTML += `<li class="list-group-item"><span class="font-weight-bold mr-1">${tr(item)}: </span>${json[item]}</li>`;
         }
     }
 };
 
 if (location.href.startsWith('qrc:')) {
-    stylish($('#src').innerText);
+    stylish(document.getElementById('src').innerText);
 } else {
     load('detail.test.js', function() {
         stylish(test.data);

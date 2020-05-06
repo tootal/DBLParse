@@ -10,18 +10,8 @@ String.prototype.arg = function() {
     });
 }
 
-function $(s) {
-    if (s[0] == '#') {
-        return document.getElementById(s.substr(1));
-    }
-    if (s[0] == '<' && s[s.length - 1] == '>') {
-        return document.createElement(s.slice(1, -1));
-    }
-    return document.querySelectorAll(s);
-}
-
 load = function(src, callback) {
-    let script = $('<script>');
+    let script = document.createElement('script');
     script.src = src;
     document.body.appendChild(script);
     if (typeof callback == 'function')
@@ -45,7 +35,7 @@ Object.defineProperty(window, 'language', {
         }
         this.m_language = v;
         load(`strings_${v}.js`).onload = function() {
-            for (let node of $('[tr]')) {
+            for (let node of document.querySelectorAll('[tr]')) {
                 let src = node.getAttribute('tr');
                 if (src == "") {
                     src = node.innerText;

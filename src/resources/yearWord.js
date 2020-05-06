@@ -43,11 +43,9 @@ var showData = function(data) {
 };
 
 if (location.href.startsWith('qrc:')) {
-    showData($('#src').innerText);
-    //    console.log($('#src').innerText);
+    showData(document.getElementById('src').innerText);
 } else {
     load('yearWord.test.js', function() {
-        // console.log(test.data);
         showData(test.data);
     });
 }
