@@ -70,7 +70,7 @@ void Finder::find(const QString &type, const QString &word)
             }
         }
         coauthors.remove(word);
-        json = QJsonArray::fromStringList(coauthors.toList());
+        json = QJsonArray::fromStringList(coauthors.values());
     } else if(type == "cograph") {
         QJsonArray cograph;
         cograph=cographBFS(word);
@@ -358,7 +358,7 @@ QJsonArray Finder::cographBFS(const QString &node) {
         coNode.insert("parentNode",t.second);
 
         if (coauthors.isEmpty()) {
-            coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.toList()));
+            coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.values()));
             for (const QString &value : coauthors){
                 QPair<QString,QString> temp(t.second,value);
                 q.enqueue(temp);
