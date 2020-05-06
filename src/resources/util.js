@@ -33,6 +33,9 @@ Object.defineProperty(window, 'language', {
         if (v.indexOf('-') != -1) {
             v = v.split('-')[0];
         }
+        if (v.indexOf('_') != -1) {
+            v = v.split('_')[0];
+        }
         this.m_language = v;
         load(`strings_${v}.js`).onload = function() {
             for (let node of document.querySelectorAll('[tr]')) {
