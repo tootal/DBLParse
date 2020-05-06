@@ -62,8 +62,10 @@ MainWindow::MainWindow(QWidget *parent)
             m_finder, &Finder::setTitleLoaded);
     connect(m_loader, &Loader::yearWordLoadDone,
             m_finder, &Finder::setYearWordLoaded);
+    connect(m_loader, &Loader::titleWordLoadDone,
+            m_finder, &Finder::setTitleWordLoaded);
     connect(m_loader, &Loader::loadDone,
-            this, [this](){
+            this, [this]() {
         statusBar()->showMessage(tr("Load finished."), 3000); 
     });
     connect(m_loader, &Loader::loadDone,
@@ -71,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
-    
     load();
 }
 

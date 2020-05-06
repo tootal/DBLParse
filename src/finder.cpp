@@ -27,6 +27,7 @@ quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
 Parser::YW_T Finder::s_yearWord;
+QVector<QPair<QString, quint32>> Finder::s_titleWords;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -146,6 +147,7 @@ void Finder::clearIndex()
     }
     
     s_authorStac.clear();
+    s_titleWords.clear();
 }
 
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
@@ -207,6 +209,16 @@ bool Finder::titleLoaded() const
 void Finder::setTitleLoaded()
 {
     m_titleLoaded = true;
+}
+
+bool Finder::titleWordLoaded() const
+{
+    return m_titleWordLoaded;
+}
+
+void Finder::setTitleWordLoaded()
+{
+    m_titleWordLoaded = true;
 }
 
 bool Finder::loaded() const

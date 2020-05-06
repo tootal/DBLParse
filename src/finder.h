@@ -30,6 +30,8 @@ public:
     void setAuthorLoaded();
     bool titleLoaded() const;
     void setTitleLoaded();
+    bool titleWordLoaded() const;
+    void setTitleWordLoaded();
     bool loaded() const;
     void setLoaded();
     QJsonArray cographBFS(const QString &node);
@@ -51,6 +53,7 @@ private:
     bool m_titleLoaded{};
     bool m_authorStacLoaded{};
     bool m_yearWordLoaded{};
+    bool m_titleWordLoaded{};
     QVector<Record> m_lastResult;
 
 public:

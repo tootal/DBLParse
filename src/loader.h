@@ -16,5 +16,6 @@ signals:
     void titleLoadDone();
     void authorStacLoadDone();
     void yearWordLoadDone();
+    void titleWordLoadDone();
 };
 

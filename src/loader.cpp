@@ -40,6 +40,7 @@ void Loader::run()
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
         Finder::s_authorIndexs = static_cast<quint32>(file.size() >> 3);
+        if (Finder::s_authorIndex) delete [] Finder::s_authorIndex;
         Finder::s_authorIndex = new StringRef[Finder::s_authorIndexs];
         for (quint32 i = 0; i < Finder::s_authorIndexs; ++i) {
             stream >> Finder::s_authorIndex[i].l >> Finder::s_authorIndex[i].r;
@@ -55,6 +56,7 @@ void Loader::run()
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
         Finder::s_titleIndexs = static_cast<quint32>(file.size() >> 3);
+        if (Finder::s_titleIndex) delete [] Finder::s_titleIndex;
         Finder::s_titleIndex = new StringRef[Finder::s_titleIndexs];
         for (quint32 i = 0; i < Finder::s_titleIndexs; ++i) {
             stream >> Finder::s_titleIndex[i].l >> Finder::s_titleIndex[i].r;
@@ -64,7 +66,7 @@ void Loader::run()
     }
     
     {
-        emit stateChanged(tr("Loading yearWord index..."));
+        emit stateChanged(tr("Loading year word index..."));
         Finder::s_yearWord.clear();
         QFile file("yearWord.txt");
         file.open(QFile::ReadOnly | QFile::Text);
@@ -83,6 +85,18 @@ void Loader::run()
             Finder::s_yearWord.insert(year, tempYearWord);
         }
         emit yearWordLoadDone();
+        file.close();
+    }
+    
+    {
+        emit stateChanged(tr("Loading title word index..."));
+        Finder::s_titleWords.clear();
+        QFile file("words.dat");
+        file.open(QFile::ReadOnly);
+        Q_ASSERT(file.isOpen());
+        QDataStream s(&file);
+        s >> Finder::s_titleWords;
+        emit titleWordLoadDone();
         file.close();
     }
     
