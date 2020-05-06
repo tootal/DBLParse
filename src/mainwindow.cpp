@@ -87,7 +87,7 @@ MainWindow::~MainWindow()
 void MainWindow::showAboutBox(QPixmap pixmapIcon, const QString &info)
 {
     auto box = new QMessageBox(this);
-    box->setModal(false);
+//    box->setModal(false);
     box->setText(info);
     box->setIconPixmap(pixmapIcon.scaled(64, 64));
     box->setStandardButtons(QMessageBox::Ok);
