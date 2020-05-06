@@ -21,7 +21,8 @@ QStringList Util::s_loadedFiles = {
     "author.dat",
     "title.dat",
     "authorStac.dat",
-    "yearWord.txt"
+    "yearWord.txt",
+    "words.dat"
 };
 
 QStringList Util::s_parsedFiles = {
@@ -29,7 +30,8 @@ QStringList Util::s_parsedFiles = {
     "title.dat",
     "authorStac.dat",
     "authors_cliques.txt",
-    "yearWord.txt"
+    "yearWord.txt",
+    "words.dat"
 };
 
 QString Util::formatTime(int ms)

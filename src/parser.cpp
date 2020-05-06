@@ -43,6 +43,8 @@ const QStringList Parser::commonwords = {
     "their", "between", "method"
 };
 
+const QString Parser::noNeedChars = ":,.?()";
+
 Parser::Parser(QObject *parent)
     :QObject(parent)
 {
@@ -67,6 +69,10 @@ void Parser::run()
     countWordPerYear();
     
     timeMark(tr("The title of each year has been analyzed."));
+    
+    saveTitleWordIndex();
+    
+    timeMark(tr("The word of each title has been analyzed."));
     
     genIndex();
     
@@ -211,7 +217,7 @@ void Parser::parseInit()
 void Parser::countWordPerYear()
 {
     static const int TOP_K = 100;
-    static const QString noNeedChars(":,.?()");
+    
     QVector<QVector<QString>> yearWords(m_maxYear - m_minYear + 1);
     for (const auto &titleYear : m_titleYear) {
         int year_n = titleYear.second - m_minYear;
@@ -219,7 +225,6 @@ void Parser::countWordPerYear()
         for (const QChar &noNeedChar : noNeedChars) {
             title.remove(noNeedChar);
         }
-        title.remove(':');
         QStringList words = title.split(' ');
         for (QString &word : words) {
             if (word.size() <= 2) continue;
@@ -282,6 +287,32 @@ void Parser::saveYearWord()
         textStream << '\n';
     }
     file.close();
+}
+
+void Parser::saveTitleWordIndex()
+{
+    QVector<QPair<QString/*word*/, quint32/*pos*/>> words;
+    for (const auto &title : m_titleIndex) {
+        QString t = title.toString();
+        for (auto &noNeedChar : noNeedChars) {
+            t.remove(noNeedChar);
+        }
+        QStringList ws = t.split(' ');
+        for (QString &w : ws) {
+            if (w.size() <= 2) continue;
+            w = w.toLower();
+            if (commonwords.contains(w)) continue;
+            words.append(qMakePair(w, title.l));
+        }
+    }
+    std::sort(words.begin(), words.end());
+    {
+        QFile file("words.dat");
+        file.open(QFile::WriteOnly);
+        QDataStream s(&file);
+        s << words;
+        file.close();
+    }
 }
 
 void Parser::genIndex()

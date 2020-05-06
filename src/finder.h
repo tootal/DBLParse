@@ -60,6 +60,7 @@ public:
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
     static QList<QPair<QString,int> > s_authorStac;
+    static QVector<QPair<QString, quint32>> s_titleWords;
     static Parser::YW_T s_yearWord;
     static QString readText(const StringRef &ref);
     // thanks to stl algo

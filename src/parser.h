@@ -53,6 +53,7 @@ private:
     void parseInit();
     void countWordPerYear();
     void saveYearWord();
+    void saveTitleWordIndex();
     void genIndex();
     void saveAuthors();
     void indexFileSave();
@@ -70,4 +71,5 @@ private:
     static int readYear(const StringRef &r, quint32 &from);
 
     static const QStringList commonwords;
+    static const QString noNeedChars;
 };
