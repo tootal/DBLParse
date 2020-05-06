@@ -16,6 +16,7 @@ public:
     explicit ParseDialog(QWidget *parent = nullptr);
     ~ParseDialog();
     void showStatus(const QString &msg);
+    void showMemory();
     void clear();
     void activeButton();
     

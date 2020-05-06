@@ -28,8 +28,20 @@
      </item>
      <item>
       <widget class="QProgressBar" name="progressBar">
+       <property name="styleSheet">
+        <string notr="true">QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+	text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: #F9ECA8;
+    width: 20px;
+}</string>
+       </property>
        <property name="value">
-        <number>24</number>
+        <number>0</number>
        </property>
       </widget>
      </item>
