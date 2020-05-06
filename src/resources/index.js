@@ -152,8 +152,7 @@ var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
     document.getElementById('word').value = author;
-    document.getElementById('type').options[0].selected = true;
-    $('.selectpicker').selectpicker('refresh');
+    $('#type').selectpicker('val', 'author');
     search('author', author);
 };
 
@@ -419,10 +418,6 @@ var handleSearch = function(data) {
     }
 };
 
-var handleLanguageChanged = function(lang) {
-    language = lang;
-}
-
 var resSaveMes = function(data) {
     if (data) {
         alert(tr("Save successfully, please go to the index file directory to view."));
@@ -436,7 +431,9 @@ if (location.href.startsWith('qrc:')) {
         finder = channel.objects.finder;
         finder.ready.connect(handleSearch);
         finder.saveImg.connect(resSaveMes);
-        finder.languageChanged.connect(handleLanguageChanged);
+        finder.languageChanged.connect(function(lang) {
+            language = lang;
+        });
     });
 } else {
     load('index.test.js', function() {
