@@ -28,7 +28,7 @@ var tr = function(s) {
 }
 
 Object.defineProperty(window, 'language', {
-    get: () => this.m_language,
+    get: () => this._language,
     set: function(v) {
         if (v.indexOf('-') != -1) {
             v = v.split('-')[0];
@@ -36,7 +36,7 @@ Object.defineProperty(window, 'language', {
         if (v.indexOf('_') != -1) {
             v = v.split('_')[0];
         }
-        this.m_language = v;
+        this._language = v;
         load(`strings_${v}.js`).onload = function() {
             for (let node of document.querySelectorAll('[tr]')) {
                 let src = node.getAttribute('tr');
