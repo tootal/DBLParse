@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QDataStream>
+#include <QElapsedTimer>
 
 #include "finder.h"
 
@@ -14,7 +15,7 @@ Loader::Loader(QObject *parent)
 void Loader::run()
 {
     if(!Util::canLoad()) return ;
-    QTime timing;
+    QElapsedTimer timing;
     timing.start();
     
     {

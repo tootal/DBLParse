@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include <QMap>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QXmlStreamReader>
 #include <QDebug>
 
@@ -31,7 +31,7 @@ public:
     static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
     
 private:
-    QTime m_timing;
+    QElapsedTimer m_timing;
     int m_costMsecs{};
     int m_elapsedTime{};
     int m_totalAuthor{};

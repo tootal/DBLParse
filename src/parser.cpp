@@ -53,7 +53,7 @@ Parser::Parser(QObject *parent)
 
 void Parser::run()
 {
-    m_timing = QTime::currentTime();
+    m_timing.restart();
     m_elapsedTime = 0;
     
     emit stateChanged(tr("Parsing start."));  
@@ -210,7 +210,7 @@ void Parser::parseInit()
     StringRef::init(Util::getXmlFileName());
     m_ref.r = StringRef::s_len;
     m_totalAuthor = 0;
-    m_minYear = 0xffff;
+    m_minYear = 2222;
     m_maxYear = 0;
 }
 
