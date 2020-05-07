@@ -44,5 +44,6 @@ var strings = {
     "The number of k-cliques": "k阶完全子图的个数",
     "keyWord(s)": "关键词",
     "Find %1 results. ": "找到 %1 条结果。",
-    "(Cost time: %1 s)": "（用时：%1 秒）"
+    "(Cost time: %1 s)": "（用时：%1 秒）",
+    "Keywords": "关键词"
 };
