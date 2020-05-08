@@ -271,7 +271,8 @@ QString Finder::readText(const StringRef &ref)
 QVector<Record> Finder::getRecord(const QList<quint32> &posList)
 {
     QVector<Record> array;
-    for (int i = 0; i < posList.size(); i++) {
+    int size = std::min(posList.size(), 2000);
+    for (int i = 0; i < size; i++) {
         Record record(Util::findRecord(Util::getXmlFileName(), posList.at(i)));
         array.append(record);
     }
