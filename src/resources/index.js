@@ -285,7 +285,7 @@ var rowHTML = function(list) {
 var handleSearch = function(data) {
     if (data == "not_ready") return;
     let json = JSON.parse(data);
-    // console.log(json);
+    console.log(json);
     if (json.length == 0) {
         alertMsg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
         clearT();
@@ -293,7 +293,8 @@ var handleSearch = function(data) {
         return;
     }
     let tbodyHTML = '';
-    if (document.getElementById('type').value == 'coauthor') {
+    let typeValue = document.getElementById('type').value;
+    if (typeValue == 'coauthor') {
 
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
@@ -302,7 +303,7 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i + 1, formatAuthor(json[i])]);
         }
-    } else if (document.getElementById('type').value == 'title') {
+    } else if (typeValue == 'title' || typeValue == 'keywords') {
 
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
@@ -314,7 +315,7 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i + 1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
         }
-    } else if (document.getElementById('type').value == 'author') {
+    } else if (typeValue == 'author') {
 
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
@@ -335,7 +336,7 @@ var handleSearch = function(data) {
             tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i].title, i)}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             label = label + 1;
         }
-    } else if (document.getElementById('type').value == 'cograph') {
+    } else if (typeValue == 'cograph') {
 
         document.getElementById('result').style.display = "none";
         document.getElementById('coGraph').style.display = "block";

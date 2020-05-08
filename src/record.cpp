@@ -126,7 +126,7 @@ QJsonObject Record::toJson(const QString &type) const
         o.insert("title", attr("title").toString());
         o.insert("authors", QJsonValue::fromVariant(attr("authors")));
         o.insert("year", attr("year").toString());
-    } else if (type == "title") {
+    } else if (type == "title" || type == "keywords") {
         o.insert("title", attr("title").toString());
         o.insert("authors", QJsonValue::fromVariant(attr("authors")));
         o.insert("mdate", attr("mdate").toString());

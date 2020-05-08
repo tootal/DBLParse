@@ -75,6 +75,14 @@ void Finder::find(const QString &type, const QString &word)
         QJsonArray cograph;
         cograph=cographBFS(word);
         json = cograph;
+    } else if (type == "keywords") {
+        if (!titleWordLoaded()) goto not_ready;
+        auto list = indexOfTitleWords(word.toLower());
+        qDebug() << list.size();
+        result = getRecord(list);
+        for (int i = 0; i < result.size(); i++) {
+            json.append(result[i].toJson(type));
+        }
     }
     m_lastResult = result;
     emit ready(QJsonDocument(json).toJson());
@@ -263,8 +271,8 @@ QString Finder::readText(const StringRef &ref)
 QVector<Record> Finder::getRecord(const QList<quint32> &posList)
 {
     QVector<Record> array;
-    for(auto pos : posList) {
-        Record record(Util::findRecord(Util::getXmlFileName(), pos));
+    for (int i = 0; i < posList.size(); i++) {
+        Record record(Util::findRecord(Util::getXmlFileName(), posList.at(i)));
         array.append(record);
     }
     auto ret = array;
