@@ -51,6 +51,7 @@ jobs:
           echo "Build with GitHub actions." > deploy.log
           Get-Date >> deploy.log
       - name: Upload release
+        if: startsWith(github.ref, 'refs/heads/master')
         uses: actions/upload-artifact@v1
         with: 
           name: Package
