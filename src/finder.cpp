@@ -197,7 +197,13 @@ QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
 
 QList<quint32> Finder::indexOfTitleWords(const QString &keywords) const
 {
-    return indexOfTitleWord(keywords).values();
+    auto words = keywords.split(' ');
+    auto res = indexOfTitleWord(words[0]);
+    for (int i = 1; i < words.size(); i++) {
+        auto t = indexOfTitleWord(words[i]);
+        res.intersect(t);
+    }
+    return res.values();
 }
 
 bool Finder::yearWordLoaded() const
