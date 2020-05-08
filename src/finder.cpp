@@ -171,6 +171,27 @@ QList<quint32> Finder::indexOfTitle(const QString &title) const
     return list;
 }
 
+QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
+{
+    QSet<quint32> set;
+    auto range = std::equal_range(
+                s_titleWords.begin(), 
+                s_titleWords.end(),
+                qMakePair(keyword, quint32()),
+                [](WP_T x, WP_T y) {
+        return x.first < y.first;
+    });
+    for (auto i = range.first; i != range.second; ++i) {
+        set.insert(i->second);
+    }
+    return set;
+}
+
+QList<quint32> Finder::indexOfTitleWords(const QString &keywords) const
+{
+    return indexOfTitleWord(keywords).values();
+}
+
 bool Finder::yearWordLoaded() const
 {
     return m_yearWordLoaded;

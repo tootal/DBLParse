@@ -291,7 +291,7 @@ void Parser::saveYearWord()
 
 void Parser::saveTitleWordIndex()
 {
-    QVector<QPair<QString/*word*/, quint32/*pos*/>> words;
+    QVector<WP_T> words;
     for (const auto &title : m_titleIndex) {
         QString t = title.toString();
         for (auto &noNeedChar : noNeedChars) {

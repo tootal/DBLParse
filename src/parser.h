@@ -18,6 +18,7 @@ class Parser : public QObject
 public:
     typedef QPair<int/*count*/, QString/*word*/> CW_T; // Count Word Type
     typedef QMap<int/*year*/, QVector<CW_T>> YW_T; // Year Word Type
+    typedef QPair<QString/*word*/, quint32/*pos*/> WP_T; // Word Pos Type
     Parser(QObject *parent = nullptr);
     void run();
     void parse();
