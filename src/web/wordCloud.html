@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Word Cloud</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="util.css">
+</head>
+
+<body style="margin:0;">
+    <div class="main" style="overflow: hidden;">
+        <div id="wordCloud" style="width: 800px; height: 600px"></div>
+        <button class="btn btn-outline-success float-right" id="save" tr>Save</button>
+    </div>
+    <canvas id="myCanvas" width="500" height="200" style="border:1px solid #d3d3d3;display: none;"></canvas>
+
+    <script type="text/json" id="src">
+        <!-- DATA_HOLDER -->
+    </script>
+    <script src="qwebchannel.js"></script>
+    <script src="util.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="echarts-wordcloud.min.js"></script>
+    <script src="wordCloud.js"></script>
+</body>
+
+</html>
