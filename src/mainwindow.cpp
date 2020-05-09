@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(ui->webview);
     m_finder = new Finder(this);
     ui->webview->registerObject("finder", m_finder);
-    ui->webview->setUrl(QUrl("qrc:/resources/index.html"));
+    ui->webview->setUrl(QUrl("qrc:/web/index.html"));
 
     m_parser = new Parser;
     m_loader = new Loader(this);
@@ -254,13 +254,13 @@ void MainWindow::on_actionAuthorStac_triggered()
         authorStacArray.append(obj);
     }
     
-    auto html = Util::readFile(":/resources/authorStac.html");
+    auto html = Util::readFile(":/web/authorStac.html");
     auto data = QJsonDocument(authorStacArray).toJson();
     
     //     qDebug() << data;
     
     html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
 }
 
@@ -314,11 +314,11 @@ void MainWindow::on_actionKeyWord_triggered()
          it++;
      }
 
-     auto html = Util::readFile(":/resources/yearWord.html");
+     auto html = Util::readFile(":/web/yearWord.html");
      auto data = QJsonDocument(yearWordArray).toJson();
 
      html.replace("<!-- DATA_HOLDER -->", data);
-     view->setHtml(html, QUrl("qrc:/resources/"));
+     view->setHtml(html, QUrl("qrc:/web/"));
      view->show();
 }
 
@@ -345,10 +345,10 @@ void MainWindow::on_actionCountClique_triggered()
     }
     in >> total;
     o.insert("total", total);
-    auto html = Util::readFile(":/resources/clique.html");
+    auto html = Util::readFile(":/web/clique.html");
     auto data = QJsonDocument(o).toJson();
     html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
 }
 

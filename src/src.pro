@@ -103,4 +103,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     DBLParse.qrc \
-    translations/translations.qrc
+    translations/translations.qrc \
+    web.qrc
+
+QTQUICK_COMPILER_SKIPPED_RESOURCES += web.qrc

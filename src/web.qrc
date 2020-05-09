@@ -1,2 +1,40 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>web/authorStac.html</file>
+        <file>web/authorStac.js</file>
+        <file>web/authorStac.test.js</file>
+        <file>web/Belgrano.woff2</file>
+        <file>web/bootstrap.min.css</file>
+        <file>web/bootstrap.min.js</file>
+        <file>web/bootstrap-select.min.css</file>
+        <file>web/bootstrap-select.min.js</file>
+        <file>web/clique.html</file>
+        <file>web/clique.js</file>
+        <file>web/clique.test.js</file>
+        <file>web/detail.html</file>
+        <file>web/detail.js</file>
+        <file>web/detail.test.js</file>
+        <file>web/down.svg</file>
+        <file>web/echarts.min.js</file>
+        <file>web/echarts-wordcloud.min.js</file>
+        <file>web/homepage.svg</file>
+        <file>web/hot.png</file>
+        <file>web/index.html</file>
+        <file>web/index.js</file>
+        <file>web/index.test.js</file>
+        <file>web/jquery.js</file>
+        <file>web/popper.js</file>
+        <file>web/qwebchannel.js</file>
+        <file>web/strings_en.js</file>
+        <file>web/strings_zh.js</file>
+        <file>web/up.svg</file>
+        <file>web/util.css</file>
+        <file>web/util.js</file>
+        <file>web/wordCloud.html</file>
+        <file>web/wordCloud.js</file>
+        <file>web/wordCloud.test.js</file>
+        <file>web/yearWord.html</file>
+        <file>web/yearWord.js</file>
+        <file>web/yearWord.test.js</file>
+    </qresource>
+</RCC>

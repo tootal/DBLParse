@@ -98,11 +98,11 @@ void Finder::handleRequest(const QUrl &url)
     auto *view = new WebView(g_mainwindow);
     view->setWindowFlag(Qt::Window);
     view->resize(800, 600);
-    auto html = Util::readFile(":/resources/detail.html");
+    auto html = Util::readFile(":/web/detail.html");
     auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
     // qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
 }
 
@@ -115,7 +115,7 @@ void Finder::handleWordCloud(const QUrl &url)
     view->resize(800, 600);
     view->registerObject("finder", this);
 
-    auto html = Util::readFile(":/resources/wordCloud.html");
+    auto html = Util::readFile(":/web/wordCloud.html");
 //    qDebug()<<s_yearWord[idx];
     QJsonArray json;
     QJsonObject year;
@@ -132,7 +132,7 @@ void Finder::handleWordCloud(const QUrl &url)
     auto data = QJsonDocument(json).toJson();
     // qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/resources/"));
+    view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
 }
 
