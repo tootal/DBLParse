@@ -36,5 +36,6 @@
         <file>web/yearWord.html</file>
         <file>web/yearWord.js</file>
         <file>web/yearWord.test.js</file>
+        <file>web/index.css</file>
     </qresource>
 </RCC>
