@@ -108,21 +108,30 @@ var option = {
     }]
 };
 
-var vm_alert2 = new Vue({
-    el: '#alert2',
+var vm_inputs = new Vue({
+    el: '#inputs',
+    methods: {
+        handleInput: function() {
+            search(document.getElementById('type').value, document.getElementById('word').value);
+        }
+    }
+});
+
+var vm_alert = new Vue({
+    el: '#alert',
     data: {
         message: 'This is test message.',
         seen: false,
-        type: 'danger'
+        type: 'info'
     }
 });
 
 var alertMsg = function(type, msg) {
-    vm_alert2.type = type;
-    vm_alert2.message = msg;
-    vm_alert2.seen = true;
+    vm_alert.type = type;
+    vm_alert.message = msg;
+    vm_alert.seen = true;
     var t = setTimeout(function() {
-        vm_alert2.seen = false;
+        vm_alert.seen = false;
     }, 4000);
 }
 
@@ -451,7 +460,7 @@ if (location.href.startsWith('qrc:')) {
 }
 
 var handleInput = function() {
-    search(document.getElementById('type').value, document.getElementById('word').value);
+    
 }
 
 document.getElementById('search').onclick = handleInput;

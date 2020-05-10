@@ -15,7 +15,7 @@
     <div class="container">
         <h1 class="display-1 text-center my-5" style="font-family: Belgrano;">DBLParse</h1>
         <form action="javascript:void(0)">
-            <div class="input-group">
+            <div id="inputs" class="input-group">
                 <div class="input-group-prepend">
                     <select id="type" class="selectpicker" data-style="btn-outline-info">
                         <option value="author" tr>Author</option>
@@ -27,14 +27,18 @@
                 </div>
                 <input type="text" class="form-control" id="word">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-success px-4" id="search" tr>Search</button>
+                    <button
+                        class="btn btn-outline-success px-4"
+                        id="search"
+                        v-on:click="handleInput"
+                        tr
+                    >Search</button>
                 </div>
             </div>
         </form>
 
-        <div id="alert" style="display: none;"></div>
         <div
-            id="alert2"
+            id="alert"
             class="mt-5 alert alert-dismissible fade show col-4"
             style="margin: 0 auto;"
             v-show="seen"
