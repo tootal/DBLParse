@@ -117,7 +117,7 @@ var vm_alert2 = new Vue({
     }
 });
 
-var alert2Msg = function(type, msg) {
+var alertMsg = function(type, msg) {
     vm_alert2.type = type;
     vm_alert2.message = msg;
     vm_alert2.seen = true;
@@ -126,16 +126,6 @@ var alert2Msg = function(type, msg) {
     }, 4000);
 }
 
-var alertMsg = function(type, msg) {
-    document.getElementById('alert').className = `mt-5 alert alert-${type} alert-dismissible fade show col-4`;
-    document.getElementById('alert').innerHTML = msg;
-    document.getElementById('alert').style.display = 'block';
-    document.getElementById('alert').style.margin = '0 auto';
-    var t = setTimeout(function() {
-        document.getElementById('alert').style.display = 'none';
-    }, 4000);
-};
-
 var clearT = function() {
     clearTimeout(t);
 };
@@ -143,7 +133,7 @@ var clearT = function() {
 var search = function(type, word) {
     clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        alert2Msg('warning', tr('You can not search this title.'));
+        alertMsg('warning', tr('You can not search this title.'));
         clearT();
     } else {
         costMsec = 0;
@@ -305,7 +295,7 @@ var handleSearch = function(data) {
     let json = JSON.parse(data);
     console.log(json);
     if (json.length == 0) {
-        alert2Msg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
+        alertMsg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
         clearT();
         document.getElementById('alert').style.display = 'block';
         return;
@@ -433,7 +423,7 @@ var handleSearch = function(data) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
             // msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
         }
-        alert2Msg('success', msg);
+        alertMsg('success', msg);
     }
 };
 
