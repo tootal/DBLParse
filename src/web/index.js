@@ -108,6 +108,24 @@ var option = {
     }]
 };
 
+var vm_alert2 = new Vue({
+    el: '#alert2',
+    data: {
+        message: 'This is test message.',
+        seen: true,
+        type: 'danger'
+    }
+});
+
+var alert2Msg = function(type, msg) {
+    vm_alert2.type = type;
+    vm_alert2.message = msg;
+    vm_alert2.seen = true;
+    var t = setTimeout(function() {
+        vm_alert2.seen = false;
+    }, 4000);
+}
+
 var alertMsg = function(type, msg) {
     document.getElementById('alert').className = `mt-5 alert alert-${type} alert-dismissible fade show col-4`;
     document.getElementById('alert').innerHTML = msg;
@@ -116,11 +134,11 @@ var alertMsg = function(type, msg) {
     var t = setTimeout(function() {
         document.getElementById('alert').style.display = 'none';
     }, 4000);
-}
+};
 
 var clearT = function() {
     clearTimeout(t);
-}
+};
 
 var search = function(type, word) {
     clearBefore();
