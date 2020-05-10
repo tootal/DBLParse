@@ -40,7 +40,7 @@
             v-show="seen"
             v-bind:class="'alert-'+type"
         >
-            {{ message }}
+            <span v-html="message"></span>
         </div>
 
         <a id="homepage" class="link-card mt-5 mx-auto text-decoration-none" style="display: none;">

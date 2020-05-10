@@ -112,7 +112,7 @@ var vm_alert2 = new Vue({
     el: '#alert2',
     data: {
         message: 'This is test message.',
-        seen: true,
+        seen: false,
         type: 'danger'
     }
 });
@@ -143,7 +143,7 @@ var clearT = function() {
 var search = function(type, word) {
     clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        alertMsg('warning', tr('You can not search this title.'));
+        alert2Msg('warning', tr('You can not search this title.'));
         clearT();
     } else {
         costMsec = 0;
@@ -305,7 +305,7 @@ var handleSearch = function(data) {
     let json = JSON.parse(data);
     console.log(json);
     if (json.length == 0) {
-        alertMsg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
+        alert2Msg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
         clearT();
         document.getElementById('alert').style.display = 'block';
         return;
@@ -433,7 +433,7 @@ var handleSearch = function(data) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
             // msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
         }
-        alertMsg('success', msg);
+        alert2Msg('success', msg);
     }
 };
 
