@@ -17,7 +17,12 @@
         <form action="javascript:void(0)">
             <div id="inputs" class="input-group">
                 <div class="input-group-prepend">
-                    <select id="type" class="selectpicker" data-style="btn-outline-info">
+                    <select
+                        id="type"
+                        class="selectpicker"
+                        data-style="btn-outline-info"
+                        v-model="type"
+                    >
                         <option value="author" tr>Author</option>
                         <option value="title" tr>Title</option>
                         <option value="coauthor" tr>Co-Author</option>
@@ -25,7 +30,13 @@
                         <option value="keywords" tr>Keywords</option>
                     </select>
                 </div>
-                <input type="text" class="form-control" id="word">
+                <input
+                    type="text"
+                    class="form-control"
+                    id="word"
+                    v-on:keyup.enter="handleInput"
+                    v-model="word"
+                >
                 <div class="input-group-append">
                     <button
                         class="btn btn-outline-success px-4"

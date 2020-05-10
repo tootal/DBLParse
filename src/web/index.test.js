@@ -9,38 +9,38 @@ var test = {
         title_ret: "[\n    {\n        \"authors\": [\n            \"Katja Lenz\",\n            \"Ingo Wegener\"\n        ],\n        \"ee\": \"https://doi.org/10.1016/0304-3975(91)90194-7\",\n        \"journal\": \"Theor. Comput. Sci.\",\n        \"key\": \"journals/tcs/LenzW91\",\n        \"mdate\": \"2017-05-28\",\n        \"name\": \"article\",\n        \"number\": \"2\",\n        \"pages\": \"257-268\",\n        \"title\": \"The Conjunctive Complexity of Quadratic Boolean Functions.\",\n        \"url\": \"https://dblp.uni-trier.de/db/journals/tcs/tcs81.html#LenzW91\",\n        \"volume\": \"81\",\n        \"year\": \"1991\"\n    },\n    {\n        \"authors\": [\n            \"Katja Lenz\",\n            \"Ingo Wegener\"\n        ],\n        \"booktitle\": \"CSL\",\n        \"crossref\": \"conf/csl/1987\",\n        \"ee\": \"https://doi.org/10.1007/3-540-50241-6_35\",\n        \"key\": \"conf/csl/LenzW87\",\n        \"mdate\": \"2017-05-19\",\n        \"name\": \"inproceedings\",\n        \"pages\": \"138-150\",\n        \"title\": \"The Conjunctive Complexity of Quadratic Boolean Functions.\",\n        \"url\": \"https://dblp.uni-trier.de/db/conf/csl/csl87.html#LenzW87\",\n        \"year\": \"1987\"\n    }\n]\n"
     },
     get title() {
-        document.getElementById('type').value = 'title';
-        document.getElementById('word').value = this.data.title;
+        vm_inputs.type = 'title';
+        vm_inputs.word = this.data.title;
         handleSearch(this.data.title_ret);
     },
     get author() {
-        document.getElementById('type').value = 'author';
-        document.getElementById('word').value = this.data.author;
+        vm_inputs.type = 'author';
+        vm_inputs.word = this.data.author;
         handleSearch(this.data.author_ret);
     },
     get coauthor() {
-        document.getElementById('type').value = 'coauthor';
-        document.getElementById('word').value = this.data.author;
+        vm_inputs.type = 'coauthor';
+        vm_inputs.word = this.data.author;
         handleSearch(this.data.coauthor_ret);
     },
     get titlenotfound() {
-        document.getElementById('type').value = 'title';
-        document.getElementById('word').value = this.data.title;
+        vm_inputs.type = 'title';
+        vm_inputs.word = this.data.title;
         handleSearch(this.data.not_found_ret);
     },
     get authornotfound() {
-        document.getElementById('type').value = 'author';
-        document.getElementById('word').value = this.data.author;
+        vm_inputs.type = 'author';
+        vm_inputs.word = this.data.author;
         handleSearch(this.data.not_found_ret);
     },
     get coauthornotfound() {
-        document.getElementById('type').value = 'coauthor';
-        document.getElementById('word').value = this.data.author;
+        vm_inputs.type = 'coauthor';
+        vm_inputs.word = this.data.author;
         handleSearch(this.data.not_found_ret);
     },
     get homepage() {
-        document.getElementById('type').value = 'title';
-        document.getElementById('word').value = 'Home Page';
+        vm_inputs.type = 'title';
+        vm_inputs.word = 'Home Page';
         handleSearch(this.data.not_found_ret);
     }
 };

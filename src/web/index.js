@@ -110,9 +110,13 @@ var option = {
 
 var vm_inputs = new Vue({
     el: '#inputs',
+    data: {
+        type: 'author',
+        word: ''
+    },
     methods: {
         handleInput: function() {
-            search(document.getElementById('type').value, document.getElementById('word').value);
+            search(vm_inputs.type, vm_inputs.word);
         }
     }
 });
@@ -168,7 +172,7 @@ var search = function(type, word) {
 var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
-    document.getElementById('word').value = author;
+    vm_inputs.word = author;
     $('#type').selectpicker('val', 'author');
     search('author', author);
 };
@@ -190,7 +194,7 @@ var formatAuthors = function(record) {
     let ref = record.authors;
     if (ref == null || ref == "") return "";
     for (let j = 0; j < ref.length; ++j) {
-        if (document.getElementById('type') == 'title' || ref[j] != document.getElementById('word').value) {
+        if (vm_inputs.type == 'title' || ref[j] != vm_inputs.word) {
             ref[j] = formatAuthor(ref[j]);
         } else {
             ref[j] = `<span class="font-weight-bold">${ref[j]}</span>`;
@@ -213,7 +217,7 @@ var handleHomePage = function(index) {
     } else {
         document.getElementById('homepage').href = 'detail.html';
     }
-    document.getElementById('homepage-meta').innerText = document.getElementById('word').value;
+    document.getElementById('homepage-meta').innerText = vm_inputs.word;
     document.getElementById('homepage').style.display = "block";
 }
 
@@ -302,15 +306,14 @@ var rowHTML = function(list) {
 var handleSearch = function(data) {
     if (data == "not_ready") return;
     let json = JSON.parse(data);
-    console.log(json);
+    // console.log(json);
     if (json.length == 0) {
-        alertMsg('danger', `${tr(document.getElementById('type').value)}${tr(' not found!')}`);
+        alertMsg('danger', `${tr(vm_inputs.type)}${tr(' not found!')}`);
         clearT();
-        document.getElementById('alert').style.display = 'block';
         return;
     }
     let tbodyHTML = '';
-    let typeValue = document.getElementById('type').value;
+    let typeValue = vm_inputs.type;
     if (typeValue == 'coauthor') {
 
         document.getElementById('result').style.display = 'inline-table';
@@ -416,15 +419,15 @@ var handleSearch = function(data) {
         var data = myChart._model.option.series[0].data;
         myChart.on("click", function(chartParam) {
             if (chartParam.borderColor) {
-                document.getElementById('word').value = data[chartParam.dataIndex].name;
-                search(document.getElementById('type').value, document.getElementById('word').value);
+                vm_inputs.word = data[chartParam.dataIndex].name;
+                search(vm_inputs.type, vm_inputs.word);
             }
         });
     }
 
     document.getElementById('tbody').innerHTML = tbodyHTML;
     clearInterval(costTiming);
-    if (document.getElementById('type').value != 'cograph') {
+    if (vm_inputs.type != 'cograph') {
         let nums = document.getElementById("tbody").rows.length;
         // let msg = tr('Find ') + nums + tr(' results.');
         let msg = tr('Find %1 results. ').arg(nums);
@@ -458,14 +461,5 @@ if (location.href.startsWith('qrc:')) {
         // test.author;
     });
 }
-
-var handleInput = function() {
-    
-}
-
-document.getElementById('search').onclick = handleInput;
-document.getElementById('word').addEventListener('keydown', function(e) {
-    if (e.keyCode == 13) handleInput();
-});
 
 document.getElementById('word').focus();
