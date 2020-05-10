@@ -37,5 +37,6 @@
         <file>web/yearWord.js</file>
         <file>web/yearWord.test.js</file>
         <file>web/index.css</file>
+        <file>web/vue.js</file>
     </qresource>
 </RCC>

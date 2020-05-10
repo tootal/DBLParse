@@ -448,12 +448,14 @@ var resSaveMes = function(data) {
 }
 
 if (location.href.startsWith('qrc:')) {
-    new QWebChannel(qt.webChannelTransport, function(channel) {
-        finder = channel.objects.finder;
-        finder.ready.connect(handleSearch);
-        finder.saveImg.connect(resSaveMes);
-        finder.languageChanged.connect(function(lang) {
-            language = lang;
+    load('qwebchannel.js', function() {
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+            finder = channel.objects.finder;
+            finder.ready.connect(handleSearch);
+            finder.saveImg.connect(resSaveMes);
+            finder.languageChanged.connect(function(lang) {
+                language = lang;
+            });
         });
     });
 } else {
