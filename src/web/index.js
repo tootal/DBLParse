@@ -13,6 +13,15 @@ let g_data = {
         'coauthor',
         'cograph',
         'keywords'
+    ],
+    header: {
+        'author': ['', 'Title', 'Author(s)', 'Year'],
+        'title': ['', 'Title', 'Author(s)', 'Modified'],
+        'coauthor': ['', 'Co-Author(s)'],
+        'keywords': ['', 'Title', 'Author(s)', 'Modified']
+    },
+    table_body: [
+
     ]
 };
 
@@ -62,7 +71,8 @@ var vm_result = new Vue({
         homepageClick: function() {
             console.log('homepage click');
             // finder.homepage();
-        }
+        },
+        tr: tr
     },
     computed: {
         isAuthor: function() {

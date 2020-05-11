@@ -56,18 +56,28 @@
         >
             <span v-html="message"></span>
         </div>
+        
         <div id="result2">
             <home-page 
                 v-show="isAuthor"
                 v-bind:author="word"
                 v-on:click.native="homepageClick"
             ></home-page>
+            <table class="table table-bordered table-hover table-striped my-5" id="result">
+                <thead id="thead" class="thead-light">
+                    <tr>
+                        <th 
+                            v-for="item in header[type]" 
+                            v-html="tr(item)"
+                            tr
+                        ></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
         </div>
         
-        <table class="table table-bordered table-hover table-striped my-5" id="result">
-            <thead id="thead" class="thead-light"></thead>
-            <tbody id="tbody"></tbody>
-        </table>
+        
         <div id="coGraph" style="display: none;">
             <div id="graph"></div>
             <button class="btn btn-outline-success float-right" id="save" tr>Save</button>
