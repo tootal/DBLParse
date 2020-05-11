@@ -1,3 +1,4 @@
+const LENGTH_LIMIT = 2000;
 var t;
 var costTiming;
 var costMsec;
@@ -343,10 +344,15 @@ var handleSearch = function(data) {
     clearInterval(costTiming);
     if (g_data.type != 'cograph') {
         let msg = tr('Find %1 results. ').arg(table.length);
+        let type = 'success';
+        if (table.length == LENGTH_LIMIT) {
+            msg = tr('Too many results, only the first %1 are displayed. ').arg(LENGTH_LIMIT);
+            type = 'warning';
+        }
         if (costMsec >= 100) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
         }
-        alertMsg('success', msg);
+        alertMsg(type, msg);
     }
 };
 

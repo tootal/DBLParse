@@ -45,5 +45,6 @@ var strings = {
     "keyWord(s)": "关键词",
     "Find %1 results. ": "找到 %1 条结果。",
     "(Cost time: %1 s)": "（用时：%1 秒）",
-    "keywords": "关键词"
+    "keywords": "关键词",
+    "Too many results, only the first %1 are displayed. ": "结果过多，仅显示前 %1 条。"
 };
