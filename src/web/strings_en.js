@@ -1,5 +1,9 @@
 var strings = {
+    "author": "Author",
     "authors": "Authors",
+    "coauthor": "Co-Author",
+    "cograph": "Co-Graph",
+    "keywords": "Keywords",
     "ee": "Link",
     "journal": "Journal",
     "key": "Key",

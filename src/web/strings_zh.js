@@ -45,5 +45,5 @@ var strings = {
     "keyWord(s)": "关键词",
     "Find %1 results. ": "找到 %1 条结果。",
     "(Cost time: %1 s)": "（用时：%1 秒）",
-    "Keywords": "关键词"
+    "keywords": "关键词"
 };
