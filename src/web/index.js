@@ -125,6 +125,11 @@ var vm_inputs = new Vue({
         handleInput: function() {
             search(vm_inputs.type, vm_inputs.word);
         }
+    },
+    watch: {
+        type: function(v) {
+            $('#type').selectpicker('val', v);
+        }
     }
 });
 
@@ -181,7 +186,6 @@ var searchAuthor = function(authorEle) {
     let author = atob(authorEle.dataset.author);
     vm_inputs.type = 'author';
     vm_inputs.word = author;
-    $('#type').selectpicker('val', 'author');
     search('author', author);
 };
 
@@ -215,7 +219,6 @@ var clearBefore = function() {
     document.getElementById('thead').innerHTML = "";
     document.getElementById('tbody').innerHTML = "";
     document.getElementById('homepage').style.display = "none";
-    document.getElementById('alert').style.display = "none";
     document.getElementById('coGraph').style.display = "none";
 }
 
@@ -314,7 +317,6 @@ var rowHTML = function(list) {
 var handleSearch = function(data) {
     if (data == "not_ready") return;
     let json = JSON.parse(data);
-    console.log(json);
     if (json.length == 0) {
         alertMsg('danger', `${tr(vm_inputs.type)}${tr(' not found!')}`);
         clearT();
@@ -322,7 +324,6 @@ var handleSearch = function(data) {
     }
     let tbodyHTML = '';
     let typeValue = vm_inputs.type;
-    console.log(typeValue);
     if (typeValue == 'coauthor') {
 
         document.getElementById('result').style.display = 'inline-table';
