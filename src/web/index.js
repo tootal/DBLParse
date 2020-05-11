@@ -263,9 +263,10 @@ var handleSearch = function(data) {
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
 
-        setHeader(['', 'Co-Author(s)']);
+        // setHeader(['', 'Co-Author(s)']);
         for (let i = 0; i < json.length; ++i) {
-            tbodyHTML += rowHTML([i + 1, formatAuthor(json[i])]);
+            // tbodyHTML += rowHTML([i + 1, formatAuthor(json[i])]);
+            table.push([i+1, formatAuthor(json[i])]);
         }
     } else if (g_data.type == 'title' || g_data.type == 'keywords') {
 
@@ -406,7 +407,7 @@ if (location.href.startsWith('qrc:')) {
     });
 } else {
     load('index.test.js', function() {
-        test.title;
+        test.coauthor;
     });
 }
 
