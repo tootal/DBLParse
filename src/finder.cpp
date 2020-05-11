@@ -392,8 +392,7 @@ QJsonArray Finder::cographBFS(const QString &node) {
         }
 
         coNode.insert("parentNode",t.second);
-
-        if (coauthors.isEmpty()) {
+        if (!coauthors.isEmpty()) {
             coNode.insert("childNodes",QJsonArray::fromStringList(coauthors.values()));
             for (const QString &value : coauthors){
                 QPair<QString,QString> temp(t.second,value);

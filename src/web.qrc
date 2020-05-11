@@ -38,5 +38,6 @@
         <file>web/yearWord.test.js</file>
         <file>web/index.css</file>
         <file>web/vue.js</file>
+        <file>web/echarts.config.js</file>
     </qresource>
 </RCC>
