@@ -57,7 +57,8 @@
             <span v-html="tr(message)"></span>
         </div>
         
-        <div id="result" v-show="status == 'show_result'">
+        <div id="result" v-show="status == 'show_result'"
+            style="display: none;">
             <a class="link-card mt-5 mx-auto text-decoration-none"
                style="display: block;"
                v-show="type == 'author'"
@@ -74,11 +75,13 @@
             <table
                 class="table table-bordered table-hover table-striped my-5"
                 v-show="table.length != 0"
+                style="table-layout: fixed;"
             >
                 <thead class="thead-light">
                     <tr>
                         <th 
-                            v-for="head in header[type]" 
+                            v-for="(head, i) in header[type]" 
+                            v-bind:width="header_width[type][i]"
                             v-html="tr(head)"
                             tr
                         ></th>
@@ -94,10 +97,9 @@
             </table>
         </div>
         
-        
         <div id="coGraph" style="display: none;">
             <div id="graph"></div>
-            <button class="btn btn-outline-success float-right" id="save" tr>Save</button>
+            <button class="btn btn-outline-success float-right my-5" id="save" tr>Save</button>
         </div>
     </div>
 

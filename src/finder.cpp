@@ -37,7 +37,6 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &type, const QString &word)
 {
-    timing.start();
     QVector<Record> result;
     QJsonArray json;
     if (!Util::parsed()) goto not_ready;
@@ -80,7 +79,6 @@ void Finder::find(const QString &type, const QString &word)
     } else if (type == "keywords") {
         if (!titleWordLoaded()) goto not_ready;
         auto list = indexOfTitleWords(word.toLower());
-        qDebug() << list.size();
         result = getRecord(list);
         for (int i = 0; i < result.size(); i++) {
             json.append(result[i].toJson(type));

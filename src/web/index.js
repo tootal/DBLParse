@@ -21,6 +21,12 @@ let g_data = {
         'coauthor': ['', 'Co-Author(s)'],
         'keywords': ['', 'Title', 'Author(s)', 'Modified']
     },
+    header_width: {
+        'author': ['5%', '50%', '35%', '10%'],
+        'title': ['5%', '50%', '35%', '10%'],
+        'coauthor': ['20%', '80%'],
+        'keywords': ['5%', '50%', '35%', '10%']
+    },
     table: [],
     status: 'init',
     homepage_id: 0
@@ -31,6 +37,7 @@ var vm_inputs = new Vue({
     data: g_data,
     methods: {
         handleInput: function() {
+            this.status = 'init';
             search(vm_inputs.type, vm_inputs.word);
         }
     },
@@ -38,6 +45,7 @@ var vm_inputs = new Vue({
         type: function(v) {
             $('#type').selectpicker('val', v);
             this.status = 'init';
+            document.getElementById('coGraph').style.display = "none";
         }
     }
 });
@@ -114,8 +122,8 @@ var search = function(type, word) {
 var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
-    g_type = 'author';
-    g_word = author;
+    g_data.type = 'author';
+    g_data.word = author;
     search('author', author);
 };
 
@@ -213,7 +221,6 @@ var setLinkData = function(childList, parentnode, links) {
 }
 
 var handleSearch = function(data) {
-    console.log(data);
     if (data == "not_ready") return;
     let json = JSON.parse(data);
     if (json.length == 0) {
@@ -323,8 +330,8 @@ var handleSearch = function(data) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
         }
         alertMsg(type, msg);
+        g_data.status = 'show_result';
     }
-    g_data.status = 'show_result';
 };
 
 var resSaveMes = function(data) {
