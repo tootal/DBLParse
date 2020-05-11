@@ -54,7 +54,7 @@ QString Util::readAround(const QString &fileName, quint32 &pos)
     auto beginPos = pos < BUF_SZ ? 0 : pos - BUF_SZ;
     file.seek(beginPos);
     QString data = file.read(BUF_SZ << 1);
-    if(data.isEmpty()){
+    if (data.isEmpty()) {
         qDebug() << fileName;
         qDebug() << pos;
         qDebug() << beginPos;
@@ -68,22 +68,12 @@ QString Util::readAround(const QString &fileName, quint32 &pos)
 QString Util::findRecord(const QString &fileName, quint32 pos)
 {
     QString data = readAround(fileName, pos);
-//    qDebug() << data;
-    QRegularExpression re(R"(<\/(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data)>)");
-    auto m = re.match(data, static_cast<int>(pos));
-    if(!m.hasMatch()){
-//        qDebug() << pos;
-//        qDebug() << data;
-    }
-    Q_ASSERT(m.hasMatch());
-    QString name = m.captured(1);
-    int endPos = m.capturedEnd(1) + 1;
-    data.remove(endPos, data.size() - endPos);
-    int beginPos = data.lastIndexOf("<" + name + " ");
-    Q_ASSERT(beginPos != -1);
-    auto ret = data.remove(0, beginPos);
-//    qDebug() << ret;
-    return ret;
+    int p1 = data.lastIndexOf("key=\"", pos);
+    p1 = data.lastIndexOf('<', p1);
+    int p2 = data.indexOf(' ', p1);
+    auto name = data.midRef(p1 + 1, p2 - p1 - 1);
+    p2 = data.indexOf(QString("</%1>").arg(name), p2);
+    return data.mid(p1, p2 - p1 + 3 + name.length());
 }
 
 QString Util::readFile(const QString &fileName)
