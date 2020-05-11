@@ -20,9 +20,7 @@ let g_data = {
         'coauthor': ['', 'Co-Author(s)'],
         'keywords': ['', 'Title', 'Author(s)', 'Modified']
     },
-    table_body: [
-        [1, 'test_title', 'test_authors', 'test_year']
-    ]
+    table: []
 };
 
 var vm_inputs = new Vue({
@@ -258,9 +256,9 @@ var handleSearch = function(data) {
         clearT();
         return;
     }
-    let tbodyHTML = '';
-    let typeValue = vm_inputs.type;
-    if (typeValue == 'coauthor') {
+    // let tbodyHTML = '';
+    let table = [];
+    if (g_data.type == 'coauthor') {
 
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
@@ -269,7 +267,7 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i + 1, formatAuthor(json[i])]);
         }
-    } else if (typeValue == 'title' || typeValue == 'keywords') {
+    } else if (g_data.type == 'title' || g_data.type == 'keywords') {
 
         document.getElementById('result').style.display = 'inline-table';
         document.getElementById('coGraph').style.display = "none";
@@ -281,28 +279,28 @@ var handleSearch = function(data) {
         for (let i = 0; i < json.length; ++i) {
             tbodyHTML += rowHTML([i + 1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
         }
-    } else if (typeValue == 'author') {
+    } else if (g_data.type == 'author') {
+        // document.getElementById('result').style.display = 'inline-table';
+        // document.getElementById('coGraph').style.display = "none";
 
-        document.getElementById('result').style.display = 'inline-table';
-        document.getElementById('coGraph').style.display = "none";
-
-        setHeader(['', 'Title', 'Author(s)', 'Year']);
+        // setHeader(['', 'Title', 'Author(s)', 'Year']);
         // json.sort(function(x, y) {
         //     return parseInt(x.year) - parseInt(y.year);
         // });
         let label = 1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
-                handleHomePage(i);
+                // handleHomePage(i);
                 continue;
             } else if (json[i].title == "") {
                 continue;
             }
             // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
-            tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i].title, i)}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
+            // tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i].title, i)}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
+            table.push([label, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].year]);
             label = label + 1;
         }
-    } else if (typeValue == 'cograph') {
+    } else if (g_data.type == 'cograph') {
 
         document.getElementById('result').style.display = "none";
         document.getElementById('coGraph').style.display = "block";
@@ -371,12 +369,13 @@ var handleSearch = function(data) {
         });
     }
 
-    document.getElementById('tbody').innerHTML = tbodyHTML;
+    g_data.table = table;
+    // document.getElementById('tbody').innerHTML = tbodyHTML;
     clearInterval(costTiming);
-    if (vm_inputs.type != 'cograph') {
-        let nums = document.getElementById("tbody").rows.length;
+    if (g_data.type != 'cograph') {
+        // let nums = document.getElementById("tbody").rows.length;
         // let msg = tr('Find ') + nums + tr(' results.');
-        let msg = tr('Find %1 results. ').arg(nums);
+        let msg = tr('Find %1 results. ').arg(table.length);
         if (costMsec >= 100) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
             // msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
@@ -406,7 +405,7 @@ if (location.href.startsWith('qrc:')) {
     });
 } else {
     load('index.test.js', function() {
-        // test.author;
+        test.author;
     });
 }
 

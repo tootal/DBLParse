@@ -64,16 +64,22 @@
                 v-on:click.native="homepageClick"
             ></home-page>
             <table class="table table-bordered table-hover table-striped my-5" id="result">
-                <thead id="thead" class="thead-light">
+                <thead class="thead-light">
                     <tr>
                         <th 
-                            v-for="item in header[type]" 
-                            v-html="tr(item)"
+                            v-for="head in header[type]" 
+                            v-html="tr(head)"
                             tr
                         ></th>
                     </tr>
                 </thead>
-                <tbody id="tbody"></tbody>
+                <tbody>
+                    <tr v-for="row in table">
+                        <td v-for="col in row"
+                            v-html="col"
+                        ></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         
