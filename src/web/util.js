@@ -19,6 +19,7 @@ load = function(src, callback) {
 };
 
 var tr = function(s) {
+    if (s.startsWith('<span tr="')) return s;
     let res = s;
     if (typeof strings == "object" && s in strings) {
         res = strings[s];
