@@ -90,7 +90,6 @@ var clearT = function() {
 };
 
 var search = function(type, word) {
-    clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
         alertMsg('warning', 'You can not search this title.');
         clearT();
@@ -147,13 +146,6 @@ var formatAuthors = function(record) {
         }
     }
     return ref.join('; ');
-}
-
-var clearBefore = function() {
-    document.getElementById('thead').innerHTML = "";
-    document.getElementById('tbody').innerHTML = "";
-    document.getElementById('homepage').style.display = "none";
-    document.getElementById('coGraph').style.display = "none";
 }
 
 var handleHomePage = function(index) {
