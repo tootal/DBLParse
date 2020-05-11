@@ -269,15 +269,16 @@ var handleSearch = function(data) {
         }
     } else if (g_data.type == 'title' || g_data.type == 'keywords') {
 
-        document.getElementById('result').style.display = 'inline-table';
-        document.getElementById('coGraph').style.display = "none";
+        // document.getElementById('result').style.display = 'inline-table';
+        // document.getElementById('coGraph').style.display = "none";
 
-        setHeader(['', 'Title', 'Author(s)', 'Modified']);
+        // setHeader(['', 'Title', 'Author(s)', 'Modified']);
         // json.sort(function(x, y) {
         //     return parseInt(x.mdate) - parseInt(y.mdate);
         // });
         for (let i = 0; i < json.length; ++i) {
-            tbodyHTML += rowHTML([i + 1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
+            // tbodyHTML += rowHTML([i + 1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
+            table.push([i+1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
         }
     } else if (g_data.type == 'author') {
         // document.getElementById('result').style.display = 'inline-table';
@@ -405,7 +406,7 @@ if (location.href.startsWith('qrc:')) {
     });
 } else {
     load('index.test.js', function() {
-        test.author;
+        test.title;
     });
 }
 
