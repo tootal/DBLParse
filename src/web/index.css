@@ -12,13 +12,14 @@
     color: #1889c4;
 }
 
-a.link-card {
+.link-card {
     padding: 12px;
     border-radius: 10px;
     width: 380px;
     height: 90px;
     background: #f6f6f6;
     color: #1a1a1a;
+    cursor: pointer;
 }
 
 #coGraph {

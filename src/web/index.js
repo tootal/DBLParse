@@ -4,19 +4,21 @@ var costMsec;
 
 load('echarts.config.js');
 
+let g_data = {
+    type: 'author',
+    word: '',
+    type_list: [
+        'author',
+        'title',
+        'coauthor',
+        'cograph',
+        'keywords'
+    ]
+};
+
 var vm_inputs = new Vue({
     el: '#inputs',
-    data: {
-        type: 'author',
-        type_list: [
-            'author',
-            'title',
-            'coauthor',
-            'cograph',
-            'keywords'
-        ],
-        word: ''
-    },
+    data: g_data,
     methods: {
         handleInput: function() {
             search(vm_inputs.type, vm_inputs.word);
@@ -35,6 +37,37 @@ var vm_alert = new Vue({
         message: 'This is test message.',
         seen: false,
         type: 'info'
+    }
+});
+
+Vue.component('home-page', {
+    props: ['author'],
+    template: `
+<div class="link-card mt-5 mx-auto text-decoration-none">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="float-left text-left">
+            <div class="my-1" style="font-size: 22px;" tr>Home Page</div>
+            <div id="homepage-meta" class="text-muted"> {{ author }} </div>
+        </div>
+        <img src="homepage.svg" alt="homepage" class="float-right" width="60" height="60">
+    </div>
+</div>
+`
+});
+
+var vm_result = new Vue({
+    el: '#result2',
+    data: g_data,
+    methods: {
+        homepageClick: function() {
+            console.log('homepage click');
+            // finder.homepage();
+        }
+    },
+    computed: {
+        isAuthor: function() {
+            return this.type == 'author';
+        }
     }
 });
 
@@ -80,8 +113,8 @@ var search = function(type, word) {
 var searchAuthor = function(authorEle) {
     scrollTo(0, 0);
     let author = atob(authorEle.dataset.author);
-    vm_inputs.type = 'author';
-    vm_inputs.word = author;
+    g_type = 'author';
+    g_word = author;
     search('author', author);
 };
 

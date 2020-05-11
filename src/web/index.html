@@ -56,16 +56,14 @@
         >
             <span v-html="message"></span>
         </div>
-
-        <a id="homepage" class="link-card mt-5 mx-auto text-decoration-none" style="display: none;">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="float-left text-left">
-                    <div class="my-1" style="font-size: 22px;" tr>Home Page</div>
-                    <div id="homepage-meta" class="text-muted"></div>
-                </div>
-                <img src="homepage.svg" alt="homepage" class="float-right" width="60" height="60">
-            </div>
-        </a>
+        <div id="result2">
+            <home-page 
+                v-show="isAuthor"
+                v-bind:author="word"
+                v-on:click.native="homepageClick"
+            ></home-page>
+        </div>
+        
         <table class="table table-bordered table-hover table-striped my-5" id="result">
             <thead id="thead" class="thead-light"></thead>
             <tbody id="tbody"></tbody>
