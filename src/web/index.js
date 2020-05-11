@@ -21,7 +21,9 @@ let g_data = {
         'coauthor': ['', 'Co-Author(s)'],
         'keywords': ['', 'Title', 'Author(s)', 'Modified']
     },
-    table: []
+    table: [],
+    status: 'init',
+    homepage_id: 0
 };
 
 var vm_inputs = new Vue({
@@ -35,6 +37,7 @@ var vm_inputs = new Vue({
     watch: {
         type: function(v) {
             $('#type').selectpicker('val', v);
+            this.status = 'init';
         }
     }
 });
@@ -51,29 +54,23 @@ var vm_alert = new Vue({
     }
 });
 
-Vue.component('home-page', {
-    props: ['author'],
-    template: `
-<div class="link-card mt-5 mx-auto text-decoration-none">
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="float-left text-left">
-            <div class="my-1" style="font-size: 22px;" tr>Home Page</div>
-            <div id="homepage-meta" class="text-muted"> {{ author }} </div>
-        </div>
-        <img src="homepage.svg" alt="homepage" class="float-right" width="60" height="60">
-    </div>
-</div>
-`
-});
-
 var vm_result = new Vue({
-    el: '#result2',
+    el: '#result',
     data: g_data,
     methods: {
         homepageClick: function() {
             console.log('homepage click');
         },
         tr: tr
+    },
+    computed: {
+        homepageHref: function() {
+            if (location.href.startsWith('qrc:')) {
+                return `dblp://get/${this.homepage_id}`;
+            } else {
+                return 'detail.html';
+            }
+        }
     }
 });
 
@@ -99,7 +96,6 @@ var search = function(type, word) {
         costTiming = setInterval(function() {
             costMsec += 100;
         }, 100);
-        // console.log('search ', type, word);
         if (location.href.startsWith('qrc:')) {
             finder.find(type, word);
         } else {
@@ -147,16 +143,6 @@ var formatAuthors = function(record) {
         }
     }
     return ref.join('; ');
-}
-
-var handleHomePage = function(index) {
-    if (location.href.startsWith('qrc:')) {
-        document.getElementById('homepage').href = `dblp://get/${index}`;
-    } else {
-        document.getElementById('homepage').href = 'detail.html';
-    }
-    document.getElementById('homepage-meta').innerText = vm_inputs.word;
-    document.getElementById('homepage').style.display = "block";
 }
 
 var getNodes = function(parentNode, childNodes, nodes) {
@@ -225,23 +211,9 @@ var setLinkData = function(childList, parentnode, links) {
         });
     }
 }
-var setHeader = function(list) {
-    let s = '';
-    for (i of list) {
-        s += `<th>${tr(i)}</th>`;
-    }
-    document.getElementById('thead').innerHTML = `<tr>${s}</tr>`;
-};
-
-var rowHTML = function(list) {
-    let s = '';
-    for (i of list) {
-        s += `<td>${i}</td>`;
-    }
-    return `<tr>${s}</tr>`;
-};
 
 var handleSearch = function(data) {
+    console.log(data);
     if (data == "not_ready") return;
     let json = JSON.parse(data);
     if (json.length == 0) {
@@ -262,7 +234,7 @@ var handleSearch = function(data) {
         let label = 1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
-                // handleHomePage(i);
+                vm_result.homepage_id = i;
                 continue;
             } else if (json[i].title == "") {
                 continue;
@@ -272,7 +244,6 @@ var handleSearch = function(data) {
         }
     } else if (g_data.type == 'cograph') {
 
-        document.getElementById('result').style.display = "none";
         document.getElementById('coGraph').style.display = "block";
 
         document.getElementById("save").onclick = function() {
@@ -353,6 +324,7 @@ var handleSearch = function(data) {
         }
         alertMsg(type, msg);
     }
+    g_data.status = 'show_result';
 };
 
 var resSaveMes = function(data) {

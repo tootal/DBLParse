@@ -57,12 +57,20 @@
             <span v-html="tr(message)"></span>
         </div>
         
-        <div id="result2">
-            <home-page 
-                v-show="type == 'author' && table.length != 0"
-                v-bind:author="word"
-                v-on:click.native="homepageClick"
-            ></home-page>
+        <div id="result" v-show="status == 'show_result'">
+            <a class="link-card mt-5 mx-auto text-decoration-none"
+               style="display: block;"
+               v-show="type == 'author'"
+               v-bind:href='homepageHref'
+            >
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="float-left text-left">
+                        <div class="my-1" style="font-size: 22px;" tr>Home Page</div>
+                        <div id="homepage-meta" class="text-muted"> {{ word }} </div>
+                    </div>
+                    <img src="homepage.svg" alt="homepage" class="float-right" width="60" height="60">
+                </div>
+            </a>
             <table
                 class="table table-bordered table-hover table-striped my-5"
                 v-show="table.length != 0"
