@@ -59,11 +59,14 @@
         
         <div id="result2">
             <home-page 
-                v-show="type == 'author'"
+                v-show="type == 'author' && table.length != 0"
                 v-bind:author="word"
                 v-on:click.native="homepageClick"
             ></home-page>
-            <table class="table table-bordered table-hover table-striped my-5" id="result">
+            <table
+                class="table table-bordered table-hover table-striped my-5"
+                v-show="table.length != 0"
+            >
                 <thead class="thead-light">
                     <tr>
                         <th 

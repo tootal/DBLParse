@@ -256,39 +256,16 @@ var handleSearch = function(data) {
         clearT();
         return;
     }
-    // let tbodyHTML = '';
     let table = [];
     if (g_data.type == 'coauthor') {
-
-        document.getElementById('result').style.display = 'inline-table';
-        document.getElementById('coGraph').style.display = "none";
-
-        // setHeader(['', 'Co-Author(s)']);
         for (let i = 0; i < json.length; ++i) {
-            // tbodyHTML += rowHTML([i + 1, formatAuthor(json[i])]);
             table.push([i+1, formatAuthor(json[i])]);
         }
     } else if (g_data.type == 'title' || g_data.type == 'keywords') {
-
-        // document.getElementById('result').style.display = 'inline-table';
-        // document.getElementById('coGraph').style.display = "none";
-
-        // setHeader(['', 'Title', 'Author(s)', 'Modified']);
-        // json.sort(function(x, y) {
-        //     return parseInt(x.mdate) - parseInt(y.mdate);
-        // });
         for (let i = 0; i < json.length; ++i) {
-            // tbodyHTML += rowHTML([i + 1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
             table.push([i+1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
         }
     } else if (g_data.type == 'author') {
-        // document.getElementById('result').style.display = 'inline-table';
-        // document.getElementById('coGraph').style.display = "none";
-
-        // setHeader(['', 'Title', 'Author(s)', 'Year']);
-        // json.sort(function(x, y) {
-        //     return parseInt(x.year) - parseInt(y.year);
-        // });
         let label = 1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
@@ -297,8 +274,6 @@ var handleSearch = function(data) {
             } else if (json[i].title == "") {
                 continue;
             }
-            // tbodyHTML += rowHTML([label, formatTitle(json[i]), formatAuthors(json[i]), json[i].year]);
-            // tbodyHTML += `<tr><td>${label}</td><td>${formatTitle(json[i].title, i)}</td> <td width="30%">${formatAuthors(json[i])}</td><td>${json[i].year}</td></tr>`;
             table.push([label, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].year]);
             label = label + 1;
         }
@@ -372,15 +347,11 @@ var handleSearch = function(data) {
     }
 
     g_data.table = table;
-    // document.getElementById('tbody').innerHTML = tbodyHTML;
     clearInterval(costTiming);
     if (g_data.type != 'cograph') {
-        // let nums = document.getElementById("tbody").rows.length;
-        // let msg = tr('Find ') + nums + tr(' results.');
         let msg = tr('Find %1 results. ').arg(table.length);
         if (costMsec >= 100) {
             msg += tr('(Cost time: %1 s)').arg(costMsec / 1000);
-            // msg += tr('(Cost time: ') + costMsec / 1000 + tr('s)');
         }
         alertMsg('success', msg);
     }
@@ -407,7 +378,7 @@ if (location.href.startsWith('qrc:')) {
     });
 } else {
     load('index.test.js', function() {
-        test.coauthor;
+        // test.coauthor;
     });
 }
 

@@ -23,21 +23,6 @@ var test = {
         vm_inputs.word = this.data.author;
         handleSearch(this.data.coauthor_ret);
     },
-    get titlenotfound() {
-        vm_inputs.type = 'title';
-        vm_inputs.word = this.data.title;
-        handleSearch(this.data.not_found_ret);
-    },
-    get authornotfound() {
-        vm_inputs.type = 'author';
-        vm_inputs.word = this.data.author;
-        handleSearch(this.data.not_found_ret);
-    },
-    get coauthornotfound() {
-        vm_inputs.type = 'coauthor';
-        vm_inputs.word = this.data.author;
-        handleSearch(this.data.not_found_ret);
-    },
     get homepage() {
         vm_inputs.type = 'title';
         vm_inputs.word = 'Home Page';
