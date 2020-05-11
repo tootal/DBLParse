@@ -1,6 +1,7 @@
 @echo off
 echo Setting up environment...
-set PATH=C:\Qt\Qt5.12.7\5.12.7\msvc2017_64\bin;%PATH%
+set QT_VERSION=5.14.2
+set PATH=C:\Qt\%QT_VERSION%\msvc2017_64\bin;%PATH%
 set VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 cd ..
