@@ -37,7 +37,6 @@ Finder::Finder(QObject *parent) : QObject(parent)
 
 void Finder::find(const QString &type, const QString &word)
 {
-    QElapsedTimer timing;
     timing.start();
     QVector<Record> result;
     QJsonArray json;
@@ -45,17 +44,13 @@ void Finder::find(const QString &type, const QString &word)
     if (type == "author") {
         if (!authorLoaded()) goto not_ready;
         auto list = indexOfAuthor(word);
-        qDebug() << "indexOf: " << timing.elapsed();
         result = getRecord(list);
-        qDebug() << "getRecord: " << timing.elapsed();
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
             return x.attr("year").toString() < y.attr("year").toString(); 
         });
-        qDebug() << "sorted: " << timing.elapsed();
         for (const Record &record : result) {
             json.append(record.toJson(type));
         }
-        qDebug() << "toJson: " << timing.elapsed();
     } else if (type == "title") {
         if (!titleLoaded()) goto not_ready;
         auto list = indexOfTitle(word);
@@ -92,7 +87,6 @@ void Finder::find(const QString &type, const QString &word)
         }
     }
     m_lastResult = result;
-    qDebug() << "find end: " << timing.elapsed();
     emit ready(QJsonDocument(json).toJson());
     return ;
 not_ready:

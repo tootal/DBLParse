@@ -242,7 +242,6 @@ var rowHTML = function(list) {
 };
 
 var handleSearch = function(data) {
-    console.log('handle search begin: ', costMsec);
     if (data == "not_ready") return;
     let json = JSON.parse(data);
     if (json.length == 0) {
