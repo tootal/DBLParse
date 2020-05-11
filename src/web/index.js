@@ -21,7 +21,7 @@ let g_data = {
         'keywords': ['', 'Title', 'Author(s)', 'Modified']
     },
     table_body: [
-
+        [1, 'test_title', 'test_authors', 'test_year']
     ]
 };
 
@@ -46,6 +46,9 @@ var vm_alert = new Vue({
         message: 'This is test message.',
         seen: false,
         type: 'info'
+    },
+    methods: {
+        tr: tr
     }
 });
 
@@ -70,14 +73,8 @@ var vm_result = new Vue({
     methods: {
         homepageClick: function() {
             console.log('homepage click');
-            // finder.homepage();
         },
         tr: tr
-    },
-    computed: {
-        isAuthor: function() {
-            return this.type == 'author';
-        }
     }
 });
 
@@ -97,7 +94,7 @@ var clearT = function() {
 var search = function(type, word) {
     clearBefore();
     if (type == 'title' && ['Home Page'].indexOf(word) != -1) {
-        alertMsg('warning', tr('You can not search this title.'));
+        alertMsg('warning', 'You can not search this title.');
         clearT();
     } else {
         costMsec = 0;

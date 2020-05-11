@@ -54,12 +54,12 @@
             v-show="seen"
             v-bind:class="'alert-'+type"
         >
-            <span v-html="message"></span>
+            <span v-html="tr(message)"></span>
         </div>
         
         <div id="result2">
             <home-page 
-                v-show="isAuthor"
+                v-show="type == 'author'"
                 v-bind:author="word"
                 v-on:click.native="homepageClick"
             ></home-page>
