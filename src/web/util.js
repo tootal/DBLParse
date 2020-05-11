@@ -16,7 +16,6 @@ load = function(src, callback) {
     document.body.appendChild(script);
     if (typeof callback == 'function')
         script.onload = callback;
-    return script;
 };
 
 var tr = function(s) {
@@ -37,7 +36,7 @@ Object.defineProperty(window, 'language', {
             v = v.split('_')[0];
         }
         this._language = v;
-        load(`strings_${v}.js`).onload = function() {
+        load(`strings_${v}.js`, function() {
             for (let node of document.querySelectorAll('[tr]')) {
                 let src = node.getAttribute('tr');
                 if (src == "") {
@@ -50,7 +49,11 @@ Object.defineProperty(window, 'language', {
                     node.innerText = src;
                 }
             }
-        };
+            window.dispatchEvent(new CustomEvent('language_change'));
+        });
     }
 });
-language = navigator.language;
+
+window.onload = function() {
+    language = navigator.language;
+}

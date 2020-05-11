@@ -19,15 +19,14 @@
                 <div class="input-group-prepend">
                     <select
                         id="type"
-                        class="selectpicker"
                         data-style="btn-outline-info"
                         v-model="type"
                     >
-                        <option value="author" tr>Author</option>
-                        <option value="title" tr>Title</option>
-                        <option value="coauthor" tr>Co-Author</option>
-                        <option value="cograph" tr>Co-Graph</option>
-                        <option value="keywords" tr>Keywords</option>
+                        <option
+                            v-bind:value="item"
+                            v-for="item in type_list"
+                            tr
+                        >{{ item }}</option>
                     </select>
                 </div>
                 <input

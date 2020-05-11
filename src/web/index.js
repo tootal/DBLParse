@@ -112,6 +112,13 @@ var vm_inputs = new Vue({
     el: '#inputs',
     data: {
         type: 'author',
+        type_list: [
+            'author',
+            'title',
+            'coauthor',
+            'cograph',
+            'keywords'
+        ],
         word: ''
     },
     methods: {
@@ -467,3 +474,8 @@ if (location.href.startsWith('qrc:')) {
 }
 
 document.getElementById('word').focus();
+
+window.addEventListener('language_change', function() {
+    $('#type').selectpicker('destroy');
+    $('#type').selectpicker();
+});

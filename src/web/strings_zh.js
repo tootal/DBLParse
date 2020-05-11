@@ -1,5 +1,5 @@
 var strings = {
-    "Author": "作者",
+    "author": "作者",
     "Title": "标题",
     "Co-Author": "合作者",
     "Search": "搜索",
