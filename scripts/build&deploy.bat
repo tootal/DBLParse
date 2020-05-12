@@ -24,7 +24,7 @@ windeployqt DBLParse.exe
 
 echo Compressing...
 cd ..
-bc c DBLParse.zip DBLParse
+bc c -fmt:7z DBLParse.7z DBLParse
 
 echo Clean...
 cd ..
