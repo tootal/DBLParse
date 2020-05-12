@@ -60,6 +60,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    application.cpp \
     configmanager.cpp \
     finder.cpp \
     loader.cpp \
@@ -75,6 +76,7 @@ SOURCES += \
     webview.cpp
 
 HEADERS += \
+    application.h \
     configmanager.h \
     finder.h \
     loader.h \
