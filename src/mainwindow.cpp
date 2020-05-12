@@ -152,8 +152,8 @@ void MainWindow::on_actionOpen_triggered()
         dialog.setWindowTitle(tr("Open DBLP XML File"));
         dialog.setFileMode(QFileDialog::ExistingFile);
         dialog.selectFile(lastOpenFileName);
+        dialog.setDirectory(lastOpenFileName);
         dialog.setNameFilter(tr("XML file (*.xml)"));
-        dialog.setViewMode(QFileDialog::Detail);
         if (dialog.exec()) fileName = dialog.selectedFiles().first();
         else return ;
     }
