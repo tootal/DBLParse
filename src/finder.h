@@ -69,6 +69,7 @@ public:
     static StringRef *s_titleIndex;
     static quint32 s_authorIndexs;
     static quint32 s_titleIndexs;
+    static QVector<StringRef> authorIndexs;
     static QList<QPair<QString,int> > s_authorStac;
     static QVector<QPair<QString, quint32>> s_titleWords;
     static YearWord s_yearWord;

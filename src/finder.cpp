@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "application.h"
 
+QVector<StringRef> Finder::authorIndexs;
 StringRef *Finder::s_authorIndex = nullptr;
 StringRef *Finder::s_titleIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
