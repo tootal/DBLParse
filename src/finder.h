@@ -14,15 +14,16 @@ public:
     typedef Parser::YW_T YW_T;
     typedef Parser::WP_T WP_T;
     explicit Finder(QObject *parent = nullptr);
-    Q_INVOKABLE void find(const QString &type, const QString &word);
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
     void clearIndex();
-    static void init();
     QList<quint32> indexOfAuthor(const QString &author) const;
     QList<quint32> indexOfTitle(const QString &title) const;
     QSet<quint32> indexOfTitleWord(const QString &keyword) const;
     QList<quint32> indexOfTitleWords(const QString &keywords) const;
+    QJsonArray cographBFS(const QString &node);
+    
+    static void init();
     static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
     static YW_T yearWord() {return s_yearWord;}
     
@@ -38,7 +39,8 @@ public:
     void setTitleWordLoaded();
     bool loaded() const;
     void setLoaded();
-    QJsonArray cographBFS(const QString &node);
+    
+    Q_INVOKABLE void find(const QString &type, const QString &word);
     Q_INVOKABLE void image(const QString &img , const QString &filename);
     Q_INVOKABLE void saveWordCloud(const QString &img , const QString &filename);
     
