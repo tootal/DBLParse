@@ -18,14 +18,14 @@ public:
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
     void clearIndex();
-    QList<quint32> indexOfAuthor(const QString &author) const;
-    QList<quint32> indexOfTitle(const QString &title) const;
+    QVector<quint32> indexOfAuthor(const QString &author) const;
+    QVector<quint32> indexOfTitle(const QString &title) const;
     QSet<quint32> indexOfTitleWord(const QString &keyword) const;
-    QList<quint32> indexOfTitleWords(const QString &keywords) const;
+    QVector<quint32> indexOfTitleWords(const QString &keywords) const;
     QJsonArray cographBFS(const QString &node);
     
     static void init();
-    static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
+    static QVector<QPair<QString,int>> authorStac() {return s_authorStac;}
     static YearWord yearWord() {return s_yearWord;}
     
     bool yearWordLoaded() const;
@@ -54,7 +54,7 @@ signals:
     void languageChanged(const QString &locale);
     
 private:
-    QVector<Record> getRecord(const QList<quint32> &posList);
+    QVector<Record> getRecord(const QVector<quint32> &posList);
     bool m_loaded{};
     bool m_authorLoaded{};
     bool m_titleLoaded{};
@@ -67,7 +67,7 @@ public:
     static QFile *s_file;
     static QVector<StringRef> authorIndexs;
     static QVector<StringRef> titleIndexs;
-    static QList<QPair<QString,int> > s_authorStac;
+    static QVector<QPair<QString,int>> s_authorStac;
     static QVector<QPair<QString, quint32>> s_titleWords;
     static YearWord s_yearWord;
     static QString readText(const StringRef &ref);

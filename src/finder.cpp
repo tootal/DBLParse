@@ -23,7 +23,7 @@
 QVector<StringRef> Finder::authorIndexs;
 QVector<StringRef> Finder::titleIndexs;
 QFile *Finder::s_file = nullptr;
-QList<QPair<QString,int> >  Finder::s_authorStac;
+QVector<QPair<QString,int>>  Finder::s_authorStac;
 Parser::YearWord Finder::s_yearWord;
 QVector<QPair<QString, quint32>> Finder::s_titleWords;
 
@@ -145,9 +145,9 @@ void Finder::clearIndex()
     s_titleWords.clear();
 }
 
-QList<quint32> Finder::indexOfAuthor(const QString &author) const
+QVector<quint32> Finder::indexOfAuthor(const QString &author) const
 {
-    QList<quint32> list;
+    QVector<quint32> list;
     auto range = equalRange(authorIndexs.begin(), authorIndexs.end(), author);
     for(auto i = range.first; i != range.second; ++i){
         list.append(i->l);
@@ -155,9 +155,9 @@ QList<quint32> Finder::indexOfAuthor(const QString &author) const
     return list;
 }
 
-QList<quint32> Finder::indexOfTitle(const QString &title) const
+QVector<quint32> Finder::indexOfTitle(const QString &title) const
 {
-    QList<quint32> list;
+    QVector<quint32> list;
     auto range = equalRange(titleIndexs.begin(), titleIndexs.end(), title);
     for(auto i = range.first; i != range.second; ++i)
         list.append(i->l);
@@ -180,7 +180,7 @@ QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
     return set;
 }
 
-QList<quint32> Finder::indexOfTitleWords(const QString &keywords) const
+QVector<quint32> Finder::indexOfTitleWords(const QString &keywords) const
 {
     auto words = keywords.split(' ');
     auto res = indexOfTitleWord(words[0]);
@@ -188,7 +188,7 @@ QList<quint32> Finder::indexOfTitleWords(const QString &keywords) const
         auto t = indexOfTitleWord(words[i]);
         res.intersect(t);
     }
-    return res.values();
+    return QVector<quint32>::fromList(res.values());
 }
 
 bool Finder::yearWordLoaded() const
@@ -259,7 +259,7 @@ QString Finder::readText(const StringRef &ref)
     return s_file->read(ref.r - ref.l);
 }
 
-QVector<Record> Finder::getRecord(const QList<quint32> &posList)
+QVector<Record> Finder::getRecord(const QVector<quint32> &posList)
 {
     QVector<Record> array;
     int size = std::min(posList.size(), 2000);
