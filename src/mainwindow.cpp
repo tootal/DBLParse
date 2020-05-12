@@ -36,15 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/web/index.html"));
 
-    m_parser = new Parser;
     m_loader = new Loader(this);
-    
-    m_parser->moveToThread(&m_parseThread);
-    connect(this, &MainWindow::startParse,
-            m_parser, &Parser::run);
-    connect(m_parser, &Parser::done,
-            this, &MainWindow::load);
-    m_parseThread.start();
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_actionStatus_triggered);
@@ -80,8 +72,6 @@ MainWindow::~MainWindow()
     delete ui;
     m_loader->quit();
     m_loader->wait();
-    m_parseThread.quit();
-    m_parseThread.wait();
 }
 
 void MainWindow::showAboutBox(QPixmap pixmapIcon, const QString &info)
@@ -172,11 +162,21 @@ void MainWindow::on_actionOpen_triggered()
     }
     Util::clearIndexs();
     auto *dialog = new ParseDialog(this);
-    connect(m_parser, &Parser::stateChanged,
+    auto thread = new QThread();
+    auto parser = new Parser();
+    parser->moveToThread(thread);
+    connect(thread, &QThread::finished,
+            parser, &QObject::deleteLater);
+    connect(this, &MainWindow::startParse,
+            parser, &Parser::run);
+    connect(parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
-    connect(m_parser, &Parser::done,
+    connect(parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
+    connect(thread, &QThread::finished,
+            thread, &QObject::deleteLater);
     dialog->open();
+    thread->start();
     emit startParse();
 }
 

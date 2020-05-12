@@ -59,8 +59,6 @@ protected:
 private:
     Ui::MainWindow *ui;
     QTranslator *translator;
-    Parser *m_parser;
-    QThread m_parseThread;
     Finder *m_finder;
     Loader *m_loader;
     
