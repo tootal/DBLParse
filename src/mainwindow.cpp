@@ -26,8 +26,6 @@
 #include "configmanager.h"
 #include "application.h"
 
-extern ConfigManager *g_config;
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

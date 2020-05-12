@@ -13,12 +13,6 @@
 #include "util.h"
 #include "configmanager.h"
 
-extern ConfigManager *g_config;
-ConfigManager *g_config;
-
-extern MainWindow *g_mainwindow;
-MainWindow *g_mainwindow;
-
 #ifdef QT_NO_DEBUG
 
 static QFile s_logFile;
@@ -83,8 +77,6 @@ int main(int argc, char *argv[])
     
     ConfigManager config;
     a.config = &config;
-    g_config = &config;
-    
     
 #ifdef QT_NO_DEBUG
     initLogFile("DBLParse.log");
@@ -102,7 +94,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.setTranslator(&translator);
     a.window = &w;
-    g_mainwindow = &w;
     w.show();
     return a.exec();
 }

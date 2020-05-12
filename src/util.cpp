@@ -10,8 +10,6 @@
 #include "configmanager.h"
 #include "application.h"
 
-extern ConfigManager *g_config;
-
 const QVector<QPair<QString, QByteArray>> 
 Util::s_availableLanguages = {
     {"en_US", QT_TR_NOOP("English (United States)")},

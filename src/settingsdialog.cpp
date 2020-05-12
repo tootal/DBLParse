@@ -7,8 +7,6 @@
 #include "configmanager.h"
 #include "application.h"
 
-extern ConfigManager *g_config;
-
 const QByteArray 
 SettingsDialog::SystemLanguage = QT_TR_NOOP("System");
 

@@ -20,8 +20,6 @@
 #include "mainwindow.h"
 #include "application.h"
 
-extern MainWindow *g_mainwindow;
-
 StringRef *Finder::s_authorIndex = nullptr;
 StringRef *Finder::s_titleIndex = nullptr;
 quint32 Finder::s_authorIndexs = 0;
