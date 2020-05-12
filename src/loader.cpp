@@ -45,6 +45,7 @@ void Loader::run()
         Finder::s_authorIndex = new StringRef[Finder::s_authorIndexs];
         for (quint32 i = 0; i < Finder::s_authorIndexs; ++i) {
             stream >> Finder::s_authorIndex[i].l >> Finder::s_authorIndex[i].r;
+            Finder::authorIndexs.append(Finder::s_authorIndex[i]);
         }
         file.close();
         emit authorLoadDone();
