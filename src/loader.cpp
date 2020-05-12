@@ -7,7 +7,7 @@
 #include "finder.h"
 
 Loader::Loader(QObject *parent) 
-    : QThread(parent)
+    : QObject(parent)
 {
     
 }

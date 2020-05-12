@@ -1,13 +1,13 @@
 #pragma once
 
-#include <QThread>
+#include <QObject>
 
-class Loader : public QThread
+class Loader : public QObject
 {
     Q_OBJECT
 public:
     explicit Loader(QObject *parent = nullptr);
-    void run() override;
+    void run();
     
 signals:
     void stateChanged(const QString &state);

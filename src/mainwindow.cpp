@@ -35,32 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_finder = new Finder(this);
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/web/index.html"));
-
-    m_loader = new Loader(this);
     
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_actionStatus_triggered);
-    
-    connect(m_loader, &Loader::stateChanged,
-            this, [this](const QString &state){
-        statusBar()->showMessage(state); 
-    });
-    connect(m_loader, &Loader::authorStacLoadDone,
-            m_finder, &Finder::setAuthorStacLoaded);
-    connect(m_loader, &Loader::authorLoadDone,
-            m_finder, &Finder::setAuthorLoaded);
-    connect(m_loader, &Loader::titleLoadDone,
-            m_finder, &Finder::setTitleLoaded);
-    connect(m_loader, &Loader::yearWordLoadDone,
-            m_finder, &Finder::setYearWordLoaded);
-    connect(m_loader, &Loader::titleWordLoadDone,
-            m_finder, &Finder::setTitleWordLoaded);
-    connect(m_loader, &Loader::loadDone,
-            this, [this]() {
-        statusBar()->showMessage(tr("Load finished."), 3000); 
-    });
-    connect(m_loader, &Loader::loadDone,
-            m_finder, &Finder::setLoaded);
     
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
@@ -70,8 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    m_loader->quit();
-    m_loader->wait();
 }
 
 void MainWindow::showAboutBox(QPixmap pixmapIcon, const QString &info)
@@ -175,6 +150,8 @@ void MainWindow::on_actionOpen_triggered()
             dialog, &ParseDialog::activeButton);
     connect(thread, &QThread::finished,
             thread, &QObject::deleteLater);
+    connect(parser, &Parser::done,
+            this, &MainWindow::load);
     dialog->open();
     thread->start();
     emit startParse();
@@ -219,7 +196,38 @@ void MainWindow::on_actionOpenIndexFolder_triggered()
 
 void MainWindow::load()
 {
-    m_loader->start();
+    auto loader = new Loader();
+    auto thread = new QThread();
+    loader->moveToThread(thread);
+    connect(thread, &QThread::finished,
+            loader, &QObject::deleteLater);
+    connect(this, &MainWindow::startLoad,
+            loader, &Loader::run);
+    connect(loader, &Loader::stateChanged,
+            this, [this](const QString &state) {
+        statusBar()->showMessage(state);
+    });
+    connect(thread, &QThread::finished,
+            thread, &QObject::deleteLater);
+    
+    connect(loader, &Loader::authorStacLoadDone,
+            m_finder, &Finder::setAuthorStacLoaded);
+    connect(loader, &Loader::authorLoadDone,
+            m_finder, &Finder::setAuthorLoaded);
+    connect(loader, &Loader::titleLoadDone,
+            m_finder, &Finder::setTitleLoaded);
+    connect(loader, &Loader::yearWordLoadDone,
+            m_finder, &Finder::setYearWordLoaded);
+    connect(loader, &Loader::titleWordLoadDone,
+            m_finder, &Finder::setTitleWordLoaded);
+    connect(loader, &Loader::loadDone,
+            m_finder, &Finder::setLoaded);
+    connect(loader, &Loader::loadDone,
+            this, [this]() {
+        statusBar()->showMessage(tr("Load finished."), 3000); 
+    });
+    thread->start();
+    emit startLoad();
     Finder::init();
 }
 

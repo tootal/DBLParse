@@ -60,11 +60,11 @@ private:
     Ui::MainWindow *ui;
     QTranslator *translator;
     Finder *m_finder;
-    Loader *m_loader;
     
     void load();
     void onLanguageChanged(const QString &locale);
     
 signals:
     void startParse();
+    void startLoad();
 };
