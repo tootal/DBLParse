@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-#include <QApplication>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
@@ -10,6 +9,7 @@
 #include <QTranslator>
 #include <QLocale>
 
+#include "application.h"
 #include "util.h"
 #include "configmanager.h"
 
@@ -77,7 +77,7 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    Application a(argc, argv);
     QCoreApplication::setOrganizationName("SCUT_CS");
     QCoreApplication::setApplicationName("DBLParse");
     
