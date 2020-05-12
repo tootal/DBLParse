@@ -162,7 +162,7 @@ QList<quint32> Finder::indexOfAuthor(const QString &author) const
 {
     QList<quint32> list;
     if(s_authorIndex == nullptr) return list;
-    auto range = equalRange(s_authorIndex, s_authorIndex + s_authorIndexs, author);
+    auto range = equalRange(authorIndexs.begin(), authorIndexs.end(), author);
     for(auto i = range.first; i != range.second; ++i){
         list.append(i->l);
     }
