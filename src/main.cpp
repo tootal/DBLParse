@@ -15,12 +15,12 @@
 
 #ifdef QT_NO_DEBUG
 
-static QFile s_logFile;
+static QFile logFile;
 
 static void initLogFile(const QString &fileName)
 {
-    s_logFile.setFileName(fileName);
-    s_logFile.open(QFile::Append | QFile::Text);
+    logFile.setFileName(fileName);
+    logFile.open(QFile::Append | QFile::Text);
 }
 
 #endif // QT_NO_DEBUG
@@ -52,7 +52,7 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
             + QString("(%1:%2) ").arg(fileName).arg(context.line)
             + msg;
 #ifdef QT_NO_DEBUG
-    QTextStream stream(&s_logFile);
+    QTextStream stream(&logFile);
     
     if (type == QtDebugMsg) {
         std::cerr << text.toStdString() << std::endl;
@@ -61,7 +61,7 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
     }
     
     if (type == QtFatalMsg) {
-        s_logFile.close();
+        logFile.close();
         abort();
     }
 #else // QT_NO_DEBUG
