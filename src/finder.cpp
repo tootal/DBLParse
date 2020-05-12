@@ -21,9 +21,7 @@
 #include "application.h"
 
 QVector<StringRef> Finder::authorIndexs;
-StringRef *Finder::s_authorIndex = nullptr;
 StringRef *Finder::s_titleIndex = nullptr;
-quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
@@ -143,11 +141,6 @@ void Finder::clearIndex()
     m_titleLoaded = false;
     m_authorStacLoaded = false;
     
-    s_authorIndexs = 0;
-    if (s_authorIndex != nullptr) {
-        delete s_authorIndex;
-        s_authorIndex = nullptr;
-    }
     s_titleIndexs = 0;
     if (s_titleIndex != nullptr) {
         delete s_titleIndex;
@@ -161,7 +154,6 @@ void Finder::clearIndex()
 QList<quint32> Finder::indexOfAuthor(const QString &author) const
 {
     QList<quint32> list;
-    if(s_authorIndex == nullptr) return list;
     auto range = equalRange(authorIndexs.begin(), authorIndexs.end(), author);
     for(auto i = range.first; i != range.second; ++i){
         list.append(i->l);

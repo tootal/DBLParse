@@ -36,16 +36,16 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading author index..."));
+        Finder::authorIndexs.clear();
         QFile file("author.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
-        Finder::s_authorIndexs = static_cast<quint32>(file.size() >> 3);
-        if (Finder::s_authorIndex) delete [] Finder::s_authorIndex;
-        Finder::s_authorIndex = new StringRef[Finder::s_authorIndexs];
-        for (quint32 i = 0; i < Finder::s_authorIndexs; ++i) {
-            stream >> Finder::s_authorIndex[i].l >> Finder::s_authorIndex[i].r;
-            Finder::authorIndexs.append(Finder::s_authorIndex[i]);
+        auto len = static_cast<quint32>(file.size() >> 3);
+        for (quint32 i = 0; i < len; ++i) {
+            StringRef t;
+            stream >> t.l >> t.r;
+            Finder::authorIndexs.append(t);
         }
         file.close();
         emit authorLoadDone();
