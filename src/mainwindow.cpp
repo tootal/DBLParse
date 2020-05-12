@@ -24,6 +24,7 @@
 #include "loader.h"
 #include "settingsdialog.h"
 #include "configmanager.h"
+#include "application.h"
 
 extern ConfigManager *g_config;
 
@@ -146,7 +147,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString lastOpenFileName = g_config->value("lastOpenFileName");
+    QString lastOpenFileName = App->config->value("lastOpenFileName");
     QString fileName;
     {
         QFileDialog dialog(this);
@@ -159,7 +160,7 @@ void MainWindow::on_actionOpen_triggered()
         else return ;
     }
     if(fileName.isEmpty()) return ;
-    g_config->setValue("lastOpenFileName", fileName);
+    App->config->setValue("lastOpenFileName", fileName);
     // question when size greater than 64MiB
     if(QFile(fileName).size() > PROMOT_FILE_SIZE){
         QMessageBox box(this);

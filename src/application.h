@@ -2,7 +2,8 @@
 
 #include <QApplication>
 
-#include "mainwindow.h"
+class MainWindow;
+class ConfigManager;
 
 #define App (static_cast<Application *>(qApp))
 
@@ -13,5 +14,6 @@ public:
     explicit Application(int &argc, char **argv);
     
     MainWindow *window;
+    ConfigManager *config;
 };
 

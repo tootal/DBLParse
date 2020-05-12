@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("DBLParse");
     
     ConfigManager config;
+    a.config = &config;
     g_config = &config;
     
     

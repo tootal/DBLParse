@@ -5,6 +5,7 @@
 
 #include "util.h"
 #include "configmanager.h"
+#include "application.h"
 
 extern ConfigManager *g_config;
 
@@ -38,7 +39,7 @@ void SettingsDialog::retranslateUi()
         box->setItemText(i,
             QApplication::translate("Util", langs[i-1].second));
         box->setItemData(i, langs[i-1].first);
-        if (langs[i-1].first == g_config->value("language"))
+        if (langs[i-1].first == App->config->value("language"))
             cur = i;
     }
     box->setCurrentIndex(cur);
@@ -53,8 +54,8 @@ void SettingsDialog::on_comboBox_activated(int index)
 {
     auto lang = ui->comboBox->itemData(index).toString();
     QString locale = Util::getLocale();
-    if (g_config->value("language") != lang)
-        g_config->setValue("language", lang);
+    if (App->config->value("language") != lang)
+        App->config->setValue("language", lang);
     if (locale != Util::getLocale()) emit languageChanged(Util::getLocale());
 }
 

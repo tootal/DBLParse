@@ -8,6 +8,7 @@
 #include <QUrl>
 
 #include "configmanager.h"
+#include "application.h"
 
 extern ConfigManager *g_config;
 
@@ -86,7 +87,7 @@ QString Util::readFile(const QString &fileName)
 
 QString Util::getXmlFileName()
 {
-    return g_config->value("lastOpenFileName");
+    return App->config->value("lastOpenFileName");
 }
 
 QString Util::formatUrl(const QString &url)
@@ -100,7 +101,7 @@ QString Util::formatUrl(const QString &url)
 
 QString Util::getLocale()
 {
-    QString locale = g_config->value("language");
+    QString locale = App->config->value("language");
     if (locale == "System") {
         locale = QLocale::system().name();
     }
