@@ -16,9 +16,10 @@ class Parser : public QObject
     Q_OBJECT
     
 public:
-    typedef QPair<int/*count*/, QString/*word*/> CW_T; // Count Word Type
-    typedef QMap<int/*year*/, QVector<CW_T>> YW_T; // Year Word Type
-    typedef QPair<QString/*word*/, quint32/*pos*/> WP_T; // Word Pos Type
+    typedef QPair<int/*count*/, QString/*word*/> WordCount; // Word Count Type
+    typedef QMap<int/*year*/, QVector<WordCount>> YearWord; // Year Word Type
+    typedef QPair<QString/*word*/, quint32/*pos*/> WordPos; // Word Pos Type
+    
     Parser(QObject *parent = nullptr);
     void run();
     void parse();
@@ -48,7 +49,7 @@ private:
     int m_maxYear{};
     int m_minYear{};
     QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
-    YW_T m_topKWords;
+    YearWord m_topKWords;
     
     void timeMark(QString msg);
     void parseInit();

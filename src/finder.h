@@ -11,8 +11,9 @@ class Finder : public QObject
 {
     Q_OBJECT
 public:
-    typedef Parser::YW_T YW_T;
-    typedef Parser::WP_T WP_T;
+    typedef Parser::YearWord YearWord;
+    typedef Parser::WordPos WordPos;
+    
     explicit Finder(QObject *parent = nullptr);
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
@@ -25,7 +26,7 @@ public:
     
     static void init();
     static QList<QPair<QString,int> > authorStac() {return s_authorStac;}
-    static YW_T yearWord() {return s_yearWord;}
+    static YearWord yearWord() {return s_yearWord;}
     
     bool yearWordLoaded() const;
     void setYearWordLoaded();
@@ -70,7 +71,7 @@ public:
     static quint32 s_titleIndexs;
     static QList<QPair<QString,int> > s_authorStac;
     static QVector<QPair<QString, quint32>> s_titleWords;
-    static YW_T s_yearWord;
+    static YearWord s_yearWord;
     static QString readText(const StringRef &ref);
     // thanks to stl algo
     static QPair<const StringRef*, const StringRef*>

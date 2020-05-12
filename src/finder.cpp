@@ -26,7 +26,7 @@ quint32 Finder::s_authorIndexs = 0;
 quint32 Finder::s_titleIndexs = 0;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
-Parser::YW_T Finder::s_yearWord;
+Parser::YearWord Finder::s_yearWord;
 QVector<QPair<QString, quint32>> Finder::s_titleWords;
 
 Finder::Finder(QObject *parent) : QObject(parent)
@@ -185,7 +185,7 @@ QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
                 s_titleWords.begin(), 
                 s_titleWords.end(),
                 qMakePair(keyword, quint32()),
-                [](WP_T x, WP_T y) {
+                [](WordPos x, WordPos y) {
         return x.first < y.first;
     });
     for (auto i = range.first; i != range.second; ++i) {

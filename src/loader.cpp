@@ -75,7 +75,7 @@ void Loader::run()
         QTextStream read(&file);
         while (!read.atEnd()) {
             QStringList temp = read.readLine().split(' ');
-            QVector<Parser::CW_T> tempYearWord;
+            QVector<Parser::WordCount> tempYearWord;
             int year = temp[0].toInt();
             for (int i = 1; i < temp.size() - 1; i += 2) {
                 tempYearWord.append(qMakePair(

@@ -237,7 +237,7 @@ void Parser::countWordPerYear()
     for (int i = 0; i < yearWords.size(); ++i) {
         auto &words = yearWords[i];
         std::sort(words.begin(), words.end());
-        std::set<CW_T> topK;
+        std::set<WordCount> topK;
         for (int j = 0; j < words.size();) {
             QString word = words[j];
             int count = 1;
@@ -291,7 +291,7 @@ void Parser::saveYearWord()
 
 void Parser::saveTitleWordIndex()
 {
-    QVector<WP_T> words;
+    QVector<WordPos> words;
     for (const auto &title : m_titleIndex) {
         QString t = title.toString();
         for (auto &noNeedChar : noNeedChars) {
