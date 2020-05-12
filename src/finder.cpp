@@ -18,6 +18,7 @@
 #include "webview.h"
 #include "loader.h"
 #include "mainwindow.h"
+#include "application.h"
 
 extern MainWindow *g_mainwindow;
 
@@ -95,7 +96,7 @@ not_ready:
 void Finder::handleRequest(const QUrl &url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    auto *view = new WebView(g_mainwindow);
+    auto *view = new WebView(App->window);
     view->setWindowFlag(Qt::Window);
     view->resize(800, 600);
     auto html = Util::readFile(":/web/detail.html");
@@ -109,7 +110,7 @@ void Finder::handleRequest(const QUrl &url)
 void Finder::handleWordCloud(const QUrl &url)
 {
     int idx = url.path().remove(0, 1).toInt();
-    auto *view = new WebView(g_mainwindow);
+    auto *view = new WebView(App->window);
     view->setWindowFlag(Qt::Window);
     view->setAttribute(Qt::WA_DeleteOnClose);
     view->resize(800, 600);

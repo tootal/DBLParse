@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
     
     MainWindow w;
     w.setTranslator(&translator);
+    a.window = &w;
     g_mainwindow = &w;
     w.show();
     return a.exec();
