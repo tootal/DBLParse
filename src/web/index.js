@@ -46,6 +46,10 @@ var vm_inputs = new Vue({
             $('#type').selectpicker('val', v);
             this.status = 'init';
             document.getElementById('coGraph').style.display = "none";
+        },
+        word: function() {
+            this.status = 'init';
+            document.getElementById('coGraph').style.display = "none";
         }
     }
 });
