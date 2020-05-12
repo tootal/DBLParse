@@ -53,15 +53,16 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading title index..."));
+        Finder::titleIndexs.clear();
         QFile file("title.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
-        Finder::s_titleIndexs = static_cast<quint32>(file.size() >> 3);
-        if (Finder::s_titleIndex) delete [] Finder::s_titleIndex;
-        Finder::s_titleIndex = new StringRef[Finder::s_titleIndexs];
-        for (quint32 i = 0; i < Finder::s_titleIndexs; ++i) {
-            stream >> Finder::s_titleIndex[i].l >> Finder::s_titleIndex[i].r;
+        auto len = static_cast<quint32>(file.size() >> 3);
+        for (quint32 i = 0; i < len; ++i) {
+            StringRef t;
+            stream >> t.l >> t.r;
+            Finder::titleIndexs.append(t);
         }
         file.close();
         emit titleLoadDone();

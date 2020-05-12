@@ -21,8 +21,7 @@
 #include "application.h"
 
 QVector<StringRef> Finder::authorIndexs;
-StringRef *Finder::s_titleIndex = nullptr;
-quint32 Finder::s_titleIndexs = 0;
+QVector<StringRef> Finder::titleIndexs;
 QFile *Finder::s_file = nullptr;
 QList<QPair<QString,int> >  Finder::s_authorStac;
 Parser::YearWord Finder::s_yearWord;
@@ -140,13 +139,8 @@ void Finder::clearIndex()
     m_authorLoaded = false;
     m_titleLoaded = false;
     m_authorStacLoaded = false;
-    
-    s_titleIndexs = 0;
-    if (s_titleIndex != nullptr) {
-        delete s_titleIndex;
-        s_titleIndex = nullptr;
-    }
-    
+    authorIndexs.clear();
+    titleIndexs.clear();
     s_authorStac.clear();
     s_titleWords.clear();
 }
@@ -164,8 +158,7 @@ QList<quint32> Finder::indexOfAuthor(const QString &author) const
 QList<quint32> Finder::indexOfTitle(const QString &title) const
 {
     QList<quint32> list;
-    if(s_titleIndex == nullptr) return list;
-    auto range = equalRange(s_titleIndex, s_titleIndex + s_titleIndexs, title);
+    auto range = equalRange(titleIndexs.begin(), titleIndexs.end(), title);
     for(auto i = range.first; i != range.second; ++i)
         list.append(i->l);
     return list;
