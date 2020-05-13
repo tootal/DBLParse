@@ -96,36 +96,6 @@ void Parser::run()
 
 void Parser::parse()
 {
-    quint32 x = 0;
-    quint32 len = ref.r;
-    
-    // authorId starts from 0
-    while (x < len) {
-        if (ref.startsWith("key=\"", x)) {
-            x += 5;
-            QVector<int> recordAuthorsId;
-            StringRef title;
-            int year = 0;
-            while (x <= len) {
-                if (x == len || ref.startsWith("key=\"", x + 1)) {
-                    if (recordAuthorsId.size() > 1) {
-                        authorIdRelations.append(recordAuthorsId);
-                    }
-                    break;
-                }
-                if (ref[x] == '<') {
-                    if (ref.startsWith("author", x + 1)) {
-                    } else if (ref.startsWith("title", x + 1)) {
-                        title = readElementText(ref, x);
-                    } else if (ref.startsWith("year", x + 1)) {
-                        year = readYear(ref, x);
-                    }
-                }
-                ++x;
-            }
-        }
-        ++x;
-    }
 }
 
 void Parser::parse2()
