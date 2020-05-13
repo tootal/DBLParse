@@ -9,38 +9,27 @@ class Reader
 {
 public:
     static constexpr int BUFF_SZ = 1 << 22; // 4M
-    QFile file;
-    QByteArray buffer;
-    QByteArray lastBuffer;
-    quint32 begin;
-    quint32 end;
-    int p; // current position
-    int blocks;
-    QString error;
-    QByteArrayList authors;
-    QByteArray title;
-    int year;
     Reader(const QString &fileName)
-        :begin(0), end(0), p(0), blocks(0), year(0) {
+        :_begin(0), _end(0), p(0), blocks(0), _year(0) {
         file.setFileName(fileName);
         if (file.open(QFile::ReadOnly)) {
             buffer = file.read(BUFF_SZ);
             p = buffer.indexOf("<dblp>");
-            if (p == -1) error = QObject::tr("File is not a dblp file.");
+            if (p == -1) _error = QObject::tr("File is not a dblp file.");
             else p += 6;
         } else {
-            error = QObject::tr("File open failed: %1.").arg(fileName);
+            _error = QObject::tr("File open failed: %1.").arg(fileName);
         }
     }
     bool next() {
-        if (!error.isEmpty()) return false;
+        if (!_error.isEmpty()) return false;
         indexOf('<');
         nextChar();
         if (buffer[p] == '/') return false;
-        begin = BUFF_SZ * blocks + p - 1;
-        title.clear();
-        authors.clear();
-        year = 0;
+        _begin = BUFF_SZ * blocks + p - 1;
+        _title.clear();
+        _authors.clear();
+        _year = 0;
         for (;;) {
             indexOf('<');
             nextChar();
@@ -56,21 +45,21 @@ public:
                 nextChar();
                 int t = p;
                 indexOf("</author>");
-                authors.append(substr(t, p));
+                _authors.append(substr(t, p));
                 p += 9;
             } else if (c1 == 't' && c2 == 'i') { // <title>
                 indexOf('>');
                 nextChar();
                 int t = p;
                 indexOf("</title>");
-                title = substr(t, p);
+                _title = substr(t, p);
                 p += 8;
             } else if (c1 == 'y' && c2 == 'e') { // <year>
                 indexOf('>');
                 nextChar();
                 int t = p;
                 indexOf("</year>");
-                year = substr(t, p).toInt();
+                _year = substr(t, p).toInt();
                 p += 7;
             } else { // other
                 int s = 0;
@@ -82,9 +71,51 @@ public:
                 }
             }
         }
-        end = BUFF_SZ * blocks + p;
+        _end = BUFF_SZ * blocks + p;
         return true;
     }
+    bool hasError() {
+        return !_error.isEmpty();
+    }
+    QString error() {
+        return _error;
+    }
+    quint32 begin() {
+        return _begin;
+    }
+    quint32 end() {
+        return _end;
+    }
+    QByteArrayList authors() {
+        return _authors;
+    }
+    bool hasTitle() {
+        return !_title.isEmpty();
+    }
+    QByteArray title() {
+        return _title;
+    }
+    bool hasYear() {
+        return _year != 0;
+    }
+    int year() {
+        return _year;
+    }
+    
+private:
+    QFile file;
+    QByteArray buffer;
+    QByteArray lastBuffer;
+    quint32 _begin;
+    quint32 _end;
+    int p; // current position
+    int blocks;
+    QString _error;
+    QByteArrayList _authors;
+    QByteArray _title;
+    int _year;
+    
+    
     template <typename T>
     void indexOf(const T &c) {
         int t = buffer.indexOf(c, p);
@@ -94,7 +125,7 @@ public:
         } else {
             p = t;
         }
-        if (p == -1) error = QObject::tr("File is incorrect.");
+        if (p == -1) _error = QObject::tr("File is incorrect.");
     }
     void nextChar() {
         if (p == BUFF_SZ - 1) nextBlock();
@@ -104,7 +135,7 @@ public:
         lastBuffer = buffer;
         blocks++;
         buffer = file.read(BUFF_SZ);
-        if (buffer.isEmpty()) error = QObject::tr("End of file exception.");
+        if (buffer.isEmpty()) _error = QObject::tr("End of file exception.");
         p = 0;
     }
     QByteArray substr(int l, int r) {
