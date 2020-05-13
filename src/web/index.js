@@ -243,6 +243,7 @@ var handleSearch = function(data) {
         }
     } else if (g_data.type == 'author') {
         let label = 1;
+        vm_result.homepage_id = -1;
         for (let i = 0; i < json.length; ++i) {
             if (json[i].title == "Home Page") {
                 vm_result.homepage_id = i;
@@ -306,7 +307,6 @@ var handleSearch = function(data) {
         option.series[0].data = listdata;
         option.series[0].links = linksdata;
         option.series[0].categories = series_categories;
-
 
         myChart.setOption(option);
 

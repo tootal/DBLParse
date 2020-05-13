@@ -61,7 +61,7 @@
             style="display: none;">
             <a class="link-card mt-5 mx-auto text-decoration-none"
                style="display: block;"
-               v-show="type == 'author'"
+               v-show="type == 'author' && homepage_id != -1"
                v-bind:href='homepageHref'
             >
                 <div class="d-flex justify-content-between align-items-center">
