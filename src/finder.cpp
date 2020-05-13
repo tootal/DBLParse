@@ -22,10 +22,10 @@
 
 QVector<StringRef> Finder::authorIndexs;
 QVector<StringRef> Finder::titleIndexs;
-QFile *Finder::s_file = nullptr;
-QVector<QPair<QString,int>>  Finder::s_authorStac;
-Parser::YearWord Finder::s_yearWord;
-QVector<QPair<QString, quint32>> Finder::s_titleWords;
+QFile *Finder::dataFile = nullptr;
+QVector<QPair<QString,int>>  Finder::authorStacs;
+Parser::YearWord Finder::yearWord;
+QVector<QPair<QString, quint32>> Finder::titleWords;
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -116,8 +116,8 @@ void Finder::handleWordCloud(const QUrl &url)
     QJsonObject year;
     year.insert("year",idx);
     json.append(year);
-    auto it=s_yearWord.find(idx).value().begin();
-    while(it!=s_yearWord.find(idx).value().end()){
+    auto it = yearWord.find(idx).value().begin();
+    while(it != yearWord.find(idx).value().end()){
      QJsonObject obj;
      obj.insert("name",it->second);
      obj.insert("value",it->first);
@@ -138,8 +138,8 @@ void Finder::clearIndex()
     m_authorStacLoaded = false;
     authorIndexs.clear();
     titleIndexs.clear();
-    s_authorStac.clear();
-    s_titleWords.clear();
+    authorStacs.clear();
+    titleWords.clear();
 }
 
 QVector<quint32> Finder::indexOfAuthor(const QString &author) const
@@ -165,8 +165,8 @@ QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
 {
     QSet<quint32> set;
     auto range = std::equal_range(
-                s_titleWords.begin(), 
-                s_titleWords.end(),
+                titleWords.begin(), 
+                titleWords.end(),
                 qMakePair(keyword, quint32()),
                 [](WordPos x, WordPos y) {
         return x.first < y.first;
@@ -250,10 +250,10 @@ void Finder::setLoaded()
 
 QString Finder::readText(const StringRef &ref)
 {
-    Q_ASSERT(s_file != nullptr);
-    Q_ASSERT(s_file->isOpen());
-    s_file->seek(ref.l);
-    return s_file->read(ref.r - ref.l);
+    Q_ASSERT(dataFile != nullptr);
+    Q_ASSERT(dataFile->isOpen());
+    dataFile->seek(ref.l);
+    return dataFile->read(ref.r - ref.l);
 }
 
 QVector<Record> Finder::getRecord(const QVector<quint32> &posList)
@@ -270,13 +270,13 @@ QVector<Record> Finder::getRecord(const QVector<quint32> &posList)
 }
 void Finder::init()
 {
-    if(s_file != nullptr){
-        if(s_file->isOpen()) s_file->close();
-        delete s_file;
-        s_file = nullptr;
+    if(dataFile != nullptr){
+        if(dataFile->isOpen()) dataFile->close();
+        delete dataFile;
+        dataFile = nullptr;
     }
-    s_file = new QFile(Util::getXmlFileName());
-    s_file->open(QFile::ReadOnly);
+    dataFile = new QFile(Util::getXmlFileName());
+    dataFile->open(QFile::ReadOnly);
 }
 
 QPair<const StringRef *, const StringRef *> 

@@ -62,12 +62,12 @@ private:
     QVector<Record> m_lastResult;
 
 public:
-    static QFile *s_file;
+    static QFile *dataFile;
     static QVector<StringRef> authorIndexs;
     static QVector<StringRef> titleIndexs;
-    static QVector<QPair<QString,int>> s_authorStac;
-    static QVector<QPair<QString, quint32>> s_titleWords;
-    static YearWord s_yearWord;
+    static QVector<QPair<QString,int>> authorStacs;
+    static QVector<QPair<QString, quint32>> titleWords;
+    static YearWord yearWord;
     static QString readText(const StringRef &ref);
     // thanks to stl algo
     static QPair<const StringRef*, const StringRef*>

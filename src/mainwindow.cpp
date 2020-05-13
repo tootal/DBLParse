@@ -246,7 +246,7 @@ void MainWindow::on_actionAuthorStac_triggered()
     view->setWindowFlag(Qt::Window);
     view->resize(600, 800);
     
-    QVector<QPair<QString, int>> authorStac = Finder::s_authorStac;
+    QVector<QPair<QString, int>> authorStac = Finder::authorStacs;
     QJsonArray authorStacArray;
     
     int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
@@ -299,7 +299,7 @@ void MainWindow::on_actionKeyWord_triggered()
      connect(view->page(), &WebPage::wordCloud,
              m_finder, &Finder::handleWordCloud);
 
-     Parser::YearWord yearWord = Finder::s_yearWord;
+     Parser::YearWord yearWord = Finder::yearWord;
      auto it= yearWord.begin();
      QJsonArray yearWordArray;
 

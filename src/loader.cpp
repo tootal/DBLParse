@@ -20,7 +20,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading authorStac index..."));
-        Finder::s_authorStac.clear();
+        Finder::authorStacs.clear();
         QFile file("authorStac.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
@@ -28,7 +28,7 @@ void Loader::run()
         QPair<QString,int>   tempAuthorStac;
         while (!in.atEnd()) {
             in >> tempAuthorStac.first >> tempAuthorStac.second;
-            Finder::s_authorStac.append(tempAuthorStac);
+            Finder::authorStacs.append(tempAuthorStac);
         }
         emit authorStacLoadDone();
         file.close();
@@ -70,7 +70,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading year word index..."));
-        Finder::s_yearWord.clear();
+        Finder::yearWord.clear();
         QFile file("yearWord.txt");
         file.open(QFile::ReadOnly | QFile::Text);
         Q_ASSERT(file.isOpen());
@@ -85,7 +85,7 @@ void Loader::run()
                     temp[i + 1]/*word*/
                 ));
             }
-            Finder::s_yearWord.insert(year, tempYearWord);
+            Finder::yearWord.insert(year, tempYearWord);
         }
         emit yearWordLoadDone();
         file.close();
@@ -93,12 +93,12 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading title word index..."));
-        Finder::s_titleWords.clear();
+        Finder::titleWords.clear();
         QFile file("words.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream s(&file);
-        s >> Finder::s_titleWords;
+        s >> Finder::titleWords;
         emit titleWordLoadDone();
         file.close();
     }
