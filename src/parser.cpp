@@ -107,7 +107,7 @@ void Parser::parse()
                         authorIdRelations.append(recordAuthorsId);
                     }
                     if (year != 0) {
-                        titleYears.append(qMakePair(title, year));
+                        titleYears.append({title, year});
                         minYear = std::min(minYear, year);
                         maxYear = std::max(maxYear, year);
                     }
@@ -207,8 +207,8 @@ void Parser::countWordPerYear()
     
     QVector<QVector<QString>> yearWords(maxYear - minYear + 1);
     for (const auto &titleYear : titleYears) {
-        int year_n = titleYear.second - minYear;
-        QString title = titleYear.first.toString();
+        int year_n = titleYear.year - minYear;
+        QString title = titleYear.title.toString();
         for (const QChar &noNeedChar : noNeedChars) {
             title.remove(noNeedChar);
         }

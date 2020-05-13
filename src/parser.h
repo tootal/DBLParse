@@ -63,6 +63,11 @@ QDataStream &operator<<(QDataStream &out, const AuthorStac &as);
 
 QDataStream &operator>>(QDataStream &in, AuthorStac &as);
 
+struct TitleYear
+{
+    StringRef title;
+    int year;
+};
 
 class Parser : public QObject
 {
@@ -93,7 +98,7 @@ private:
     
     int maxYear{};
     int minYear{};
-    QVector<QPair<StringRef/*title*/, int/*year*/>> titleYears;
+    QVector<TitleYear> titleYears;
     YearWord topKWords;
     
     void timeMark(QString msg);
