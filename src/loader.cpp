@@ -14,7 +14,6 @@ Loader::Loader(Finder *p_finder, QObject *parent)
 
 void Loader::run()
 {
-    if(!Util::canLoad()) return ;
     QElapsedTimer timing;
     timing.start();
     

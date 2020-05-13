@@ -195,6 +195,7 @@ void MainWindow::on_actionOpenIndexFolder_triggered()
 
 void MainWindow::load()
 {
+    if(!Util::canLoad()) return ;
     auto loader = new Loader(m_finder);
     auto thread = new QThread();
     loader->moveToThread(thread);
