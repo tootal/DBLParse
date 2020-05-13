@@ -83,6 +83,7 @@ HEADERS += \
     mainwindow.h \
     parsedialog.h \
     parser.h \
+    reader.h \
     record.h \
     settingsdialog.h \
     stringref.h \
