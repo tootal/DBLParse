@@ -300,7 +300,7 @@ void MainWindow::on_actionKeyWord_triggered()
      connect(view->page(), &WebPage::wordCloud,
              m_finder, &Finder::handleWordCloud);
 
-     Parser::YearWord yearWord = m_finder->yearWord;
+     YearWord yearWord = m_finder->yearWord;
      auto it= yearWord.begin();
      QJsonArray yearWordArray;
 

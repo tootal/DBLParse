@@ -11,8 +11,6 @@ class Finder : public QObject
 {
     Q_OBJECT
 public:
-    typedef Parser::YearWord YearWord;
-    
     explicit Finder(QObject *parent = nullptr);
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);

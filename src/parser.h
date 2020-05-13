@@ -42,14 +42,13 @@ QDataStream &operator<<(QDataStream &out, const WordPos &wp);
 
 QDataStream &operator>>(QDataStream &in, WordPos &wp);
 
+typedef QMap<int/*year*/, QVector<WordCount>> YearWord;
 
 class Parser : public QObject
 {
     Q_OBJECT
     
 public:
-    typedef QMap<int/*year*/, QVector<WordCount>> YearWord; // Year Word Type
-    
     Parser(QObject *parent = nullptr);
     void run();
     void parse();
