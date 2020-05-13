@@ -113,8 +113,8 @@ void Finder::handleWordCloud(const QUrl &url)
     auto it = yearWord.find(idx).value().begin();
     while(it != yearWord.find(idx).value().end()){
      QJsonObject obj;
-     obj.insert("name",it->second);
-     obj.insert("value",it->first);
+     obj.insert("name", it->word);
+     obj.insert("value", it->count);
      json.append(obj);
      it++;
     }

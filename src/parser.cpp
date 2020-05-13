@@ -234,20 +234,20 @@ void Parser::countWordPerYear()
                 ++j;
             }
             if (topK.size() < TOP_K) {
-                topK.emplace(count, word);
+                topK.emplace(word, count);
             } else {
-                if (topK.begin()->first/*count*/ < count) {
+                if (topK.begin()->count < count) {
                     topK.erase(topK.begin());
-                    topK.emplace(count, word);
+                    topK.emplace(word, count);
                 }
             }
         }
         if (!topK.empty()) {
             auto &res = topKWords[minYear + i];
             for (auto &cw : topK) {
-                QString word = cw.second/*word*/;
+                QString word = cw.word;
                 word.remove(QRegularExpression(R"(</?.*?/?>)"));
-                res.append(qMakePair(cw.first/*count*/, word));
+                res.append({word, cw.count});
             }
         }
     }
@@ -381,4 +381,16 @@ void Parser::saveAuthors()
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);
     free(adjList);
+}
+
+QDataStream &operator<<(QDataStream &out, const WordCount &wc)
+{
+    out << wc.word << wc.count;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, WordCount &wc)
+{
+    in >> wc.word >> wc.count;
+    return in;
 }

@@ -5,18 +5,34 @@
 #include <QElapsedTimer>
 #include <QXmlStreamReader>
 #include <QDebug>
+#include <QDataStream>
 
 #include "util.h"
 #include "stringref.h"
 
 struct LinkedList;
 
+struct WordCount
+{
+    QString word;
+    int count;
+    WordCount(const QString &w = QString(), int c = int())
+        :word(w), count(c) {}
+    bool operator<(const WordCount &that) const {
+        return count < that.count;
+    }
+};
+
+QDataStream &operator<<(QDataStream &out, const WordCount &wc);
+
+QDataStream &operator>>(QDataStream &in, WordCount &wc);
+
+
 class Parser : public QObject
 {
     Q_OBJECT
     
 public:
-    typedef QPair<int/*count*/, QString/*word*/> WordCount; // Word Count Type
     typedef QMap<int/*year*/, QVector<WordCount>> YearWord; // Year Word Type
     typedef QPair<QString/*word*/, quint32/*pos*/> WordPos; // Word Pos Type
     
