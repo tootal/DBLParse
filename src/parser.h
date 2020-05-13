@@ -82,6 +82,19 @@ QDataStream &operator<<(QDataStream &out, const TitleIndex &x);
 
 QDataStream &operator>>(QDataStream &in, TitleIndex &x);
 
+struct AuthorIndex {
+    QString author;
+    quint32 begin;
+    quint32 end;
+    bool operator<(const AuthorIndex &that) const {
+        return author < that.author;
+    }
+};
+
+QDataStream &operator<<(QDataStream &out, const AuthorIndex &x);
+
+QDataStream &operator>>(QDataStream &in, AuthorIndex &x);
+
 
 class Parser : public QObject
 {
@@ -106,7 +119,7 @@ private:
     
     StringRef ref;
     
-    QVector<StringRef> authorIndexs;
+    QVector<AuthorIndex> authorIndexs;
     QVector<TitleIndex> titleIndexs;
     QMap<StringRef, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;

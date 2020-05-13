@@ -125,7 +125,6 @@ void Parser::parse()
                             ++totalAuthor;
                         }
                         ++info->stac;
-                        authorIndexs.append(author);
                         recordAuthorsId.append(info->id);
                     } else if (ref.startsWith("title", x + 1)) {
                         title = readElementText(ref, x);
@@ -144,6 +143,9 @@ void Parser::parse2()
 {
     Reader reader(Util::getXmlFileName());
     while (reader.next()) {
+        for (const auto &author : reader.authors()) {
+            authorIndexs.append({author, reader.begin(), reader.end()});
+        }
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         if (reader.hasYear()) {
             titleYears.append({reader.title(), reader.year()});
@@ -433,5 +435,17 @@ QDataStream &operator<<(QDataStream &out, const TitleIndex &x)
 QDataStream &operator>>(QDataStream &in, TitleIndex &x)
 {
     in >> x.title >> x.begin >> x.end;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const AuthorIndex &x)
+{
+    out << x.author << x.begin << x.end;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, AuthorIndex &x)
+{
+    in >> x.author >> x.begin >> x.end;
     return in;
 }

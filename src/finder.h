@@ -46,7 +46,7 @@ signals:
 private:
     mutable QFile dataFile;
     YearWord yearWord;
-    QVector<StringRef> authorIndexs;
+    QVector<AuthorIndex> authorIndexs;
     QVector<TitleIndex> titleIndexs;
     QVector<QPair<QString,int>> authorStacs;
     QVector<WordPos> titleWords;

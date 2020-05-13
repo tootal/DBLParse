@@ -139,9 +139,12 @@ void Finder::clearIndex()
 QVector<quint32> Finder::indexOfAuthor(const QString &author) const
 {
     QVector<quint32> list;
-    auto range = equalRange(authorIndexs.begin(), authorIndexs.end(), author);
-    for(auto i = range.first; i != range.second; ++i){
-        list.append(i->l);
+    AuthorIndex authorIndex{author, 0, 0};
+    auto range = std::equal_range(authorIndexs.begin(), 
+                                  authorIndexs.end(), 
+                                  authorIndex);
+    for (auto i = range.first; i != range.second; ++i) {
+        list.append(i->end);
     }
     return list;
 }
