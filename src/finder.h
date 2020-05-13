@@ -12,7 +12,6 @@ class Finder : public QObject
     Q_OBJECT
 public:
     typedef Parser::YearWord YearWord;
-    typedef Parser::WordPos WordPos;
     
     explicit Finder(QObject *parent = nullptr);
     void handleRequest(const QUrl &url);
@@ -52,7 +51,7 @@ private:
     QVector<StringRef> authorIndexs;
     QVector<StringRef> titleIndexs;
     QVector<QPair<QString,int>> authorStacs;
-    QVector<QPair<QString, quint32>> titleWords;
+    QVector<WordPos> titleWords;
     QVector<Record> m_lastResult;
     
     bool m_loaded{};

@@ -27,6 +27,21 @@ QDataStream &operator<<(QDataStream &out, const WordCount &wc);
 
 QDataStream &operator>>(QDataStream &in, WordCount &wc);
 
+struct WordPos
+{
+    QString word;
+    quint32 pos;
+    WordPos(const QString &w = QString(), quint32 p = quint32())
+        :word(w), pos(p) {}
+    bool operator<(const WordPos &that) const {
+        return word < that.word;
+    }
+};
+
+QDataStream &operator<<(QDataStream &out, const WordPos &wp);
+
+QDataStream &operator>>(QDataStream &in, WordPos &wp);
+
 
 class Parser : public QObject
 {
@@ -34,7 +49,6 @@ class Parser : public QObject
     
 public:
     typedef QMap<int/*year*/, QVector<WordCount>> YearWord; // Year Word Type
-    typedef QPair<QString/*word*/, quint32/*pos*/> WordPos; // Word Pos Type
     
     Parser(QObject *parent = nullptr);
     void run();

@@ -278,7 +278,7 @@ void Parser::saveTitleWordIndex()
             if (w.size() <= 2) continue;
             w = w.toLower();
             if (commonwords.contains(w)) continue;
-            words.append(qMakePair(w, title.l));
+            words.append({w, title.l});
         }
     }
     std::sort(words.begin(), words.end());
@@ -392,5 +392,17 @@ QDataStream &operator<<(QDataStream &out, const WordCount &wc)
 QDataStream &operator>>(QDataStream &in, WordCount &wc)
 {
     in >> wc.word >> wc.count;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const WordPos &wp)
+{
+    out << wp.word << wp.pos;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, WordPos &wp)
+{
+    in >> wp.word >> wp.pos;
     return in;
 }

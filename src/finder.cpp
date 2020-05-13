@@ -159,14 +159,11 @@ QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
 {
     QSet<quint32> set;
     auto range = std::equal_range(
-                titleWords.begin(), 
-                titleWords.end(),
-                qMakePair(keyword, quint32()),
-                [](WordPos x, WordPos y) {
-        return x.first < y.first;
-    });
+                    titleWords.begin(), 
+                    titleWords.end(),
+                    WordPos(keyword));
     for (auto i = range.first; i != range.second; ++i) {
-        set.insert(i->second);
+        set.insert(i->pos);
     }
     return set;
 }
