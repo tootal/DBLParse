@@ -102,3 +102,15 @@ QDebug operator<<(QDebug debug, const StringRef &s){
     return debug;
 }
 
+
+QDataStream &operator<<(QDataStream &out, const StringRef &ref)
+{
+    out << ref.l << ref.r;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, StringRef &ref)
+{
+    in >> ref.l >> ref.r;
+    return in;
+}

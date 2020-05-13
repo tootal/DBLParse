@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QDebug>
 #include <QFile>
+#include <QDataStream>
 
 class StringRef{
 public:
@@ -41,3 +42,7 @@ public:
     
     friend QDebug operator<<(QDebug debug, const StringRef &s);
 };
+
+QDataStream &operator<<(QDataStream &out, const StringRef &ref);
+
+QDataStream &operator>>(QDataStream &in, StringRef &ref);
