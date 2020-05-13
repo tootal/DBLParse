@@ -67,20 +67,6 @@ private:
     QVector<quint32> indexOfTitleWords(const QString &keywords) const;
     QJsonArray cographBFS(const QString &node) const;
     
-    // thanks to stl algo
-    QPair<const StringRef*, const StringRef*>
-    equalRange(const StringRef *first,
-               const StringRef *last,
-               const QString &val) const;
-    const StringRef*
-    lowerBound(const StringRef *first,
-               const StringRef *last,
-               const QString &val) const;
-    const StringRef*
-    upperBound(const StringRef *first,
-               const StringRef *last,
-               const QString &val) const;
-    
     friend class Loader;
     friend class MainWindow;
 };
