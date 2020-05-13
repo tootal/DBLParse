@@ -111,11 +111,6 @@ void Parser::parse()
                     if (recordAuthorsId.size() > 1) {
                         authorIdRelations.append(recordAuthorsId);
                     }
-                    if (year != 0) {
-                        titleYears.append({title, year});
-                        minYear = std::min(minYear, year);
-                        maxYear = std::max(maxYear, year);
-                    }
                     break;
                 }
                 if (ref[x] == '<') {
@@ -150,7 +145,11 @@ void Parser::parse2()
 {
     Reader reader(Util::getXmlFileName());
     while (reader.next()) {
-        
+        if (reader.hasYear()) {
+            titleYears.append({reader.title(), reader.year()});
+            minYear = std::min(minYear, reader.year());
+            maxYear = std::max(maxYear, reader.year());
+        }
     }
 }
 
@@ -221,7 +220,7 @@ void Parser::countWordPerYear()
     QVector<QVector<QString>> yearWords(maxYear - minYear + 1);
     for (const auto &titleYear : titleYears) {
         int year_n = titleYear.year - minYear;
-        QString title = titleYear.title.toString();
+        QString title = titleYear.title;
         for (const QChar &noNeedChar : noNeedChars) {
             title.remove(noNeedChar);
         }

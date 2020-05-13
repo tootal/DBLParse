@@ -65,7 +65,7 @@ QDataStream &operator>>(QDataStream &in, AuthorStac &as);
 
 struct TitleYear
 {
-    StringRef title;
+    QByteArray title;
     int year;
 };
 
