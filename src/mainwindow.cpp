@@ -225,7 +225,7 @@ void MainWindow::load()
     });
     thread->start();
     QTimer::singleShot(0, loader, &Loader::run);
-    Finder::init();
+    m_finder->init();
 }
 
 void MainWindow::onLanguageChanged(const QString &locale)

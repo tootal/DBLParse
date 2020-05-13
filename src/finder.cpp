@@ -22,7 +22,6 @@
 
 QVector<StringRef> Finder::authorIndexs;
 QVector<StringRef> Finder::titleIndexs;
-QFile *Finder::dataFile = nullptr;
 QVector<QPair<QString,int>>  Finder::authorStacs;
 Parser::YearWord Finder::yearWord;
 QVector<QPair<QString, quint32>> Finder::titleWords;
@@ -30,6 +29,7 @@ QVector<QPair<QString, quint32>> Finder::titleWords;
 Finder::Finder(QObject *parent) : QObject(parent)
 {
     clearIndex();
+    init();
 }
 
 void Finder::find(const QString &type, const QString &word)
@@ -248,15 +248,13 @@ void Finder::setLoaded()
     m_loaded = true;
 }
 
-QString Finder::readText(const StringRef &ref)
+QString Finder::readText(const StringRef &ref) const
 {
-    Q_ASSERT(dataFile != nullptr);
-    Q_ASSERT(dataFile->isOpen());
-    dataFile->seek(ref.l);
-    return dataFile->read(ref.r - ref.l);
+    dataFile.seek(ref.l);
+    return dataFile.read(ref.r - ref.l);
 }
 
-QVector<Record> Finder::getRecord(const QVector<quint32> &posList)
+QVector<Record> Finder::getRecord(const QVector<quint32> &posList) const
 {
     QVector<Record> array;
     int size = std::min(posList.size(), 2000);
@@ -270,19 +268,15 @@ QVector<Record> Finder::getRecord(const QVector<quint32> &posList)
 }
 void Finder::init()
 {
-    if(dataFile != nullptr){
-        if(dataFile->isOpen()) dataFile->close();
-        delete dataFile;
-        dataFile = nullptr;
-    }
-    dataFile = new QFile(Util::getXmlFileName());
-    dataFile->open(QFile::ReadOnly);
+    dataFile.close();
+    dataFile.setFileName(Util::getXmlFileName());
+    dataFile.open(QFile::ReadOnly);
 }
 
 QPair<const StringRef *, const StringRef *> 
 Finder::equalRange(const StringRef *first, 
                    const StringRef *last, 
-                   const QString &val)
+                   const QString &val) const
 {
     auto len = static_cast<quint32>(last - first);
     while(len > 0){
@@ -309,7 +303,7 @@ Finder::equalRange(const StringRef *first,
 const StringRef *
 Finder::lowerBound(const StringRef *first, 
                    const StringRef *last, 
-                   const QString &val)
+                   const QString &val) const
 {
     auto len = static_cast<quint32>(last - first);
     while(len > 0){
@@ -331,7 +325,7 @@ Finder::lowerBound(const StringRef *first,
 const StringRef *
 Finder::upperBound(const StringRef *first, 
                    const StringRef *last, 
-                   const QString &val)
+                   const QString &val) const
 {
     auto len = static_cast<quint32>(last - first);
     while(len > 0){
@@ -350,7 +344,8 @@ Finder::upperBound(const StringRef *first,
     return first;
 }
 
-QJsonArray Finder::cographBFS(const QString &node) {
+QJsonArray Finder::cographBFS(const QString &node) const
+{
     QQueue<QPair<QString,QString>> q;
     QJsonArray cograph;
     QPair<QString,QString> parent("",node);

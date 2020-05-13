@@ -18,13 +18,8 @@ public:
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
     void clearIndex();
-    QVector<quint32> indexOfAuthor(const QString &author) const;
-    QVector<quint32> indexOfTitle(const QString &title) const;
-    QSet<quint32> indexOfTitleWord(const QString &keyword) const;
-    QVector<quint32> indexOfTitleWords(const QString &keywords) const;
-    QJsonArray cographBFS(const QString &node);
     
-    static void init();
+    void init();
     
     bool yearWordLoaded() const;
     void setYearWordLoaded();
@@ -52,7 +47,8 @@ signals:
     void languageChanged(const QString &locale);
     
 private:
-    QVector<Record> getRecord(const QVector<quint32> &posList);
+    mutable QFile dataFile;
+    
     bool m_loaded{};
     bool m_authorLoaded{};
     bool m_titleLoaded{};
@@ -60,26 +56,33 @@ private:
     bool m_yearWordLoaded{};
     bool m_titleWordLoaded{};
     QVector<Record> m_lastResult;
-
+    
+    QString readText(const StringRef &ref) const;
+    QVector<Record> getRecord(const QVector<quint32> &posList) const;
+    QVector<quint32> indexOfAuthor(const QString &author) const;
+    QVector<quint32> indexOfTitle(const QString &title) const;
+    QSet<quint32> indexOfTitleWord(const QString &keyword) const;
+    QVector<quint32> indexOfTitleWords(const QString &keywords) const;
+    QJsonArray cographBFS(const QString &node) const;
+    
+    // thanks to stl algo
+    QPair<const StringRef*, const StringRef*>
+    equalRange(const StringRef *first,
+               const StringRef *last,
+               const QString &val) const;
+    const StringRef*
+    lowerBound(const StringRef *first,
+               const StringRef *last,
+               const QString &val) const;
+    const StringRef*
+    upperBound(const StringRef *first,
+               const StringRef *last,
+               const QString &val) const;
 public:
-    static QFile *dataFile;
     static QVector<StringRef> authorIndexs;
     static QVector<StringRef> titleIndexs;
     static QVector<QPair<QString,int>> authorStacs;
     static QVector<QPair<QString, quint32>> titleWords;
     static YearWord yearWord;
-    static QString readText(const StringRef &ref);
-    // thanks to stl algo
-    static QPair<const StringRef*, const StringRef*>
-            equalRange(const StringRef *first,
-                         const StringRef *last,
-                         const QString &val);
-    static const StringRef*
-            lowerBound(const StringRef *first,
-                         const StringRef *last,
-                         const QString &val);
-    static const StringRef*
-            upperBound(const StringRef *first,
-                         const StringRef *last,
-                         const QString &val);
+    
 };
