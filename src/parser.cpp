@@ -116,17 +116,17 @@ void Parser::parse()
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
                         StringRef author = readElementText(ref, x);
-                        QPair<int, int> *info;
+                        AuthorInfo *info;
                         if (authorInfos.contains(author)) {
                             info = &authorInfos[author];
                         } else {
                             info = &authorInfos[author];
-                            info->first/*id*/ = totalAuthor;
+                            info->id = totalAuthor;
                             ++totalAuthor;
                         }
-                        ++info->second;
+                        ++info->stac;
                         authorIndexs.append(author);
-                        recordAuthorsId.append(info->first/*id*/);
+                        recordAuthorsId.append(info->id);
                     } else if (ref.startsWith("title", x + 1)) {
                         title = readElementText(ref, x);
                         titleIndexs.append(title);
@@ -295,7 +295,7 @@ void Parser::genIndex()
 {
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
-        authorStacs.append(qMakePair(it.key().toString(),it.value().second));
+        authorStacs.append(qMakePair(it.key().toString(),it.value().stac));
         it++;
     }
     std::sort(authorStacs.begin(), authorStacs.end(), sortByDesc);

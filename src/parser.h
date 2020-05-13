@@ -44,6 +44,12 @@ QDataStream &operator>>(QDataStream &in, WordPos &wp);
 
 typedef QMap<int/*year*/, QVector<WordCount>> YearWord;
 
+struct AuthorInfo
+{
+    int id;
+    int stac;
+};
+
 class Parser : public QObject
 {
     Q_OBJECT
@@ -70,7 +76,7 @@ private:
     
     QVector<StringRef> authorIndexs;
     QVector<StringRef> titleIndexs;
-    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfos;
+    QMap<StringRef, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<QPair<QString/*author*/, int/*stac*/>> authorStacs;
     
