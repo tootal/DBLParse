@@ -23,7 +23,6 @@ public:
     Parser(QObject *parent = nullptr);
     void run();
     void parse();
-    int costMsecs();
     
 signals:
     void stateChanged(const QString &state);
@@ -33,23 +32,23 @@ public:
     static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
     
 private:
-    QElapsedTimer m_timing;
-    int m_costMsecs{};
-    int m_elapsedTime{};
-    int m_totalAuthor{};
+    QElapsedTimer timing;
+    int costMsecs{};
+    int elapsedTime{};
+    int totalAuthor{};
     
-    StringRef m_ref;
+    StringRef ref;
     
-    QVector<StringRef> m_authorIndex;
-    QVector<StringRef> m_titleIndex;
-    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> m_authorInfo;
-    QVector<QVector<int>> m_authorsIdRelation;
-    QVector<QPair<QString/*author*/, int/*stac*/>> m_authorStac;
+    QVector<StringRef> authorIndexs;
+    QVector<StringRef> titleIndexs;
+    QMap<StringRef, QPair<int/*id*/, int/*stac*/>> authorInfos;
+    QVector<QVector<int>> authorIdRelations;
+    QVector<QPair<QString/*author*/, int/*stac*/>> authorStacs;
     
-    int m_maxYear{};
-    int m_minYear{};
-    QVector<QPair<StringRef/*title*/, int/*year*/>> m_titleYear;
-    YearWord m_topKWords;
+    int maxYear{};
+    int minYear{};
+    QVector<QPair<StringRef/*title*/, int/*year*/>> titleYears;
+    YearWord topKWords;
     
     void timeMark(QString msg);
     void parseInit();
@@ -58,8 +57,6 @@ private:
     void saveTitleWordIndex();
     void genIndex();
     void saveAuthors();
-    void indexFileSave();
-    void parseClean();
 
     // treat child element as text, after reading, from equal to the
     // last position of the end element

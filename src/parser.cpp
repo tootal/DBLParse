@@ -53,8 +53,8 @@ Parser::Parser(QObject *parent)
 
 void Parser::run()
 {
-    m_timing.restart();
-    m_elapsedTime = 0;
+    timing.restart();
+    elapsedTime = 0;
     
     emit stateChanged(tr("Parsing start."));  
     
@@ -84,62 +84,54 @@ void Parser::run()
     
     timeMark(tr("Authors information saved."));
     
-    indexFileSave();
-    
-    timeMark(tr("Index file saved."));
-    
-    parseClean();
-    
-    timeMark(tr("Memeory cleaned."));
-    
-    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(m_costMsecs)));
-    qInfo() << QString("Parse done in %1 ms").arg(m_costMsecs);
+    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(costMsecs)));
+    qInfo() << QString("Parse done in %1 ms").arg(costMsecs);
     emit done();
 }
 
 void Parser::parse()
 {
     quint32 x = 0;
-    quint32 len = m_ref.r;
+    quint32 len = ref.r;
     
     // authorId starts from 0
     while (x < len) {
-        if (m_ref.startsWith("key=\"", x)) {
+        if (ref.startsWith("key=\"", x)) {
             x += 5;
             QVector<int> recordAuthorsId;
             StringRef title;
             int year = 0;
             while (x <= len) {
-                if (x == len || m_ref.startsWith("key=\"", x + 1)) {
+                if (x == len || ref.startsWith("key=\"", x + 1)) {
                     if (recordAuthorsId.size() > 1) {
-                        m_authorsIdRelation.append(recordAuthorsId);
+                        authorIdRelations.append(recordAuthorsId);
                     }
                     if (year != 0) {
-                        m_titleYear.append(qMakePair(title, year));
-                        m_minYear = std::min(m_minYear, year);
-                        m_maxYear = std::max(m_maxYear, year);
+                        titleYears.append(qMakePair(title, year));
+                        minYear = std::min(minYear, year);
+                        maxYear = std::max(maxYear, year);
                     }
                     break;
                 }
-                if (m_ref[x] == '<') {
-                    if (m_ref.startsWith("author", x + 1)) {
-                        StringRef author = readElementText(m_ref, x);
+                if (ref[x] == '<') {
+                    if (ref.startsWith("author", x + 1)) {
+                        StringRef author = readElementText(ref, x);
                         QPair<int, int> *info;
-                        if (m_authorInfo.contains(author)) {
-                            info = &m_authorInfo[author];
+                        if (authorInfos.contains(author)) {
+                            info = &authorInfos[author];
                         } else {
-                            info = &m_authorInfo[author];
-                            info->first/*id*/ = m_totalAuthor;
-                            ++m_totalAuthor;
+                            info = &authorInfos[author];
+                            info->first/*id*/ = totalAuthor;
+                            ++totalAuthor;
                         }
                         ++info->second;
-                        m_authorIndex.append(author);
+                        authorIndexs.append(author);
                         recordAuthorsId.append(info->first/*id*/);
-                    } else if (m_ref.startsWith("title", x + 1)) {
-                        title = readElementText(m_ref, x);
-                        m_titleIndex.append(title);
-                    } else if (m_ref.startsWith("year", x + 1)) {
-                        year = readYear(m_ref, x);
+                    } else if (ref.startsWith("title", x + 1)) {
+                        title = readElementText(ref, x);
+                        titleIndexs.append(title);
+                    } else if (ref.startsWith("year", x + 1)) {
+                        year = readYear(ref, x);
                     }
                 }
                 ++x;
@@ -191,36 +183,31 @@ int Parser::readYear(const StringRef &r, quint32 &from)
     return year;
 }
 
-int Parser::costMsecs()
-{
-    return m_costMsecs;
-}
-
 void Parser::timeMark(QString msg)
 {
-    m_costMsecs = m_timing.elapsed();
-    msg += " " + tr("(%1 ms)").arg(m_costMsecs - m_elapsedTime);
+    costMsecs = timing.elapsed();
+    msg += " " + tr("(%1 ms)").arg(costMsecs - elapsedTime);
     emit stateChanged(msg);
-    m_elapsedTime = m_costMsecs;
+    elapsedTime = costMsecs;
 }
 
 void Parser::parseInit()
 {
     // read all file content
     StringRef::init(Util::getXmlFileName());
-    m_ref.r = StringRef::s_len;
-    m_totalAuthor = 0;
-    m_minYear = 2222;
-    m_maxYear = 0;
+    ref.r = StringRef::s_len;
+    totalAuthor = 0;
+    minYear = 2222;
+    maxYear = 0;
 }
 
 void Parser::countWordPerYear()
 {
     static const int TOP_K = 100;
     
-    QVector<QVector<QString>> yearWords(m_maxYear - m_minYear + 1);
-    for (const auto &titleYear : m_titleYear) {
-        int year_n = titleYear.second - m_minYear;
+    QVector<QVector<QString>> yearWords(maxYear - minYear + 1);
+    for (const auto &titleYear : titleYears) {
+        int year_n = titleYear.second - minYear;
         QString title = titleYear.first.toString();
         for (const QChar &noNeedChar : noNeedChars) {
             title.remove(noNeedChar);
@@ -256,7 +243,7 @@ void Parser::countWordPerYear()
             }
         }
         if (!topK.empty()) {
-            auto &res = m_topKWords[m_minYear + i];
+            auto &res = topKWords[minYear + i];
             for (auto &cw : topK) {
                 QString word = cw.second/*word*/;
                 word.remove(QRegularExpression(R"(</?.*?/?>)"));
@@ -274,14 +261,14 @@ void Parser::saveYearWord()
     QDataStream s(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    s << m_topKWords;
+    s << topKWords;
     file.close();
 }
 
 void Parser::saveTitleWordIndex()
 {
     QVector<WordPos> words;
-    for (const auto &title : m_titleIndex) {
+    for (const auto &title : titleIndexs) {
         QString t = title.toString();
         for (auto &noNeedChar : noNeedChars) {
             t.remove(noNeedChar);
@@ -307,10 +294,10 @@ void Parser::saveTitleWordIndex()
 void Parser::genIndex()
 {
     QList<QPair<StringRef, int>> temp;
-    temp.reserve(m_authorInfo.size());
+    temp.reserve(authorInfos.size());
 
-    auto it = m_authorInfo.begin();
-    while (it != m_authorInfo.end()) {
+    auto it = authorInfos.begin();
+    while (it != authorInfos.end()) {
         temp.append(qMakePair(it.key(),it.value().second));
         it++;
     }
@@ -319,11 +306,33 @@ void Parser::genIndex()
 
     
     for (auto i : temp) {
-        m_authorStac.append(qMakePair(i.first.toString(), i.second));
+        authorStacs.append(qMakePair(i.first.toString(), i.second));
     }
 
-    std::sort(m_authorIndex.begin(), m_authorIndex.end());
-    std::sort(m_titleIndex.begin(), m_titleIndex.end());
+    std::sort(authorIndexs.begin(), authorIndexs.end());
+    std::sort(titleIndexs.begin(), titleIndexs.end());
+    
+    QFile file;
+    QDataStream dataStream(&file);
+    
+    file.setFileName("author.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    dataStream << authorIndexs;
+    file.close();
+    
+    file.setFileName("title.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    dataStream << titleIndexs;
+    file.close();
+
+    file.setFileName("authorStac.dat");
+    file.open(QFile::WriteOnly);
+    Q_ASSERT(file.isOpen());
+    if (authorStacs.size() > 100) authorStacs.resize(100);
+    dataStream << authorStacs;
+    file.close();
 }
 
 void Parser::saveAuthors()
@@ -331,10 +340,10 @@ void Parser::saveAuthors()
     QFile file;
     QTextStream s(&file);
     
-    int n = m_totalAuthor;
+    int n = totalAuthor;
     qInfo() << "(Graph) number of nodes:" << n; 
     QVector<QVector<int>> G(n);
-    for (auto &r : m_authorsIdRelation) {
+    for (auto &r : authorIdRelations) {
         for (int i = 0; i < r.size() - 1; i++) {
             for (int j = i + 1; j < r.size(); j++) {
                 if (r[i] == r[j]) continue;
@@ -372,44 +381,4 @@ void Parser::saveAuthors()
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);
     free(adjList);
-}
-
-void Parser::indexFileSave()
-{
-    QFile file;
-    QDataStream dataStream(&file);
-    
-    file.setFileName("author.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    dataStream << m_authorIndex;
-    file.close();
-    
-    file.setFileName("title.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    dataStream << m_titleIndex;
-    file.close();
-
-    file.setFileName("authorStac.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    if (m_authorStac.size() > 100) m_authorStac.resize(100);
-    dataStream << m_authorStac;
-    file.close();
-}
-
-void Parser::parseClean()
-{
-    m_authorIndex.clear();
-    m_titleIndex.clear();
-    m_authorInfo.clear();
-    m_authorsIdRelation.clear();
-    m_authorStac.clear();
-    m_topKWords.clear();
-    
-    m_authorIndex.squeeze();
-    m_titleIndex.squeeze();
-    m_authorsIdRelation.squeeze();
-    m_authorStac.squeeze();
 }
