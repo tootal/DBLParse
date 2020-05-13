@@ -139,7 +139,7 @@ void Finder::clearIndex()
 QVector<quint32> Finder::indexOfAuthor(const QString &author) const
 {
     QVector<quint32> list;
-    AuthorIndex authorIndex{author, 0, 0};
+    AuthorIndex authorIndex{author.toLatin1(), 0, 0};
     auto range = std::equal_range(authorIndexs.begin(), 
                                   authorIndexs.end(), 
                                   authorIndex);
@@ -152,7 +152,7 @@ QVector<quint32> Finder::indexOfAuthor(const QString &author) const
 QVector<quint32> Finder::indexOfTitle(const QString &title) const
 {
     QVector<quint32> list;
-    TitleIndex titleIndex{title, 0, 0};
+    TitleIndex titleIndex{title.toLatin1(), 0, 0};
     auto range = std::equal_range(titleIndexs.begin(), 
                                   titleIndexs.end(), 
                                   titleIndex);

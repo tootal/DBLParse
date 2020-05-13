@@ -48,7 +48,7 @@ private:
     YearWord yearWord;
     QVector<AuthorIndex> authorIndexs;
     QVector<TitleIndex> titleIndexs;
-    QVector<QPair<QString,int>> authorStacs;
+    QVector<AuthorStac> authorStacs;
     QVector<WordPos> titleWords;
     QVector<Record> m_lastResult;
     

@@ -115,17 +115,6 @@ void Parser::parse()
                 }
                 if (ref[x] == '<') {
                     if (ref.startsWith("author", x + 1)) {
-                        StringRef author = readElementText(ref, x);
-                        AuthorInfo *info;
-                        if (authorInfos.contains(author)) {
-                            info = &authorInfos[author];
-                        } else {
-                            info = &authorInfos[author];
-                            info->id = totalAuthor;
-                            ++totalAuthor;
-                        }
-                        ++info->stac;
-                        recordAuthorsId.append(info->id);
                     } else if (ref.startsWith("title", x + 1)) {
                         title = readElementText(ref, x);
                     } else if (ref.startsWith("year", x + 1)) {
@@ -143,10 +132,22 @@ void Parser::parse2()
 {
     Reader reader(Util::getXmlFileName());
     while (reader.next()) {
+        AuthorInfo *info;
+        QVector<int> recordAuthorsId;
         for (const auto &author : reader.authors()) {
+            if (authorInfos.contains(author)) {
+                info = &authorInfos[author];
+            } else {
+                info = &authorInfos[author];
+                info->id = totalAuthor;
+                ++totalAuthor;
+            }
+            ++info->stac;
+            recordAuthorsId.append(info->id);
             authorIndexs.append({author, reader.begin(), reader.end()});
         }
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
+        authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
             titleYears.append({reader.title(), reader.year()});
             minYear = std::min(minYear, reader.year());
@@ -312,7 +313,7 @@ void Parser::genIndex()
 {
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
-        authorStacs.append({it.key().toString(),it.value().stac});
+        authorStacs.append({it.key(),it.value().stac});
         it++;
     }
     std::sort(authorStacs.begin(), authorStacs.end());

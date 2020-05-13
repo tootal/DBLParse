@@ -247,15 +247,15 @@ void MainWindow::on_actionAuthorStac_triggered()
     view->setWindowFlag(Qt::Window);
     view->resize(600, 800);
     
-    QVector<QPair<QString, int>> authorStac = m_finder->authorStacs;
+    QVector<AuthorStac> authorStac = m_finder->authorStacs;
     QJsonArray authorStacArray;
     
     int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
     
     for (qint32 t=0; t<num; t++) {
         QJsonObject obj;
-        obj.insert("author",authorStac[t].first);
-        obj.insert("articleNum",QString::number(authorStac[t].second));
+        obj.insert("author", QString(authorStac[t].author));
+        obj.insert("articleNum",QString::number(authorStac[t].stac));
         authorStacArray.append(obj);
     }
     

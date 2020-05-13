@@ -52,7 +52,7 @@ struct AuthorInfo
 
 struct AuthorStac
 {
-    QString author;
+    QByteArray author;
     int stac;
     bool operator<(const AuthorStac &that) const {
         return stac > that.stac;
@@ -70,7 +70,7 @@ struct TitleYear
 };
 
 struct TitleIndex {
-    QString title;
+    QByteArray title;
     quint32 begin;
     quint32 end;
     bool operator<(const TitleIndex &that) const {
@@ -83,7 +83,7 @@ QDataStream &operator<<(QDataStream &out, const TitleIndex &x);
 QDataStream &operator>>(QDataStream &in, TitleIndex &x);
 
 struct AuthorIndex {
-    QString author;
+    QByteArray author;
     quint32 begin;
     quint32 end;
     bool operator<(const AuthorIndex &that) const {
@@ -121,7 +121,7 @@ private:
     
     QVector<AuthorIndex> authorIndexs;
     QVector<TitleIndex> titleIndexs;
-    QMap<StringRef, AuthorInfo> authorInfos;
+    QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<AuthorStac> authorStacs;
     
