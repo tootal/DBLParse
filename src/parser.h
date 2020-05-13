@@ -82,6 +82,7 @@ public:
 signals:
     void stateChanged(const QString &state);
     void done();
+    void error(const QString &msg);
     
 private:
     QElapsedTimer timing;

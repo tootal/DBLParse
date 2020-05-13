@@ -151,6 +151,9 @@ void Parser::parse2()
             maxYear = std::max(maxYear, reader.year());
         }
     }
+    if (reader.hasError()) {
+        emit error(reader.error());
+    }
 }
 
 StringRef Parser::readElementText(const StringRef &r, quint32 &from)
