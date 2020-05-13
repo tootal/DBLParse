@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QStyle>
 #include <QTranslator>
+#include <QTimer>
 
 #include "parser.h"
 #include "parsedialog.h"
@@ -142,8 +143,6 @@ void MainWindow::on_actionOpen_triggered()
     parser->moveToThread(thread);
     connect(thread, &QThread::finished,
             parser, &QObject::deleteLater);
-    connect(this, &MainWindow::startParse,
-            parser, &Parser::run);
     connect(parser, &Parser::stateChanged,
             dialog, &ParseDialog::showStatus);
     connect(parser, &Parser::done,
@@ -154,7 +153,7 @@ void MainWindow::on_actionOpen_triggered()
             this, &MainWindow::load);
     dialog->open();
     thread->start();
-    emit startParse();
+    QTimer::singleShot(0, parser, &Parser::run);
 }
 
 void MainWindow::on_actionStatus_triggered()
@@ -201,8 +200,6 @@ void MainWindow::load()
     loader->moveToThread(thread);
     connect(thread, &QThread::finished,
             loader, &QObject::deleteLater);
-    connect(this, &MainWindow::startLoad,
-            loader, &Loader::run);
     connect(loader, &Loader::stateChanged,
             this, [this](const QString &state) {
         statusBar()->showMessage(state);
@@ -227,7 +224,7 @@ void MainWindow::load()
         statusBar()->showMessage(tr("Load finished."), 3000); 
     });
     thread->start();
-    emit startLoad();
+    QTimer::singleShot(0, loader, &Loader::run);
     Finder::init();
 }
 

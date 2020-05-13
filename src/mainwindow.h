@@ -62,8 +62,4 @@ private:
     
     void load();
     void onLanguageChanged(const QString &locale);
-    
-signals:
-    void startParse();
-    void startLoad();
 };
