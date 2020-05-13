@@ -12,6 +12,7 @@
 
 #include "LinkedList.h"
 #include "misc.h"
+#include "reader.h"
 
 const QStringList Parser::commonwords = {
     "are", "all", "any", "been", "both",
@@ -65,6 +66,10 @@ void Parser::run()
     parse();
     
     timeMark(tr("XML file parse successful."));
+    
+    parse2();
+    
+    timeMark(tr("XML file parse successful. (reader)"));
     
     countWordPerYear();
     
@@ -138,6 +143,14 @@ void Parser::parse()
             }
         }
         ++x;
+    }
+}
+
+void Parser::parse2()
+{
+    Reader reader(Util::getXmlFileName());
+    while (reader.next()) {
+        
     }
 }
 

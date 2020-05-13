@@ -77,6 +77,7 @@ public:
     Parser(QObject *parent = nullptr);
     void run();
     void parse();
+    void parse2();
     
 signals:
     void stateChanged(const QString &state);
