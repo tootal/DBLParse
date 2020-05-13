@@ -36,34 +36,22 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading author index..."));
-        finder->authorIndexs.clear();
         QFile file("author.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
-        auto len = static_cast<quint32>(file.size() >> 3);
-        for (quint32 i = 0; i < len; ++i) {
-            StringRef t;
-            stream >> t.l >> t.r;
-            finder->authorIndexs.append(t);
-        }
+        stream >> finder->authorIndexs;
         file.close();
         emit authorLoadDone();
     }
     
     {
         emit stateChanged(tr("Loading title index..."));
-        finder->titleIndexs.clear();
         QFile file("title.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream stream(&file);
-        auto len = static_cast<quint32>(file.size() >> 3);
-        for (quint32 i = 0; i < len; ++i) {
-            StringRef t;
-            stream >> t.l >> t.r;
-            finder->titleIndexs.append(t);
-        }
+        stream >> finder->titleIndexs;
         file.close();
         emit titleLoadDone();
     }

@@ -382,24 +382,20 @@ void Parser::indexFileSave()
     file.setFileName("author.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    for (auto &i : m_authorIndex) {
-        dataStream << i.l << i.r;
-    }
+    dataStream << m_authorIndex;
     file.close();
     
     file.setFileName("title.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    for (auto &i : m_titleIndex) {
-        dataStream << i.l << i.r;
-    }
+    dataStream << m_titleIndex;
     file.close();
 
     file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     int num = m_authorStac.size() <= 100 ? m_authorStac.size() : 100;
-    for(int i = 0; i < num; i++){
+    for (int i = 0; i < num; i++) {
         dataStream << m_authorStac[i].first << m_authorStac[i].second;
     }
     file.close();
