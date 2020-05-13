@@ -25,8 +25,6 @@ public:
     QJsonArray cographBFS(const QString &node);
     
     static void init();
-    static QVector<QPair<QString,int>> authorStac() {return s_authorStac;}
-    static YearWord yearWord() {return s_yearWord;}
     
     bool yearWordLoaded() const;
     void setYearWordLoaded();
