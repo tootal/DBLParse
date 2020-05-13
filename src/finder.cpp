@@ -149,9 +149,12 @@ QVector<quint32> Finder::indexOfAuthor(const QString &author) const
 QVector<quint32> Finder::indexOfTitle(const QString &title) const
 {
     QVector<quint32> list;
-    auto range = equalRange(titleIndexs.begin(), titleIndexs.end(), title);
+    TitleIndex titleIndex{title, 0, 0};
+    auto range = std::equal_range(titleIndexs.begin(), 
+                                  titleIndexs.end(), 
+                                  titleIndex);
     for(auto i = range.first; i != range.second; ++i)
-        list.append(i->l);
+        list.append(i->end);
     return list;
 }
 

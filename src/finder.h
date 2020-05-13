@@ -47,7 +47,7 @@ private:
     mutable QFile dataFile;
     YearWord yearWord;
     QVector<StringRef> authorIndexs;
-    QVector<StringRef> titleIndexs;
+    QVector<TitleIndex> titleIndexs;
     QVector<QPair<QString,int>> authorStacs;
     QVector<WordPos> titleWords;
     QVector<Record> m_lastResult;

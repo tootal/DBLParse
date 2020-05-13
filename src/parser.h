@@ -69,6 +69,20 @@ struct TitleYear
     int year;
 };
 
+struct TitleIndex {
+    QString title;
+    quint32 begin;
+    quint32 end;
+    bool operator<(const TitleIndex &that) const {
+        return title < that.title;
+    }
+};
+
+QDataStream &operator<<(QDataStream &out, const TitleIndex &x);
+
+QDataStream &operator>>(QDataStream &in, TitleIndex &x);
+
+
 class Parser : public QObject
 {
     Q_OBJECT
@@ -93,7 +107,7 @@ private:
     StringRef ref;
     
     QVector<StringRef> authorIndexs;
-    QVector<StringRef> titleIndexs;
+    QVector<TitleIndex> titleIndexs;
     QMap<StringRef, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<AuthorStac> authorStacs;

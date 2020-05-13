@@ -129,7 +129,6 @@ void Parser::parse()
                         recordAuthorsId.append(info->id);
                     } else if (ref.startsWith("title", x + 1)) {
                         title = readElementText(ref, x);
-                        titleIndexs.append(title);
                     } else if (ref.startsWith("year", x + 1)) {
                         year = readYear(ref, x);
                     }
@@ -145,6 +144,7 @@ void Parser::parse2()
 {
     Reader reader(Util::getXmlFileName());
     while (reader.next()) {
+        titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         if (reader.hasYear()) {
             titleYears.append({reader.title(), reader.year()});
             minYear = std::min(minYear, reader.year());
@@ -283,8 +283,8 @@ void Parser::saveYearWord()
 void Parser::saveTitleWordIndex()
 {
     QVector<WordPos> words;
-    for (const auto &title : titleIndexs) {
-        QString t = title.toString();
+    for (const auto &titleIndex : titleIndexs) {
+        QString t = titleIndex.title;
         for (auto &noNeedChar : noNeedChars) {
             t.remove(noNeedChar);
         }
@@ -293,7 +293,7 @@ void Parser::saveTitleWordIndex()
             if (w.size() <= 2) continue;
             w = w.toLower();
             if (commonwords.contains(w)) continue;
-            words.append({w, title.l});
+            words.append({w, titleIndex.end});
         }
     }
     std::sort(words.begin(), words.end());
@@ -421,5 +421,17 @@ QDataStream &operator<<(QDataStream &out, const AuthorStac &as)
 QDataStream &operator>>(QDataStream &in, AuthorStac &as)
 {
     in >> as.author >> as.stac;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const TitleIndex &x)
+{
+    out << x.title << x.begin << x.end;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, TitleIndex &x)
+{
+    in >> x.title >> x.begin >> x.end;
     return in;
 }
