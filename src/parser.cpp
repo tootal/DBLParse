@@ -394,10 +394,8 @@ void Parser::indexFileSave()
     file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    int num = m_authorStac.size() <= 100 ? m_authorStac.size() : 100;
-    for (int i = 0; i < num; i++) {
-        dataStream << m_authorStac[i].first << m_authorStac[i].second;
-    }
+    if (m_authorStac.size() > 100) m_authorStac.resize(100);
+    dataStream << m_authorStac;
     file.close();
 }
 

@@ -25,11 +25,7 @@ void Loader::run()
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream in(&file);
-        QPair<QString,int>   tempAuthorStac;
-        while (!in.atEnd()) {
-            in >> tempAuthorStac.first >> tempAuthorStac.second;
-            finder->authorStacs.append(tempAuthorStac);
-        }
+        in >> finder->authorStacs;
         emit authorStacLoadDone();
         file.close();
     }
