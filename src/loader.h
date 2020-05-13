@@ -2,12 +2,17 @@
 
 #include <QObject>
 
+class Finder;
+
 class Loader : public QObject
 {
     Q_OBJECT
 public:
-    explicit Loader(QObject *parent = nullptr);
+    explicit Loader(Finder *p_finder = nullptr, QObject *parent = nullptr);
     void run();
+    
+private:
+    Finder *finder;
     
 signals:
     void stateChanged(const QString &state);

@@ -6,10 +6,10 @@
 
 #include "finder.h"
 
-Loader::Loader(QObject *parent) 
-    : QObject(parent)
+Loader::Loader(Finder *p_finder, QObject *parent)
+    :QObject(parent)
 {
-    
+    finder = p_finder;
 }
 
 void Loader::run()
