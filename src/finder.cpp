@@ -22,8 +22,14 @@
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
+//    qDebug("Finder construct");
     clearIndex();
     init();
+}
+
+Finder::~Finder()
+{
+//    qDebug("Finder destruct");
 }
 
 void Finder::find(const QString &type, const QString &word)

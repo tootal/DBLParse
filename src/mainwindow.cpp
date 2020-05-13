@@ -147,6 +147,8 @@ void MainWindow::on_actionOpen_triggered()
             dialog, &ParseDialog::showStatus);
     connect(parser, &Parser::done,
             dialog, &ParseDialog::activeButton);
+    connect(parser, &Parser::done,
+            thread, &QThread::quit);
     connect(thread, &QThread::finished,
             thread, &QObject::deleteLater);
     connect(parser, &Parser::done,

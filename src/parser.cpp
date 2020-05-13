@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QList>
 #include <QRegularExpression>
+#include <QThread>
+#include <QEvent>
 
 #include <set>
 
@@ -49,13 +51,21 @@ const QString Parser::noNeedChars = ":,.?()";
 Parser::Parser(QObject *parent)
     :QObject(parent)
 {
+//    qDebug("Parser construct");
+//    qDebug("Parser construct thread: %d", QThread::currentThreadId());
     totalAuthor = 0;
     minYear = 2222;
     maxYear = 0;
 }
 
+Parser::~Parser()
+{
+//    qDebug("Parser destruct");
+}
+
 void Parser::run()
 {
+//    qDebug("Parser run thread: %d", QThread::currentThreadId());
     timing.restart();
     elapsedTime = 0;
     
@@ -87,6 +97,14 @@ void Parser::run()
                       .arg(Util::formatTime(costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(costMsecs);
     emit done();
+}
+
+bool Parser::event(QEvent *event)
+{
+//    if (event->type() == QEvent::DeferredDelete) {
+//        qDebug("Parser deferred delete event");
+//    }
+    return QObject::event(event);
 }
 
 void Parser::parse()

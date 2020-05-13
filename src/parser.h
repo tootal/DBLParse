@@ -102,7 +102,13 @@ class Parser : public QObject
     
 public:
     Parser(QObject *parent = nullptr);
+    ~Parser();
+    
+public slots:
     void run();
+    
+protected:
+    bool event(QEvent *event) override;
     
 signals:
     void stateChanged(const QString &state);

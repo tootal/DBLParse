@@ -12,6 +12,7 @@ class Finder : public QObject
     Q_OBJECT
 public:
     explicit Finder(QObject *parent = nullptr);
+    ~Finder();
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
     void clearIndex();
