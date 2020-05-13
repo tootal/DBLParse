@@ -74,31 +74,31 @@ public:
         _end = BUFF_SZ * blocks + p;
         return true;
     }
-    bool hasError() {
+    bool hasError() const {
         return !_error.isEmpty();
     }
-    QString error() {
+    QString error() const {
         return _error;
     }
-    quint32 begin() {
+    quint32 begin() const {
         return _begin;
     }
-    quint32 end() {
+    quint32 end() const {
         return _end;
     }
-    QByteArrayList authors() {
+    QByteArrayList authors() const {
         return _authors;
     }
-    bool hasTitle() {
+    bool hasTitle() const {
         return !_title.isEmpty();
     }
-    QByteArray title() {
+    QByteArray title() const {
         return _title;
     }
-    bool hasYear() {
+    bool hasYear() const {
         return _year != 0;
     }
-    int year() {
+    int year() const {
         return _year;
     }
     
