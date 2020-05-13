@@ -293,22 +293,12 @@ void Parser::saveTitleWordIndex()
 
 void Parser::genIndex()
 {
-    QList<QPair<StringRef, int>> temp;
-    temp.reserve(authorInfos.size());
-
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
-        temp.append(qMakePair(it.key(),it.value().second));
+        authorStacs.append(qMakePair(it.key().toString(),it.value().second));
         it++;
     }
-
-    std::sort(temp.begin(),temp.end(),sortByDesc);
-
-    
-    for (auto i : temp) {
-        authorStacs.append(qMakePair(i.first.toString(), i.second));
-    }
-
+    std::sort(authorStacs.begin(), authorStacs.end(), sortByDesc);
     std::sort(authorIndexs.begin(), authorIndexs.end());
     std::sort(titleIndexs.begin(), titleIndexs.end());
     

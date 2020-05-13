@@ -58,7 +58,7 @@ signals:
     void done();
     
 public:
-    static bool sortByDesc(QPair<StringRef, int> l,QPair<StringRef,int> r){return l.second>r.second;}
+    static bool sortByDesc(QPair<QString, int> l,QPair<QString, int> r){return l.second>r.second;}
     
 private:
     QElapsedTimer timing;
