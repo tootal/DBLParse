@@ -270,22 +270,11 @@ void Parser::countWordPerYear()
 
 void Parser::saveYearWord()
 {
-    QFile file;
-    QTextStream textStream(&file);
-    
-    file.setFileName("yearWord.txt");
-    file.open(QFile::WriteOnly | QFile::Text);
+    QFile file("yearWord.txt");
+    QDataStream s(&file);
+    file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
-    for (auto i = m_topKWords.begin(); i != m_topKWords.end(); ++i) {
-        // Year <space>
-        textStream << i.key() << ' ';
-        for (const auto &j : i.value()) {
-            // Count <space> Word <space>
-            textStream << j.first << ' ' << j.second << ' ';
-        }
-        // <enter>
-        textStream << '\n';
-    }
+    s << m_topKWords;
     file.close();
 }
 

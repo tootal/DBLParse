@@ -70,23 +70,11 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading year word index..."));
-        finder->yearWord.clear();
         QFile file("yearWord.txt");
-        file.open(QFile::ReadOnly | QFile::Text);
+        file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
-        QTextStream read(&file);
-        while (!read.atEnd()) {
-            QStringList temp = read.readLine().split(' ');
-            QVector<Parser::WordCount> tempYearWord;
-            int year = temp[0].toInt();
-            for (int i = 1; i < temp.size() - 1; i += 2) {
-                tempYearWord.append(qMakePair(
-                    temp[i].toInt()/*count*/,
-                    temp[i + 1]/*word*/
-                ));
-            }
-            finder->yearWord.insert(year, tempYearWord);
-        }
+        QDataStream s(&file);
+        s >> finder->yearWord;
         emit yearWordLoadDone();
         file.close();
     }
