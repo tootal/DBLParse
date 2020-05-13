@@ -49,7 +49,9 @@ const QString Parser::noNeedChars = ":,.?()";
 Parser::Parser(QObject *parent)
     :QObject(parent)
 {
-    
+    totalAuthor = 0;
+    minYear = 2222;
+    maxYear = 0;
 }
 
 void Parser::run()
@@ -59,17 +61,9 @@ void Parser::run()
     
     emit stateChanged(tr("Parsing start."));  
     
-    parseInit();
-    
-    timeMark(tr("XML file read successful."));
-    
     parse();
     
     timeMark(tr("XML file parse successful."));
-    
-    parse2();
-    
-    timeMark(tr("XML file parse successful. (reader)"));
     
     countWordPerYear();
     
@@ -89,16 +83,13 @@ void Parser::run()
     
     timeMark(tr("Authors information saved."));
     
-    emit stateChanged(tr("Parse done. Cost time: %1").arg(Util::formatTime(costMsecs)));
+    emit stateChanged(tr("Parse done. Cost time: %1")
+                      .arg(Util::formatTime(costMsecs)));
     qInfo() << QString("Parse done in %1 ms").arg(costMsecs);
     emit done();
 }
 
 void Parser::parse()
-{
-}
-
-void Parser::parse2()
 {
     Reader reader(Util::getXmlFileName());
     while (reader.next()) {
@@ -129,64 +120,12 @@ void Parser::parse2()
     }
 }
 
-StringRef Parser::readElementText(const StringRef &r, quint32 &from)
-{
-    StringRef s = r.mid(from);
-    Q_ASSERT(s[0] == '<');
-    quint32 i = 1;
-    char name[30];
-    name[0] = '<';
-    name[1] = '/';
-    while(s[i] != ' ' && s[i] != '>'){
-        name[i + 1] = s[i];
-        ++i;
-    }
-    from += i;
-    name[i + 1] = '>';
-    name[i + 2] = 0;
-    // name = "</ele>"
-    while(s[i] != '>') ++i;
-    qint32 p = s.indexOf(name, i + 1);
-    Q_ASSERT(p != -1);
-    auto x = static_cast<quint32>(p);
-    from += x + 1;
-    return s.mid(i + 1, x - i - 1);
-}
-
-StringRef Parser::readElementAttr(const StringRef &r, quint32 from)
-{
-    quint32 i = from;
-    while (r[i] != '\"') ++i;
-    return r.mid(from, i - from);
-}
-
-int Parser::readYear(const StringRef &r, quint32 &from)
-{
-    from += 6;
-    int year = 1000 * (r[from] - '0')
-            + 100 * (r[from + 1] - '0')
-            + 10 * (r[from + 2] - '0')
-            + r[from + 3] - '0';
-    from += 11;
-    return year;
-}
-
 void Parser::timeMark(QString msg)
 {
     costMsecs = timing.elapsed();
     msg += " " + tr("(%1 ms)").arg(costMsecs - elapsedTime);
     emit stateChanged(msg);
     elapsedTime = costMsecs;
-}
-
-void Parser::parseInit()
-{
-    // read all file content
-    StringRef::init(Util::getXmlFileName());
-    ref.r = StringRef::s_len;
-    totalAuthor = 0;
-    minYear = 2222;
-    maxYear = 0;
 }
 
 void Parser::countWordPerYear()

@@ -103,8 +103,6 @@ class Parser : public QObject
 public:
     Parser(QObject *parent = nullptr);
     void run();
-    void parse();
-    void parse2();
     
 signals:
     void stateChanged(const QString &state);
@@ -131,23 +129,12 @@ private:
     YearWord topKWords;
     
     void timeMark(QString msg);
-    void parseInit();
+    void parse();
     void countWordPerYear();
     void saveYearWord();
     void saveTitleWordIndex();
     void genIndex();
     void saveAuthors();
-
-    // treat child element as text, after reading, from equal to the
-    // last position of the end element
-    static StringRef readElementText(const StringRef &r, quint32 &from);
-    
-    // read element attribute, return its value of StringRef
-    // from equal to the start position of the attr value
-    static StringRef readElementAttr(const StringRef &r, quint32 from);
-
-    // read example: "<year>1998</year>"
-    static int readYear(const StringRef &r, quint32 &from);
 
     static const QStringList commonwords;
     static const QString noNeedChars;
