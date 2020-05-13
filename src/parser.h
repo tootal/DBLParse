@@ -50,6 +50,20 @@ struct AuthorInfo
     int stac;
 };
 
+struct AuthorStac
+{
+    QString author;
+    int stac;
+    bool operator<(const AuthorStac &that) const {
+        return stac > that.stac;
+    }
+};
+
+QDataStream &operator<<(QDataStream &out, const AuthorStac &as);
+
+QDataStream &operator>>(QDataStream &in, AuthorStac &as);
+
+
 class Parser : public QObject
 {
     Q_OBJECT
@@ -63,9 +77,6 @@ signals:
     void stateChanged(const QString &state);
     void done();
     
-public:
-    static bool sortByDesc(QPair<QString, int> l,QPair<QString, int> r){return l.second>r.second;}
-    
 private:
     QElapsedTimer timing;
     int costMsecs{};
@@ -78,7 +89,7 @@ private:
     QVector<StringRef> titleIndexs;
     QMap<StringRef, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
-    QVector<QPair<QString/*author*/, int/*stac*/>> authorStacs;
+    QVector<AuthorStac> authorStacs;
     
     int maxYear{};
     int minYear{};

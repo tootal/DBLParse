@@ -295,10 +295,10 @@ void Parser::genIndex()
 {
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
-        authorStacs.append(qMakePair(it.key().toString(),it.value().stac));
+        authorStacs.append({it.key().toString(),it.value().stac});
         it++;
     }
-    std::sort(authorStacs.begin(), authorStacs.end(), sortByDesc);
+    std::sort(authorStacs.begin(), authorStacs.end());
     std::sort(authorIndexs.begin(), authorIndexs.end());
     std::sort(titleIndexs.begin(), titleIndexs.end());
     
@@ -394,5 +394,17 @@ QDataStream &operator<<(QDataStream &out, const WordPos &wp)
 QDataStream &operator>>(QDataStream &in, WordPos &wp)
 {
     in >> wp.word >> wp.pos;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const AuthorStac &as)
+{
+    out << as.author << as.stac;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, AuthorStac &as)
+{
+    in >> as.author >> as.stac;
     return in;
 }
