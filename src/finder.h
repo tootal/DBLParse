@@ -48,6 +48,8 @@ signals:
     
 private:
     mutable QFile dataFile;
+    YearWord yearWord;
+    QVector<Record> m_lastResult;
     
     bool m_loaded{};
     bool m_authorLoaded{};
@@ -55,7 +57,6 @@ private:
     bool m_authorStacLoaded{};
     bool m_yearWordLoaded{};
     bool m_titleWordLoaded{};
-    QVector<Record> m_lastResult;
     
     QString readText(const StringRef &ref) const;
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
@@ -83,6 +84,7 @@ public:
     static QVector<StringRef> titleIndexs;
     static QVector<QPair<QString,int>> authorStacs;
     static QVector<QPair<QString, quint32>> titleWords;
-    static YearWord yearWord;
     
+    friend class Loader;
+    friend class MainWindow;
 };

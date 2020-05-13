@@ -23,7 +23,6 @@
 QVector<StringRef> Finder::authorIndexs;
 QVector<StringRef> Finder::titleIndexs;
 QVector<QPair<QString,int>>  Finder::authorStacs;
-Parser::YearWord Finder::yearWord;
 QVector<QPair<QString, quint32>> Finder::titleWords;
 
 Finder::Finder(QObject *parent) : QObject(parent)

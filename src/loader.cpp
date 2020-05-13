@@ -70,7 +70,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading year word index..."));
-        Finder::yearWord.clear();
+        finder->yearWord.clear();
         QFile file("yearWord.txt");
         file.open(QFile::ReadOnly | QFile::Text);
         Q_ASSERT(file.isOpen());
@@ -85,7 +85,7 @@ void Loader::run()
                     temp[i + 1]/*word*/
                 ));
             }
-            Finder::yearWord.insert(year, tempYearWord);
+            finder->yearWord.insert(year, tempYearWord);
         }
         emit yearWordLoadDone();
         file.close();
