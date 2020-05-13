@@ -20,7 +20,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading authorStac index..."));
-        Finder::authorStacs.clear();
+        finder->authorStacs.clear();
         QFile file("authorStac.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
@@ -28,7 +28,7 @@ void Loader::run()
         QPair<QString,int>   tempAuthorStac;
         while (!in.atEnd()) {
             in >> tempAuthorStac.first >> tempAuthorStac.second;
-            Finder::authorStacs.append(tempAuthorStac);
+            finder->authorStacs.append(tempAuthorStac);
         }
         emit authorStacLoadDone();
         file.close();
@@ -36,7 +36,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading author index..."));
-        Finder::authorIndexs.clear();
+        finder->authorIndexs.clear();
         QFile file("author.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
@@ -45,7 +45,7 @@ void Loader::run()
         for (quint32 i = 0; i < len; ++i) {
             StringRef t;
             stream >> t.l >> t.r;
-            Finder::authorIndexs.append(t);
+            finder->authorIndexs.append(t);
         }
         file.close();
         emit authorLoadDone();
@@ -53,7 +53,7 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading title index..."));
-        Finder::titleIndexs.clear();
+        finder->titleIndexs.clear();
         QFile file("title.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
@@ -62,7 +62,7 @@ void Loader::run()
         for (quint32 i = 0; i < len; ++i) {
             StringRef t;
             stream >> t.l >> t.r;
-            Finder::titleIndexs.append(t);
+            finder->titleIndexs.append(t);
         }
         file.close();
         emit titleLoadDone();
@@ -93,12 +93,12 @@ void Loader::run()
     
     {
         emit stateChanged(tr("Loading title word index..."));
-        Finder::titleWords.clear();
+        finder->titleWords.clear();
         QFile file("words.dat");
         file.open(QFile::ReadOnly);
         Q_ASSERT(file.isOpen());
         QDataStream s(&file);
-        s >> Finder::titleWords;
+        s >> finder->titleWords;
         emit titleWordLoadDone();
         file.close();
     }

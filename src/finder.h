@@ -49,6 +49,10 @@ signals:
 private:
     mutable QFile dataFile;
     YearWord yearWord;
+    QVector<StringRef> authorIndexs;
+    QVector<StringRef> titleIndexs;
+    QVector<QPair<QString,int>> authorStacs;
+    QVector<QPair<QString, quint32>> titleWords;
     QVector<Record> m_lastResult;
     
     bool m_loaded{};
@@ -79,11 +83,6 @@ private:
     upperBound(const StringRef *first,
                const StringRef *last,
                const QString &val) const;
-public:
-    static QVector<StringRef> authorIndexs;
-    static QVector<StringRef> titleIndexs;
-    static QVector<QPair<QString,int>> authorStacs;
-    static QVector<QPair<QString, quint32>> titleWords;
     
     friend class Loader;
     friend class MainWindow;

@@ -246,7 +246,7 @@ void MainWindow::on_actionAuthorStac_triggered()
     view->setWindowFlag(Qt::Window);
     view->resize(600, 800);
     
-    QVector<QPair<QString, int>> authorStac = Finder::authorStacs;
+    QVector<QPair<QString, int>> authorStac = m_finder->authorStacs;
     QJsonArray authorStacArray;
     
     int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
