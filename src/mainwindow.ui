@@ -65,6 +65,8 @@
     </property>
     <addaction name="actionClearIndex"/>
     <addaction name="actionOpenIndexFolder"/>
+    <addaction name="actionOpen_Data_Folder"/>
+    <addaction name="action_Download_Data"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -135,6 +137,16 @@
   <action name="actionCountClique">
    <property name="text">
     <string>&amp;Clique Count</string>
+   </property>
+  </action>
+  <action name="actionOpen_Data_Folder">
+   <property name="text">
+    <string>Open Data &amp;Folder</string>
+   </property>
+  </action>
+  <action name="action_Download_Data">
+   <property name="text">
+    <string>&amp;Download Data</string>
    </property>
   </action>
  </widget>

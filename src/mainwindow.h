@@ -52,6 +52,10 @@ private slots:
     
     void on_actionCountClique_triggered();
     
+    void on_actionOpen_Data_Folder_triggered();
+    
+    void on_action_Download_Data_triggered();
+    
 protected:
     void changeEvent(QEvent *e) override;
     

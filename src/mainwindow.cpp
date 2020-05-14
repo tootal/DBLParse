@@ -192,7 +192,7 @@ void MainWindow::on_actionClearIndex_triggered()
 
 void MainWindow::on_actionOpenIndexFolder_triggered()
 {
-    QDesktopServices::openUrl(QUrl(QDir::currentPath()));    
+    QDesktopServices::openUrl(QUrl(QDir::currentPath()));
 }
 
 void MainWindow::load()
@@ -359,4 +359,21 @@ void MainWindow::changeEvent(QEvent *e)
         ui->retranslateUi(this);
     }
     QMainWindow::changeEvent(e);
+}
+
+void MainWindow::on_actionOpen_Data_Folder_triggered()
+{
+    if (Util::parsed()) {
+        QString path = QFileInfo(Util::getXmlFileName()).path();
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+    } else {
+        auto box = new QMessageBox(this);
+        box->setText(tr("Do not find data file."));
+        box->show();
+    }
+}
+
+void MainWindow::on_action_Download_Data_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://dblp.uni-trier.de/xml/dblp.xml.gz"));
 }
