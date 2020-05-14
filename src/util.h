@@ -3,7 +3,6 @@
 #include <QObject>
 #include <QDebug>
 #include <string>
-#include <type_traits>
 
 class Util : public QObject
 {

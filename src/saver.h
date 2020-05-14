@@ -2,6 +2,7 @@
 
 #include <QtGlobal>
 #include <QVector>
+#include <QFile>
 
 #include "parser.h"
 

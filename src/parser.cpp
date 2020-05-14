@@ -20,38 +20,6 @@
 #include "saver.h"
 #include "stemmer.h"
 
-const QStringList Parser::commonwords = {
-    "are", "all", "any", "been", "both",
-    "each", "either", "one", "two", "three",
-    "four", "five", "six", "seven", "eight",
-    "nine", "ten", "none", "little", "few",
-    "many", "much", "other", "another", "some",
-    "every", "nobody", "anybody", "somebody",
-    "everybody", "when", "under", "uuml",
-    "first", "second", "third", "forth", "fifth",
-    "sixth", "seventh", "above", "over", "below",
-    "under", "beside", "behind", "the", "after",
-    "from", "since", "for", "which", "next",
-    "where", "how", "who", "there", "was", "der",
-    "were", "did", "done", "this", "that",
-    "last", "brfore", "because", "against",
-    "except", "beyond", "along", "among", "but",
-    "towards", "you", "multi", "time", "von",
-    "your", "his", "her", "she", "its", "they",
-    "them", "and", "has", "have", "had",
-    "would", "then", "too", "our", "off",
-    "into", "weel", "can", "being", "zur",
-    "been", "having", "even", "these", "those",
-    "ours", "with", "use", "using", "used",
-    "the", "based", "problem", "problems", "systems",
-    "methods", "ways", "ideas", "learning", "information",
-    "works", "solve", "solving", "solved", "old", "new",
-    "analysis", "data", "big", "small", "large",
-    "their", "between", "method"
-};
-
-const QString Parser::noNeedChars = ":,.?()";
-
 Parser::Parser(QObject *parent)
     :QObject(parent)
 {
@@ -163,17 +131,10 @@ void Parser::countWordPerYear()
     QVector<QVector<QString>> yearWords(maxYear - minYear + 1);
     for (const auto &titleYear : titleYears) {
         int year_n = titleYear.year - minYear;
-        QString title = titleYear.title;
-        for (const QChar &noNeedChar : noNeedChars) {
-            title.remove(noNeedChar);
-        }
-        QStringList words = title.split(' ');
-        for (QString &word : words) {
-            if (word.size() <= 2) continue;
-            word = word.toLower();
-            if (commonwords.contains(word)) continue;
+        auto title = titleYear.title;
+        auto words = Stemmer::stem(title);
+        for (auto &word : words)
             yearWords[year_n].append(word);
-        }
     }
     
     for (int i = 0; i < yearWords.size(); ++i) {
@@ -292,18 +253,6 @@ QDataStream &operator<<(QDataStream &out, const WordCount &wc)
 QDataStream &operator>>(QDataStream &in, WordCount &wc)
 {
     in >> wc.word >> wc.count;
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const WordPos &wp)
-{
-    out << wp.word << wp.pos;
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, WordPos &wp)
-{
-    in >> wp.word >> wp.pos;
     return in;
 }
 
