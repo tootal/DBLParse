@@ -56,8 +56,8 @@ private:
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
     QVector<quint32> indexOfAuthor(const QByteArray &author) const;
     QVector<quint32> indexOfTitle(const QByteArray &title) const;
-    QSet<quint32> indexOfTitleWord(const QString &keyword) const;
-    QVector<quint32> indexOfTitleWords(const QString &keywords) const;
+    QSet<quint32> indexOfTitleWord(const QByteArray &keyword) const;
+    QVector<quint32> indexOfTitleWords(const QByteArray &keywords) const;
     QJsonArray cographBFS(const QString &node) const;
     
     friend class Loader;

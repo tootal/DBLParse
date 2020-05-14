@@ -113,7 +113,6 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
-    int cnt = 0;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
     Saver titleSaver("title");

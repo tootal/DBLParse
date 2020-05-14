@@ -70,6 +70,7 @@ SOURCES += \
     parser.cpp \
     record.cpp \
     settingsdialog.cpp \
+    stemmer.cpp \
     stringref.cpp \
     util.cpp \
     webpage.cpp \

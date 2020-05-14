@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "application.h"
 #include "hash.h"
+#include "stemmer.h"
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -72,8 +73,7 @@ void Finder::find(const QString &type, const QString &word)
         cograph=cographBFS(word);
         json = cograph;
     } else if (type == "keywords") {
-        if (!titleWordLoaded()) goto not_ready;
-        auto list = indexOfTitleWords(word.toLower());
+        auto list = indexOfTitleWords(word.toLatin1());
         result = getRecord(list);
         for (int i = 0; i < result.size(); i++) {
             json.append(result[i].toJson(type));
@@ -168,22 +168,25 @@ QVector<quint32> Finder::indexOfTitle(const QByteArray &title) const
     return list;
 }
 
-QSet<quint32> Finder::indexOfTitleWord(const QString &keyword) const
+QSet<quint32> Finder::indexOfTitleWord(const QByteArray &keyword) const
 {
     QSet<quint32> set;
-    auto range = std::equal_range(
-                    titleWords.begin(), 
-                    titleWords.end(),
-                    WordPos(keyword));
-    for (auto i = range.first; i != range.second; ++i) {
-        set.insert(i->pos);
+    auto hash = Hash::hash2(keyword);
+    QFile file(QString("data/word/%1").arg(Hash::hash1(keyword)));
+    if (!file.open(QFile::ReadOnly)) return set;
+    QDataStream s(&file);
+    while (!s.atEnd()) {
+        HashIndex i;
+        s >> i;
+        if (i.hash == hash) set.insert(i.pos);
     }
+    file.close();
     return set;
 }
 
-QVector<quint32> Finder::indexOfTitleWords(const QString &keywords) const
+QVector<quint32> Finder::indexOfTitleWords(const QByteArray &keywords) const
 {
-    auto words = keywords.split(' ');
+    auto words = Stemmer::stem(keywords);
     auto res = indexOfTitleWord(words[0]);
     for (int i = 1; i < words.size(); i++) {
         auto t = indexOfTitleWord(words[i]);
