@@ -74,6 +74,7 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
+    QSet<QPair<quint16, quint32>> test;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
     Saver titleSaver("title");
@@ -83,17 +84,23 @@ void Parser::parse()
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
         for (const auto &author : reader.authors()) {
+            auto hash1 = Hash::hash1(author);
+            auto hash2 = Hash::hash2(author);
             if (authorInfos.contains(author)) {
                 info = &authorInfos[author];
             } else {
                 info = &authorInfos[author];
                 info->id = totalAuthor;
                 ++totalAuthor;
+                if (test.contains({hash1, hash2})) {
+                    qDebug() << "Conflict: " << author;
+                } else {
+                    test.insert({hash1, hash2});
+                }
             }
             ++info->stac;
             recordAuthorsId.append(info->id);
-            authorSaver.save(Hash::hash1(author),
-                            { Hash::hash2(author), reader.end()});
+            authorSaver.save(hash1, { hash2, reader.end()});
         }
         if (reader.title() != "Home Page")
             titleSaver.save(Hash::hash1(reader.title()), 
