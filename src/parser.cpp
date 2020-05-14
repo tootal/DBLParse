@@ -114,7 +114,7 @@ void Parser::parse()
 {
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
-    Saver saver;
+    Saver titleSaver("title"), authorSaver("author");
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -129,14 +129,12 @@ void Parser::parse()
             ++info->stac;
             recordAuthorsId.append(info->id);
             authorIndexs.append({author, reader.begin(), reader.end()});
+            authorSaver.save(Hash::hash1(author),
+                            { Hash::hash2(author), reader.end()});
         }
-        if (reader.title() != "Home Page") {
-            auto hash1 = Hash::hash1(reader.title());
-            auto hash2 = Hash::hash2(reader.title());
-            if (!saver.save(hash1, {hash2, reader.end()})) {
-                emit error(tr("Index file save failed: %1").arg(hash1));
-            }
-        }
+        if (reader.title() != "Home Page")
+            titleSaver.save(Hash::hash1(reader.title()), 
+                            {Hash::hash2(reader.title()), reader.end()});
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
@@ -148,7 +146,6 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
-    saver.saveAll();
 }
 
 void Parser::timeMark(QString msg)
