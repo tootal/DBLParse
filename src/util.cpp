@@ -107,6 +107,7 @@ void Util::clearIndexs()
     for (const QString &fileName : s_parsedFiles) {
         QFile(fileName).remove();
     }
+    QDir("data").removeRecursively();
 }
 
 void Util::initIndexs()
