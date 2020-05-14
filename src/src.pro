@@ -71,7 +71,6 @@ SOURCES += \
     record.cpp \
     settingsdialog.cpp \
     stemmer.cpp \
-    stringref.cpp \
     util.cpp \
     webpage.cpp \
     webview.cpp
@@ -90,7 +89,6 @@ HEADERS += \
     saver.h \
     settingsdialog.h \
     stemmer.h \
-    stringref.h \
     util.h \
     webpage.h \
     webview.h

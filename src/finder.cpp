@@ -224,12 +224,6 @@ void Finder::setLoaded()
     m_loaded = true;
 }
 
-QString Finder::readText(const StringRef &ref) const
-{
-    dataFile.seek(ref.l);
-    return dataFile.read(ref.r - ref.l);
-}
-
 QVector<Record> Finder::getRecord(const QVector<quint32> &posList) const
 {
     QVector<Record> array;

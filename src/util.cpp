@@ -20,15 +20,13 @@ Util::s_availableLanguages = {
 
 QStringList Util::s_loadedFiles = {
     "authorStac.dat",
-    "yearWord.txt",
-    "words.dat"
+    "yearWord.txt"
 };
 
 QStringList Util::s_parsedFiles = {
     "authorStac.dat",
     "authors_cliques.txt",
-    "yearWord.txt",
-    "words.dat"
+    "yearWord.txt"
 };
 
 QString Util::formatTime(int ms)

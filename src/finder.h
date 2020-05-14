@@ -2,9 +2,9 @@
 
 #include <QObject>
 #include <QJsonArray>
+#include <QFile>
 
 #include "parser.h"
-#include "stringref.h"
 #include "record.h"
 
 class Finder : public QObject
@@ -48,7 +48,6 @@ private:
     bool m_authorStacLoaded{};
     bool m_yearWordLoaded{};
     
-    QString readText(const StringRef &ref) const;
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
     QVector<quint32> indexOfAuthor(const QByteArray &author) const;
     QVector<quint32> indexOfTitle(const QByteArray &title) const;

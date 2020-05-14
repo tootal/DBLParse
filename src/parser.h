@@ -8,7 +8,6 @@
 #include <QDataStream>
 
 #include "util.h"
-#include "stringref.h"
 
 struct LinkedList;
 
@@ -104,9 +103,7 @@ private:
     int costMsecs{};
     int elapsedTime{};
     int totalAuthor{};
-    
-    StringRef ref;
-    
+        
     QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<AuthorStac> authorStacs;

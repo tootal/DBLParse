@@ -87,8 +87,6 @@ void Parser::run()
     
     timeMark(tr("Index file generated."));
     
-    StringRef::clean();
-    
     saveAuthors();
     
     timeMark(tr("Authors information saved."));
