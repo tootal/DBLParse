@@ -37,7 +37,7 @@ private:
         QDataStream s(&file);
         for (auto i : buffer[flag]) {
 //            file.write((char*)&i.hash, 4);
-            s << i.hash << i.pos;
+            s << i;
         }
         file.close();
         buffer[flag].clear();

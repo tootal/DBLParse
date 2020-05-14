@@ -133,7 +133,7 @@ void Parser::parse()
         if (reader.title() != "Home Page") {
             auto hash1 = Hash::hash1(reader.title());
             auto hash2 = Hash::hash2(reader.title());
-            if (!saver.save(hash1, {hash2, reader.begin()})) {
+            if (!saver.save(hash1, {hash2, reader.end()})) {
                 emit error(tr("Index file save failed: %1").arg(hash1));
             }
         }
@@ -388,5 +388,17 @@ QDataStream &operator<<(QDataStream &out, const AuthorIndex &x)
 QDataStream &operator>>(QDataStream &in, AuthorIndex &x)
 {
     in >> x.author >> x.begin >> x.end;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const HashIndex &x)
+{
+    out << x.hash << x.pos;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, HashIndex &x)
+{
+    in >> x.hash >> x.pos;
     return in;
 }

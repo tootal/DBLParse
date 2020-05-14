@@ -19,6 +19,7 @@
 #include "loader.h"
 #include "mainwindow.h"
 #include "application.h"
+#include "hash.h"
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
@@ -49,7 +50,7 @@ void Finder::find(const QString &type, const QString &word)
         }
     } else if (type == "title") {
         if (!titleLoaded()) goto not_ready;
-        auto list = indexOfTitle(word);
+        auto list = indexOfTitle2(word.toLatin1());
         result = getRecord(list);
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
             return x.attr("mdate").toString() > y.attr("mdate").toString(); 
@@ -164,6 +165,23 @@ QVector<quint32> Finder::indexOfTitle(const QString &title) const
                                   titleIndex);
     for(auto i = range.first; i != range.second; ++i)
         list.append(i->end);
+    return list;
+}
+
+QVector<quint32> Finder::indexOfTitle2(const QByteArray &title) const
+{
+    QVector<quint32> list;
+    auto hash1 = Hash::hash1(title);
+    auto hash2 = Hash::hash2(title);
+    QFile file(QString("data/title/%1").arg(hash1));
+    if (!file.open(QFile::ReadOnly)) return list;
+    QDataStream s(&file);
+    while (!s.atEnd()) {
+        HashIndex i;
+        s >> i;
+        if (i.hash == hash2) list.append(i.pos);
+    }
+    file.close();
     return list;
 }
 

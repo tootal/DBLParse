@@ -64,6 +64,7 @@ private:
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
     QVector<quint32> indexOfAuthor(const QString &author) const;
     QVector<quint32> indexOfTitle(const QString &title) const;
+    QVector<quint32> indexOfTitle2(const QByteArray &title) const;
     QSet<quint32> indexOfTitleWord(const QString &keyword) const;
     QVector<quint32> indexOfTitleWords(const QString &keywords) const;
     QJsonArray cographBFS(const QString &node) const;

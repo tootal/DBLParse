@@ -101,6 +101,11 @@ struct HashIndex
     quint32 pos;
 };
 
+QDataStream &operator<<(QDataStream &out, const HashIndex &x);
+
+QDataStream &operator>>(QDataStream &in, HashIndex &x);
+
+
 class Parser : public QObject
 {
     Q_OBJECT
