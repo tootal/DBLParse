@@ -79,12 +79,14 @@ HEADERS += \
     application.h \
     configmanager.h \
     finder.h \
+    hash.h \
     loader.h \
     mainwindow.h \
     parsedialog.h \
     parser.h \
     reader.h \
     record.h \
+    saver.h \
     settingsdialog.h \
     stringref.h \
     util.h \

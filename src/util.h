@@ -28,6 +28,8 @@ public:
     
     static void clearIndexs();
     
+    static void initIndexs();
+    
     static bool parsed();
     
     static bool canLoad();

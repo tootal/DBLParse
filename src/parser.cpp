@@ -9,12 +9,15 @@
 #include <QRegularExpression>
 #include <QThread>
 #include <QEvent>
+#include <QScopedArrayPointer>
 
 #include <set>
 
 #include "LinkedList.h"
 #include "misc.h"
 #include "reader.h"
+#include "hash.h"
+#include "saver.h"
 
 const QStringList Parser::commonwords = {
     "are", "all", "any", "been", "both",
@@ -109,7 +112,9 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
+    Util::initIndexs();
     Reader reader(Util::getXmlFileName());
+    Saver saver;
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -125,6 +130,13 @@ void Parser::parse()
             recordAuthorsId.append(info->id);
             authorIndexs.append({author, reader.begin(), reader.end()});
         }
+        if (reader.title() != "Home Page") {
+            auto hash1 = Hash::hash1(reader.title());
+            auto hash2 = Hash::hash2(reader.title());
+            if (!saver.save(hash1, {hash2, reader.begin()})) {
+                emit error(tr("Index file save failed: %1").arg(hash1));
+            }
+        }
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
@@ -136,6 +148,7 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
+    saver.saveAll();
 }
 
 void Parser::timeMark(QString msg)

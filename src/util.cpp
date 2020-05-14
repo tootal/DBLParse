@@ -6,6 +6,8 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include <QUrl>
+#include <QDir>
+#include <QDirIterator>
 
 #include "configmanager.h"
 #include "application.h"
@@ -110,6 +112,23 @@ void Util::clearIndexs()
 {
     for (const QString &fileName : s_parsedFiles) {
         QFile(fileName).remove();
+    }
+}
+
+void Util::initIndexs()
+{
+    QDir().mkdir("data");
+    static QStringList dataFolders{
+        "title"
+    };
+    for (auto f : dataFolders) {
+        QString path = QString("data/%1").arg(f);
+        if (QDir().exists(path)) {
+            QDirIterator i(path, QDir::Files);
+            while (i.hasNext()) QFile(i.next()).remove();
+        } else {
+            QDir().mkdir(path);
+        }
     }
 }
 
