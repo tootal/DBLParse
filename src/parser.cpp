@@ -92,11 +92,6 @@ void Parser::parse()
                 info = &authorInfos[author];
                 info->id = totalAuthor;
                 ++totalAuthor;
-                if (test.contains({hash1, hash2})) {
-                    qDebug() << "Conflict: " << author;
-                } else {
-                    test.insert({hash1, hash2});
-                }
             }
             ++info->stac;
             recordAuthorsId.append(info->id);

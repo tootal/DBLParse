@@ -41,7 +41,12 @@ void Finder::find(const QString &type, const QString &word)
     if (!Util::parsed()) goto not_ready;
     if (type == "author") {
         auto list = indexOfAuthor(word.toLatin1());
-        result = getRecord(list);
+        auto t_result = getRecord(list);
+        for (auto i : t_result) {
+            if (i.attr("authors").toStringList().contains(word)) {
+                result.append(i);
+            }
+        }
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
             return x.attr("year").toString() < y.attr("year").toString(); 
         });
@@ -50,9 +55,14 @@ void Finder::find(const QString &type, const QString &word)
         }
     } else if (type == "title") {
         auto list = indexOfTitle(word.toLatin1());
-        result = getRecord(list);
+        auto t_result = getRecord(list);
+        for (auto i : t_result) {
+            if (i.attr("title").toString() == word) {
+                result.append(i);
+            }
+        }
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
-            return x.attr("mdate").toString() > y.attr("mdate").toString(); 
+            return x.attr("mdate").toString() > y.attr("mdate").toString();
         });
         for (const Record &record : result) {
             json.append(record.toJson(type));
