@@ -88,6 +88,7 @@ HEADERS += \
     record.h \
     saver.h \
     settingsdialog.h \
+    stemmer.h \
     stringref.h \
     util.h \
     webpage.h \

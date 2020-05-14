@@ -18,6 +18,7 @@
 #include "reader.h"
 #include "hash.h"
 #include "saver.h"
+#include "stemmer.h"
 
 const QStringList Parser::commonwords = {
     "are", "all", "any", "been", "both",
@@ -112,6 +113,7 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
+    QByteArrayList words;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
     Saver titleSaver("title"), authorSaver("author");
@@ -135,6 +137,7 @@ void Parser::parse()
         if (reader.title() != "Home Page")
             titleSaver.save(Hash::hash1(reader.title()), 
                             {Hash::hash2(reader.title()), reader.end()});
+        words.append(Stemmer::stem(reader.title()));
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
@@ -146,6 +149,13 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
+    QFile file("test_words.txt");
+    file.open(QFile::WriteOnly);
+    for (auto word : words) {
+        file.write(word);
+        file.write("\n");
+    }
+    file.close();
 }
 
 void Parser::timeMark(QString msg)
