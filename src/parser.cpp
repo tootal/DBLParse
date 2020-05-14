@@ -254,24 +254,10 @@ void Parser::genIndex()
         it++;
     }
     std::sort(authorStacs.begin(), authorStacs.end());
-    std::sort(authorIndexs.begin(), authorIndexs.end());
-    std::sort(titleIndexs.begin(), titleIndexs.end());
     
     QFile file;
     QDataStream dataStream(&file);
     
-    file.setFileName("author.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    dataStream << authorIndexs;
-    file.close();
-    
-    file.setFileName("title.dat");
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    dataStream << titleIndexs;
-    file.close();
-
     file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());

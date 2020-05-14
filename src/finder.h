@@ -23,10 +23,6 @@ public:
     void setYearWordLoaded();
     bool authorStacLoaded() const;
     void setAuthorStacLoaded();
-    bool authorLoaded() const;
-    void setAuthorLoaded();
-    bool titleLoaded() const;
-    void setTitleLoaded();
     bool titleWordLoaded() const;
     void setTitleWordLoaded();
     bool loaded() const;
@@ -47,24 +43,19 @@ signals:
 private:
     mutable QFile dataFile;
     YearWord yearWord;
-    QVector<AuthorIndex> authorIndexs;
-    QVector<TitleIndex> titleIndexs;
     QVector<AuthorStac> authorStacs;
     QVector<WordPos> titleWords;
     QVector<Record> m_lastResult;
     
     bool m_loaded{};
-    bool m_authorLoaded{};
-    bool m_titleLoaded{};
     bool m_authorStacLoaded{};
     bool m_yearWordLoaded{};
     bool m_titleWordLoaded{};
     
     QString readText(const StringRef &ref) const;
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
-    QVector<quint32> indexOfAuthor(const QString &author) const;
-    QVector<quint32> indexOfTitle(const QString &title) const;
-    QVector<quint32> indexOfTitle2(const QByteArray &title) const;
+    QVector<quint32> indexOfAuthor(const QByteArray &author) const;
+    QVector<quint32> indexOfTitle(const QByteArray &title) const;
     QSet<quint32> indexOfTitleWord(const QString &keyword) const;
     QVector<quint32> indexOfTitleWords(const QString &keywords) const;
     QJsonArray cographBFS(const QString &node) const;

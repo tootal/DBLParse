@@ -39,8 +39,7 @@ void Finder::find(const QString &type, const QString &word)
     QJsonArray json;
     if (!Util::parsed()) goto not_ready;
     if (type == "author") {
-        if (!authorLoaded()) goto not_ready;
-        auto list = indexOfAuthor(word);
+        auto list = indexOfAuthor(word.toLatin1());
         result = getRecord(list);
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
             return x.attr("year").toString() < y.attr("year").toString(); 
@@ -49,8 +48,7 @@ void Finder::find(const QString &type, const QString &word)
             json.append(record.toJson(type));
         }
     } else if (type == "title") {
-        if (!titleLoaded()) goto not_ready;
-        auto list = indexOfTitle2(word.toLatin1());
+        auto list = indexOfTitle(word.toLatin1());
         result = getRecord(list);
         std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
             return x.attr("mdate").toString() > y.attr("mdate").toString(); 
@@ -59,8 +57,7 @@ void Finder::find(const QString &type, const QString &word)
             json.append(record.toJson(type));
         }
     } else if (type == "coauthor") {
-        if (!authorLoaded()) goto not_ready;
-        auto list = indexOfAuthor(word);
+        auto list = indexOfAuthor(word.toLatin1());
         QSet<QString> coauthors;
         for (auto pos : list) {
             Record record(Util::findRecord(Util::getXmlFileName(), pos));
@@ -134,52 +131,38 @@ void Finder::handleWordCloud(const QUrl &url)
 void Finder::clearIndex()
 {
     m_loaded = false;
-    m_authorLoaded = false;
-    m_titleLoaded = false;
     m_authorStacLoaded = false;
-    authorIndexs.clear();
-    titleIndexs.clear();
     authorStacs.clear();
     titleWords.clear();
 }
 
-QVector<quint32> Finder::indexOfAuthor(const QString &author) const
+QVector<quint32> Finder::indexOfAuthor(const QByteArray &author) const
 {
     QVector<quint32> list;
-    AuthorIndex authorIndex{author.toLatin1(), 0, 0};
-    auto range = std::equal_range(authorIndexs.begin(), 
-                                  authorIndexs.end(), 
-                                  authorIndex);
-    for (auto i = range.first; i != range.second; ++i) {
-        list.append(i->end);
-    }
-    return list;
-}
-
-QVector<quint32> Finder::indexOfTitle(const QString &title) const
-{
-    QVector<quint32> list;
-    TitleIndex titleIndex{title.toLatin1(), 0, 0};
-    auto range = std::equal_range(titleIndexs.begin(), 
-                                  titleIndexs.end(), 
-                                  titleIndex);
-    for(auto i = range.first; i != range.second; ++i)
-        list.append(i->end);
-    return list;
-}
-
-QVector<quint32> Finder::indexOfTitle2(const QByteArray &title) const
-{
-    QVector<quint32> list;
-    auto hash1 = Hash::hash1(title);
-    auto hash2 = Hash::hash2(title);
-    QFile file(QString("data/title/%1").arg(hash1));
+    auto hash = Hash::hash2(author);
+    QFile file(QString("data/author/%1").arg(Hash::hash1(author)));
     if (!file.open(QFile::ReadOnly)) return list;
     QDataStream s(&file);
     while (!s.atEnd()) {
         HashIndex i;
         s >> i;
-        if (i.hash == hash2) list.append(i.pos);
+        if (i.hash == hash) list.append(i.pos);
+    }
+    file.close();
+    return list;
+}
+
+QVector<quint32> Finder::indexOfTitle(const QByteArray &title) const
+{
+    QVector<quint32> list;
+    auto hash = Hash::hash2(title);
+    QFile file(QString("data/title/%1").arg(Hash::hash1(title)));
+    if (!file.open(QFile::ReadOnly)) return list;
+    QDataStream s(&file);
+    while (!s.atEnd()) {
+        HashIndex i;
+        s >> i;
+        if (i.hash == hash) list.append(i.pos);
     }
     file.close();
     return list;
@@ -227,26 +210,6 @@ bool Finder::authorStacLoaded() const
 void Finder::setAuthorStacLoaded()
 {
     m_authorStacLoaded = true;
-}
-
-bool Finder::authorLoaded() const
-{
-    return m_authorLoaded;
-}
-
-void Finder::setAuthorLoaded()
-{
-    m_authorLoaded = true;
-}
-
-bool Finder::titleLoaded() const
-{
-    return m_titleLoaded;
-}
-
-void Finder::setTitleLoaded()
-{
-    m_titleLoaded = true;
 }
 
 bool Finder::titleWordLoaded() const
@@ -305,7 +268,7 @@ QJsonArray Finder::cographBFS(const QString &node) const
         QPair<QString,QString> t=q.head();
         q.dequeue();
         QJsonObject coNode;
-        auto list = indexOfAuthor(t.second);
+        auto list = indexOfAuthor(t.second.toLatin1());
         QSet<QString> coauthors;
         for (auto pos : list) {
             Record record(Util::findRecord(Util::getXmlFileName(), pos));

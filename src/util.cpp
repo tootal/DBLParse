@@ -19,16 +19,12 @@ Util::s_availableLanguages = {
 };
 
 QStringList Util::s_loadedFiles = {
-    "author.dat",
-    "title.dat",
     "authorStac.dat",
     "yearWord.txt",
     "words.dat"
 };
 
 QStringList Util::s_parsedFiles = {
-    "author.dat",
-    "title.dat",
     "authorStac.dat",
     "authors_cliques.txt",
     "yearWord.txt",

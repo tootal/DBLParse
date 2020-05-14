@@ -17,8 +17,6 @@ private:
 signals:
     void stateChanged(const QString &state);
     void loadDone();
-    void authorLoadDone();
-    void titleLoadDone();
     void authorStacLoadDone();
     void yearWordLoadDone();
     void titleWordLoadDone();

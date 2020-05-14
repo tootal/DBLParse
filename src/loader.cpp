@@ -30,28 +30,6 @@ void Loader::run()
     }
     
     {
-        emit stateChanged(tr("Loading author index..."));
-        QFile file("author.dat");
-        file.open(QFile::ReadOnly);
-        Q_ASSERT(file.isOpen());
-        QDataStream stream(&file);
-        stream >> finder->authorIndexs;
-        file.close();
-        emit authorLoadDone();
-    }
-    
-    {
-        emit stateChanged(tr("Loading title index..."));
-        QFile file("title.dat");
-        file.open(QFile::ReadOnly);
-        Q_ASSERT(file.isOpen());
-        QDataStream stream(&file);
-        stream >> finder->titleIndexs;
-        file.close();
-        emit titleLoadDone();
-    }
-    
-    {
         emit stateChanged(tr("Loading year word index..."));
         QFile file("yearWord.txt");
         file.open(QFile::ReadOnly);
