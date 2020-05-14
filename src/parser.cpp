@@ -26,8 +26,7 @@ Parser::Parser(QObject *parent)
 //    qDebug("Parser construct");
 //    qDebug("Parser construct thread: %d", QThread::currentThreadId());
     totalAuthor = 0;
-    minYear = 2222;
-    maxYear = 0;
+    yearWords.resize(MAX_YEAR - MIN_YEAR + 1);
 }
 
 Parser::~Parser()
@@ -38,7 +37,7 @@ Parser::~Parser()
 void Parser::run()
 {
 //    qDebug("Parser run thread: %d", QThread::currentThreadId());
-    timing.restart();
+    timing.start();
     elapsedTime = 0;
     
     emit stateChanged(tr("Parsing start."));  
@@ -100,15 +99,16 @@ void Parser::parse()
             titleSaver.save(Hash::hash1(reader.title()), 
                             {Hash::hash2(reader.title()), reader.end()});
         auto words = Stemmer::stem(reader.title());
-        for (auto word : words) {
+        for (const auto &word : words) {
             wordSaver.save(Hash::hash1(word),
                            { Hash::hash2(word), reader.end()});
         }
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
-            titleYears.append({reader.title(), reader.year()});
-            minYear = std::min(minYear, reader.year());
-            maxYear = std::max(maxYear, reader.year());
+            int year_n = reader.year() - MIN_YEAR;
+            for (const auto &word : words) {
+                yearWords[year_n].append(word);
+            }
         }
     }
     if (reader.hasError()) {
@@ -126,23 +126,12 @@ void Parser::timeMark(QString msg)
 
 void Parser::countWordPerYear()
 {
-    static const int TOP_K = 100;
-    
-    QVector<QVector<QString>> yearWords(maxYear - minYear + 1);
-    for (const auto &titleYear : titleYears) {
-        int year_n = titleYear.year - minYear;
-        auto title = titleYear.title;
-        auto words = Stemmer::stem(title);
-        for (auto &word : words)
-            yearWords[year_n].append(word);
-    }
-    
     for (int i = 0; i < yearWords.size(); ++i) {
         auto &words = yearWords[i];
         std::sort(words.begin(), words.end());
         std::set<WordCount> topK;
         for (int j = 0; j < words.size();) {
-            QString word = words[j];
+            auto word = words[j];
             int count = 1;
             ++j;
             while (j < words.size() && word == words[j]) {
@@ -159,10 +148,9 @@ void Parser::countWordPerYear()
             }
         }
         if (!topK.empty()) {
-            auto &res = topKWords[minYear + i];
+            auto &res = topKWords[MIN_YEAR + i];
             for (auto &cw : topK) {
-                QString word = cw.word;
-                word.remove(QRegularExpression(R"(</?.*?/?>)"));
+                auto word = cw.word;
                 res.append({word, cw.count});
             }
         }

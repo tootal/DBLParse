@@ -13,9 +13,9 @@ struct LinkedList;
 
 struct WordCount
 {
-    QString word;
+    QByteArray word;
     int count;
-    WordCount(const QString &w = QString(), int c = int())
+    WordCount(const QByteArray &w = QByteArray(), int c = int())
         :word(w), count(c) {}
     bool operator<(const WordCount &that) const {
         return count < that.count;
@@ -69,6 +69,9 @@ class Parser : public QObject
     Q_OBJECT
     
 public:
+    static constexpr int TOP_K = 100;
+    static constexpr int MIN_YEAR = 1900;
+    static constexpr int MAX_YEAR = 2100;
     Parser(QObject *parent = nullptr);
     ~Parser();
     
@@ -92,9 +95,8 @@ private:
     QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<AuthorStac> authorStacs;
+    QVector<QVector<QByteArray>> yearWords;
     
-    int maxYear{};
-    int minYear{};
     QVector<TitleYear> titleYears;
     YearWord topKWords;
     

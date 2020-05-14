@@ -307,7 +307,7 @@ void MainWindow::on_actionKeyWord_triggered()
          for (auto &cw : it.value()) {
              QJsonObject o;
              o.insert("count", cw.count);
-             o.insert("word", cw.word);
+             o.insert("word", QString(cw.word));
              arr.append(o);
          }
          obj.insert("words", arr);
