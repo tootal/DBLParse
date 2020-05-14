@@ -116,7 +116,8 @@ void Util::initIndexs()
     QDir().mkdir("data");
     static QStringList dataFolders{
         "title",
-        "author"
+        "author",
+        "word"
     };
     for (auto f : dataFolders) {
         QString path = QString("data/%1").arg(f);

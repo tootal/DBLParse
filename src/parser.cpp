@@ -113,10 +113,12 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
-    QByteArrayList words;
+    int cnt = 0;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
-    Saver titleSaver("title"), authorSaver("author");
+    Saver titleSaver("title");
+    Saver authorSaver("author");
+    Saver wordSaver("word");
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -137,7 +139,11 @@ void Parser::parse()
         if (reader.title() != "Home Page")
             titleSaver.save(Hash::hash1(reader.title()), 
                             {Hash::hash2(reader.title()), reader.end()});
-        words.append(Stemmer::stem(reader.title()));
+        auto words = Stemmer::stem(reader.title());
+        for (auto word : words) {
+            wordSaver.save(Hash::hash1(word),
+                           { Hash::hash2(word), reader.end()});
+        }
         titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
@@ -149,13 +155,6 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
-    QFile file("test_words.txt");
-    file.open(QFile::WriteOnly);
-    for (auto word : words) {
-        file.write(word);
-        file.write("\n");
-    }
-    file.close();
 }
 
 void Parser::timeMark(QString msg)
