@@ -69,32 +69,6 @@ struct TitleYear
     int year;
 };
 
-struct TitleIndex {
-    QByteArray title;
-    quint32 begin;
-    quint32 end;
-    bool operator<(const TitleIndex &that) const {
-        return title < that.title;
-    }
-};
-
-QDataStream &operator<<(QDataStream &out, const TitleIndex &x);
-
-QDataStream &operator>>(QDataStream &in, TitleIndex &x);
-
-struct AuthorIndex {
-    QByteArray author;
-    quint32 begin;
-    quint32 end;
-    bool operator<(const AuthorIndex &that) const {
-        return author < that.author;
-    }
-};
-
-QDataStream &operator<<(QDataStream &out, const AuthorIndex &x);
-
-QDataStream &operator>>(QDataStream &in, AuthorIndex &x);
-
 struct HashIndex
 {
     quint32 hash;
@@ -133,8 +107,6 @@ private:
     
     StringRef ref;
     
-    QVector<AuthorIndex> authorIndexs;
-    QVector<TitleIndex> titleIndexs;
     QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
     QVector<AuthorStac> authorStacs;
@@ -147,8 +119,6 @@ private:
     void timeMark(QString msg);
     void parse();
     void countWordPerYear();
-    void saveYearWord();
-    void saveTitleWordIndex();
     void genIndex();
     void saveAuthors();
 

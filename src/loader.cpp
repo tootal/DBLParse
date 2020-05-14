@@ -40,18 +40,6 @@ void Loader::run()
         file.close();
     }
     
-    {
-        emit stateChanged(tr("Loading title word index..."));
-        finder->titleWords.clear();
-        QFile file("words.dat");
-        file.open(QFile::ReadOnly);
-        Q_ASSERT(file.isOpen());
-        QDataStream s(&file);
-        s >> finder->titleWords;
-        emit titleWordLoadDone();
-        file.close();
-    }
-    
     int ms = timing.elapsed();
     qInfo() << QString("load finished in %1 ms").arg(ms);
     emit loadDone();

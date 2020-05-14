@@ -133,7 +133,6 @@ void Finder::clearIndex()
     m_loaded = false;
     m_authorStacLoaded = false;
     authorStacs.clear();
-    titleWords.clear();
 }
 
 QVector<quint32> Finder::indexOfAuthor(const QByteArray &author) const
@@ -213,16 +212,6 @@ bool Finder::authorStacLoaded() const
 void Finder::setAuthorStacLoaded()
 {
     m_authorStacLoaded = true;
-}
-
-bool Finder::titleWordLoaded() const
-{
-    return m_titleWordLoaded;
-}
-
-void Finder::setTitleWordLoaded()
-{
-    m_titleWordLoaded = true;
 }
 
 bool Finder::loaded() const

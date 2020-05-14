@@ -83,10 +83,6 @@ void Parser::run()
     
     timeMark(tr("The title of each year has been analyzed."));
     
-    saveTitleWordIndex();
-    
-    timeMark(tr("The word of each title has been analyzed."));
-    
     genIndex();
     
     timeMark(tr("Index file generated."));
@@ -131,7 +127,6 @@ void Parser::parse()
             }
             ++info->stac;
             recordAuthorsId.append(info->id);
-            authorIndexs.append({author, reader.begin(), reader.end()});
             authorSaver.save(Hash::hash1(author),
                             { Hash::hash2(author), reader.end()});
         }
@@ -143,7 +138,6 @@ void Parser::parse()
             wordSaver.save(Hash::hash1(word),
                            { Hash::hash2(word), reader.end()});
         }
-        titleIndexs.append({reader.title(), reader.begin(), reader.end()});
         authorIdRelations.append(recordAuthorsId);
         if (reader.hasYear()) {
             titleYears.append({reader.title(), reader.year()});
@@ -215,43 +209,12 @@ void Parser::countWordPerYear()
         }
     }
     //    qDebug() << Util::str(m_topKWords);
-    saveYearWord();
-}
-
-void Parser::saveYearWord()
-{
     QFile file("yearWord.txt");
     QDataStream s(&file);
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
-}
-
-void Parser::saveTitleWordIndex()
-{
-    QVector<WordPos> words;
-    for (const auto &titleIndex : titleIndexs) {
-        QString t = titleIndex.title;
-        for (auto &noNeedChar : noNeedChars) {
-            t.remove(noNeedChar);
-        }
-        QStringList ws = t.split(' ');
-        for (QString &w : ws) {
-            if (w.size() <= 2) continue;
-            w = w.toLower();
-            if (commonwords.contains(w)) continue;
-            words.append({w, titleIndex.end});
-        }
-    }
-    std::sort(words.begin(), words.end());
-    {
-        QFile file("words.dat");
-        file.open(QFile::WriteOnly);
-        QDataStream s(&file);
-        s << words;
-        file.close();
-    }
 }
 
 void Parser::genIndex()
@@ -355,30 +318,6 @@ QDataStream &operator<<(QDataStream &out, const AuthorStac &as)
 QDataStream &operator>>(QDataStream &in, AuthorStac &as)
 {
     in >> as.author >> as.stac;
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const TitleIndex &x)
-{
-    out << x.title << x.begin << x.end;
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, TitleIndex &x)
-{
-    in >> x.title >> x.begin >> x.end;
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const AuthorIndex &x)
-{
-    out << x.author << x.begin << x.end;
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, AuthorIndex &x)
-{
-    in >> x.author >> x.begin >> x.end;
     return in;
 }
 

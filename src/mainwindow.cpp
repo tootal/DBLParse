@@ -214,8 +214,6 @@ void MainWindow::load()
             m_finder, &Finder::setAuthorStacLoaded);
     connect(loader, &Loader::yearWordLoadDone,
             m_finder, &Finder::setYearWordLoaded);
-    connect(loader, &Loader::titleWordLoadDone,
-            m_finder, &Finder::setTitleWordLoaded);
     connect(loader, &Loader::loadDone,
             m_finder, &Finder::setLoaded);
     connect(loader, &Loader::loadDone,

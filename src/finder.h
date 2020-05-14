@@ -23,8 +23,6 @@ public:
     void setYearWordLoaded();
     bool authorStacLoaded() const;
     void setAuthorStacLoaded();
-    bool titleWordLoaded() const;
-    void setTitleWordLoaded();
     bool loaded() const;
     void setLoaded();
     
@@ -44,13 +42,11 @@ private:
     mutable QFile dataFile;
     YearWord yearWord;
     QVector<AuthorStac> authorStacs;
-    QVector<WordPos> titleWords;
     QVector<Record> m_lastResult;
     
     bool m_loaded{};
     bool m_authorStacLoaded{};
     bool m_yearWordLoaded{};
-    bool m_titleWordLoaded{};
     
     QString readText(const StringRef &ref) const;
     QVector<Record> getRecord(const QVector<quint32> &posList) const;
