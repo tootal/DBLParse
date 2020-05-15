@@ -71,8 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 
-nCr.txt
-
 # VNote temporary files 
 *.vswp
 _v_images

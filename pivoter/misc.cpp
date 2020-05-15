@@ -40,12 +40,14 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-BigNumber nCr[1001][401];
+std::vector<std::vector<BigNumber>> nCr;
 
 void populate_nCr()
 {
+    nCr.resize(1001);
     for(int row = 0; row < 1001; ++row)
     {
+        nCr[row].resize(401);
         for (int col = 0; col < 401; ++col)
         {
             if (row == 0 || col == 0 || row == col) nCr[row][col] = 1;
@@ -78,15 +80,12 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     fflush(stderr);
     int max_k = 0;
-
-    clock_t start = clock();
     
-    BigNumber totalCliques = 0;
     int deg = 0, m = 0;
     FILE *fp;
 
     fflush(stdout);
-    fp = fopen ("authors_cliques.txt", "w");
+    fopen_s (&fp, "authors_cliques.txt", "w");
     if (!fp) printf("Could not open output file.\n");
     fflush(stdout);
 
@@ -99,15 +98,15 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     }
 
     max_k = deg + 1;
-    double *nCalls = (double *)calloc(1, sizeof(double));
-    double *sumP = (double *)calloc(1, sizeof(double));
-    double *sqP = (double *)calloc(1, sizeof(double));
+    double nCalls{};
+    double sumP{};
+    double sqP{};
     std::vector<BigNumber> cliqueCounts(max_k + 1);
-    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
-    clock_t end = clock();
+    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, &nCalls, &sumP, &sqP);
    
     while (cliqueCounts[max_k] == 0) max_k--;
     fprintf(fp, "%d\n", max_k);
+    BigNumber totalCliques = 0;
     for (int i=1; i<=max_k; i++)
     {
         fprintf(fp, "%d %s\n", i, cliqueCounts[i].getString().c_str()); 
@@ -117,6 +116,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     fprintf(fp, "%s\n", totalCliques.getString().c_str());
     fclose(fp);
     free(orderingArray);
+    nCr.clear();
 }
 
 /*! \brief Computes the vertex v in P union X that has the most neighbors in P,
@@ -153,7 +153,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* numNonNeighbors,
                                                 int* vertexSets, int* vertexLookup,
                                                 int** neighborsInP, int* numNeighbors,
-                                                int beginX, int beginP, int beginR)
+                                                int , int beginP, int beginR)
 {
     int pivot = -1;
     int maxIntersectionSize = -1;
@@ -295,7 +295,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
                                                    int* vertexSets, int* vertexLookup, 
                                                    NeighborListArray** orderingArray,
                                                    int** neighborsInP, int* numNeighbors,
-                                                   int* pBeginX, int *pBeginP, int *pBeginR, 
+                                                   int*, int *, int *pBeginR, 
                                                    int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
 {
     int vertexLocation = vertexLookup[vertex];
@@ -416,7 +416,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
 void moveToRDegeneracyCliques( int vertex, 
                                int* vertexSets, int* vertexLookup, 
                                int** neighborsInP, int* numNeighbors,
-                               int* pBeginX, int *pBeginP, int *pBeginR, 
+                               int* , int *pBeginP, int *pBeginR, 
                                int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
 {
 
@@ -508,7 +508,7 @@ void moveToRDegeneracyCliques( int vertex,
 
 void moveFromRToXDegeneracyCliques( int vertex, 
                                     int* vertexSets, int* vertexLookup, 
-                                    int* pBeginX, int* pBeginP, int* pBeginR )
+                                    int* , int* pBeginP, int* pBeginR )
 {
     int vertexLocation = vertexLookup[vertex];
 
