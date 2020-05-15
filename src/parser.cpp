@@ -174,6 +174,9 @@ void Parser::countWordPerYear()
     file.open(QFile::WriteOnly);
     s << topKWords;
     file.close();
+    topKWords.clear();
+    yearWords.clear();
+    yearWords.squeeze();
 }
 
 void Parser::saveAuthors()
