@@ -134,6 +134,8 @@ void MainWindow::on_actionOpen_triggered()
         box.setInformativeText(tr("Do you want to continue?"));
         box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         box.setDefaultButton(QMessageBox::Yes);
+        box.button(QMessageBox::Yes)->setText(tr("Yes"));
+        box.button(QMessageBox::No)->setText(tr("No"));
         if(box.exec() == QMessageBox::No) return ;
     }
     Util::clearIndexs();
