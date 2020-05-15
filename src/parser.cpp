@@ -50,10 +50,6 @@ void Parser::run()
     
     timeMark(tr("The title of each year has been analyzed."));
     
-    genIndex();
-    
-    timeMark(tr("Index file generated."));
-    
     saveAuthors();
     
     timeMark(tr("Authors information saved."));
@@ -80,6 +76,7 @@ void Parser::parse()
     Saver titleSaver("title");
     Saver authorSaver("author");
     Saver wordSaver("word");
+    QMap<QByteArray, AuthorInfo> authorInfos;
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -116,6 +113,22 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
+    QVector<AuthorStac> authorStacs;
+    auto it = authorInfos.begin();
+    while (it != authorInfos.end()) {
+        authorStacs.append({it.key(),it.value().stac});
+        it++;
+    }
+    std::sort(authorStacs.begin(), authorStacs.end());
+    {
+        QFile file("authorStac.dat");
+        QDataStream dataStream(&file);
+        file.open(QFile::WriteOnly);
+        Q_ASSERT(file.isOpen());
+        if (authorStacs.size() > 100) authorStacs.resize(100);
+        dataStream << authorStacs;
+        file.close();
+    }
 }
 
 void Parser::timeMark(QString msg)
@@ -128,6 +141,7 @@ void Parser::timeMark(QString msg)
 
 void Parser::countWordPerYear()
 {
+    YearWord topKWords;
     for (int i = 0; i < yearWords.size(); ++i) {
         auto &words = yearWords[i];
         std::sort(words.begin(), words.end());
@@ -164,30 +178,8 @@ void Parser::countWordPerYear()
     Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
-    
-    topKWords.clear();
     yearWords.clear();
     yearWords.squeeze();
-}
-
-void Parser::genIndex()
-{
-    QVector<AuthorStac> authorStacs;
-    auto it = authorInfos.begin();
-    while (it != authorInfos.end()) {
-        authorStacs.append({it.key(),it.value().stac});
-        it++;
-    }
-    std::sort(authorStacs.begin(), authorStacs.end());
-    
-    QFile file("authorStac.dat");
-    QDataStream dataStream(&file);
-    file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
-    if (authorStacs.size() > 100) authorStacs.resize(100);
-    dataStream << authorStacs;
-    file.close();
-    authorInfos.clear();
 }
 
 void Parser::saveAuthors()
@@ -234,7 +226,6 @@ void Parser::saveAuthors()
     }
     G.clear();
     G.squeeze();
-    m = m * 2;
     populate_nCr();
     runAndPrintStatsCliques(adjList, n);
     for (int i = 0; i < n; i++)
