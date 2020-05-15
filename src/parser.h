@@ -94,7 +94,6 @@ private:
         
     QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
-    QVector<AuthorStac> authorStacs;
     QVector<QVector<QByteArray>> yearWords;
     
     QVector<TitleYear> titleYears;

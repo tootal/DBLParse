@@ -31,7 +31,7 @@ Parser::Parser(QObject *parent)
 
 Parser::~Parser()
 {
-//    qDebug("Parser destruct");
+    qDebug("Parser destruct");
 }
 
 void Parser::run()
@@ -168,22 +168,20 @@ void Parser::countWordPerYear()
 
 void Parser::genIndex()
 {
+    QVector<AuthorStac> authorStacs(authorInfos.size());
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
         authorStacs.append({it.key(),it.value().stac});
         it++;
     }
     std::sort(authorStacs.begin(), authorStacs.end());
-    
-    QFile file;
+    QFile file("authorStac.dat");
     QDataStream dataStream(&file);
-    
-    file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
     if (authorStacs.size() > 100) authorStacs.resize(100);
     dataStream << authorStacs;
     file.close();
+    authorInfos.clear();
 }
 
 void Parser::saveAuthors()
