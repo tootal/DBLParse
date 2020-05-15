@@ -91,17 +91,14 @@ private:
     int costMsecs{};
     int elapsedTime{};
     int totalAuthor{};
-        
-    QMap<QByteArray, AuthorInfo> authorInfos;
+    
     QVector<QVector<int>> authorIdRelations;
     QVector<QVector<QByteArray>> yearWords;
-    
     QVector<TitleYear> titleYears;
     YearWord topKWords;
     
     void timeMark(QString msg);
     void parse();
     void countWordPerYear();
-    void genIndex();
     void saveAuthors();
 };

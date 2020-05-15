@@ -50,10 +50,6 @@ void Parser::run()
     
     timeMark(tr("The title of each year has been analyzed."));
     
-    genIndex();
-    
-    timeMark(tr("Index file generated."));
-    
     saveAuthors();
     
     timeMark(tr("Authors information saved."));
@@ -74,12 +70,12 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
-    QSet<QPair<quint16, quint32>> test;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
     Saver titleSaver("title");
     Saver authorSaver("author");
     Saver wordSaver("word");
+    QMap<QByteArray, AuthorInfo> authorInfos;
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -115,6 +111,22 @@ void Parser::parse()
     }
     if (reader.hasError()) {
         emit error(reader.error());
+    }
+    QVector<AuthorStac> authorStacs(authorInfos.size());
+    auto it = authorInfos.begin();
+    while (it != authorInfos.end()) {
+        authorStacs.append({it.key(),it.value().stac});
+        it++;
+    }
+    std::sort(authorStacs.begin(), authorStacs.end());
+    {
+        QFile file("authorStac.dat");
+        QDataStream dataStream(&file);
+        file.open(QFile::WriteOnly);
+        if (authorStacs.size() > 100) authorStacs.resize(100);
+        dataStream << authorStacs;
+        file.close();
+        authorInfos.clear();
     }
 }
 
@@ -164,24 +176,6 @@ void Parser::countWordPerYear()
     Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
-}
-
-void Parser::genIndex()
-{
-    QVector<AuthorStac> authorStacs(authorInfos.size());
-    auto it = authorInfos.begin();
-    while (it != authorInfos.end()) {
-        authorStacs.append({it.key(),it.value().stac});
-        it++;
-    }
-    std::sort(authorStacs.begin(), authorStacs.end());
-    QFile file("authorStac.dat");
-    QDataStream dataStream(&file);
-    file.open(QFile::WriteOnly);
-    if (authorStacs.size() > 100) authorStacs.resize(100);
-    dataStream << authorStacs;
-    file.close();
-    authorInfos.clear();
 }
 
 void Parser::saveAuthors()
