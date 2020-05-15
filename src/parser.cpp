@@ -120,7 +120,7 @@ void Parser::parse()
     }
     std::sort(authorStacs.begin(), authorStacs.end());
     {
-        QFile file("authorStac.dat");
+        QFile file("data/authorstac");
         QDataStream dataStream(&file);
         file.open(QFile::WriteOnly);
         if (authorStacs.size() > 100) authorStacs.resize(100);
@@ -169,11 +169,9 @@ void Parser::countWordPerYear()
             }
         }
     }
-    //    qDebug() << Util::str(m_topKWords);
-    QFile file("yearWord.txt");
+    QFile file("data/yearword");
     QDataStream s(&file);
     file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
 }

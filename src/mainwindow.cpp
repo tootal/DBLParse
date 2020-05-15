@@ -197,7 +197,7 @@ void MainWindow::on_actionOpenIndexFolder_triggered()
 
 void MainWindow::load()
 {
-    if(!Util::canLoad()) return ;
+    if(!Util::parsed()) return ;
     auto loader = new Loader(m_finder);
     auto thread = new QThread();
     loader->moveToThread(thread);
@@ -329,7 +329,7 @@ void MainWindow::on_actionCountClique_triggered()
         on_actionStatus_triggered();
         return ;
     }
-    QFile file("authors_cliques.txt");
+    QFile file("data/authorclique.txt");
     auto *view = new WebView(this);
     view->setWindowFlag(Qt::Window);
     view->resize(850, 600);

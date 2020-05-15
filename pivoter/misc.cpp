@@ -81,7 +81,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     FILE *fp;
 
     fflush(stdout);
-    fopen_s(&fp, "authors_cliques.txt", "w");
+    fopen_s(&fp, "data/authorclique.txt", "w");
     fflush(stdout);
 
     NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);

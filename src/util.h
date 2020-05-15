@@ -63,12 +63,4 @@ public:
         }
         return "{" + res.join(", ") + "}";
     }
-    
-    
-private:
-    // make sure they all exist before loading
-    static QStringList s_loadedFiles;
-    
-    // these files will be clean
-    static QStringList s_parsedFiles;
 };
