@@ -47,12 +47,6 @@ QDataStream &operator<<(QDataStream &out, const AuthorStac &as);
 
 QDataStream &operator>>(QDataStream &in, AuthorStac &as);
 
-struct TitleYear
-{
-    QByteArray title;
-    int year;
-};
-
 struct HashIndex
 {
     quint32 hash;
@@ -94,10 +88,9 @@ private:
         
     QMap<QByteArray, AuthorInfo> authorInfos;
     QVector<QVector<int>> authorIdRelations;
-    QVector<AuthorStac> authorStacs;
+    
     QVector<QVector<QByteArray>> yearWords;
     
-    QVector<TitleYear> titleYears;
     YearWord topKWords;
     
     void timeMark(QString msg);

@@ -31,7 +31,7 @@ Parser::Parser(QObject *parent)
 
 Parser::~Parser()
 {
-//    qDebug("Parser destruct");
+    qDebug("Parser destruct");
 }
 
 void Parser::run()
@@ -164,10 +164,15 @@ void Parser::countWordPerYear()
     Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
+    
+    topKWords.clear();
+    yearWords.clear();
+    yearWords.squeeze();
 }
 
 void Parser::genIndex()
 {
+    QVector<AuthorStac> authorStacs;
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
         authorStacs.append({it.key(),it.value().stac});
@@ -175,15 +180,14 @@ void Parser::genIndex()
     }
     std::sort(authorStacs.begin(), authorStacs.end());
     
-    QFile file;
+    QFile file("authorStac.dat");
     QDataStream dataStream(&file);
-    
-    file.setFileName("authorStac.dat");
     file.open(QFile::WriteOnly);
     Q_ASSERT(file.isOpen());
     if (authorStacs.size() > 100) authorStacs.resize(100);
     dataStream << authorStacs;
     file.close();
+    authorInfos.clear();
 }
 
 void Parser::saveAuthors()
@@ -203,6 +207,8 @@ void Parser::saveAuthors()
             }
         }
     }
+    authorIdRelations.clear();
+    authorIdRelations.squeeze();
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
@@ -226,6 +232,8 @@ void Parser::saveAuthors()
             addLast(adjList[v], u);
         }
     }
+    G.clear();
+    G.squeeze();
     m = m * 2;
     populate_nCr();
     runAndPrintStatsCliques(adjList, n);

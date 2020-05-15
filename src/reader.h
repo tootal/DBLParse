@@ -21,6 +21,9 @@ public:
             _error = QObject::tr("File open failed: %1.").arg(fileName);
         }
     }
+    ~Reader() {
+        file.close();
+    }
     bool next() {
         if (!_error.isEmpty()) return false;
         indexOf('<');
