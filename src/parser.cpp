@@ -196,6 +196,8 @@ void Parser::saveAuthors()
             }
         }
     }
+    authorIdRelations.clear();
+    authorIdRelations.squeeze();
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
@@ -219,6 +221,8 @@ void Parser::saveAuthors()
             addLast(adjList[v], u);
         }
     }
+    G.clear();
+    G.squeeze();
     m = m * 2;
     populate_nCr();
     runAndPrintStatsCliques(adjList, n);
