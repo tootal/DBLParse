@@ -66,11 +66,9 @@ void destroyCliqueResults(LinkedList* cliques)
     Link* curr = cliques->head->next;
     while(!isTail(curr))
     {
-        int* clique = (int*)curr->data;
-        free(clique);
+        free(&(curr->data));
         curr = curr->next;
-    } 
-
+    }
     destroyLinkedList(cliques); 
 }
 
@@ -78,16 +76,12 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     fflush(stderr);
     int max_k = 0;
-
-    clock_t start = clock();
-    
     BigNumber totalCliques = 0;
     int deg = 0, m = 0;
     FILE *fp;
 
     fflush(stdout);
-    fp = fopen ("authors_cliques.txt", "w");
-    if (!fp) printf("Could not open output file.\n");
+    fopen_s(&fp, "authors_cliques.txt", "w");
     fflush(stdout);
 
     NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);
@@ -99,12 +93,11 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     }
 
     max_k = deg + 1;
-    double *nCalls = (double *)calloc(1, sizeof(double));
-    double *sumP = (double *)calloc(1, sizeof(double));
-    double *sqP = (double *)calloc(1, sizeof(double));
+    double nCalls;
+    double sumP;
+    double sqP;
     std::vector<BigNumber> cliqueCounts(max_k + 1);
-    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nCalls, sumP, sqP);
-    clock_t end = clock();
+    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, &nCalls, &sumP, &sqP);
    
     while (cliqueCounts[max_k] == 0) max_k--;
     fprintf(fp, "%d\n", max_k);
@@ -153,7 +146,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* numNonNeighbors,
                                                 int* vertexSets, int* vertexLookup,
                                                 int** neighborsInP, int* numNeighbors,
-                                                int beginX, int beginP, int beginR)
+                                                int , int beginP, int beginR)
 {
     int pivot = -1;
     int maxIntersectionSize = -1;
@@ -295,7 +288,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
                                                    int* vertexSets, int* vertexLookup, 
                                                    NeighborListArray** orderingArray,
                                                    int** neighborsInP, int* numNeighbors,
-                                                   int* pBeginX, int *pBeginP, int *pBeginR, 
+                                                   int* , int *, int *pBeginR, 
                                                    int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
 {
     int vertexLocation = vertexLookup[vertex];
@@ -335,13 +328,8 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
     while(j<*pNewBeginR)
     {
         int vertexInP = vertexSets[j];
-        //printf("vertexInP = %d, numNeighbors[vertexInP]=%d\n", vertexInP, numNeighbors[vertexInP] );
-        //printf("Address being freed: %p\n", neighborsInP[vertexInP]);
         numNeighbors[vertexInP] = 0;
         free(neighborsInP[vertexInP]);
-        //printf("Allocating %d space for neighborsInP[vertexInP].\n", min( *pNewBeginR-*pNewBeginP, 
-                                           //  orderingArray[vertexInP]->laterDegree 
-                                           //+ orderingArray[vertexInP]->earlierDegree));
         neighborsInP[vertexInP]= (int *)calloc( std::min( *pNewBeginR-*pNewBeginP, 
                                              orderingArray[vertexInP]->laterDegree 
                                            + orderingArray[vertexInP]->earlierDegree), sizeof(int));
@@ -352,7 +340,6 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
     // count neighbors in P, and fill in array of neighbors
     // in P
     j = *pNewBeginP;
-    //printf("Before 3rd while\n");
     while(j<*pNewBeginR)
     {
         int vertexInP = vertexSets[j];
@@ -416,7 +403,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
 void moveToRDegeneracyCliques( int vertex, 
                                int* vertexSets, int* vertexLookup, 
                                int** neighborsInP, int* numNeighbors,
-                               int* pBeginX, int *pBeginP, int *pBeginR, 
+                               int* , int *pBeginP, int *pBeginR, 
                                int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
 {
 
@@ -508,7 +495,7 @@ void moveToRDegeneracyCliques( int vertex,
 
 void moveFromRToXDegeneracyCliques( int vertex, 
                                     int* vertexSets, int* vertexLookup, 
-                                    int* pBeginX, int* pBeginP, int* pBeginR )
+                                    int* , int* pBeginP, int* pBeginR )
 {
     int vertexLocation = vertexLookup[vertex];
 

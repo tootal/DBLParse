@@ -229,14 +229,12 @@ LinkedList* createLinkedList(void)
 void destroyLinkedList(LinkedList* linkedList)
 {
     Link* curr = linkedList->head;
-
     while(curr != NULL)
     {
         Link* currNext = curr->next;
         free(curr);
         curr = currNext;
     }
-
     free(linkedList);
 }
 

@@ -75,8 +75,4 @@ struct NeighborListArray
 
 typedef struct NeighborListArray NeighborListArray;
 
-int computeDegeneracy(LinkedList** list, int size);
-
-NeighborList** computeDegeneracyOrderList(LinkedList** list, int size);
-
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size);
