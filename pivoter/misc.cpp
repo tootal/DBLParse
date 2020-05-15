@@ -74,6 +74,7 @@ void destroyCliqueResults(LinkedList* cliques)
 
 void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
+    populate_nCr();
     fflush(stderr);
     int max_k = 0;
     BigNumber totalCliques = 0;

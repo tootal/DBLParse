@@ -211,7 +211,6 @@ void Parser::saveAuthors()
     }
     G.clear();
     G.squeeze();
-    populate_nCr();
     runAndPrintStatsCliques(adjList, n);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);
