@@ -26,6 +26,7 @@
 #include "settingsdialog.h"
 #include "configmanager.h"
 #include "application.h"
+#include "downloaddialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -378,5 +379,6 @@ void MainWindow::on_actionOpen_Data_Folder_triggered()
 
 void MainWindow::on_action_Download_Data_triggered()
 {
-    QDesktopServices::openUrl(QUrl("https://dblp.uni-trier.de/xml/dblp.xml.gz"));
+    auto dialog = new DownloadDialog(this);
+    dialog->show();
 }
