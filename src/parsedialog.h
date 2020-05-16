@@ -15,10 +15,10 @@ class ParseDialog : public QDialog
 public:
     explicit ParseDialog(QWidget *parent = nullptr);
     ~ParseDialog();
-    void showStatus(const QString &msg);
-    void showMemory();
-    void clear();
-    void activeButton();
+    
+public slots:
+    void setState(int state);
+    void handleDone();
     
 private slots:
     void on_pushButton_clicked();

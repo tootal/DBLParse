@@ -31,7 +31,7 @@ Parser::Parser(QObject *parent)
 
 Parser::~Parser()
 {
-    qDebug("Parser destruct");
+//    qDebug("Parser destruct");
 }
 
 void Parser::run()
@@ -40,23 +40,23 @@ void Parser::run()
     timing.start();
     elapsedTime = 0;
     
-    emit stateChanged(tr("Parsing start."));  
+    qInfo() << "Parsing start: " << Util::getXmlFileName(); 
     
     parse();
     
-    timeMark(tr("XML file parse successful."));
+    timeMark("XML file parse successful.");
     
     countWordPerYear();
     
-    timeMark(tr("The title of each year has been analyzed."));
+    timeMark("The title of each year has been analyzed.");
     
     saveAuthors();
     
-    timeMark(tr("Authors information saved."));
+    timeMark("Authors information saved.");
     
-    emit stateChanged(tr("Parse done. Cost time: %1")
-                      .arg(Util::formatTime(costMsecs)));
-    qInfo() << QString("Parse done in %1 ms").arg(costMsecs);
+    qInfo() << QString("Parse done. Cost time: %1")
+                      .arg(Util::formatTime(costMsecs));
+    emit stateChanged(100);
     emit done();
 }
 
@@ -118,17 +118,22 @@ void Parser::parse()
                 yearWords[year_n].append(word);
             }
         }
+        if (reader.newBlock()) {
+            int state = 50.0f * reader.end() / reader.size();
+            emit stateChanged(state);
+        }
     }
-    if (reader.hasError()) {
-        emit error(reader.error());
-    }
+    emit stateChanged(50);
+    qInfo() << "Authors: " << authorInfos.size();
     QVector<AuthorStac> authorStacs(authorInfos.size());
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
         authorStacs.append({it.key(),it.value().stac});
         it++;
     }
+    emit stateChanged(53);
     std::sort(authorStacs.begin(), authorStacs.end());
+    emit stateChanged(57);
     {
         QFile file("data/authorstac");
         QDataStream dataStream(&file);
@@ -138,20 +143,22 @@ void Parser::parse()
         file.close();
         authorInfos.clear();
     }
+    emit stateChanged(60);
 }
 
 void Parser::timeMark(QString msg)
 {
     costMsecs = timing.elapsed();
-    msg += " " + tr("(%1 ms)").arg(costMsecs - elapsedTime);
-    emit stateChanged(msg);
+    msg += QString(" (%1 ms)").arg(costMsecs - elapsedTime);
+    qInfo() << msg;
     elapsedTime = costMsecs;
 }
 
 void Parser::countWordPerYear()
 {
     YearWord topKWords;
-    for (int i = 0; i < yearWords.size(); ++i) {
+    int sz = yearWords.size();
+    for (int i = 0; i < sz; ++i) {
         auto &words = yearWords[i];
         std::sort(words.begin(), words.end());
         std::set<WordCount> topK;
@@ -179,6 +186,7 @@ void Parser::countWordPerYear()
                 res.append({word, cw.count});
             }
         }
+        emit stateChanged(60 + 10.0 * i / sz);
     }
     QFile file("data/yearword");
     QDataStream s(&file);
@@ -187,6 +195,7 @@ void Parser::countWordPerYear()
     file.close();
     yearWords.clear();
     yearWords.squeeze();
+    emit stateChanged(70);
 }
 
 void Parser::saveAuthors()
@@ -197,6 +206,7 @@ void Parser::saveAuthors()
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
+    emit stateChanged(72);
     LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
@@ -207,12 +217,16 @@ void Parser::saveAuthors()
             addLast(adjList[v], u);
         }
     }
+    emit stateChanged(74);
     G.clear();
     G.squeeze();
+    emit stateChanged(75);
     runAndPrintStatsCliques(adjList, n);
+    emit stateChanged(95);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);
     free(adjList);
+    emit stateChanged(98);
 }
 
 QDataStream &operator<<(QDataStream &out, const WordCount &wc)

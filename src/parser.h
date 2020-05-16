@@ -76,7 +76,7 @@ protected:
     bool event(QEvent *event) override;
     
 signals:
-    void stateChanged(const QString &state);
+    void stateChanged(int state);
     void done();
     void error(const QString &msg);
     

@@ -10,22 +10,19 @@ class Reader
 public:
     static constexpr int BUFF_SZ = 1 << 22; // 4M
     Reader(const QString &fileName)
-        :_begin(0), _end(0), p(0), blocks(0), _year(0) {
+        :_begin(0), _end(0), p(0), blocks(0), _year(0), newBlockFlag(false) {
         file.setFileName(fileName);
         if (file.open(QFile::ReadOnly)) {
             buffer = file.read(BUFF_SZ);
             p = buffer.indexOf("<dblp>");
-            if (p == -1) _error = QObject::tr("File is not a dblp file.");
-            else p += 6;
-        } else {
-            _error = QObject::tr("File open failed: %1.").arg(fileName);
+            p += 6;
         }
     }
     ~Reader() {
         file.close();
     }
     bool next() {
-        if (!_error.isEmpty()) return false;
+        newBlockFlag = false;
         indexOf('<');
         nextChar();
         if (buffer[p] == '/') return false;
@@ -77,17 +74,14 @@ public:
         _end = BUFF_SZ * blocks + p;
         return true;
     }
-    bool hasError() const {
-        return !_error.isEmpty();
-    }
-    QString error() const {
-        return _error;
-    }
     quint32 begin() const {
         return _begin;
     }
     quint32 end() const {
         return _end;
+    }
+    quint32 size() const {
+        return file.size();
     }
     QByteArrayList authors() const {
         return _authors;
@@ -104,6 +98,9 @@ public:
     int year() const {
         return _year;
     }
+    bool newBlock() const {
+        return newBlockFlag;
+    }
     
 private:
     QFile file;
@@ -113,10 +110,10 @@ private:
     quint32 _end;
     int p; // current position
     int blocks;
-    QString _error;
     QByteArrayList _authors;
     QByteArray _title;
     int _year;
+    bool newBlockFlag;
     
     
     void indexOf(char c) {
@@ -136,7 +133,6 @@ private:
         } else {
             p = t;
         }
-        if (p == -1) _error = QObject::tr("File is incorrect.");
     }
     void nextChar() {
         if (p == BUFF_SZ - 1) nextBlock();
@@ -146,8 +142,8 @@ private:
         lastBuffer = buffer;
         blocks++;
         buffer = file.read(BUFF_SZ);
-        if (buffer.isEmpty()) _error = QObject::tr("End of file exception.");
         p = 0;
+        newBlockFlag = true;
     }
     QByteArray substr(int l, int r) {
         if (r < l) return lastBuffer.right(BUFF_SZ - l) + buffer.left(r);

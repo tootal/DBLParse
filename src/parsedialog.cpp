@@ -14,11 +14,6 @@ ParseDialog::ParseDialog(QWidget *parent) :
     ui(new Ui::ParseDialog)
 {
     ui->setupUi(this);
-    clear();
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, 
-            this, &ParseDialog::showMemory);
-    timer->start(500);
 }
 
 ParseDialog::~ParseDialog()
@@ -26,29 +21,17 @@ ParseDialog::~ParseDialog()
     delete ui;
 }
 
-void ParseDialog::showStatus(const QString &msg)
+void ParseDialog::setState(int state)
 {
-    ui->textBrowser->append(msg);
+    ui->progressBar->setValue(state);
 }
 
-void ParseDialog::showMemory()
-{
-    MEMORYSTATUSEX st;
-    st.dwLength = sizeof(st);
-    GlobalMemoryStatusEx(&st);
-    auto used = st.ullTotalPhys - st.ullAvailPhys;
-    ui->progressBar->setValue(qreal(used) / st.ullTotalPhys * 100);
-}
-
-void ParseDialog::clear()
-{
-    ui->pushButton->setEnabled(false);
-}
-
-void ParseDialog::activeButton()
+void ParseDialog::handleDone()
 {
     ui->pushButton->setEnabled(true);
+    ui->label->setText(tr("Parsing completed."));
 }
+
 
 void ParseDialog::on_pushButton_clicked()
 {

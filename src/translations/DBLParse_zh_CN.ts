@@ -170,7 +170,7 @@
         <translation>设置 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="225"/>
+        <location filename="../mainwindow.cpp" line="228"/>
         <source>Load finished.</source>
         <translation>加载完成。</translation>
     </message>
@@ -212,78 +212,78 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="62"/>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="65"/>
+        <location filename="../mainwindow.cpp" line="182"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="75"/>
+        <location filename="../mainwindow.cpp" line="78"/>
         <source>&lt;b&gt;About Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;This program uses Qt version %1.&lt;br&gt;&lt;br&gt;Qt is a C++ toolkit for cross-platform application development.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;关于 Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;此程序基于 Qt %1.&lt;br&gt;&lt;br&gt;Qt是一个跨平台C++应用程序开发框架。&lt;br&gt;&lt;br&gt;访问 &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; 获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="85"/>
+        <location filename="../mainwindow.cpp" line="88"/>
         <source>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;Version: %1&lt;br&gt;&lt;br&gt;Built on %2&lt;br&gt;&lt;br&gt;DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;版本：%1&lt;br&gt;&lt;br&gt;构建于 %2&lt;br&gt;&lt;br&gt;DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides open bibliographic information on major computer science journals and proceedings. Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993, dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
         <translation>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt;DBLP计算机科学文献集&lt;/em&gt;提供主要的计算机科学期刊和会议的开放数据信息。最初由&lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br&gt;&lt;br&gt;获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="120"/>
+        <location filename="../mainwindow.cpp" line="123"/>
         <source>Open DBLP XML File</source>
         <translation>打开DBLP XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="124"/>
+        <location filename="../mainwindow.cpp" line="127"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件 (*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="134"/>
+        <location filename="../mainwindow.cpp" line="137"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
+        <location filename="../mainwindow.cpp" line="139"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="139"/>
+        <location filename="../mainwindow.cpp" line="142"/>
         <source>Yes</source>
         <translation>是</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="140"/>
+        <location filename="../mainwindow.cpp" line="143"/>
         <source>No</source>
         <translation>否</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="178"/>
         <source>Parser: %1 &lt;br&gt;Loader: %2</source>
         <translation>解析器: %1 &lt;br&gt;加载器：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="183"/>
+        <location filename="../mainwindow.cpp" line="186"/>
         <source>Open XML file</source>
         <translation>打开XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="184"/>
+        <location filename="../mainwindow.cpp" line="187"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../mainwindow.cpp" line="378"/>
         <source>Do not find data file.</source>
         <translation>未找到数据文件。</translation>
     </message>
@@ -296,22 +296,30 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>正在处理XML文件</translation>
     </message>
     <message>
-        <location filename="../parsedialog.ui" line="25"/>
-        <source>Memory usage:</source>
-        <translation>内存使用量：</translation>
+        <location filename="../parsedialog.ui" line="23"/>
+        <source>Parsing file, please wait...</source>
+        <translation>正在解析文件，请稍后……</translation>
     </message>
     <message>
-        <location filename="../parsedialog.ui" line="74"/>
+        <source>Memory usage:</source>
+        <translation type="vanished">内存使用量：</translation>
+    </message>
+    <message>
+        <location filename="../parsedialog.ui" line="84"/>
         <source>Close</source>
         <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../parsedialog.cpp" line="32"/>
+        <source>Parsing completed.</source>
+        <translation>解析完成。</translation>
     </message>
 </context>
 <context>
     <name>Parser</name>
     <message>
-        <location filename="../parser.cpp" line="43"/>
         <source>Parsing start.</source>
-        <translation>解析开始。</translation>
+        <translation type="vanished">解析开始。</translation>
     </message>
     <message>
         <source>XML file read successful.</source>
@@ -353,7 +361,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">聚团分析已完成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="146"/>
+        <location filename="../parser.cpp" line="151"/>
         <source>(%1 ms)</source>
         <translation>（耗时 %1 毫秒）</translation>
     </message>
@@ -366,24 +374,20 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../reader.h" line="18"/>
         <source>File is not a dblp file.</source>
-        <translation>该文件不是DBLP数据文件。</translation>
+        <translation type="vanished">该文件不是DBLP数据文件。</translation>
     </message>
     <message>
-        <location filename="../reader.h" line="21"/>
         <source>File open failed: %1.</source>
-        <translation>文件打开失败：%1。</translation>
+        <translation type="vanished">文件打开失败：%1。</translation>
     </message>
     <message>
-        <location filename="../reader.h" line="131"/>
         <source>File is incorrect.</source>
-        <translation>文件不正确。</translation>
+        <translation type="vanished">文件不正确。</translation>
     </message>
     <message>
-        <location filename="../reader.h" line="141"/>
         <source>End of file exception.</source>
-        <translation>文件异常结束。</translation>
+        <translation type="vanished">文件异常结束。</translation>
     </message>
 </context>
 <context>
