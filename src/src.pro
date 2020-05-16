@@ -18,8 +18,8 @@ RC_ICONS = resources/DBLParse.ico
 QTQUICK_COMPILER_SKIPPED_RESOURCES += DBLParse.qrc
 
 # Version
-VERSION_MAJOR = 2
-VERSION_MINOR = 9
+VERSION_MAJOR = 3
+VERSION_MINOR = 0
 VERSION_PATCH = 0
 win32 {
     VERSION_BUILD = $$system(git log --pretty=oneline | find /V \"\" /C)
