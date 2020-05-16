@@ -37,7 +37,7 @@
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern BigNumber nCr[1001][401];
+extern std::vector<std::vector<BigNumber>> nCr;
 
 void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
                                       int size, int max_k, double *nCalls, double *sumP, double *sqP)

@@ -40,12 +40,14 @@
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-BigNumber nCr[1001][401];
+std::vector<std::vector<BigNumber>> nCr;
 
 void populate_nCr()
 {
+    nCr.resize(1001);
     for(int row = 0; row < 1001; ++row)
     {
+        nCr[row].resize(401);
         for (int col = 0; col < 401; ++col)
         {
             if (row == 0 || col == 0 || row == col) nCr[row][col] = 1;
@@ -111,6 +113,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     fprintf(fp, "%s\n", totalCliques.getString().c_str());
     fclose(fp);
     free(orderingArray);
+    nCr.clear();
 }
 
 /*! \brief Computes the vertex v in P union X that has the most neighbors in P,
