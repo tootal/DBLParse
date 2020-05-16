@@ -11,7 +11,7 @@ class Saver
 public:
     // Each file cache: 16KB
     // All memory used: 16MB
-    static constexpr int DEFAULT_SIZE = 1 << 11;
+    static constexpr int DEFAULT_SIZE = 1 << 13;
     Saver(const QString &sectionName, int maxCacheSize = DEFAULT_SIZE)
         :maxSize(maxCacheSize), section(sectionName) {
                 
