@@ -41,29 +41,32 @@ void Finder::find(const QString &type, const QString &word)
     if (!Util::parsed()) goto not_ready;
     if (type == "author") {
         auto list = indexOfAuthor(word.toLatin1());
-        auto t_result = getRecord(list);
-        for (auto i : t_result) {
-            if (i.attr("authors").toStringList().contains(word)) {
+        QVector<Record> t_result;
+        getRecord(t_result, list);
+        for (const auto &i : t_result) {
+            const auto &t = i.attr["author"];
+            if (t.contains(word)) {
                 result.append(i);
             }
         }
-        std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
-            return x.attr("year").toString() < y.attr("year").toString(); 
-        });
+        /*std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
+            return x.property("year").toStringList()[0] < y.property("year").toStringList()[0]; 
+        });*/
         for (const Record &record : result) {
             json.append(record.toJson(type));
         }
     } else if (type == "title") {
         auto list = indexOfTitle(word.toLatin1());
-        auto t_result = getRecord(list);
-        for (auto i : t_result) {
-            if (i.attr("title").toString() == word) {
+        QVector<Record> t_result;
+        getRecord(t_result, list);
+        for (const auto &i : t_result) {
+            if (i.attr["title"][0] == word) {
                 result.append(i);
             }
         }
-        std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
-            return x.attr("mdate").toString() > y.attr("mdate").toString();
-        });
+        /*std::sort(result.begin(), result.end(), [](const Record &x, const Record &y) {
+            return x.property("mdate").toStringList()[0] > y.property("mdate").toStringList()[0];
+        });*/
         for (const Record &record : result) {
             json.append(record.toJson(type));
         }
@@ -71,8 +74,8 @@ void Finder::find(const QString &type, const QString &word)
         auto list = indexOfAuthor(word.toLatin1());
         QSet<QString> coauthors;
         for (auto pos : list) {
-            Record record(Util::findRecord(Util::getXmlFileName(), pos));
-            for (auto &author : record.attr("authors").toStringList()){
+            Record record(pos);
+            for (auto &author : record.attr["author"]) {
                 coauthors.insert(author);
             }
         }
@@ -84,7 +87,8 @@ void Finder::find(const QString &type, const QString &word)
         json = cograph;
     } else if (type == "keywords") {
         auto list = indexOfTitleWords(word.toLatin1());
-        result = getRecord(list);
+        qInfo() << "Keywords results: " << list.size();
+        getRecord(result, list);
         for (int i = 0; i < result.size(); i++) {
             json.append(result[i].toJson(type));
         }
@@ -234,17 +238,14 @@ void Finder::setLoaded()
     m_loaded = true;
 }
 
-QVector<Record> Finder::getRecord(const QVector<quint32> &posList) const
+void Finder::getRecord(QVector<Record> &res, const QVector<quint32> &posList) const
 {
-    QVector<Record> array;
     int size = std::min(posList.size(), 2000);
+    res.resize(size);
     auto fileName = Util::getXmlFileName();
     for (int i = 0; i < size; i++) {
-        Record record(Util::findRecord(fileName, posList.at(i)));
-        array.append(record);
+        res[i].get(posList.at(i));
     }
-    auto ret = array;
-    return ret;
 }
 void Finder::init()
 {
@@ -267,8 +268,8 @@ QJsonArray Finder::cographBFS(const QString &node) const
         auto list = indexOfAuthor(t.second.toLatin1());
         QSet<QString> coauthors;
         for (auto pos : list) {
-            Record record(Util::findRecord(Util::getXmlFileName(), pos));
-            for (auto &author : record.attr("authors").toStringList()){
+            Record record(pos);
+            for (auto &author : record.attr["author"]) {
                 coauthors.insert(author);
             }
         }

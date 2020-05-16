@@ -71,7 +71,7 @@ var vm_result = new Vue({
     data: g_data,
     methods: {
         homepageClick: function() {
-            console.log('homepage click');
+            // console.log('homepage click');
         },
         tr: tr
     },
@@ -144,8 +144,8 @@ var formatAuthor = function(author) {
 }
 
 var formatAuthors = function(record) {
-    if (typeof record.authors == "undefined") return "";
-    let ref = record.authors;
+    if (typeof record.author == "undefined") return "";
+    let ref = record.author;
     if (ref == null || ref == "") return "";
     for (let j = 0; j < ref.length; ++j) {
         if (vm_inputs.type == 'title' || ref[j] != vm_inputs.word) {
@@ -227,6 +227,7 @@ var setLinkData = function(childList, parentnode, links) {
 var handleSearch = function(data) {
     if (data == "not_ready") return;
     let json = JSON.parse(data);
+    // console.log(json);
     if (json.length == 0) {
         alertMsg('danger', `${tr(vm_inputs.type)}${tr(' not found!')}`);
         clearT();
@@ -239,7 +240,7 @@ var handleSearch = function(data) {
         }
     } else if (g_data.type == 'title' || g_data.type == 'keywords') {
         for (let i = 0; i < json.length; ++i) {
-            table.push([i+1, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].mdate]);
+            table.push([i+1, formatTitle(json[i].title[0], i), formatAuthors(json[i]), json[i].mdate[0]]);
         }
     } else if (g_data.type == 'author') {
         let label = 1;
@@ -251,7 +252,7 @@ var handleSearch = function(data) {
             } else if (json[i].title == "") {
                 continue;
             }
-            table.push([label, formatTitle(json[i].title, i), formatAuthors(json[i]), json[i].year]);
+            table.push([label, formatTitle(json[i].title[0], i), formatAuthors(json[i]), json[i].year[0]]);
             label = label + 1;
         }
     } else if (g_data.type == 'cograph') {

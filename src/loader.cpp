@@ -22,7 +22,6 @@ void Loader::run()
         finder->authorStacs.clear();
         QFile file("data/authorstac");
         file.open(QFile::ReadOnly);
-        Q_ASSERT(file.isOpen());
         QDataStream in(&file);
         in >> finder->authorStacs;
         emit authorStacLoadDone();
@@ -33,7 +32,6 @@ void Loader::run()
         emit stateChanged(tr("Loading year word index..."));
         QFile file("data/yearword");
         file.open(QFile::ReadOnly);
-        Q_ASSERT(file.isOpen());
         QDataStream s(&file);
         s >> finder->yearWord;
         emit yearWordLoadDone();

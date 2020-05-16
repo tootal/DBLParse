@@ -25,4 +25,5 @@ var strings = {
     "isbn": "ISBN",
     "school": "School",
     "chapter": "Chapter",
+    "publtype": "Publtype"
 };

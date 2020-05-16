@@ -76,6 +76,7 @@ void Parser::parse()
     Saver authorSaver("author");
     Saver wordSaver("word");
     QMap<QByteArray, AuthorInfo> authorInfos;
+    int records{};
     while (reader.next()) {
         AuthorInfo *info;
         QVector<int> recordAuthorsId;
@@ -92,15 +93,15 @@ void Parser::parse()
             }
             ++info->stac;
             recordAuthorsId.append(info->id);
-            authorSaver.save(hash1, { hash2, reader.end()});
+            authorSaver.save(hash1, { hash2, reader.begin()});
         }
         if (reader.title() != "Home Page")
             titleSaver.save(Hash::hash1(reader.title()), 
-                            {Hash::hash2(reader.title()), reader.end()});
+                            {Hash::hash2(reader.title()), reader.begin()});
         auto words = Stemmer::stem(reader.title());
         for (const auto &word : words) {
             wordSaver.save(Hash::hash1(word),
-                           { Hash::hash2(word), reader.end()});
+                           { Hash::hash2(word), reader.begin()});
         }
         {
             const auto &r = recordAuthorsId;
@@ -122,14 +123,20 @@ void Parser::parse()
             int state = 50.0f * reader.end() / reader.size();
             emit stateChanged(state);
         }
+        ++records;
     }
     emit stateChanged(50);
     qInfo() << "Authors: " << authorInfos.size();
+    qInfo() << "Records: " << records;
     QVector<AuthorStac> authorStacs(authorInfos.size());
-    auto it = authorInfos.begin();
-    while (it != authorInfos.end()) {
-        authorStacs.append({it.key(),it.value().stac});
-        it++;
+    {
+        int i = 0;
+        auto it = authorInfos.begin();
+        while (it != authorInfos.end()) {
+            authorStacs[i] = {it.key(),it.value().stac};
+            ++it;
+            ++i;
+        }
     }
     emit stateChanged(53);
     std::sort(authorStacs.begin(), authorStacs.end());

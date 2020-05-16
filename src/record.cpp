@@ -3,135 +3,92 @@
 #include <QDebug>
 #include <QRegularExpression>
 #include <QJsonObject>
+#include <QFile>
+#include <QJsonArray>
 
 #include "util.h"
 
 Record::Record()
 {
-    m_src = "";
+    
 }
 
-Record::Record(const QString &s)
+Record::Record(quint32 pos)
 {
-    m_src = s;
-    QRegularExpression re(R"(<author.*?>(.+)<\/author>)");
-    auto i = re.globalMatch(s);
-    QStringList authors;
-    while(i.hasNext()){
-        QString author = i.next().captured(1);
-        authors << author;
+    get(pos);
+}
+
+void Record::get(quint32 pos)
+{
+    QByteArray s;
+    // read content
+    {
+        QFile file(Util::getXmlFileName());
+        file.open(QFile::ReadOnly);
+        file.seek(pos);
+        s = file.read(BUF_SZ);
+        file.close();
     }
-    if(!authors.isEmpty()){
-        m_attrs["authors"] = authors;
-    }
-    
-    re.setPattern(R"(<editor.*?>(.+)<\/editor>)");
-    i = re.globalMatch(s);
-    QStringList editors;
-    while(i.hasNext()){
-        QString editor = i.next().captured(1);
-        editors << editor;
-    }
-    if(!editors.isEmpty()){
-        m_attrs["editors"] = editors;
-    }
-    
-    re.setPattern(R"(<cite.*?>(.+)<\/cite>)");
-    i = re.globalMatch(s);
-    QStringList cites;
-    while(i.hasNext()){
-        QString cite = i.next().captured(1);
-        cites << cite;
-    }
-    if(!cites.isEmpty()){
-        m_attrs["cites"] = cites;
-    }
-    
-    re.setPattern(R"#(mdate\s*=\s*"((?:\d{4})-(?:\d{2})-(?:\d{2}))")#");
-    auto m = re.match(s);
-    Q_ASSERT(m.hasMatch());
-    m_attrs["mdate"] = m.captured(1);
-    
-    re.setPattern(R"(<(article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www|person|data))");
-    m = re.match(s);
-    Q_ASSERT(m.hasMatch());
-    m_attrs["name"] = m.captured(1);
-    
-    re.setPattern(R"#(key="(.*?)")#");
-    m = re.match(s);
-    Q_ASSERT(m.hasMatch());
-    m_attrs["key"] = m.captured(1);
-    auto ee = Util::formatUrl(capture("ee"));
-    if(!ee.isEmpty()) m_attrs["ee"] = ee;
-    auto url = Util::formatUrl(capture("url"));
-    if(!url.isEmpty()) m_attrs["url"] = url;
-    
-    static const QStringList attrsList = {
-        "title",
-        "year",
-        "journal",
-        "volume",
-        "booktitle",
-        "series",
-        "pages",
-        "note",
-        "address",
-        "number",
-        "month",
-        "cdrom",
-        "publisher",
-        "crossref",
-        "isbn",
-        "school",
-        "chapter",
-        "publnr"
-    };
-    
-    for (const auto &attr : attrsList) {
-        auto v = capture(attr);
-        if(!v.isEmpty()){
-            m_attrs[attr] = v;
+    int p = 0; // position
+    while (s[p] != ' ') ++p;
+    attr["name"] = QStringList{s.mid(1, p - 1)};
+    int t = p + 1;
+    while (s[p] != '>') ++p;
+    // parse attributes
+    {
+        auto as = s.mid(t, p - t).split(' ');
+        for (auto a : as) {
+            auto tmp = a.split('=');
+            auto &key = tmp[0];
+            auto value = tmp[1];
+            // remove quotes
+            value = value.mid(1, value.length() - 2);
+            attr[key] = QStringList{value};
         }
     }
-}
-
-QString Record::capture(const QString &tag) const
-{
-    QRegularExpression re;
-    re.setPattern(QString(R"(<%1.*?>(.+)<\/%1>)").arg(tag));
-    auto m = re.match(m_src);
-    return m.captured(1);
-}
-
-QVariant Record::attr(const QString &tag) const
-{
-    if(m_attrs.contains(tag)){
-        return m_attrs[tag];
+    // parse tags
+    for (;;) {
+        while (s[p] != '<') ++p;
+        t = p + 1;
+        if (s[t] == '/') break;
+        while (s[p] != '>' && s[p] != ' ') ++p;
+        auto name = s.mid(t, p - t);
+        // pass tag attributes
+        while (s[p] != '>') ++p;
+        t = p + 1;
+        p = s.indexOf("</" + name, t);
+        auto value = s.mid(t, p - t);
+        if (attr.contains(name)) {
+            attr[name].append(value);
+        } else {
+            attr[name] = QStringList{value};
+        }
+        ++p;
     }
-    return QVariant();
 }
 
 QJsonObject Record::toJson() const
 {
-//    qDebug() << m_attrs;
-    auto ret = QJsonObject::fromVariantMap(m_attrs);
-//    qDebug() << ret;
-    return ret;
+    QJsonObject o;
+    for (const auto &i : attr.keys())
+        o.insert(i, QJsonArray::fromStringList(attr[i]));
+    return o;
 }
 
 QJsonObject Record::toJson(const QString &type) const
 {
     QJsonObject o;
     if (type == "author") {
-        o.insert("title", attr("title").toString());
-        o.insert("authors", QJsonValue::fromVariant(attr("authors")));
-        o.insert("year", attr("year").toString());
+        o.insert("title", QJsonArray::fromStringList(attr["title"]));
+        o.insert("author", QJsonArray::fromStringList(attr["author"]));
+        o.insert("year", QJsonArray::fromStringList(attr["year"]));
     } else if (type == "title" || type == "keywords") {
-        o.insert("title", attr("title").toString());
-        o.insert("authors", QJsonValue::fromVariant(attr("authors")));
-        o.insert("mdate", attr("mdate").toString());
+        o.insert("title", QJsonArray::fromStringList(attr["title"]));
+        o.insert("author", QJsonArray::fromStringList(attr["author"]));
+        o.insert("mdate", QJsonArray::fromStringList(attr["mdate"]));
     } else {
         o = toJson();
     }
     return o;
+    
 }

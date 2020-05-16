@@ -30,41 +30,10 @@ QString Util::formatTime(int ms)
     return time.toString("H:mm:ss");
 }
 
-QString Util::readAround(const QString &fileName, quint32 &pos)
-{
-    QFile file(fileName);
-    file.open(QFile::ReadOnly | QFile::Text);
-    Q_ASSERT(file.isOpen());
-    auto beginPos = pos < BUF_SZ ? 0 : pos - BUF_SZ;
-    file.seek(beginPos);
-    QString data = file.read(BUF_SZ << 1);
-    if (data.isEmpty()) {
-        qDebug() << fileName;
-        qDebug() << pos;
-        qDebug() << beginPos;
-    }
-    Q_ASSERT(!data.isEmpty());
-    pos -= beginPos;
-    file.close();
-    return data;
-}
-
-QString Util::findRecord(const QString &fileName, quint32 pos)
-{
-    QString data = readAround(fileName, pos);
-    int p1 = data.lastIndexOf("key=\"", pos);
-    p1 = data.lastIndexOf('<', p1);
-    int p2 = data.indexOf(' ', p1);
-    auto name = data.midRef(p1 + 1, p2 - p1 - 1);
-    p2 = data.indexOf(QString("</%1>").arg(name), p2);
-    return data.mid(p1, p2 - p1 + 3 + name.length());
-}
-
 QString Util::readFile(const QString &fileName)
 {
     QFile file(fileName);
     file.open(QFile::ReadOnly);
-    Q_ASSERT(file.isOpen());
     return file.readAll();
 }
 

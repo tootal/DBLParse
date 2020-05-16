@@ -254,7 +254,6 @@ void MainWindow::on_actionAuthorStac_triggered()
     QJsonArray authorStacArray;
     
     int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
-    
     for (qint32 t=0; t<num; t++) {
         QJsonObject obj;
         obj.insert("author", QString(authorStac[t].author));
