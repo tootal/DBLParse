@@ -43,8 +43,8 @@
 void listAllCliquesDegeneracyRecursive_A(std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
-                                               int beginX, int beginP, int beginR, int max_k, double *nCalls, double *sumP, double *sqP, int rsize, int drop);
+                                               int beginX, int beginP, int beginR, int max_k, int rsize, int drop);
 
 void listAllCliquesDegeneracy_A( std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
-                                      int size, int max_k, double *nCalls, double *sumP, double *sqP );
+                                      int size, int max_k );
 

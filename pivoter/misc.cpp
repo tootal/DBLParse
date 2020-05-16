@@ -96,7 +96,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 
     max_k = deg + 1;
     std::vector<BigNumber> cliqueCounts(max_k + 1);
-    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k, nullptr, nullptr, nullptr);
+    listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k);
     while (cliqueCounts[max_k] == 0) max_k--;
     fprintf(fp, "%d\n", max_k);
     BigNumber totalCliques = 0;

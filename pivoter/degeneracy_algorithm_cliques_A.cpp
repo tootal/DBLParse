@@ -40,7 +40,7 @@
 extern std::vector<std::vector<BigNumber>> nCr;
 
 void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
-                                      int size, int max_k, double *, double *, double *)
+                                      int size, int max_k)
 {
     // vertex sets are stored in an array like this:
     // |--X--|--P--|
@@ -90,7 +90,7 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
         listAllCliquesDegeneracyRecursive_A(cliqueCounts, 
                                                   vertexSets, vertexLookup,
                                                   neighborsInP, numNeighbors,
-                                                  newBeginX, newBeginP, newBeginR, max_k, nullptr, nullptr, nullptr, rsize, drop); 
+                                                  newBeginX, newBeginP, newBeginR, max_k, rsize, drop); 
 
 
         beginR = beginR + 1;
@@ -152,7 +152,6 @@ void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, 
-                                               double *, double *, double *, 
                                                int rsize, int drop)
 {
     if ((beginP >= beginR) || (rsize-drop > max_k))
@@ -204,12 +203,12 @@ void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
                 listAllCliquesDegeneracyRecursive_A(cliqueCounts,
                                                       vertexSets, vertexLookup,
                                                       neighborsInP, numNeighbors,
-                                                      newBeginX, newBeginP, newBeginR, max_k, nullptr, nullptr, nullptr, rsize+1, drop+1);
+                                                      newBeginX, newBeginP, newBeginR, max_k, rsize+1, drop+1);
             else
                 listAllCliquesDegeneracyRecursive_A(cliqueCounts,
                                                       vertexSets, vertexLookup,
                                                       neighborsInP, numNeighbors,
-                                                      newBeginX, newBeginP, newBeginR, max_k, nullptr, nullptr, nullptr, rsize+1, drop);
+                                                      newBeginX, newBeginP, newBeginR, max_k, rsize+1, drop);
 
 
             moveFromRToXDegeneracyCliques( vertex, 
