@@ -119,6 +119,14 @@ private:
     int _year;
     
     
+    void indexOf(char c) {
+        for (;;) {
+            while (p < BUFF_SZ && buffer.at(p) != c) ++p;
+            if (p == BUFF_SZ) nextBlock();
+            else return ;
+        }
+    }
+    
     template <typename T>
     void indexOf(const T &c) {
         int t = buffer.indexOf(c, p);
