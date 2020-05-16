@@ -316,7 +316,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">聚团分析已完成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="136"/>
+        <location filename="../parser.cpp" line="146"/>
         <source>(%1 ms)</source>
         <translation>（耗时 %1 毫秒）</translation>
     </message>
@@ -339,12 +339,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>文件打开失败：%1。</translation>
     </message>
     <message>
-        <location filename="../reader.h" line="128"/>
+        <location filename="../reader.h" line="131"/>
         <source>File is incorrect.</source>
         <translation>文件不正确。</translation>
     </message>
     <message>
-        <location filename="../reader.h" line="138"/>
+        <location filename="../reader.h" line="141"/>
         <source>End of file exception.</source>
         <translation>文件异常结束。</translation>
     </message>
@@ -393,9 +393,23 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>WebView</name>
     <message>
-        <location filename="../webview.cpp" line="30"/>
         <source>Inspector</source>
-        <translation>检查元素</translation>
+        <translation type="vanished">检查元素</translation>
+    </message>
+    <message>
+        <location filename="../webview.cpp" line="34"/>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <location filename="../webview.cpp" line="37"/>
+        <source>Dev Tools</source>
+        <translation>开发者工具</translation>
+    </message>
+    <message>
+        <location filename="../webview.cpp" line="48"/>
+        <source>View Source</source>
+        <translation>查看源代码</translation>
     </message>
 </context>
 </TS>

@@ -2,6 +2,7 @@
 
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QPlainTextEdit>
 
 #include "webpage.h"
 
@@ -26,17 +27,36 @@ void WebView::registerObject(const QString &id, QObject *object)
 
 void WebView::contextMenuEvent(QContextMenuEvent *event)
 {
-    auto *menu = page()->createStandardContextMenu();
-    QAction *action = new QAction(tr("Inspector"));
-    connect(action, &QAction::triggered,
-            this, [this](){
-        auto *view = new QWebEngineView(this);
+    auto *menu = new QMenu(this);
+    menu->setAttribute(Qt::WA_DeleteOnClose, true);
+    if (hasSelection()) {
+        QAction *copy = pageAction(QWebEnginePage::Copy);
+        copy->setText(tr("Copy"));
+        menu->addAction(copy);
+    }
+    auto tools = new QAction(tr("Dev Tools"), this);
+    connect(tools, &QAction::triggered,
+            this, [this]() {
+        auto view = new QWebEngineView(this);
         view->setWindowFlag(Qt::Window);
         view->resize(800, 600);
         page()->setDevToolsPage(view->page());
         view->show();
     });
-    menu->addAction(action);
-    menu->exec(event->globalPos());
-    delete menu;
+    menu->addAction(tools);
+    
+    auto source = new QAction(tr("View Source"), this);
+    connect(source, &QAction::triggered,
+            this, [this]() {
+        page()->toHtml([this](const QString &s) {
+            auto view = new QPlainTextEdit(this);
+            view->setReadOnly(true);
+            view->setPlainText(s);
+            view->setWindowFlag(Qt::Window);
+            view->resize(800, 600);
+            view->show();
+        });
+    });
+    menu->addAction(source);
+    menu->popup(event->globalPos());
 }

@@ -14,4 +14,6 @@ signals:
     
 protected:
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) override;
+    void triggerAction(WebAction action, bool checked = false) override;
+    QWebEnginePage * createWindow(WebWindowType type) override;
 };

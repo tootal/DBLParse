@@ -28,3 +28,15 @@ bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::Navigatio
     QDesktopServices::openUrl(url);
     return false;
 }
+
+void WebPage::triggerAction(QWebEnginePage::WebAction action, bool checked)
+{
+//    qDebug() << "Trigger Action: " << action;
+    QWebEnginePage::triggerAction(action, checked);
+}
+
+QWebEnginePage *WebPage::createWindow(QWebEnginePage::WebWindowType type)
+{
+//    qDebug() << "Create Window: " << type;
+    return QWebEnginePage::createWindow(type);
+}
