@@ -171,6 +171,8 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
     
     for(i = 0; i<size;i++)
     {
+//        destroyLinkedList(ordering[i]->earlier);
+//        destroyLinkedList(ordering[i]->later);
         free(ordering[i]);
         destroyLinkedList(verticesByDegree[i]);
     }
