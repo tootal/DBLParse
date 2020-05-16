@@ -88,6 +88,7 @@ void Parser::parse()
                 info = &authorInfos[author];
                 info->id = totalAuthor;
                 ++totalAuthor;
+                G.append(QVector<int>());
             }
             ++info->stac;
             recordAuthorsId.append(info->id);
@@ -101,7 +102,16 @@ void Parser::parse()
             wordSaver.save(Hash::hash1(word),
                            { Hash::hash2(word), reader.end()});
         }
-        authorIdRelations.append(recordAuthorsId);
+        {
+            const auto &r = recordAuthorsId;
+            for (int i = 0; i < r.size() - 1; i++) {
+                for (int j = i + 1; j < r.size(); j++) {
+                    if (r[i] == r[j]) continue;
+                    G[r[i]].append(r[j]);
+                    G[r[j]].append(r[i]);
+                }
+            }
+        }
         if (reader.hasYear()) {
             int year_n = reader.year() - MIN_YEAR;
             for (const auto &word : words) {
@@ -183,18 +193,6 @@ void Parser::saveAuthors()
 {
     int n = totalAuthor;
     qInfo() << "(Graph) number of nodes:" << n; 
-    QVector<QVector<int>> G(n);
-    for (auto &r : authorIdRelations) {
-        for (int i = 0; i < r.size() - 1; i++) {
-            for (int j = i + 1; j < r.size(); j++) {
-                if (r[i] == r[j]) continue;
-                G[r[i]].append(r[j]);
-                G[r[j]].append(r[i]);
-            }
-        }
-    }
-    authorIdRelations.clear();
-    authorIdRelations.squeeze();
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
