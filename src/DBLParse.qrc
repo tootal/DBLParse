@@ -3,5 +3,6 @@
         <file>resources/dblp.png</file>
         <file>resources/DBLParse.ico</file>
         <file>resources/DBLParse.png</file>
+        <file>resources/splash.jpg</file>
     </qresource>
 </RCC>

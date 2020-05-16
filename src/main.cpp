@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QTranslator>
 #include <QLocale>
+#include <QSplashScreen>
 
 #include "application.h"
 #include "util.h"
@@ -72,6 +73,11 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);
+    
+    QSplashScreen splash(QPixmap(":/resources/splash.jpg").scaled(510, 357));
+    splash.show();
+    splash.setDisabled(true);
+    
     QCoreApplication::setOrganizationName("SCUT_CS");
     QCoreApplication::setApplicationName("DBLParse");
     
@@ -91,9 +97,9 @@ int main(int argc, char *argv[])
     translator.load("DBLParse_" + locale, ":/");
     a.installTranslator(&translator);
     
-    MainWindow w;
+    MainWindow w{};
     w.setTranslator(&translator);
     a.window = &w;
-    w.show();
+    splash.finish(&w);
     return a.exec();
 }
