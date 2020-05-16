@@ -133,7 +133,7 @@
         <translation>设置 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="221"/>
+        <location filename="../mainwindow.cpp" line="223"/>
         <source>Load finished.</source>
         <translation>加载完成。</translation>
     </message>
@@ -176,7 +176,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="60"/>
-        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="177"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -216,27 +216,37 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="171"/>
+        <location filename="../mainwindow.cpp" line="137"/>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="138"/>
+        <source>No</source>
+        <translation>否</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="173"/>
         <source>Parser: %1 &lt;br&gt;Loader: %2</source>
         <translation>解析器: %1 &lt;br&gt;加载器：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>Open XML file</source>
         <translation>打开XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
+        <location filename="../mainwindow.cpp" line="182"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="190"/>
+        <location filename="../mainwindow.cpp" line="192"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="371"/>
+        <location filename="../mainwindow.cpp" line="373"/>
         <source>Do not find data file.</source>
         <translation>未找到数据文件。</translation>
     </message>
@@ -285,12 +295,11 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">标题的单词已解析。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="55"/>
         <source>Index file generated.</source>
-        <translation>索引文件已生成。</translation>
+        <translation type="vanished">索引文件已生成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="59"/>
+        <location filename="../parser.cpp" line="55"/>
         <source>Authors information saved.</source>
         <translation>作者信息已保存。</translation>
     </message>
@@ -307,12 +316,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">聚团分析已完成。</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="124"/>
+        <location filename="../parser.cpp" line="136"/>
         <source>(%1 ms)</source>
         <translation>（耗时 %1 毫秒）</translation>
     </message>
     <message>
-        <location filename="../parser.cpp" line="61"/>
+        <location filename="../parser.cpp" line="57"/>
         <source>Parse done. Cost time: %1</source>
         <translation>解析完成。用时：%1</translation>
     </message>
@@ -366,7 +375,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>Util</name>
     <message>
-        <location filename="../util.cpp" line="38"/>
+        <location filename="../util.cpp" line="27"/>
         <source>s</source>
         <translation>秒</translation>
     </message>

@@ -134,6 +134,8 @@ void MainWindow::on_actionOpen_triggered()
         box.setInformativeText(tr("Do you want to continue?"));
         box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         box.setDefaultButton(QMessageBox::Yes);
+        box.button(QMessageBox::Yes)->setText(tr("Yes"));
+        box.button(QMessageBox::No)->setText(tr("No"));
         if(box.exec() == QMessageBox::No) return ;
     }
     Util::clearIndexs();
@@ -197,7 +199,7 @@ void MainWindow::on_actionOpenIndexFolder_triggered()
 
 void MainWindow::load()
 {
-    if(!Util::canLoad()) return ;
+    if(!Util::parsed()) return ;
     auto loader = new Loader(m_finder);
     auto thread = new QThread();
     loader->moveToThread(thread);
@@ -329,7 +331,7 @@ void MainWindow::on_actionCountClique_triggered()
         on_actionStatus_triggered();
         return ;
     }
-    QFile file("authors_cliques.txt");
+    QFile file("data/authorclique.txt");
     auto *view = new WebView(this);
     view->setWindowFlag(Qt::Window);
     view->resize(850, 600);

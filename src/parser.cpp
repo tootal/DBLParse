@@ -70,7 +70,6 @@ bool Parser::event(QEvent *event)
 
 void Parser::parse()
 {
-    QSet<QPair<quint16, quint32>> test;
     Util::initIndexs();
     Reader reader(Util::getXmlFileName());
     Saver titleSaver("title");
@@ -89,6 +88,7 @@ void Parser::parse()
                 info = &authorInfos[author];
                 info->id = totalAuthor;
                 ++totalAuthor;
+                G.append(QVector<int>());
             }
             ++info->stac;
             recordAuthorsId.append(info->id);
@@ -102,7 +102,16 @@ void Parser::parse()
             wordSaver.save(Hash::hash1(word),
                            { Hash::hash2(word), reader.end()});
         }
-        authorIdRelations.append(recordAuthorsId);
+        {
+            const auto &r = recordAuthorsId;
+            for (int i = 0; i < r.size() - 1; i++) {
+                for (int j = i + 1; j < r.size(); j++) {
+                    if (r[i] == r[j]) continue;
+                    G[r[i]].append(r[j]);
+                    G[r[j]].append(r[i]);
+                }
+            }
+        }
         if (reader.hasYear()) {
             int year_n = reader.year() - MIN_YEAR;
             for (const auto &word : words) {
@@ -113,7 +122,7 @@ void Parser::parse()
     if (reader.hasError()) {
         emit error(reader.error());
     }
-    QVector<AuthorStac> authorStacs;
+    QVector<AuthorStac> authorStacs(authorInfos.size());
     auto it = authorInfos.begin();
     while (it != authorInfos.end()) {
         authorStacs.append({it.key(),it.value().stac});
@@ -121,13 +130,13 @@ void Parser::parse()
     }
     std::sort(authorStacs.begin(), authorStacs.end());
     {
-        QFile file("authorStac.dat");
+        QFile file("data/authorstac");
         QDataStream dataStream(&file);
         file.open(QFile::WriteOnly);
-        Q_ASSERT(file.isOpen());
         if (authorStacs.size() > 100) authorStacs.resize(100);
         dataStream << authorStacs;
         file.close();
+        authorInfos.clear();
     }
 }
 
@@ -171,11 +180,9 @@ void Parser::countWordPerYear()
             }
         }
     }
-    //    qDebug() << Util::str(m_topKWords);
-    QFile file("yearWord.txt");
+    QFile file("data/yearword");
     QDataStream s(&file);
     file.open(QFile::WriteOnly);
-    Q_ASSERT(file.isOpen());
     s << topKWords;
     file.close();
     yearWords.clear();
@@ -184,36 +191,12 @@ void Parser::countWordPerYear()
 
 void Parser::saveAuthors()
 {
-    QFile file;
-    QTextStream s(&file);
-    
     int n = totalAuthor;
     qInfo() << "(Graph) number of nodes:" << n; 
-    QVector<QVector<int>> G(n);
-    for (auto &r : authorIdRelations) {
-        for (int i = 0; i < r.size() - 1; i++) {
-            for (int j = i + 1; j < r.size(); j++) {
-                if (r[i] == r[j]) continue;
-                G[r[i]].append(r[j]);
-                G[r[j]].append(r[i]);
-            }
-        }
-    }
-    authorIdRelations.clear();
-    authorIdRelations.squeeze();
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
-    
-    int m = 0;
-    for (int u = 0; u < G.size(); ++u) {
-        for (int v : G[u]) {
-            if (v <= u) continue;
-            m++;
-        }
-    }
-    qInfo() << "(Graph) number of edges:" << m;
     LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
@@ -226,7 +209,6 @@ void Parser::saveAuthors()
     }
     G.clear();
     G.squeeze();
-    populate_nCr();
     runAndPrintStatsCliques(adjList, n);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);

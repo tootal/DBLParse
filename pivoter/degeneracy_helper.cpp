@@ -97,7 +97,6 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 
             ordering[vertex]->vertex = vertex;
             ordering[vertex]->orderNumber = numVerticesRemoved;
-            // fprintf(stderr, "vertex = %d, degree[vertex]=%d\n", vertex, degree[vertex]);
             degree[vertex] = -1;
 
             LinkedList* neighborList = list[vertex];
@@ -111,7 +110,6 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
                 {
                     deleteLink(vertexLocator[neighbor]);
                     addLast(ordering[vertex]->later, (int)neighbor);
-
                     degree[neighbor]--;
 
                     if(degree[neighbor] != -1)

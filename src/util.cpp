@@ -18,22 +18,11 @@ Util::s_availableLanguages = {
     {"zh_CN", QT_TR_NOOP("Chinese (China)")}
 };
 
-QStringList Util::s_loadedFiles = {
-    "authorStac.dat",
-    "yearWord.txt"
-};
-
-QStringList Util::s_parsedFiles = {
-    "authorStac.dat",
-    "authors_cliques.txt",
-    "yearWord.txt"
-};
-
 QString Util::formatTime(int ms)
 {
     Q_ASSERT(ms >= 0);
     QTime time = QTime::fromMSecsSinceStartOfDay(ms);
-    if(time.hour() == 0){
+    if (time.hour() == 0) {
         if(time.minute() == 0)
             return time.toString("s.zzz ")+tr("s");
         return time.toString("m:ss.z");
@@ -104,9 +93,6 @@ QString Util::getLocale()
 
 void Util::clearIndexs()
 {
-    for (const QString &fileName : s_parsedFiles) {
-        QFile(fileName).remove();
-    }
     QDir("data").removeRecursively();
 }
 
@@ -131,21 +117,6 @@ void Util::initIndexs()
 
 bool Util::parsed()
 {
-    for (const QString &fileName : s_parsedFiles) {
-        if (QFile(fileName).exists()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Util::canLoad()
-{
-    for (const QString &fileName : s_loadedFiles) {
-        if (!QFile(fileName).exists()) {
-            return false;
-        }
-    }
-    return true;
+    return QDir("data").exists();
 }
 

@@ -85,13 +85,10 @@ private:
     int costMsecs{};
     int elapsedTime{};
     int totalAuthor{};
-        
-    
-    QVector<QVector<int>> authorIdRelations;
-    
+
+    QVector<QVector<int>> G;
     QVector<QVector<QByteArray>> yearWords;
-    
-    
+
     
     void timeMark(QString msg);
     void parse();
