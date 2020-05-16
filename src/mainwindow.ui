@@ -17,6 +17,11 @@
    <iconset resource="DBLParse.qrc">
     <normaloff>:/resources/DBLParse.png</normaloff>:/resources/DBLParse.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">MainWindow {
+	background-color: #fff;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">

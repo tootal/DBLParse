@@ -32,14 +32,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->webview->hide();
     setCentralWidget(ui->webview);
     m_finder = new Finder(this);
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/web/index.html"));
-    
+    connect(ui->webview, &WebView::loadFinished,
+            ui->webview, &WebView::setVisible);
     connect(m_finder, &Finder::notReady,
             this, &MainWindow::on_actionStatus_triggered);
-    
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
     load();
