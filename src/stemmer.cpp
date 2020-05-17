@@ -34,5 +34,8 @@ const QByteArrayList Stemmer::commonwords = {
 
 const QHash<QByteArray, QByteArray> Stemmer::lemmatization = {
     { "networks", "network" },
-    { "algorithms", "algorithm" }
+    { "algorithms", "algorithm" },
+    { "counting", "count" },
+    { "cliques", "clique" },
+    { "graphs", "graph" }
 };

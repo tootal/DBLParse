@@ -197,7 +197,7 @@ QSet<quint32> Finder::indexOfTitleWord(const QByteArray &keyword) const
     return set;
 }
 
-QVector<quint32> Finder::indexOfTitleWords(const QByteArray &keywords) const
+QList<quint32> Finder::indexOfTitleWords(const QByteArray &keywords) const
 {
     auto words = Stemmer::stem(keywords);
     auto res = indexOfTitleWord(words[0]);
@@ -205,7 +205,7 @@ QVector<quint32> Finder::indexOfTitleWords(const QByteArray &keywords) const
         auto t = indexOfTitleWord(words[i]);
         res.intersect(t);
     }
-    return QVector<quint32>::fromList(res.values());
+    return res.values();
 }
 
 bool Finder::yearWordLoaded() const
@@ -247,6 +247,17 @@ void Finder::getRecord(QVector<Record> &res, const QVector<quint32> &posList) co
         res[i].get(posList.at(i));
     }
 }
+
+void Finder::getRecord(QVector<Record> &res, const QList<quint32> &posList) const
+{
+    int size = std::min(posList.size(), 2000);
+    res.resize(size);
+    auto fileName = Util::getXmlFileName();
+    for (int i = 0; i < size; i++) {
+        res[i].get(posList.at(i));
+    }
+}
+
 void Finder::init()
 {
     dataFile.close();

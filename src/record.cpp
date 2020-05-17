@@ -25,6 +25,7 @@ void Record::get(quint32 pos)
     {
         QFile file(Util::getXmlFileName());
         file.open(QFile::ReadOnly);
+        Q_ASSERT(file.isOpen());
         file.seek(pos);
         s = file.read(BUF_SZ);
         file.close();
@@ -36,14 +37,13 @@ void Record::get(quint32 pos)
     while (s[p] != '>') ++p;
     // parse attributes
     {
-        auto as = s.mid(t, p - t).split(' ');
+        auto as = QString(s.mid(t, p - t - 1)).split("\" ");
         for (auto a : as) {
-            auto tmp = a.split('=');
+            auto tmp = a.split("=\"");
+            Q_ASSERT(tmp.size() == 2);
             auto &key = tmp[0];
             auto value = tmp[1];
-            // remove quotes
-            value = value.mid(1, value.length() - 2);
-            attr[key] = QStringList{value};
+            attr[key.toLatin1()] = QStringList{value};
         }
     }
     // parse tags
@@ -57,6 +57,7 @@ void Record::get(quint32 pos)
         while (s[p] != '>') ++p;
         t = p + 1;
         p = s.indexOf("</" + name, t);
+        Q_ASSERT(p != -1);
         auto value = s.mid(t, p - t);
         if (attr.contains(name)) {
             attr[name].append(value);
