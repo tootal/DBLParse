@@ -24,23 +24,25 @@ VERSION_PATCH = 0
 win32 {
     VERSION_BUILD = $$system(git log --pretty=oneline | find /V \"\" /C)
     VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_PATCH}.$${VERSION_BUILD}
+    DEFINES += VERSION_STR=\\\"$${VERSION}\\\"
 } else:unix {
+    VERSION_BUILD = $$system(git log --pretty=oneline | wc -l)
     VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_PATCH}
+    DEFINES += VERSION_STR=\\\"$${VERSION}.$${VERSION_BUILD}\\\"
 }
-DEFINES += VERSION_STR=\\\"$${VERSION}\\\"
-
 # Header Include
 INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter
 
-CONFIG(debug, debug|release) {
+win32:CONFIG(debug, debug|release) {
     LIBS += $${OUT_PWD}/../pivoter/debug/pivoter.lib
     LIBS += $${OUT_PWD}/../bignumber/debug/bignumber.lib
-}
-
-CONFIG(release, debug|release) {
+} else:win32:CONFIG(release, debug|release) {
     LIBS += $${OUT_PWD}/../pivoter/release/pivoter.lib
     LIBS += $${OUT_PWD}/../bignumber/release/bignumber.lib
+} else:unix {
+    LIBS += $${OUT_PWD}/../pivoter/libpivoter.a
+    LIBS += $${OUT_PWD}/../bignumber/libbignumber.a
 }
 
 # The following define makes your compiler emit warnings if you use

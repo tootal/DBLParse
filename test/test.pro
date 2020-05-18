@@ -8,12 +8,12 @@ TEMPLATE = app
 
 INCLUDEPATH += $${PWD}/../bignumber
 
-CONFIG(debug, debug|release) {
+win32:CONFIG(debug, debug|release) {
     LIBS += $${OUT_PWD}/../bignumber/debug/bignumber.lib
-}
-
-CONFIG(release, debug|release) {
+} else:win32:CONFIG(release, debug|release) {
     LIBS += $${OUT_PWD}/../bignumber/release/bignumber.lib
+} else:unix {
+    LIBS += $${OUT_PWD}/../bignumber/libbignumber.a
 }
 
 SOURCES +=  tst_bignumber.cpp

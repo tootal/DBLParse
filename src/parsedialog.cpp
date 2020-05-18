@@ -5,8 +5,6 @@
 #include <QTime>
 #include <QTimer>
 
-#include <Windows.h>
-
 #include "util.h"
 
 ParseDialog::ParseDialog(QWidget *parent) :

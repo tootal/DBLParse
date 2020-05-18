@@ -83,7 +83,11 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     FILE *fp;
 
     fflush(stdout);
+#ifdef _MSC_VER
     fopen_s(&fp, "data/authorclique.txt", "w");
+#else
+    fp = fopen("data/authorclique.txt", "w");
+#endif
     fflush(stdout);
 
     NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);
