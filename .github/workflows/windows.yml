@@ -51,16 +51,4 @@ jobs:
           echo "Build with GitHub actions." > deploy.log
           echo ${{ github.ref }} >> deploy.log
           Get-Date >> deploy.log
-      - name: Upload release
-        if: startsWith(github.ref, 'refs/heads/master')
-        uses: actions/upload-artifact@v1
-        with: 
-          name: Package
-          path: DBLParse.zip
-      - name: Upload log
-        if: startsWith(github.ref, 'refs/heads/master')
-        uses: actions/upload-artifact@v1
-        with: 
-          name: Package
-          path: deploy.log
       
