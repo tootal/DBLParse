@@ -3,6 +3,7 @@ QT       += core gui webenginewidgets network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
+CONFIG -= debug_and_release
 
 # Enable message log in release build
 DEFINES += QT_MESSAGELOGCONTEXT
@@ -34,12 +35,9 @@ win32 {
 INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter
 
-win32:CONFIG(debug, debug|release) {
-    LIBS += $${OUT_PWD}/../pivoter/debug/pivoter.lib
-    LIBS += $${OUT_PWD}/../bignumber/debug/bignumber.lib
-} else:win32:CONFIG(release, debug|release) {
-    LIBS += $${OUT_PWD}/../pivoter/release/pivoter.lib
-    LIBS += $${OUT_PWD}/../bignumber/release/bignumber.lib
+win32: {
+    LIBS += $${OUT_PWD}/../pivoter/pivoter.lib
+    LIBS += $${OUT_PWD}/../bignumber/bignumber.lib
 } else:unix {
     LIBS += $${OUT_PWD}/../pivoter/libpivoter.a
     LIBS += $${OUT_PWD}/../bignumber/libbignumber.a
