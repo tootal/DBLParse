@@ -1,3 +1,5 @@
+# https://bitbucket.org/sjain12/pivoter
+
 CONFIG -= qt
 
 TEMPLATE = lib
