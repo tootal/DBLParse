@@ -1,3 +1,5 @@
+# https://github.com/Limeoats/BigNumber
+
 CONFIG -= qt
 TEMPLATE = lib
 CONFIG += staticlib
