@@ -6,6 +6,7 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += warn_off
 CONFIG += c++11
+CONFIG -= debug_and_release
 INCLUDEPATH += $${PWD}/../bignumber
 
 SOURCES += \
