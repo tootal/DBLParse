@@ -20,7 +20,7 @@ mkdir deploy
 cd deploy
 mkdir DBLParse
 cd ..
-copy src\release\DBLParse.exe deploy\DBLParse
+copy src\DBLParse.exe deploy\DBLParse
 cd deploy\DBLParse 
 windeployqt DBLParse.exe
 
