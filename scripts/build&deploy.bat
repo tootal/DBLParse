@@ -1,9 +1,11 @@
 @echo off
 echo Setting up environment...
 set QT_VERSION=5.14.2
-set PATH=C:\Qt\%QT_VERSION%\msvc2017_64\bin;%PATH%
-set VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC
-call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+set QT_KIT=msvc2017_64
+set VS_VERSION=2019
+set PATH=C:\Qt\%QT_VERSION%\%QT_KIT%\bin;%PATH%
+set VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\%VS_VERSION%\Community\VC
+call "%VCINSTALLDIR%\Auxiliary\Build\vcvarsall.bat" x64
 cd ..
 
 echo Removing cache...
