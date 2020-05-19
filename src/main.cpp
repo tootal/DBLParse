@@ -73,16 +73,20 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);
-    
-    QSplashScreen splash(QPixmap(":/resources/splash.jpg").scaled(510, 357));
-    splash.show();
-    splash.setDisabled(true);
-    
     QCoreApplication::setOrganizationName("SCUT_CS");
     QCoreApplication::setApplicationName("DBLParse");
     
     ConfigManager config;
     a.config = &config;
+    
+    QSplashScreen splash(QPixmap(":/resources/splash.jpg").scaled(510, 357));
+    if (App->config->contains("lastGeometry")) {
+        auto g = splash.geometry();
+        g.moveCenter(App->config->value("lastGeometry").toRect().center());
+        splash.setGeometry(g);
+    }
+    splash.show();
+    splash.setDisabled(true);
     
 #ifdef QT_NO_DEBUG
     initLogFile("DBLParse.log");
