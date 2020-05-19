@@ -73,7 +73,8 @@ var vm_result = new Vue({
         homepageClick: function() {
             // console.log('homepage click');
         },
-        tr: tr
+        tr: tr,
+        translate: translate
     },
     computed: {
         homepageHref: function() {

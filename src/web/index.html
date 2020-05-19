@@ -82,8 +82,8 @@
                         <th 
                             v-for="(head, i) in header[type]" 
                             v-bind:width="header_width[type][i]"
-                            v-html="head"
-                            tr
+                            v-html="translate(head)"
+                            v-bind:tr="head"
                         ></th>
                     </tr>
                 </thead>

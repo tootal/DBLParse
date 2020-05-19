@@ -27,6 +27,14 @@ var tr = function(s) {
     return `<span tr="${s}">${res}</span>`;
 }
 
+var translate = function(s) {
+    let res = s;
+    if (typeof strings == "object" && s in strings) {
+        res = strings[s];
+    }
+    return res;
+}
+
 Object.defineProperty(window, 'language', {
     get: () => this._language,
     set: function(v) {
@@ -44,6 +52,7 @@ Object.defineProperty(window, 'language', {
                     src = node.innerText;
                     node.setAttribute('tr', src);
                 }
+                console.log(src);
                 if (src in strings) {
                     node.innerText = strings[src];
                 } else {
