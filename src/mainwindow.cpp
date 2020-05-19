@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->webview);
+    if (App->config->contains("lastGeometry"))
+        setGeometry(App->config->value("lastGeometry").toRect());
     m_finder = new Finder(this);
     ui->webview->registerObject("finder", m_finder);
     ui->webview->setUrl(QUrl("qrc:/web/index.html"));
@@ -52,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    App->config->setValue("lastGeometry", geometry());
     delete ui;
 }
 
@@ -116,7 +119,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString lastOpenFileName = App->config->value("lastOpenFileName");
+    QString lastOpenFileName = App->config->value("lastOpenFileName").toString();
     QString fileName;
     {
         QFileDialog dialog(this);

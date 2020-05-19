@@ -10,10 +10,11 @@ class ConfigManager : public QObject
 public:
     explicit ConfigManager(QObject *parent = nullptr);
     void init();
-    QString value(const QString &key) const;
-    void setValue(const QString &key, const QString &value);
-    void setDefault(const QString &key, const QString &value);
+    QVariant value(const QString &key) const;
+    void setValue(const QString &key, const QVariant &value);
+    void setDefault(const QString &key, const QVariant &value);
+    bool contains(const QString &key) const;
     
 private:
-    QSettings *m_settings;
+    QSettings *settings;
 };

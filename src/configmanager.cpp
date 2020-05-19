@@ -7,7 +7,7 @@
 
 ConfigManager::ConfigManager(QObject *parent) : QObject(parent)
 {
-    m_settings = new QSettings("DBLParse.ini" ,QSettings::IniFormat, this);
+    settings = new QSettings("DBLParse.ini" ,QSettings::IniFormat, this);
     init();
 }
 
@@ -17,18 +17,23 @@ void ConfigManager::init()
     setDefault("language", "System");
 }
 
-QString ConfigManager::value(const QString &key) const
+QVariant ConfigManager::value(const QString &key) const
 {
-    return m_settings->value(key).toString();
+    return settings->value(key);
 }
 
-void ConfigManager::setValue(const QString &key, const QString &value)
+void ConfigManager::setValue(const QString &key, const QVariant &value)
 {
-    m_settings->setValue(key, value);
+    settings->setValue(key, value);
 }
 
-void ConfigManager::setDefault(const QString &key, const QString &value)
+void ConfigManager::setDefault(const QString &key, const QVariant &value)
 {
-    if(m_settings->contains(key)) return ;
+    if(contains(key)) return ;
     setValue(key, value);
+}
+
+bool ConfigManager::contains(const QString &key) const
+{
+    return settings->contains(key);
 }

@@ -39,7 +39,7 @@ QString Util::readFile(const QString &fileName)
 
 QString Util::getXmlFileName()
 {
-    return App->config->value("lastOpenFileName");
+    return App->config->value("lastOpenFileName").toString();
 }
 
 QString Util::formatUrl(const QString &url)
@@ -53,7 +53,7 @@ QString Util::formatUrl(const QString &url)
 
 QString Util::getLocale()
 {
-    QString locale = App->config->value("language");
+    QString locale = App->config->value("language").toString();
     if (locale == "System") {
         locale = QLocale::system().name();
     }
