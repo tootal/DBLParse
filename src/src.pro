@@ -2,7 +2,7 @@ QT       += core gui webenginewidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++latest
+CONFIG += c++2a
 CONFIG -= debug_and_release
 
 # Enable message log in release build
