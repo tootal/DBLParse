@@ -1,0 +1,18 @@
+name: Ubuntu
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'scripts/**'
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo hello world 

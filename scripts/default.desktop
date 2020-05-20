@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=DBLParse
+Exec=AppRun %F
+Icon=default
+Comment=An application base on DBLP data.
+Terminal=true
+Categories=Application;
