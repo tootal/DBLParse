@@ -15,6 +15,8 @@
 #include <QStyle>
 #include <QTranslator>
 #include <QTimer>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 #include "parser.h"
 #include "parsedialog.h"
@@ -132,40 +134,7 @@ void MainWindow::on_actionOpen_triggered()
         else return ;
     }
     if(fileName.isEmpty()) return ;
-    App->config->setValue("lastOpenFileName", fileName);
-    // question when size greater than 64MiB
-    if(QFile(fileName).size() > PROMOT_FILE_SIZE){
-        QMessageBox box(this);
-        box.resize(500, 170);
-        box.setText(tr("Parsing the file will last for a while "
-                       "and will take up a lot of memory."));
-        box.setInformativeText(tr("Do you want to continue?"));
-        box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        box.setDefaultButton(QMessageBox::Yes);
-        box.button(QMessageBox::Yes)->setText(tr("Yes"));
-        box.button(QMessageBox::No)->setText(tr("No"));
-        if(box.exec() == QMessageBox::No) return ;
-    }
-    Util::clearIndexs();
-    auto *dialog = new ParseDialog(this);
-    auto thread = new QThread();
-    auto parser = new Parser();
-    parser->moveToThread(thread);
-    connect(thread, &QThread::finished,
-            parser, &QObject::deleteLater);
-    connect(parser, &Parser::stateChanged,
-            dialog, &ParseDialog::setState);
-    connect(parser, &Parser::done,
-            dialog, &ParseDialog::handleDone);
-    connect(parser, &Parser::done,
-            thread, &QThread::quit);
-    connect(thread, &QThread::finished,
-            thread, &QObject::deleteLater);
-    connect(parser, &Parser::done,
-            this, &MainWindow::load);
-    dialog->open();
-    thread->start();
-    QTimer::singleShot(0, parser, &Parser::run);
+    open(fileName);
 }
 
 void MainWindow::on_actionStatus_triggered()
@@ -233,6 +202,44 @@ void MainWindow::load()
     thread->start();
     QTimer::singleShot(0, loader, &Loader::run);
     m_finder->init();
+}
+
+void MainWindow::open(const QString &fileName)
+{
+    App->config->setValue("lastOpenFileName", fileName);
+    // question when size greater than 64MiB
+    if(QFile(fileName).size() > PROMOT_FILE_SIZE){
+        QMessageBox box(this);
+        box.resize(500, 170);
+        box.setText(tr("Parsing the file will last for a while "
+                       "and will take up a lot of memory."));
+        box.setInformativeText(tr("Do you want to continue?"));
+        box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        box.setDefaultButton(QMessageBox::Yes);
+        box.button(QMessageBox::Yes)->setText(tr("Yes"));
+        box.button(QMessageBox::No)->setText(tr("No"));
+        if(box.exec() == QMessageBox::No) return ;
+    }
+    Util::clearIndexs();
+    auto *dialog = new ParseDialog(this);
+    auto thread = new QThread();
+    auto parser = new Parser();
+    parser->moveToThread(thread);
+    connect(thread, &QThread::finished,
+            parser, &QObject::deleteLater);
+    connect(parser, &Parser::stateChanged,
+            dialog, &ParseDialog::setState);
+    connect(parser, &Parser::done,
+            dialog, &ParseDialog::handleDone);
+    connect(parser, &Parser::done,
+            thread, &QThread::quit);
+    connect(thread, &QThread::finished,
+            thread, &QObject::deleteLater);
+    connect(parser, &Parser::done,
+            this, &MainWindow::load);
+    dialog->open();
+    thread->start();
+    QTimer::singleShot(0, parser, &Parser::run);
 }
 
 void MainWindow::onLanguageChanged(const QString &locale)
@@ -368,6 +375,19 @@ void MainWindow::changeEvent(QEvent *e)
         ui->retranslateUi(this);
     }
     QMainWindow::changeEvent(e);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (!e->mimeData()->hasUrls()) return ;
+    if (e->mimeData()->urls().size() != 1) return ;
+    if (!e->mimeData()->urls().first().toLocalFile().endsWith(".xml")) return ;
+    e->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    open(e->mimeData()->urls().first().toLocalFile());
 }
 
 void MainWindow::on_actionOpen_Data_Folder_triggered()

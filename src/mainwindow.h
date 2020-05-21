@@ -58,6 +58,8 @@ private slots:
     
 protected:
     void changeEvent(QEvent *e) override;
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
     
 private:
     Ui::MainWindow *ui;
@@ -65,5 +67,6 @@ private:
     Finder *m_finder;
     
     void load();
+    void open(const QString &fileName);
     void onLanguageChanged(const QString &locale);
 };

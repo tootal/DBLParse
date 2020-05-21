@@ -9,6 +9,7 @@
 WebView::WebView(QWidget *parent)
     :QWebEngineView(parent)
 {
+    setAcceptDrops(false);
     m_page = new WebPage(this);
     setPage(m_page);
     m_channel = new QWebChannel(this);
@@ -60,3 +61,4 @@ void WebView::contextMenuEvent(QContextMenuEvent *event)
     menu->addAction(source);
     menu->popup(event->globalPos());
 }
+
