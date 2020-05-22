@@ -22,7 +22,9 @@ QString Util::readFile(const QString &fileName)
 {
     QFile file(fileName);
     file.open(QFile::ReadOnly);
-    return file.readAll();
+    auto s = file.readAll();
+    file.close();
+    return s;
 }
 
 QString Util::getXmlFileName()
