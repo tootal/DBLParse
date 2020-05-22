@@ -13,12 +13,12 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-      # - name: Cache Qt
-      #   id: cache-qt
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ../Qt
-      #     key: ${{ runner.os }}-QtCache 
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.5.3
         with:
@@ -26,7 +26,7 @@ jobs:
           target: desktop
           arch: win64_msvc2017_64
           modules: qtwebengine
-          # cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - name: Pull codes
         uses: actions/checkout@v1
         with:
