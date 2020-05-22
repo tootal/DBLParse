@@ -54,8 +54,7 @@ void Parser::run()
     
     timeMark("Authors information saved.");
     
-    qInfo() << QString("Parse done. Cost time: %1")
-                      .arg(Util::formatTime(costMsecs));
+    qInfo() << QString("Parse done. Cost: %1 ms").arg(costMsecs);
     emit stateChanged(100);
     emit done();
 }

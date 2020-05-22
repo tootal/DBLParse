@@ -18,18 +18,6 @@ Util::availableLanguages = {
     {"zh_CN", QT_TR_NOOP("Chinese (China)")}
 };
 
-QString Util::formatTime(int ms)
-{
-    Q_ASSERT(ms >= 0);
-    QTime time = QTime::fromMSecsSinceStartOfDay(ms);
-    if (time.hour() == 0) {
-        if(time.minute() == 0)
-            return time.toString("s.zzz ")+tr("s");
-        return time.toString("m:ss.z");
-    }
-    return time.toString("H:mm:ss");
-}
-
 QString Util::readFile(const QString &fileName)
 {
     QFile file(fileName);
