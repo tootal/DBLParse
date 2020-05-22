@@ -79,14 +79,15 @@ QJsonObject Record::toJson() const
 QJsonObject Record::toJson(const QString &type) const
 {
     QJsonObject o;
+    auto fs = QJsonArray::fromStringList;
     if (type == "author") {
-        o.insert("title", QJsonArray::fromStringList(attr["title"]));
-        o.insert("author", QJsonArray::fromStringList(attr["author"]));
-        o.insert("year", QJsonArray::fromStringList(attr["year"]));
+        o.insert("title", fs(attr["title"]));
+        o.insert("author", fs(attr["author"]));
+        o.insert("year", fs(attr["year"]));
     } else if (type == "title" || type == "keywords") {
-        o.insert("title", QJsonArray::fromStringList(attr["title"]));
-        o.insert("author", QJsonArray::fromStringList(attr["author"]));
-        o.insert("mdate", QJsonArray::fromStringList(attr["mdate"]));
+        o.insert("title", fs(attr["title"]));
+        o.insert("author", fs(attr["author"]));
+        o.insert("mdate", fs(attr["mdate"]));
     } else {
         o = toJson();
     }
