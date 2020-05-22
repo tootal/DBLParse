@@ -5,9 +5,12 @@
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
 -->
-  <!-- <a href="https://github.com/tootal/DBLParse/actions">
-    <img alt="Github Actions" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg?branch=master" target="_blank" />
-  </a> -->
+  <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3AWindows">
+    <img alt="Github Actions (Windows)" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg" target="_blank" />
+  </a>
+  <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3AUbuntu">
+    <img alt="Github Actions (Ubuntu)" src="https://github.com/tootal/DBLParse/workflows/Ubuntu/badge.svg" target="_blank" />
+  </a>
 </p>
 
 DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献查询与分析系统。该系统能够根据作者名，论文题目，或者论文中的关键词来查询符合条件的论文信息，也能够通过作者名来查询与其有合作关系的作者，并通过图像的方式形象地展现合作作者关系。基于这些信息，系统还为用户提供了强大的分析与统计功能，能够从大量的DBLP数据中统计出写文章数前100的作者，分析每一年发表的文章题目中的热点词汇并生成词云，统计整个数据集里作者的合作关系图中各阶完全子图的个数，为用户深入透彻地分析论文数据提供了便利。总的来说，本系统能够帮助科研工作者快速获取和分析现有的文献，提高科学文献的管理效率，了解国外学术研究的方向。
