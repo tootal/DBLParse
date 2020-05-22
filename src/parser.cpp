@@ -235,27 +235,27 @@ void Parser::saveAuthors()
     emit stateChanged(98);
 }
 
-QDataStream &operator<<(QDataStream &out, const WordCount &wc)
+QDataStream &operator<<(QDataStream &out, const WordCount &x)
 {
-    out << wc.word << wc.count;
+    out << x.word << x.count;
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, WordCount &wc)
+QDataStream &operator>>(QDataStream &in, WordCount &x)
 {
-    in >> wc.word >> wc.count;
+    in >> x.word >> x.count;
     return in;
 }
 
-QDataStream &operator<<(QDataStream &out, const AuthorStac &as)
+QDataStream &operator<<(QDataStream &out, const AuthorStac &x)
 {
-    out << as.author << as.stac;
+    out << x.author << x.stac;
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, AuthorStac &as)
+QDataStream &operator>>(QDataStream &in, AuthorStac &x)
 {
-    in >> as.author >> as.stac;
+    in >> x.author >> x.stac;
     return in;
 }
 

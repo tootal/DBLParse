@@ -22,9 +22,9 @@ struct WordCount
     }
 };
 
-QDataStream &operator<<(QDataStream &out, const WordCount &wc);
+QDataStream &operator<<(QDataStream &out, const WordCount &x);
 
-QDataStream &operator>>(QDataStream &in, WordCount &wc);
+QDataStream &operator>>(QDataStream &in, WordCount &x);
 
 typedef QMap<int/*year*/, QVector<WordCount>> YearWord;
 
@@ -43,9 +43,9 @@ struct AuthorStac
     }
 };
 
-QDataStream &operator<<(QDataStream &out, const AuthorStac &as);
+QDataStream &operator<<(QDataStream &out, const AuthorStac &x);
 
-QDataStream &operator>>(QDataStream &in, AuthorStac &as);
+QDataStream &operator>>(QDataStream &in, AuthorStac &x);
 
 struct HashIndex
 {
