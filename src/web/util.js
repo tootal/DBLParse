@@ -52,7 +52,6 @@ Object.defineProperty(window, 'language', {
                     src = node.innerText;
                     node.setAttribute('tr', src);
                 }
-                console.log(src);
                 if (src in strings) {
                     node.innerText = strings[src];
                 } else {
