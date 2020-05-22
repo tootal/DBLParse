@@ -1,6 +1,5 @@
 # 关于DBLP的一些信息
 原文：[dblpxml.pdf](https://dblp.uni-trier.de/xml/docu/dblpxml.pdf)。  
-最后更新时间：2020年3月25日。  
 
 ## DBLP记录
 DBLP数据集可从[https://dblp.uni-trier.de/xml/](https://dblp.uni-trier.de/xml/)位置获得。  

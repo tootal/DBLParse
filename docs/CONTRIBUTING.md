@@ -7,12 +7,6 @@ git clone git@github.com:tootal/DBLParse.git
 cd DBLParse
 ```
 
-如果希望构建最新的开发分支，可以使用以下命令：
-
-```sh
-git checkout -b develop origin/develop
-```
-
 目前DBLParse对Windows平台和Ubuntu平台提供支持。
 
 从[Qt Downloads](http://download.qt.io/official_releases/online_installers/)可以下载到Qt的在线安装包。此外，还可以使用下列镜像来加快下载速度：
@@ -93,3 +87,11 @@ new QWebChannel(qt.webChannelTransport, function(channel) {
 在`Qt 5.14.2 (MSVC 2017 64-bit)`命令行工具下进入该文件夹，执行命令`windeployqt DBLParse.exe`，即可。
 
 
+## 参考资料
+
+* [DBLP官网](https://dblp.org/)
+* [Qt 学习之路 2](https://www.devbean.net/2012/08/qt-study-road-2-catelog/)
+* [Qt 实战一二三](https://blog.csdn.net/liang19890820/article/details/50277095)
+* [Qt使用Github-Actions自动化编译](https://zhuanlan.zhihu.com/p/92733295)
+* [Networkx Clique](https://networkx.github.io/documentation/networkx-1.9.1/reference/algorithms.clique.html)
+* [DBLP文献管理系统设计思路和原理](http://blog.sina.com.cn/s/blog_7d5b0f920102womo.html)
