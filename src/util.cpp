@@ -32,15 +32,6 @@ QString Util::getXmlFileName()
     return App->config->value("lastOpenFileName").toString();
 }
 
-QString Util::formatUrl(const QString &url)
-{
-    if(url.isEmpty()) 
-        return url;
-    if(QUrl(url).isRelative())
-        return "https://dblp.uni-trier.de/" + url;
-    return url;
-}
-
 QString Util::getLocale()
 {
     QString locale = App->config->value("language").toString();
