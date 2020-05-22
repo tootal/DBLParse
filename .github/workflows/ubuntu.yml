@@ -17,7 +17,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1
         with:
-          path: ../Qt
+          path: ../Qt/5.14.2/gcc_64
           key: ${{ runner.os }}-Qt5.14.2-Cache
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.5.3
