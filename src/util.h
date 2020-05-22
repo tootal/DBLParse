@@ -8,7 +8,6 @@ class Util : public QObject
 {
     Q_OBJECT
 public:
-    static const int BUF_SZ = 4000;
     static const QVector<QPair<QString, QByteArray>> availableLanguages;
     static QString formatTime(int ms);
     static QString readFile(const QString &fileName);
