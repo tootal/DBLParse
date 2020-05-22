@@ -16,7 +16,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->comboBox->addItems(
-        QVector<QString>(Util::s_availableLanguages.size() + 1).toList());
+        QVector<QString>(Util::availableLanguages.size() + 1).toList());
     retranslateUi();
 }
 
@@ -31,7 +31,7 @@ void SettingsDialog::retranslateUi()
     box->setItemText(0, 
         QApplication::translate("SettingsDialog", SystemLanguage));
     box->setItemData(0, "System");
-    auto &langs = Util::s_availableLanguages;
+    auto &langs = Util::availableLanguages;
     int cur = 0;
     for (int i = 1; i <= langs.size(); i++) {
         box->setItemText(i,

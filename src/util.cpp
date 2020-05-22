@@ -13,7 +13,7 @@
 #include "application.h"
 
 const QVector<QPair<QString, QByteArray>> 
-Util::s_availableLanguages = {
+Util::availableLanguages = {
     {"en_US", QT_TR_NOOP("English (United States)")},
     {"zh_CN", QT_TR_NOOP("Chinese (China)")}
 };
