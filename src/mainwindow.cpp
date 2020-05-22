@@ -390,7 +390,7 @@ void MainWindow::dropEvent(QDropEvent *e)
     open(e->mimeData()->urls().first().toLocalFile());
 }
 
-void MainWindow::on_actionOpen_Data_Folder_triggered()
+void MainWindow::on_actionOpenDataFolder_triggered()
 {
     if (Util::parsed()) {
         QString path = QFileInfo(Util::getXmlFileName()).path();
@@ -402,7 +402,7 @@ void MainWindow::on_actionOpen_Data_Folder_triggered()
     }
 }
 
-void MainWindow::on_action_Download_Data_triggered()
+void MainWindow::on_actionDownloadData_triggered()
 {
     auto dialog = new DownloadDialog(this);
     dialog->show();
