@@ -18,11 +18,11 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ../Qt
-          key: ${{ runner.os }}/Qt/5.14.2
+          key: ${{ runner.os }}/Qt/5.15.0
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.5.3
         with:
-          version: 5.14.2
+          version: 5.15.0
           target: desktop
           arch: win64_msvc2017_64
           modules: qtwebengine
