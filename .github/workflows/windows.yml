@@ -24,7 +24,7 @@ jobs:
         with:
           version: 5.15.0
           target: desktop
-          arch: win64_msvc2017_64
+          arch: win64_msvc2019_64
           modules: qtwebengine
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - name: Pull codes
