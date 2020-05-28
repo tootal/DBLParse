@@ -80,3 +80,4 @@ _v_images
 
 # Test File
 !/test/**/[Mm]akefile
+!/test/pivoter/dblp.xml
