@@ -76,4 +76,7 @@ Thumbs.db
 _v_images
 
 # Build and deploy
-deploy/
+/deploy/
+
+# Test File
+!/test/**/[Mm]akefile
