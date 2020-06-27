@@ -1,10 +1,8 @@
 <h1 align="center">DBLParse</h1>
 <p align="center">
-<!--
   <a href="https://github.com/tootal/DBLParse/releases">
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
--->
   <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3AWindows">
     <img alt="Github Actions (Windows)" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg" target="_blank" />
   </a>
