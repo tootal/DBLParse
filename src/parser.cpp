@@ -6,10 +6,8 @@
 #include <QDebug>
 #include <QMap>
 #include <QList>
-#include <QRegularExpression>
 #include <QThread>
 #include <QEvent>
-#include <QScopedArrayPointer>
 
 #include <set>
 
@@ -207,7 +205,6 @@ void Parser::countWordPerYear()
 void Parser::saveAuthors()
 {
     int n = totalAuthor;
-    qInfo() << "(Graph) number of nodes:" << n; 
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());

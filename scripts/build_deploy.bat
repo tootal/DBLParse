@@ -1,7 +1,7 @@
 @echo off
 echo Setting up environment...
-set QT_VERSION=5.14.2
-set QT_KIT=msvc2017_64
+set QT_VERSION=5.15.0
+set QT_KIT=msvc2019_64
 set VS_VERSION=2019
 set PATH=C:\Qt\%QT_VERSION%\%QT_KIT%\bin;%PATH%
 set VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\%VS_VERSION%\Community\VC
