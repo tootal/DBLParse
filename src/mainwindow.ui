@@ -46,6 +46,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionViewLog"/>
+    <addaction name="actionChangeLog"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutDBLP"/>
     <addaction name="actionAboutDBLParse"/>
@@ -155,6 +156,11 @@
   <action name="actionDownloadData">
    <property name="text">
     <string>&amp;Download Data</string>
+   </property>
+  </action>
+  <action name="actionChangeLog">
+   <property name="text">
+    <string>&amp;Change Log</string>
    </property>
   </action>
  </widget>

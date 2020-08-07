@@ -17,6 +17,7 @@ TEMPLATE = app
 RC_ICONS = resources/DBLParse.ico
 
 QTQUICK_COMPILER_SKIPPED_RESOURCES += DBLParse.qrc
+QTQUICK_COMPILER_SKIPPED_RESOURCES += web.qrc
 
 # Version
 VERSION_MAJOR = 3
@@ -113,5 +114,3 @@ RESOURCES += \
     DBLParse.qrc \
     translations/translations.qrc \
     web.qrc
-
-QTQUICK_COMPILER_SKIPPED_RESOURCES += web.qrc

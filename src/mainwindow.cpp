@@ -407,3 +407,13 @@ void MainWindow::on_actionDownloadData_triggered()
     auto dialog = new DownloadDialog(this);
     dialog->show();
 }
+
+void MainWindow::on_actionChangeLog_triggered()
+{
+    auto view = new WebView(this);
+    view->setWindowFlag(Qt::Window);
+    view->resize(850, 600);
+    auto html = Util::readFile(":/web/markdown.html");
+    view->setHtml(html, QUrl("qrc:/web/"));
+    view->show();
+}

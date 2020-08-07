@@ -39,5 +39,7 @@
         <file>web/index.css</file>
         <file>web/echarts.config.js</file>
         <file>web/vue.min.js</file>
+        <file>web/markdown.html</file>
+        <file>web/marked.min.js</file>
     </qresource>
 </RCC>
