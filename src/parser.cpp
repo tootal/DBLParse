@@ -210,6 +210,7 @@ void Parser::saveAuthors()
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
     emit stateChanged(72);
+    qDebug() << "author unique";
     LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
@@ -220,11 +221,13 @@ void Parser::saveAuthors()
             addLast(adjList[v], u);
         }
     }
+    qDebug() << "author link created";
     emit stateChanged(74);
     G.clear();
     G.squeeze();
     emit stateChanged(75);
     runAndPrintStatsCliques(adjList, n);
+    qDebug() << "after clique count";
     emit stateChanged(95);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);

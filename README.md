@@ -11,60 +11,60 @@
   </a>
 </p>
 
-DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献查询与分析系统。该系统能够根据作者名，论文题目，或者论文中的关键词来查询符合条件的论文信息，也能够通过作者名来查询与其有合作关系的作者，并通过图像的方式形象地展现合作作者关系。基于这些信息，系统还为用户提供了强大的分析与统计功能，能够从大量的DBLP数据中统计出写文章数前100的作者，分析每一年发表的文章题目中的热点词汇并生成词云，统计整个数据集里作者的合作关系图中各阶完全子图的个数，为用户深入透彻地分析论文数据提供了便利。总的来说，本系统能够帮助科研工作者快速获取和分析现有的文献，提高科学文献的管理效率，了解国外学术研究的方向。
+DBLParse is a set of high-efficiency document query and analysis system based on DBLP big data, using Web and Qt. The system can query the qualified paper information according to the author's name, the title of the paper, or the keywords in the paper, and can also query the authors who have a cooperative relationship with the author by the author's name, and vividly show the cooperative author relationship through images. Based on this information, the system also provides users with powerful analysis and statistics functions. It can count the top 100 authors of articles from a large amount of DBLP data, analyze the hot vocabulary in the article titles published each year and generate a word cloud , Count the number of complete subgraphs of each order in the author’s cooperative relationship graph in the entire data set, which provides convenience for users to analyze the paper data thoroughly. In general, this system can help scientific researchers quickly obtain and analyze existing literature, improve the management efficiency of scientific literature, and understand the direction of foreign academic research.
 
-## 安装
+## Installation
 ### Windows
-支持版本：Windows 7 x64、Windows 10 x64
+Supported version: Windows 7 x64, Windows 10 x64
 
-* 下载最新发布的压缩包DBLParse.7z，链接：https://github.com/tootal/DBLParse/releases
-* 使用主流解压缩软件解压到单独的文件夹下
-* 双击文件夹下的可执行文件DBLParse.exe即可运行
-* 若出现错误可尝试运行文件夹下的vc_redist.x64.exe安装运行环境
+* Download the newly released compressed package DBLParse.7z, link: https://github.com/tootal/DBLParse/releases
+* Use mainstream decompression software to extract to a separate folder
+* Double-click the executable file DBLParse.exe in the folder to run
+* If an error occurs, you can try to run the vc_redist.x64.exe under the folder to install the operating environment
 
 ### Ubuntu
-支持版本：Ubuntu 18.04，Ubuntu 20.04
+Supported version: Ubuntu 18.04, Ubuntu 20.04
 
-* 下载最新发布的镜像文件DBLParse.AppImage，链接：https://github.com/tootal/DBLParse/releases
-* 双击下载好的DBLParse.AppImage即可运行
+* Download the latest released image file DBLParse.AppImage, link: https://github.com/tootal/DBLParse/releases
+* Double-click the downloaded DBLParse.AppImage to run
 
-数据配置说明：
+Data configuration instructions:
 
-软件需要额外的DBLP数据文件来运行，可点击菜单栏的工具菜单，选择下载数据菜单项。
-在弹出的对话框中选择是，将自动打开浏览器下载数据文件，如下载链接不可用或下载过慢可切换其他下载链接。
-下载完成后得到文件dblp.xml.gz，使用主流解压缩软件解压文件，得到数据文件dblp.xml。
-在菜单栏中选择文件，打开菜单项，在弹出的文件对话框中选中数据文件dblp.xml，点击打开。
-在弹出的提示框中点击是后，系统将自动解析数据文件，解析完成后即可正常使用。
+The software needs additional DBLP data files to run. You can click the Tools menu in the menu bar and select the Download Data menu item.
+If you select Yes in the pop-up dialog box, the browser will automatically open to download the data file. If the download link is unavailable or the download is too slow, you can switch to other download links.
+After the download is complete, the file dblp.xml.gz is obtained. Use mainstream decompression software to decompress the file to obtain the data file dblp.xml.
+Select the file in the menu bar, open the menu item, select the data file dblp.xml in the pop-up file dialog box, and click Open.
+After clicking Yes in the pop-up prompt box, the system will automatically parse the data file, and it can be used normally after the analysis is completed.
 
-## 主要功能
+## The main function
 
-* 基本搜索功能。输入作者名，能展示该作者发表的所有论文信息。输入完整的论文的题目，能展示该论文的其他相关信息。
-* 相关搜索。输入作者名，能展示于该作者有合作关系的其他所有作者。
-* 作者统计功能。输出写文章最多的前100名作者。
-* 热点分析功能。分析每一年发表的文章中，题目所包含的单词中，出现频率排名前10的关键词。
-* 部分匹配搜索功能。给定若干个关键字，能快速搜索到题目中包含该关键字的文章信息
-* 聚团分析。作者之间的合作关系可以看成是一个图，每个作者对应一个顶点，任两个作者之间如果存在合作关系，则在两个顶点之间建立连边。这个图中的每一个完全子图我们称为一个聚团（所谓完全子图指的是该子图的任意顶点都和该子图的其他顶点有连边，完全子图的顶点个数称为该完全子图的阶数），统计整个图中各阶完全子图的个数。
-* 可视化显示。通过图形化界面，展示作者之间合作关系图及其相关文章信息。
+* Basic search function. Enter the name of the author to display all the papers published by the author. Enter the title of the complete paper, which can display other relevant information about the paper.
+* related search. Enter the name of the author to show all other authors who have a cooperative relationship with the author.
+* Author statistics function. Output the top 100 authors who wrote the most articles.
+* Hot spot analysis function. Analyze the top 10 keywords that appear frequently among the words contained in the titles of articles published each year.
+* Partial match search function. Given several keywords, you can quickly search for the article information that contains the keyword in the title
+* Cluster analysis. The cooperative relationship between authors can be regarded as a graph, and each author corresponds to a vertex. If there is a cooperative relationship between any two authors, an edge is established between the two vertices. Each complete subgraph in this graph is called a cluster (the so-called complete subgraph means that any vertex of the subgraph is connected to other vertices of the subgraph, and the number of vertices of the complete subgraph is called The order of the complete subgraph), count the number of complete subgraphs of each order in the entire graph.
+* Visual display. Through a graphical interface, a diagram of the collaboration between authors and related article information is displayed.
 
-## 相关资料
+## Relevant information
 
-* [更新日志](docs/CHANGES.md)
-* [开发文档](docs/CONTRIBUTING.md)
-* [关于DBLP数据](docs/DBLPXML.md)
-* [任务书](docs/TASKBOOK.md)
+* [Change log](docs/changelog.md)
+* [Development Document](docs/CONTRIBUTING.md)
+* [About DBLP data](docs/DBLPXML.md)
+* [Task Book](docs/TASKBOOK.md)
 
-## 依赖
+## Dependence
 
-* [DBLP XML数据文件](https://dblp.org/xml/), (CC0 1.0)
-* [Qt开源版](https://doc.qt.io/qt-5/licensing.html), (L-GPL v3)
-* [Qt WebEngine模块](https://doc.qt.io/qt-5/qtwebengine-licensing.html), (L-GPL v3)
-* [C++大整数计算类](https://github.com/Limeoats/BigNumber), (MIT)
-* [Pivoter各阶完全子图精确计数](https://bitbucket.org/sjain12/pivoter/src/master/), (GPL 3.0)
-* [Vue 渐进式JavaScript框架](https://cn.vuejs.org/index.html), (MIT)
-* [Bootstrap响应式框架](https://getbootstrap.com/), (MIT)
+* [DBLP XML data file](https://dblp.org/xml/), (CC0 1.0)
+* [Qt Open Source Edition](https://doc.qt.io/qt-5/licensing.html), (L-GPL v3)
+* [Qt WebEngine Module](https://doc.qt.io/qt-5/qtwebengine-licensing.html), (L-GPL v3)
+* [C++ Big Integer Calculation Class](https://github.com/Limeoats/BigNumber), (MIT)
+* [Pivoter exact clique count](https://bitbucket.org/sjain12/pivoter/src/master/), (GPL 3.0)
+* [Vue Progressive JavaScript Framework](https://cn.vuejs.org/index.html), (MIT)
+* [Bootstrap Responsive Framework](https://getbootstrap.com/), (MIT)
 * [Bootstrap-select](https://github.com/snapappointments/bootstrap-select), (MIT)
-* [ECharts开源可视化库](https://echarts.apache.org/zh/index.html), (Apache-2.0)
-* [echarts-wordcloud 基于wordcloud2.js的词云扩展库](https://github.com/ecomfe/echarts-wordcloud)
+* [ECharts Open Source Visualization Library](https://echarts.apache.org/zh/index.html), (Apache-2.0)
+* [echarts-wordcloud word cloud extension library based on wordcloud2.js](https://github.com/ecomfe/echarts-wordcloud)
 
-## 许可
-DBLParse使用GPL 3.0许可。
+## Permission
+DBLParse is licensed under the GPL 3.0 license.

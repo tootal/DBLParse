@@ -16,4 +16,5 @@ public:
     static void initIndexs();
     static bool parsed();
     static bool canLoad();
+    static void showMarkdown(const QString &content, QWidget *parent);
 };

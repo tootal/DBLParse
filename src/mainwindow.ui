@@ -49,6 +49,7 @@
     <addaction name="actionViewLog"/>
     <addaction name="actionChangeLog"/>
     <addaction name="actionFeedback"/>
+    <addaction name="separator"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutDBLP"/>
     <addaction name="actionAboutDBLParse"/>

@@ -32,6 +32,17 @@ win32 {
     VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_PATCH}
     DEFINES += VERSION_STR=\\\"$${VERSION}.$${VERSION_BUILD}\\\"
 }
+
+# Copy files
+win32 {
+    WIN_PWD = $$replace(PWD, /, \\)
+    WIN_OUT_PWD = $$replace(OUT_PWD, /, \\)
+    system(xcopy $${WIN_PWD}\\..\\docs\\ $${WIN_OUT_PWD}\\docs\\)
+    system(copy $${WIN_PWD}\\..\\README.md $${WIN_OUT_PWD}\\)
+} else:unix {
+
+}
+
 # Header Include
 INCLUDEPATH += $${PWD}/../bignumber
 INCLUDEPATH += $${PWD}/../pivoter

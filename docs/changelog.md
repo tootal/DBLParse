@@ -1,7 +1,10 @@
 # Change Log
 ## v3.1
 ### Features
-* Add "Change Log" Menu
+* Add "Change Log" menu
+* Add "Feedback" menu
+* Add "Documentation" menu
+* Add separator in help menu
 
 ### Technical Changes
 * Use Qt 5.15.0

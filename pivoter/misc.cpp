@@ -77,20 +77,20 @@ void destroyCliqueResults(LinkedList* cliques)
 void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     populate_nCr();
+    puts("after populate ncr");
     fflush(stderr);
     int max_k = 0;
     int deg = 0, m = 0;
     FILE *fp;
-
-    fflush(stdout);
 #ifdef _MSC_VER
     fopen_s(&fp, "data/authorclique.txt", "w");
 #else
     fp = fopen("data/authorclique.txt", "w");
 #endif
     fflush(stdout);
-
+    puts("before compute degeneracy");
     NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);
+    puts("after compute degeneracy");
     fflush(stdout);
     for (int i=0; i<n; i++)
     {
@@ -101,6 +101,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     max_k = deg + 1;
     std::vector<BigNumber> cliqueCounts(max_k + 1);
     listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k);
+    puts("after list all cliques");
     while (cliqueCounts[max_k] == 0) max_k--;
     fprintf(fp, "%d\n", max_k);
     BigNumber totalCliques = 0;

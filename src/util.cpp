@@ -11,6 +11,7 @@
 
 #include "configmanager.h"
 #include "application.h"
+#include "webview.h"
 
 const QVector<QPair<QString, QByteArray>> 
 Util::availableLanguages = {
@@ -68,5 +69,17 @@ void Util::initIndexs()
 bool Util::parsed()
 {
     return QDir("data").exists();
+}
+
+void Util::showMarkdown(const QString &mdfile, QWidget *parent)
+{
+    auto view = new WebView(parent);
+    view->setWindowFlag(Qt::Window);
+    view->resize(850, 600);
+    auto html = Util::readFile(":/web/markdown.html");
+    auto data = Util::readFile(mdfile);
+    html.replace("<!-- DATA_HOLDER -->", data);
+    view->setHtml(html, QUrl("qrc:/web/"));
+    view->show();
 }
 
