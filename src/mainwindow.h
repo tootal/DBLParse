@@ -58,6 +58,10 @@ private slots:
     
     void on_actionChangeLog_triggered();
     
+    void on_actionFeedback_triggered();
+    
+    void on_actionDocumentation_triggered();
+    
 protected:
     void changeEvent(QEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;

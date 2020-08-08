@@ -417,3 +417,13 @@ void MainWindow::on_actionChangeLog_triggered()
     view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
 }
+
+void MainWindow::on_actionFeedback_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/tootal/DBLParse/issues"));
+}
+
+void MainWindow::on_actionDocumentation_triggered()
+{
+    
+}

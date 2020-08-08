@@ -45,8 +45,10 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionDocumentation"/>
     <addaction name="actionViewLog"/>
     <addaction name="actionChangeLog"/>
+    <addaction name="actionFeedback"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutDBLP"/>
     <addaction name="actionAboutDBLParse"/>
@@ -95,7 +97,7 @@
   </action>
   <action name="actionAboutDBLP">
    <property name="text">
-    <string>About &amp;DBLP</string>
+    <string>About D&amp;BLP</string>
    </property>
   </action>
   <action name="actionExit">
@@ -161,6 +163,16 @@
   <action name="actionChangeLog">
    <property name="text">
     <string>&amp;Change Log</string>
+   </property>
+  </action>
+  <action name="actionFeedback">
+   <property name="text">
+    <string>&amp;Feedback</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>&amp;Documentation</string>
    </property>
   </action>
  </widget>
