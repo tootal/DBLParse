@@ -1,4 +1,4 @@
-name: Ubuntu
+name: Build
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
       - 'docs/**'
       - 'scripts/**'
 jobs:
-  win_build:
+  windows-build:
     name: Build on Windows
     runs-on: windows-2019
     steps:
@@ -35,10 +35,9 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          qmake --version
           qmake
           nmake
-  ubuntu_build:
+  ubuntu-build:
     name: Build on Ubuntu
     runs-on: ubuntu-18.04
     steps:
@@ -65,7 +64,7 @@ jobs:
         run: |
           qmake
           make
-  osx_build:
+  macos-build:
     name: Build on MacOS
     runs-on: macos-10.15
     steps:
