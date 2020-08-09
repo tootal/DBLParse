@@ -1,6 +1,6 @@
 # https://bitbucket.org/sjain12/pivoter
 
-CONFIG -= qt
+QT       += core
 
 TEMPLATE = lib
 CONFIG += staticlib

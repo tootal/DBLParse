@@ -1,0 +1,93 @@
+name: Ubuntu
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'scripts/**'
+jobs:
+  win_build:
+    name: Build on Windows
+    runs-on: windows-2019
+    steps:
+      - name: Cache Qt
+        id: win-cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}/Qt/5.15.0
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.5.3
+        with:
+          version: 5.15.0
+          target: desktop
+          arch: win64_msvc2019_64
+          modules: qtwebengine
+          cached: ${{ steps.win-cache-qt.outputs.cache-hit }}
+      - name: Pull codes
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build MSVC
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          qmake --version
+          qmake
+          nmake
+  ubuntu_build:
+    name: Build on Ubuntu
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cache Qt
+        id: ubuntu-cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt/5.15.0/gcc_64
+          key: ${{ runner.os }}/Qt/5.15.0/gcc_64
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.5.3
+        with:
+          version: 5.15.0
+          target: desktop
+          modules: qtwebengine
+          cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
+      - name: GL library
+        run: sudo apt-get install -y libglew-dev libglfw3-dev
+      - name: Pull codes
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build GCC
+        run: |
+          qmake
+          make
+  osx_build:
+    name: Build on MacOS
+    runs-on: macos-10.15
+    steps:
+      - name: Cache Qt
+        id: macos-cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt/5.15.0/clang_64
+          key: ${{ runner.os }}/Qt/5.15.0/clang_64
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.5.3
+        with:
+          version: 5.15.0
+          target: desktop
+          modules: qtwebengine
+          cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
+      - name: Pull codes
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build Clang
+        run: |
+          qmake
+          make
+
