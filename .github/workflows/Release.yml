@@ -116,7 +116,7 @@ jobs:
           cd DBLParse/
           export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
           export ARCH=x86_64
-          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0
           ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
       - name: Upload asset
@@ -132,6 +132,7 @@ jobs:
   macos-release:
     name: Release on MacOS [WIP]
     runs-on: macos-10.15
+    needs: windows-release
     steps:
       - name: Cache Qt
         id: macos-cache-qt
@@ -154,6 +155,19 @@ jobs:
         run: |
           qmake
           make
+          ls
+          ls src
+          ls bin
       - name: Deploy Qt
         run: |
-          ls
+          macdeployqt bin/DBLParse.app -verbose=1 -dmg
+      - name: Upload asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.windows-release.outputs.upload_url }}
+          asset_path: ./bin/DBLParse.dmg
+          asset_name: DBLParse.dmg
+          asset_content_type: application/applefile
