@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QStandardPaths>
+#include <QCoreApplication>
 
 #include "util.h"
 
