@@ -116,7 +116,7 @@ jobs:
           cd DBLParse/
           export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
           export ARCH=x86_64
-          sudo apt install libxcb-xinerama0
+          sudo apt install libxcb-icccm4
           ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
       - name: Upload asset
