@@ -48,6 +48,9 @@ jobs:
           windeployqt DBLParse.exe
           cd ..
           Compress-Archive -Path DBLParse DBLParse.zip
+      - name: Generate release note
+        id: release_note
+        run: echo ("::set-output name=note::" + (python .\scripts\release_note.py ${{ github.ref }}))
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -56,8 +59,10 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
+          body: |
+            ${{ steps.release_note.outputs.note }}
           draft: false
-          prerelease: true
+          prerelease: false
       - name: Upload asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
