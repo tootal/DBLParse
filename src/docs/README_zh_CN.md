@@ -6,24 +6,28 @@ DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献
 ### Windows
 支持版本：Windows 7 x64、Windows 10 x64
 
-* 下载最新发布的压缩包DBLParse.7z，链接：https://github.com/tootal/DBLParse/releases
-* 使用主流解压缩软件解压到单独的文件夹下
-* 双击文件夹下的可执行文件DBLParse.exe即可运行
-* 若出现错误可尝试运行文件夹下的vc_redist.x64.exe安装运行环境
+* [下载最新发布](https://github.com/tootal/DBLParse/releases)的压缩包`DBLParse.zip`
+* 解压到单独的文件夹下
+* 双击文件夹下的可执行文件`DBLParse.exe`即可运行
+* 若出现错误可尝试运行文件夹下的`vc_redist.x64.exe`安装运行环境
 
 ### Ubuntu
 支持版本：Ubuntu 18.04，Ubuntu 20.04
 
-* 下载最新发布的镜像文件DBLParse.AppImage，链接：https://github.com/tootal/DBLParse/releases
+* [下载最新发布](https://github.com/tootal/DBLParse/releases)的镜像文件`DBLParse.AppImage`
 * 双击下载好的DBLParse.AppImage即可运行
+
+### MacOS
+**警告：尽管发布了MacOS上的软件包，但它并没有经过测试。**
+* [下载最新发布](https://github.com/tootal/DBLParse/releases)的文件`DBLParse.dmg`
+* 安装并运行
 
 数据配置说明：
 
-软件需要额外的DBLP数据文件来运行，可点击菜单栏的工具菜单，选择下载数据菜单项。
+软件需要额外的DBLP数据文件来运行，可点击菜单栏的`工具`菜单，选择`下载数据`菜单项。
 在弹出的对话框中选择是，将自动打开浏览器下载数据文件，如下载链接不可用或下载过慢可切换其他下载链接。
-下载完成后得到文件dblp.xml.gz，使用主流解压缩软件解压文件，得到数据文件dblp.xml。
-在菜单栏中选择文件，打开菜单项，在弹出的文件对话框中选中数据文件dblp.xml，点击打开。
-在弹出的提示框中点击是后，系统将自动解析数据文件，解析完成后即可正常使用。
+下载完成后得到文件`dblp.xml.gz`，解压文件，得到数据文件`dblp.xml`。
+将数据文件拖入主界面窗口，系统将自动开始解析数据文件。
 
 ## 主要功能
 
@@ -34,13 +38,6 @@ DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献
 * 部分匹配搜索功能。给定若干个关键字，能快速搜索到题目中包含该关键字的文章信息
 * 聚团分析。作者之间的合作关系可以看成是一个图，每个作者对应一个顶点，任两个作者之间如果存在合作关系，则在两个顶点之间建立连边。这个图中的每一个完全子图我们称为一个聚团（所谓完全子图指的是该子图的任意顶点都和该子图的其他顶点有连边，完全子图的顶点个数称为该完全子图的阶数），统计整个图中各阶完全子图的个数。
 * 可视化显示。通过图形化界面，展示作者之间合作关系图及其相关文章信息。
-
-## 相关资料
-
-* [更新日志](docs/CHANGES.md)
-* [开发文档](docs/CONTRIBUTING.md)
-* [关于DBLP数据](docs/DBLPXML.md)
-* [任务书](docs/TASKBOOK.md)
 
 ## 依赖
 

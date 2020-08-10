@@ -8,6 +8,7 @@
 * Use Qt 5.15.0
 * Support MacOS
 * Auto build and release
+* Back to zip format on Windows
 
 ### Fixed Bugs
 * Log path error on linux

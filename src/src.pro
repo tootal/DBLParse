@@ -21,7 +21,7 @@ QTQUICK_COMPILER_SKIPPED_RESOURCES += web.qrc
 
 # Version
 VERSION_MAJOR = 3
-VERSION_MINOR = 0
+VERSION_MINOR = 1
 VERSION_PATCH = 0
 win32 {
     VERSION_BUILD = $$system(git log --pretty=oneline | find /V \"\" /C)

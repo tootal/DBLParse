@@ -3,13 +3,12 @@
   <a href="https://github.com/tootal/DBLParse/releases">
     <img alt="Github Release" src="https://img.shields.io/github/release/tootal/DBLParse.svg" target="_blank" />
   </a>
-  <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3AWindows">
-    <img alt="Github Actions (Windows)" src="https://github.com/tootal/DBLParse/workflows/Windows/badge.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3AUbuntu">
-    <img alt="Github Actions (Ubuntu)" src="https://github.com/tootal/DBLParse/workflows/Ubuntu/badge.svg" target="_blank" />
+  <a href="https://github.com/tootal/DBLParse/actions?query=workflow%3ABuild">
+    <img alt="Github Actions (Build Status)" src="https://github.com/tootal/DBLParse/workflows/Build/badge.svg" target="_blank" />
   </a>
 </p>
+
+[中文](src/docs/README_zh_CN.md)
 
 DBLParse is a set of high-efficiency document query and analysis system based on DBLP big data, using Web and Qt. The system can query the qualified paper information according to the author's name, the title of the paper, or the keywords in the paper, and can also query the authors who have a cooperative relationship with the author by the author's name, and vividly show the cooperative author relationship through images. Based on this information, the system also provides users with powerful analysis and statistics functions. It can count the top 100 authors of articles from a large amount of DBLP data, analyze the hot vocabulary in the article titles published each year and generate a word cloud , Count the number of complete subgraphs of each order in the author’s cooperative relationship graph in the entire data set, which provides convenience for users to analyze the paper data thoroughly. In general, this system can help scientific researchers quickly obtain and analyze existing literature, improve the management efficiency of scientific literature, and understand the direction of foreign academic research.
 
@@ -17,24 +16,30 @@ DBLParse is a set of high-efficiency document query and analysis system based on
 ### Windows
 Supported version: Windows 7 x64, Windows 10 x64
 
-* Download the newly released compressed package DBLParse.7z, link: https://github.com/tootal/DBLParse/releases
-* Use mainstream decompression software to extract to a separate folder
-* Double-click the executable file DBLParse.exe in the folder to run
-* If an error occurs, you can try to run the vc_redist.x64.exe under the folder to install the operating environment
+* [Download the newly released](https://github.com/tootal/DBLParse/releases) compressed package `DBLParse.zip`
+* Extract to a separate folder
+* Double-click the executable file `DBLParse.exe` to run
+* Run the `vc_redist.x64.exe` when an error occurs
 
 ### Ubuntu
 Supported version: Ubuntu 18.04, Ubuntu 20.04
 
-* Download the latest released image file DBLParse.AppImage, link: https://github.com/tootal/DBLParse/releases
-* Double-click the downloaded DBLParse.AppImage to run
+* [Download the latest released](https://github.com/tootal/DBLParse/releases) appimage file `DBLParse.AppImage`
+* Make this file executable
+* Double-click the `DBLParse.AppImage` to run
+
+### MacOS
+**Warning: MacOS package has been released but not been tested.**
+
+* [Download the latest released](https://github.com/tootal/DBLParse/releases) file `DBLParse.dmg`
+* Install and run
 
 Data configuration instructions:
 
-The software needs additional DBLP data files to run. You can click the Tools menu in the menu bar and select the Download Data menu item.
+The software needs additional DBLP data files to run. You can click the `Tools` menu in the menu bar and select the `Download Data` menu item.
 If you select Yes in the pop-up dialog box, the browser will automatically open to download the data file. If the download link is unavailable or the download is too slow, you can switch to other download links.
-After the download is complete, the file dblp.xml.gz is obtained. Use mainstream decompression software to decompress the file to obtain the data file dblp.xml.
-Select the file in the menu bar, open the menu item, select the data file dblp.xml in the pop-up file dialog box, and click Open.
-After clicking Yes in the pop-up prompt box, the system will automatically parse the data file, and it can be used normally after the analysis is completed.
+After the download is complete, the file `dblp.xml.gz` is obtained. Decompress the file to obtain the data file `dblp.xml`.
+Drag it and drop in main windows of system, the process of parse will automatically begin.
 
 ## The main function
 
@@ -48,7 +53,7 @@ After clicking Yes in the pop-up prompt box, the system will automatically parse
 
 ## Relevant information
 
-* [Change log](docs/changelog.md)
+* [Change log](src/docs/changelog.md)
 * [Development Document](docs/CONTRIBUTING.md)
 * [About DBLP data](docs/DBLPXML.md)
 * [Task Book](docs/TASKBOOK.md)
