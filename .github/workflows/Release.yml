@@ -126,7 +126,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.windows-release.outputs.upload_url }}
-          asset_path: ./DBLParse.AppImage
+          asset_path: ./DBLParse/DBLParse.AppImage
           asset_name: DBLParse.AppImage
           asset_content_type: application/octet-stream
   macos-release:
