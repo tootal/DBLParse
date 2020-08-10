@@ -124,4 +124,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     DBLParse.qrc \
     translations/translations.qrc \
-    web.qrc
+    web.qrc \
+    docs.qrc

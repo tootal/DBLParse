@@ -410,7 +410,7 @@ void MainWindow::on_actionDownloadData_triggered()
 
 void MainWindow::on_actionChangeLog_triggered()
 {
-    Util::showMarkdown(tr("docs/changelog.md"), this);
+    Util::showMarkdown(tr(":/docs/changelog.md"), this);
 }
 
 void MainWindow::on_actionFeedback_triggered()
@@ -420,5 +420,5 @@ void MainWindow::on_actionFeedback_triggered()
 
 void MainWindow::on_actionDocumentation_triggered()
 {
-    Util::showMarkdown(tr("README.md"), this);
+    Util::showMarkdown(tr(":/docs/README.md"), this);
 }

@@ -34,7 +34,12 @@ export LD_LIBRARY_PATH=/opt/Qt/5.15.0/gcc_64/lib/:$LD_LIBRARY_PATH
 <!-- QT_PLUGIN_PATH=/opt/Qt/5.15.0/gcc_64/plugins/ -->
 
 sudo apt install libxcb-xinerama0
+[for github actions: ] sudo apt install libxcb-icccm4
+export LD_LIBRARY_PATH=/opt/Qt/5.15.0/gcc_64/lib/:$LD_LIBRARY_PATH
 export ARCH=x86_64
-export VERSION=3.1
 ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
 mv DBLParse*.AppImage DBLParse.AppImage
+
+## Update translation
+lupdate src.pro
+lrelease translation/DBLParse_zh_CN.ts
