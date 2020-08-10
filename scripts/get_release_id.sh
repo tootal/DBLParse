@@ -1,0 +1,1 @@
+curl https://api.github.com/repos/tootal/DBLParse/releases?per_page=1 | sed -n '7p' | sed 's/.*: \(.*\),/\1/g'

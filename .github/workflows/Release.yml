@@ -8,6 +8,8 @@ jobs:
   windows-release:
     name: Release on Windows
     runs-on: windows-2019
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Cache Qt
         id: win-cache-qt
@@ -69,6 +71,7 @@ jobs:
   ubuntu-release:
     name: Release on Ubuntu
     runs-on: ubuntu-18.04
+    needs: windows-release
     steps:
       - name: Cache Qt
         id: ubuntu-cache-qt
@@ -99,8 +102,6 @@ jobs:
           cd linuxdeployqt
           qmake
           make
-          sudo cp bin/linuxdeployqt /usr/local/bin/
-          sudo chmod a+x /usr/local/bin/linuxdeployqt
           cd ..
           wget https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
           tar xf patchelf-0.9.tar.bz2
@@ -113,24 +114,16 @@ jobs:
           cp src/DBLParse DBLParse/
           cp scripts/default.desktop DBLParse/
           cd DBLParse/
-          linuxdeployqt DBLParse -appimage
+          export LD_LIBRARY_PATH=../Qt/5.15.0/gcc_64/lib/:$LD_LIBRARY_PATH
+          export ARCH=x86_64
+          ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }} on Ubuntu
-          draft: false
-          prerelease: true
       - id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.windows-release.outputs.upload_url }}
           asset_path: ./DBLParse.AppImage
           asset_name: DBLParse.AppImage
           asset_content_type: application/octet-stream
