@@ -23,7 +23,9 @@ QString Util::readFile(const QString &fileName)
 {
     QFile file(fileName);
     file.open(QFile::ReadOnly);
-    auto s = file.readAll();
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    auto s = in.readAll();
     file.close();
     return s;
 }

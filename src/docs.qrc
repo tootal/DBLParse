@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>docs/更新日志.md</file>
-        <file>docs/文档.md</file>
+        <file>docs/changelog_zh_CN.md</file>
+        <file>docs/README_zh_CN.md</file>
         <file>docs/README.md</file>
         <file>docs/changelog.md</file>
     </qresource>

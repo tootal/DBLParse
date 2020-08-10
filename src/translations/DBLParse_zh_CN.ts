@@ -284,12 +284,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
     <message>
         <location filename="../mainwindow.cpp" line="413"/>
         <source>:/docs/changelog.md</source>
-        <translation>:/docs/更新日志.md</translation>
+        <translation>:/docs/changelog_zh_CN.md</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="423"/>
         <source>:/docs/README.md</source>
-        <translation>:/docs/文档.md</translation>
+        <translation>:/docs/README_zh_CN.md</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="150"/>
