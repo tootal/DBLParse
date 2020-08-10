@@ -51,10 +51,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: Release ${{ github.ref }} on Windows
           draft: true
           prerelease: false
-      - id: upload-release-asset 
+      - id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,6 +65,7 @@ jobs:
           asset_content_type: application/zip
   ubuntu-release:
     name: Release on Ubuntu
+    needs: windows-release
     runs-on: ubuntu-18.04
     steps:
       - name: Cache Qt
@@ -92,9 +93,36 @@ jobs:
           make
       - name: Deploy Qt
         run: |
-          ls
+          mkdir DBLParse
+          cp src/DBLParse DBLParse/
+          cp scripts/default.desktop DBLParse/
+          cd DBLParse/
+          wget https://github.com/tootal/linuxdeployqt/releases/download/test/linuxdeployqt
+          chmod +x linuxdeployqt
+          ./linuxdeployqt DBLParse -appimage
+          mv DBLParse*.AppImage DBLParse.AppImage
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }} on Ubuntu
+          draft: true
+          prerelease: false
+      - id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DBLParse.AppImage
+          asset_name: DBLParse.AppImage
+          asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
+    needs: windows-release
     runs-on: macos-10.15
     steps:
       - name: Cache Qt
