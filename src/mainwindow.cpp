@@ -284,7 +284,7 @@ void MainWindow::on_actionAuthorStac_triggered()
 void MainWindow::on_actionViewLog_triggered()
 {
 #ifdef QT_NO_DEBUG
-    QDesktopServices::openUrl(QUrl::fromLocalFile("DBLParse.log"));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(Util::getLogPath()));
 #endif
 }
 
