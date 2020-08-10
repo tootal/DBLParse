@@ -55,7 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }} on Windows
+          release_name: ${{ github.ref }}
           draft: false
           prerelease: true
       - name: Upload asset
@@ -116,7 +116,7 @@ jobs:
           cd DBLParse/
           export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
           export ARCH=x86_64
-          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1
+          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
           ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
       - name: Upload asset
