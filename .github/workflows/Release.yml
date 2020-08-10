@@ -42,8 +42,6 @@ jobs:
         run: |
           New-Item -ItemType Directory DBLParse
           Copy-Item src\DBLParse.exe DBLParse\
-          Copy-Item docs DBLParse\ -recurse
-          Copy-Item README.md DBLParse\
           cd DBLParse
           windeployqt DBLParse.exe
           cd ..
