@@ -9,6 +9,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QSplashScreen>
+#include <QDir>
 
 #include "application.h"
 #include "util.h"
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
     splash.setDisabled(true);
     
 #ifdef QT_NO_DEBUG
-    initLogFile("DBLParse.log");
+    initLogFile(Util::getLogPath());
 #endif // QT_NO_DEBUG
     qInstallMessageHandler(logger);
     

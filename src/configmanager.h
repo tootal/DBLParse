@@ -14,7 +14,7 @@ public:
     void setValue(const QString &key, const QVariant &value);
     void setDefault(const QString &key, const QVariant &value);
     bool contains(const QString &key) const;
-    
+    QString path() const;
 private:
     QSettings *settings;
 };

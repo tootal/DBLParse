@@ -44,6 +44,13 @@ QString Util::getLocale()
     return locale;
 }
 
+QString Util::getLogPath()
+{
+    QString path = App->config->path();
+    path = QFileInfo(QDir::cleanPath(path)).path();
+    return QDir(path).filePath("DBLParse.log");
+}
+
 void Util::clearIndexs()
 {
     QDir("data").removeRecursively();

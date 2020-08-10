@@ -46,3 +46,8 @@ bool ConfigManager::contains(const QString &key) const
 {
     return settings->contains(key);
 }
+
+QString ConfigManager::path() const
+{
+    return settings->fileName();
+}
