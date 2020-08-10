@@ -69,6 +69,7 @@ SOURCES += \
     loader.cpp \
     main.cpp \
     mainwindow.cpp \
+    networker.cpp \
     parsedialog.cpp \
     parser.cpp \
     record.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     hash.h \
     loader.h \
     mainwindow.h \
+    networker.h \
     parsedialog.h \
     parser.h \
     reader.h \
