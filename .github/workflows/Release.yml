@@ -54,12 +54,8 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }} on Windows
-          draft: true
-          prerelease: false
-      - name: Test
-        shell: cmd
-        run: |
-          echo ${{ steps.create_release.outputs.upload_url }}
+          draft: false
+          prerelease: true
       - name: Upload asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
@@ -72,7 +68,6 @@ jobs:
           asset_content_type: application/zip
   ubuntu-release:
     name: Release on Ubuntu
-    needs: windows-release
     runs-on: ubuntu-18.04
     steps:
       - name: Cache Qt
@@ -118,9 +113,7 @@ jobs:
           cp src/DBLParse DBLParse/
           cp scripts/default.desktop DBLParse/
           cd DBLParse/
-          wget https://github.com/tootal/linuxdeployqt/releases/download/test/linuxdeployqt
-          chmod +x linuxdeployqt
-          ./linuxdeployqt DBLParse -appimage
+          linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
       - name: Create release
         id: create_release
@@ -130,8 +123,8 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }} on Ubuntu
-          draft: true
-          prerelease: false
+          draft: false
+          prerelease: true
       - id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
@@ -143,7 +136,6 @@ jobs:
           asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
-    needs: windows-release
     runs-on: macos-10.15
     steps:
       - name: Cache Qt
