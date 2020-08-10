@@ -6,6 +6,7 @@ on:
       - 'test'
 jobs:
   windows-release:
+    name: Release on Windows
     runs-on: windows-2019
     steps:
       - name: Cache Qt
@@ -23,9 +24,9 @@ jobs:
           modules: qtwebengine
           cached: ${{ steps.win-cache-qt.outputs.cache-hit }}
       - name: Pull codes
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Build MSVC
         shell: cmd
         run: |
@@ -35,12 +36,12 @@ jobs:
       - name: Deploy Qt
         shell: pwsh
         run: |
-          New-Item -ItemType Directory deploy
-          Copy-Item src\DBLParse.exe deploy\
-          cd deploy
+          New-Item -ItemType Directory DBLParse
+          Copy-Item src\DBLParse.exe DBLParse\
+          cd DBLParse
           windeployqt DBLParse.exe
           cd ..
-          Compress-Archive -Path deploy DBLParse.zip
+          Compress-Archive -Path DBLParse DBLParse.zip
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -60,3 +61,61 @@ jobs:
           asset_path: ./DBLParse.zip
           asset_name: DBLParse.zip
           asset_content_type: application/zip
+  ubuntu-release:
+    name: Release on Ubuntu
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cache Qt
+        id: ubuntu-cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt/5.15.0/gcc_64
+          key: ${{ runner.os }}/Qt/5.15.0/gcc_64
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.5.3
+        with:
+          version: 5.15.0
+          target: desktop
+          modules: qtwebengine
+          cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
+      - name: GL library
+        run: sudo apt-get install -y libglew-dev libglfw3-dev
+      - name: Pull codes
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build GCC
+        run: |
+          qmake
+          make
+      - name: Deploy Qt
+        run: |
+          ls
+  macos-release:
+    name: Release on MacOS
+    runs-on: macos-10.15
+    steps:
+      - name: Cache Qt
+        id: macos-cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt/5.15.0/clang_64
+          key: ${{ runner.os }}/Qt/5.15.0/clang_64
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.5.3
+        with:
+          version: 5.15.0
+          target: desktop
+          modules: qtwebengine
+          cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
+      - name: Pull codes
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Build Clang
+        run: |
+          qmake
+          make
+      - name: Deploy Qt
+        run: |
+          ls
