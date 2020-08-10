@@ -1,17 +1,16 @@
 # Change Log
 ## v3.1
 ### Features
-* Add "Change Log" menu
-* Add "Feedback" menu
-* Add "Documentation" menu
-* Add separator in help menu
+* Document and Changelog support
+* Feedback support
 
 ### Technical Changes
 * Use Qt 5.15.0
-* Rewrite Change Log in English
+* Support MacOS
+* Auto build and release
 
 ### Fixed Bugs
-
+* Log path error on linux
 
 ## v3.0
 ### Features
