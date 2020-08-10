@@ -7,7 +7,15 @@
 
 ConfigManager::ConfigManager(QObject *parent) : QObject(parent)
 {
+#if defined (Q_OS_WIN64)
     settings = new QSettings("DBLParse.ini" ,QSettings::IniFormat, this);
+#else
+    settings = new QSettings(QSettings::IniFormat, 
+                             QSettings::UserScope, 
+                             QCoreApplication::organizationName(),
+                             QCoreApplication::applicationName(),
+                             this);
+#endif
     init();
 }
 
