@@ -114,11 +114,12 @@ jobs:
           cp src/DBLParse DBLParse/
           cp scripts/default.desktop DBLParse/
           cd DBLParse/
-          export LD_LIBRARY_PATH=../Qt/5.15.0/gcc_64/lib/:$LD_LIBRARY_PATH
+          export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
           export ARCH=x86_64
           ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
           mv DBLParse*.AppImage DBLParse.AppImage
-      - id: upload-release-asset
+      - name: Upload asset
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -128,7 +129,7 @@ jobs:
           asset_name: DBLParse.AppImage
           asset_content_type: application/octet-stream
   macos-release:
-    name: Release on MacOS
+    name: Release on MacOS [WIP]
     runs-on: macos-10.15
     steps:
       - name: Cache Qt
