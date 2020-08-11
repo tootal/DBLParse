@@ -4,12 +4,24 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QDebug>
+#include <QNetworkReply>
+#include <QNetworkConfigurationManager>
+
+#include "networker.h"
 
 DownloadDialog::DownloadDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DownloadDialog)
 {
     ui->setupUi(this);
+    auto networker = NetWorker::instance();
+    networker->get("http://dblp.org/xml/README.txt");
+    connect(networker, &NetWorker::finished,
+            this, [](QNetworkReply *reply) {
+        qDebug() << reply->readAll();
+        qDebug() << reply->error();
+        reply->deleteLater();
+    });
 }
 
 DownloadDialog::~DownloadDialog()

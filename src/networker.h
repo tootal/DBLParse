@@ -12,6 +12,7 @@ public:
     static NetWorker* instance();
     ~NetWorker();
     void get(const QString &url);
+    QStringList supportedSchemes();
     
 signals:
     void finished(QNetworkReply *reply);

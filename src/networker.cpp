@@ -1,6 +1,7 @@
 #include "networker.h"
 
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 NetWorker *NetWorker::instance()
 {
@@ -19,10 +20,21 @@ void NetWorker::get(const QString &url)
     d->manager->get(QNetworkRequest(QUrl(url)));
 }
 
+QStringList NetWorker::supportedSchemes()
+{
+    return d->manager->supportedSchemes();
+}
+
 NetWorker::NetWorker(QObject *parent) 
     : QObject(parent),
       d(new NetWorker::Private(this))
 {
-    connect(d->manager, &QNetworkAccessManager::finished,
+    connect(d->manager, QOverload<QNetworkReply*>::of(&QNetworkAccessManager::finished),
             this, &NetWorker::finished);
+}
+
+NetWorker::Private::Private(NetWorker *q)
+    : manager(new QNetworkAccessManager(q))
+{
+    
 }
