@@ -15,12 +15,15 @@ DownloadDialog::DownloadDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     auto networker = NetWorker::instance();
-    networker->get("http://dblp.org/xml/README.txt");
+//    qDebug() << QSslSocket::supportsSsl();
+//    qDebug() << QSslSocket::sslLibraryBuildVersionString();
+//    qDebug() << QSslSocket::sslLibraryVersionString();
+//    qDebug() << networker->supportedSchemes();
+    networker->get("https://dblp.org/xml/README.txt");
     connect(networker, &NetWorker::finished,
             this, [](QNetworkReply *reply) {
-        qDebug() << reply->readAll();
         qDebug() << reply->error();
-        reply->deleteLater();
+        qDebug() << reply->readAll();
     });
 }
 

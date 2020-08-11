@@ -17,7 +17,16 @@ NetWorker::~NetWorker()
 
 void NetWorker::get(const QString &url)
 {
-    d->manager->get(QNetworkRequest(QUrl(url)));
+    QUrl uri(url);
+    QNetworkRequest request;
+    if (uri.scheme() == "https") {
+        QSslConfiguration config = request.sslConfiguration();
+        config.setPeerVerifyMode(QSslSocket::VerifyNone);
+        config.setProtocol(QSsl::TlsV1SslV3);
+        request.setSslConfiguration(config);
+    }
+    request.setUrl(uri);
+    d->manager->get(request);
 }
 
 QStringList NetWorker::supportedSchemes()
