@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QNetworkReply>
 #include <QNetworkConfigurationManager>
+#include <QRegularExpression>
 
 #include "networker.h"
 #include "util.h"
@@ -16,17 +17,16 @@ DownloadDialog::DownloadDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     initDownloadSources();
-//    auto networker = NetWorker::instance();
-//    qDebug() << QSslSocket::supportsSsl();
-//    qDebug() << QSslSocket::sslLibraryBuildVersionString();
-//    qDebug() << QSslSocket::sslLibraryVersionString();
-//    qDebug() << networker->supportedSchemes();
-//    networker->get("https://dblp.org/xml/README.txt");
-//    connect(networker, &NetWorker::finished,
-//            this, [](QNetworkReply *reply) {
-//        qDebug() << reply->error();
-//        qDebug() << reply->readAll();
-//    });
+    getDownloadList(ui->comboBox->currentText());
+    connect(ui->comboBox, &QComboBox::currentTextChanged,
+            this, [this](const QString &source) {
+        getDownloadList(source);
+    });
+    ui->tableWidget->setHorizontalHeaderLabels({
+        tr("File"),
+        tr("Last Modified"),
+        tr("Size")
+    });
 }
 
 DownloadDialog::~DownloadDialog()
@@ -34,18 +34,40 @@ DownloadDialog::~DownloadDialog()
     delete ui;
 }
 
-void DownloadDialog::on_yesButton_clicked()
-{
-    QDesktopServices::openUrl(QUrl(ui->comboBox->currentText()));
-    close();
-}
-
-void DownloadDialog::on_noButton_clicked()
-{
-    close();
-}
-
 void DownloadDialog::initDownloadSources()
 {
     ui->comboBox->addItems(Util::availableDownloadSources);
+}
+
+void DownloadDialog::getDownloadList(const QString &source)
+{
+    
+    auto networker = NetWorker::instance();
+    networker->get(source + "release/");
+    connect(networker, &NetWorker::finished,
+            this, [this](QNetworkReply *reply) {
+        auto html = reply->readAll();
+        reply->deleteLater();
+        QRegularExpression re(
+R"(<td><a href=".*">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right">(.*?)<\/td>)"
+        );
+        auto i = re.globalMatch(html);
+        QVector<DblpRelease> rs;
+        while (i.hasNext()) {
+            auto match = i.next();
+            auto fileName = match.captured(1);
+            auto lastModified = match.captured(2);
+            auto size = match.captured(3).trimmed();
+//            qDebug() << fileName << lastModified << size;
+            if (fileName.endsWith("md5")) continue;
+            rs.append({fileName, lastModified, size});
+        }
+        ui->tableWidget->setRowCount(rs.size());
+        for (int j = 0; j < rs.size(); j++) {
+            ui->tableWidget->setItem(j, 0, new QTableWidgetItem(rs[j].fileName));
+            ui->tableWidget->setItem(j, 1, new QTableWidgetItem(rs[j].lastModified));
+            ui->tableWidget->setItem(j, 2, new QTableWidgetItem(rs[j].size));
+        }
+        ui->tableWidget->resizeColumnsToContents();
+    });
 }
