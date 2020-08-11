@@ -19,6 +19,14 @@ Util::availableLanguages = {
     {"zh_CN", QT_TR_NOOP("Chinese (China)")}
 };
 
+const QStringList
+Util::availableDownloadSources = {
+    "https://dblp.org/xml/",
+    "https://dblp.dagstuhl.de/xml/",
+    "https://dblp.uni-trier.de/xml/",
+    "https://dblp2.uni-trier.de/xml/"
+};
+
 QString Util::readFile(const QString &fileName)
 {
     QFile file(fileName);

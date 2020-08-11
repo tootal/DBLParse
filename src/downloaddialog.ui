@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>280</height>
+    <width>506</width>
+    <height>185</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,47 +25,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Link</string>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-     <layout class="QVBoxLayout" name="radioLayout">
-      <item>
-       <widget class="QRadioButton" name="radioButton1">
-        <property name="text">
-         <string notr="true">https://dblp.org/xml/dblp.xml.gz</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton2">
-        <property name="text">
-         <string notr="true">https://dblp.dagstuhl.de/xml/dblp.xml.gz</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton3">
-        <property name="text">
-         <string notr="true">https://dblp.uni-trier.de/xml/dblp.xml.gz</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton4">
-        <property name="text">
-         <string notr="true">https://dblp2.uni-trier.de/xml/dblp.xml.gz</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Download Source</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox"/>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="label_2">

@@ -21,5 +21,7 @@ private slots:
     
 private:
     Ui::DownloadDialog *ui;
+    
+    void initDownloadSources();
 };
 

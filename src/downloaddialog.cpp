@@ -8,23 +8,25 @@
 #include <QNetworkConfigurationManager>
 
 #include "networker.h"
+#include "util.h"
 
 DownloadDialog::DownloadDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DownloadDialog)
 {
     ui->setupUi(this);
-    auto networker = NetWorker::instance();
+    initDownloadSources();
+//    auto networker = NetWorker::instance();
 //    qDebug() << QSslSocket::supportsSsl();
 //    qDebug() << QSslSocket::sslLibraryBuildVersionString();
 //    qDebug() << QSslSocket::sslLibraryVersionString();
 //    qDebug() << networker->supportedSchemes();
-    networker->get("https://dblp.org/xml/README.txt");
-    connect(networker, &NetWorker::finished,
-            this, [](QNetworkReply *reply) {
-        qDebug() << reply->error();
-        qDebug() << reply->readAll();
-    });
+//    networker->get("https://dblp.org/xml/README.txt");
+//    connect(networker, &NetWorker::finished,
+//            this, [](QNetworkReply *reply) {
+//        qDebug() << reply->error();
+//        qDebug() << reply->readAll();
+//    });
 }
 
 DownloadDialog::~DownloadDialog()
@@ -34,19 +36,16 @@ DownloadDialog::~DownloadDialog()
 
 void DownloadDialog::on_yesButton_clicked()
 {
-    auto n = ui->radioLayout->count();
-    for (int i = 0; i < n; i++) {
-        auto x = qobject_cast<QRadioButton*>(
-                    ui->radioLayout->itemAt(i)->widget());
-        if (x->isChecked()) {
-            QDesktopServices::openUrl(QUrl(x->text()));
-            break;
-        }
-    }
+    QDesktopServices::openUrl(QUrl(ui->comboBox->currentText()));
     close();
 }
 
 void DownloadDialog::on_noButton_clicked()
 {
     close();
+}
+
+void DownloadDialog::initDownloadSources()
+{
+    ui->comboBox->addItems(Util::availableDownloadSources);
 }
