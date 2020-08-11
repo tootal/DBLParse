@@ -11,7 +11,7 @@ class NetWorker : public QObject
 public:
     static NetWorker* instance();
     ~NetWorker();
-    void get(const QString &url);
+    QNetworkReply* get(const QString &url);
     QStringList supportedSchemes();
     
 signals:

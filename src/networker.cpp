@@ -15,7 +15,7 @@ NetWorker::~NetWorker()
     d = nullptr;
 }
 
-void NetWorker::get(const QString &url)
+QNetworkReply* NetWorker::get(const QString &url)
 {
     QUrl uri(url);
     QNetworkRequest request;
@@ -26,7 +26,7 @@ void NetWorker::get(const QString &url)
         request.setSslConfiguration(config);
     }
     request.setUrl(uri);
-    d->manager->get(request);
+    return d->manager->get(request);
 }
 
 QStringList NetWorker::supportedSchemes()
