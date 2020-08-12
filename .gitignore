@@ -37,6 +37,7 @@ Thumbs.db
 
 # qtcreator generated files
 *.pro.user*
+CMakeLists.txt.user
 
 # xemacs temporary files
 *.flc
@@ -77,6 +78,7 @@ _v_images
 
 # Build and deploy
 /build/
+/build*/
 /deploy/
 
 # Test File
