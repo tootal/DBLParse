@@ -76,6 +76,7 @@ Thumbs.db
 _v_images
 
 # Build and deploy
+/build/
 /deploy/
 
 # Test File
