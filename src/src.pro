@@ -17,7 +17,6 @@ TEMPLATE = app
 RC_ICONS = resources/DBLParse.ico
 
 QTQUICK_COMPILER_SKIPPED_RESOURCES += DBLParse.qrc
-QTQUICK_COMPILER_SKIPPED_RESOURCES += web.qrc
 
 # Version
 VERSION_MAJOR = 3
@@ -114,7 +113,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    DBLParse.qrc \
-    translations.qrc \
-    web.qrc \
-    docs.qrc
+    DBLParse.qrc

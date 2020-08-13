@@ -1,4 +1,7 @@
 # Change Log
+## v3.2
+* Merge qrc and translation files
+
 ## v3.1
 ### Features
 * Document and Changelog support

@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>docs/changelog_zh_CN.md</file>
-        <file>docs/README_zh_CN.md</file>
-        <file>docs/README.md</file>
-        <file>docs/changelog.md</file>
-    </qresource>
-</RCC>
