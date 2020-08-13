@@ -100,7 +100,7 @@ HEADERS += \
     webview.h
 
 TRANSLATIONS += \
-    translations/DBLParse_zh_CN.ts
+    DBLParse_zh_CN.ts
 
 FORMS += \
     downloaddialog.ui \
@@ -115,6 +115,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     DBLParse.qrc \
-    translations/translations.qrc \
+    translations.qrc \
     web.qrc \
     docs.qrc
