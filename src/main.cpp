@@ -101,10 +101,10 @@ int main(int argc, char *argv[])
     QTranslator translator;
     translator.load("DBLParse_" + locale, ":/");
     a.installTranslator(&translator);
-    
     MainWindow w{};
     w.setTranslator(&translator);
     a.window = &w;
+    a.setStyleSheet(Util::readFile(":/resources/DBLParse.qss"));
     splash.finish(&w);
     return a.exec();
 }

@@ -1,24 +1,32 @@
 #include "statuslabel.h"
-
-#include <QPainter>
-#include <QSvgWidget>
-#include <QHBoxLayout>
-#include <QLabel>
+#include "ui_statuslabel.h"
 
 #include "util.h"
 
-StatusLabel::StatusLabel(QWidget *parent)
-    : QWidget(parent)
+StatusLabel::StatusLabel(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::StatusLabel)
 {
-    setCursor(Qt::PointingHandCursor);
-    okIcon = Util::svgToPixmap(":/resources/ok.svg", QSize(16, 16));
-    noIcon = Util::svgToPixmap(":/resources/no.svg", QSize(16, 16));
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    auto iconLabel = new QLabel;
-    iconLabel->setPixmap(okIcon);
-    layout->addWidget(iconLabel);
-    auto textLabel = new QLabel("Parse");
-    layout->addWidget(textLabel);
+    ui->setupUi(this);
+    QSize sz(iconSize, iconSize);
+    okIcon = Util::svgToPixmap(":/resources/ok.svg", sz);
+    noIcon = Util::svgToPixmap(":/resources/no.svg", sz);
+    setNo();
+}
+
+StatusLabel::~StatusLabel()
+{
+    delete ui;
+}
+
+void StatusLabel::setOk()
+{
+    ui->iconLabel->setPixmap(okIcon);
+}
+
+void StatusLabel::setNo()
+{
+    ui->iconLabel->setPixmap(noIcon);
 }
 
 void StatusLabel::mousePressEvent(QMouseEvent *)

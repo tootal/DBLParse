@@ -9,6 +9,7 @@ class Finder;
 class Loader;
 class Calculator;
 class QTranslator;
+class StatusLabel;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -71,6 +72,7 @@ private:
     Ui::MainWindow *ui;
     QTranslator *translator;
     Finder *m_finder;
+    StatusLabel *statusLabel;
     
     void load();
     void open(const QString &fileName);

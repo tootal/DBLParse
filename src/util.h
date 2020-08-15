@@ -10,7 +10,7 @@ class Util : public QObject
 public:
     static const QVector<QPair<QString, QByteArray>> availableLanguages;
     static const QStringList availableDownloadSources;
-    static QString readFile(const QString &fileName);
+    static QByteArray readFile(const QString &fileName);
     static QString getXmlFileName();
     static QString getLocale();
     static QString getLogPath();

@@ -28,13 +28,13 @@ Util::availableDownloadSources = {
     "https://dblp2.uni-trier.de/xml/"
 };
 
-QString Util::readFile(const QString &fileName)
+QByteArray Util::readFile(const QString &fileName)
 {
     QFile file(fileName);
     file.open(QFile::ReadOnly);
     QTextStream in(&file);
     in.setCodec("UTF-8");
-    auto s = in.readAll();
+    auto s = in.readAll().toUtf8();
     file.close();
     return s;
 }
@@ -103,10 +103,7 @@ void Util::showMarkdown(const QString &mdfile, QWidget *parent)
 
 QPixmap Util::svgToPixmap(const QString &fileName, QSize size)
 {
-    QFile file(fileName);
-    file.open(QFile::ReadOnly);
-    auto data = file.readAll();
-    QSvgRenderer renderer(data);
+    QSvgRenderer renderer(readFile(fileName));
     QPixmap pic(size);
     // Fill a transparent background
     pic.fill(QColor(255, 255, 255, 0));
@@ -114,4 +111,3 @@ QPixmap Util::svgToPixmap(const QString &fileName, QSize size)
     renderer.render(&painter);
     return pic;
 }
-

@@ -107,7 +107,8 @@ FORMS += \
     downloaddialog.ui \
     mainwindow.ui \
     parsedialog.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    widgets/statuslabel.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

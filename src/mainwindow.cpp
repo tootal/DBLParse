@@ -169,6 +169,7 @@ void MainWindow::on_actionClearIndex_triggered()
     Util::clearIndexs();
     m_finder->clearIndex();
     statusBar()->showMessage(tr("Clear index file successful!"));
+    statusLabel->setNo();
 }
 
 void MainWindow::on_actionOpenIndexFolder_triggered()
@@ -200,6 +201,7 @@ void MainWindow::load()
     connect(loader, &Loader::loadDone,
             this, [this]() {
         statusBar()->showMessage(tr("Load finished."), 3000); 
+        statusLabel->setOk();
     });
     thread->start();
     QTimer::singleShot(0, loader, &Loader::run);
@@ -252,10 +254,10 @@ void MainWindow::onLanguageChanged(const QString &locale)
 
 void MainWindow::addStatusIcon()
 {
-    auto label = new StatusLabel;
-    connect(label, &StatusLabel::clicked,
+    statusLabel = new StatusLabel;
+    connect(statusLabel, &StatusLabel::clicked,
             this, &MainWindow::on_actionStatus_triggered);
-    ui->statusbar->addPermanentWidget(label);
+    ui->statusbar->addPermanentWidget(statusLabel);
 }
 
 void MainWindow::on_actionAuthorStac_triggered()
