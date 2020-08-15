@@ -8,34 +8,50 @@
         <translation type="vanished">下载</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="14"/>
+        <location filename="downloaddialog.ui" line="14"/>
         <source>Download Data</source>
         <translation>下载数据</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="20"/>
+        <location filename="downloaddialog.ui" line="20"/>
         <source>This will visit the link below to download file.</source>
         <translation>即将访问以下链接下载文件。</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="30"/>
+        <location filename="downloaddialog.ui" line="32"/>
+        <source>Download Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Link</source>
-        <translation>链接</translation>
+        <translation type="vanished">链接</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="73"/>
         <source>Do you want to continue?</source>
-        <translation>是否要继续？</translation>
+        <translation type="vanished">是否要继续？</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="82"/>
         <source>Yes</source>
-        <translation>是</translation>
+        <translation type="vanished">是</translation>
     </message>
     <message>
-        <location filename="../downloaddialog.ui" line="102"/>
         <source>No</source>
-        <translation>否</translation>
+        <translation type="vanished">否</translation>
+    </message>
+    <message>
+        <location filename="downloaddialog.cpp" line="26"/>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloaddialog.cpp" line="27"/>
+        <source>Last Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloaddialog.cpp" line="28"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -49,7 +65,7 @@
         <translation type="vanished">正在加载标题索引……</translation>
     </message>
     <message>
-        <location filename="../loader.cpp" line="32"/>
+        <location filename="loader.cpp" line="32"/>
         <source>Loading year word index...</source>
         <translation>正在加载年度关键词索引……</translation>
     </message>
@@ -62,7 +78,7 @@
         <translation type="vanished">正在加载年度关键词索引……</translation>
     </message>
     <message>
-        <location filename="../loader.cpp" line="21"/>
+        <location filename="loader.cpp" line="21"/>
         <source>Loading authorStac index...</source>
         <translation>正在加载作者统计索引……</translation>
     </message>
@@ -70,52 +86,52 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="17"/>
+        <location filename="mainwindow.ui" line="17"/>
         <source>DBLParse</source>
         <translation>DBLParse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="46"/>
+        <location filename="mainwindow.ui" line="46"/>
         <source>&amp;Help</source>
         <translation>帮助 (&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="59"/>
+        <location filename="mainwindow.ui" line="59"/>
         <source>&amp;File</source>
         <translation>文件 (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="67"/>
+        <location filename="mainwindow.ui" line="67"/>
         <source>&amp;View</source>
         <translation>查看 (&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="76"/>
+        <location filename="mainwindow.ui" line="76"/>
         <source>&amp;Tools</source>
         <translation>工具 (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="91"/>
+        <location filename="mainwindow.ui" line="91"/>
         <source>About &amp;Qt</source>
         <translation>关于Qt （&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="96"/>
+        <location filename="mainwindow.ui" line="96"/>
         <source>&amp;About DBLParse</source>
         <translation>关于DBLParse (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="166"/>
+        <location filename="mainwindow.ui" line="166"/>
         <source>&amp;Change Log</source>
         <translation>更新日志 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="171"/>
+        <location filename="mainwindow.ui" line="171"/>
         <source>&amp;Feedback</source>
         <translation>反馈 (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="176"/>
+        <location filename="mainwindow.ui" line="176"/>
         <source>&amp;Documentation</source>
         <translation>文档 (&amp;D)</translation>
     </message>
@@ -124,72 +140,72 @@
         <translation type="vanished">关于DBLP (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="106"/>
+        <location filename="mainwindow.ui" line="106"/>
         <source>E&amp;xit</source>
         <translation>退出 (&amp;X)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="111"/>
+        <location filename="mainwindow.ui" line="111"/>
         <source>&amp;Open</source>
         <translation>打开 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="116"/>
+        <location filename="mainwindow.ui" line="116"/>
         <source>&amp;Status</source>
         <translation>状态 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="121"/>
+        <location filename="mainwindow.ui" line="121"/>
         <source>&amp;Clear Cache</source>
         <translation>清除缓存 （&amp;C）</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="151"/>
+        <location filename="mainwindow.ui" line="151"/>
         <source>&amp;Clique Count</source>
         <translation>聚团分析 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="156"/>
+        <location filename="mainwindow.ui" line="156"/>
         <source>Open Data &amp;Folder</source>
         <translation>打开数据文件夹 (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="161"/>
+        <location filename="mainwindow.ui" line="161"/>
         <source>&amp;Download Data</source>
         <translation>下载数据 (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="126"/>
+        <location filename="mainwindow.ui" line="126"/>
         <source>&amp;Open Index Folder</source>
         <translation>打开索引文件夹 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="101"/>
+        <location filename="mainwindow.ui" line="101"/>
         <source>About D&amp;BLP</source>
         <translation>关于DBLP (&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="131"/>
+        <location filename="mainwindow.ui" line="131"/>
         <source>&amp;AuthorStac</source>
         <translation>作者统计 (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="146"/>
+        <location filename="mainwindow.ui" line="146"/>
         <source>&amp;KeyWord</source>
         <translation>热点分析 (&amp;K)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="136"/>
+        <location filename="mainwindow.ui" line="136"/>
         <source>View &amp;Log</source>
         <translation>运行日志 (&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="141"/>
+        <location filename="mainwindow.ui" line="141"/>
         <source>&amp;Settings</source>
         <translation>设置 (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="200"/>
+        <location filename="mainwindow.cpp" line="200"/>
         <source>Load finished.</source>
         <translation>加载完成。</translation>
     </message>
@@ -231,88 +247,88 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">选择XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="70"/>
-        <location filename="../mainwindow.cpp" line="154"/>
+        <location filename="mainwindow.cpp" line="70"/>
+        <location filename="mainwindow.cpp" line="154"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="83"/>
+        <location filename="mainwindow.cpp" line="83"/>
         <source>&lt;b&gt;About Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;This program uses Qt version %1.&lt;br&gt;&lt;br&gt;Qt is a C++ toolkit for cross-platform application development.&lt;br&gt;&lt;br&gt;See &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;关于 Qt&lt;/b&gt;&lt;br&gt;&lt;br&gt;此程序基于 Qt %1.&lt;br&gt;&lt;br&gt;Qt是一个跨平台C++应用程序开发框架。&lt;br&gt;&lt;br&gt;访问 &lt;a href=&quot;https://www.qt.io/&quot;&gt;qt.io&lt;/a&gt; 获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="93"/>
+        <location filename="mainwindow.cpp" line="93"/>
         <source>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;Version: %1&lt;br&gt;&lt;br&gt;Built on %2&lt;br&gt;&lt;br&gt;DBLParse is an application that bases on dblp computer science bibliography.&lt;br/&gt;&lt;br/&gt;Please visit &lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt; for more information.</source>
         <translation>&lt;b&gt;DBLParse&lt;/b&gt;&lt;br&gt;版本：%1&lt;br&gt;&lt;br&gt;构建于 %2&lt;br&gt;&lt;br&gt;DBLParse 是一个基于DBLP数据的应用。&lt;br/&gt;&lt;br/&gt;请访问&lt;a href=&quot;https://github.com/tootal/DBLParse&quot;&gt;DBLParse&lt;/a&gt;获取更多信息。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="104"/>
+        <location filename="mainwindow.cpp" line="104"/>
         <source>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;The &lt;em&gt;dblp computer science bibliography&lt;/em&gt; provides open bibliographic information on major computer science journals and proceedings. Originally created at the &lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;University of Trier&lt;/a&gt; in 1993, dblp is now operated and further developed by &lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;For more information &lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;check out our F.A.Q.&lt;/a&gt;</source>
         <translation>&lt;b&gt;DBLP&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt;DBLP计算机科学文献集&lt;/em&gt;提供主要的计算机科学期刊和会议的开放数据信息。最初由&lt;a href=&quot;https://www.uni-trier.de/&quot;&gt;特里尔大学&lt;/a&gt; 在1993年创建，DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss Dagstuhl&lt;/a&gt;维护。&lt;br&gt;&lt;br&gt;获取更多信息，请&lt;a href=&quot;https://dblp.uni-trier.de/faq/&quot;&gt;查看F.A.Q.&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="128"/>
+        <location filename="mainwindow.cpp" line="128"/>
         <source>Open DBLP XML File</source>
         <translation>打开DBLP XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="132"/>
+        <location filename="mainwindow.cpp" line="132"/>
         <source>XML file (*.xml)</source>
         <translation>XML文件 (*.xml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="214"/>
+        <location filename="mainwindow.cpp" line="214"/>
         <source>Parsing the file will last for a while and will take up a lot of memory.</source>
         <translation>解析文件将消耗大量内存并持续一段时间。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="216"/>
+        <location filename="mainwindow.cpp" line="216"/>
         <source>Do you want to continue?</source>
         <translation>是否要继续？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="219"/>
+        <location filename="mainwindow.cpp" line="219"/>
         <source>Yes</source>
         <translation>是</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="220"/>
+        <location filename="mainwindow.cpp" line="220"/>
         <source>No</source>
         <translation>否</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="413"/>
+        <location filename="mainwindow.cpp" line="413"/>
         <source>:/docs/changelog.md</source>
         <translation>:/docs/changelog_zh_CN.md</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="423"/>
+        <location filename="mainwindow.cpp" line="423"/>
         <source>:/docs/README.md</source>
         <translation>:/docs/README_zh_CN.md</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="150"/>
+        <location filename="mainwindow.cpp" line="150"/>
         <source>Parser: %1 &lt;br&gt;Loader: %2</source>
         <translation>解析器: %1 &lt;br&gt;加载器：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="158"/>
         <source>Open XML file</source>
         <translation>打开XML文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="159"/>
+        <location filename="mainwindow.cpp" line="159"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="169"/>
+        <location filename="mainwindow.cpp" line="169"/>
         <source>Clear index file successful!</source>
         <translation>成功清除缓存文件！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="400"/>
+        <location filename="mainwindow.cpp" line="400"/>
         <source>Do not find data file.</source>
         <translation>未找到数据文件。</translation>
     </message>
@@ -320,12 +336,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>ParseDialog</name>
     <message>
-        <location filename="../parsedialog.ui" line="17"/>
+        <location filename="parsedialog.ui" line="17"/>
         <source>Processing XML file</source>
         <translation>正在处理XML文件</translation>
     </message>
     <message>
-        <location filename="../parsedialog.ui" line="23"/>
+        <location filename="parsedialog.ui" line="23"/>
         <source>Parsing file, please wait...</source>
         <translation>正在解析文件，请稍后……</translation>
     </message>
@@ -334,12 +350,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">内存使用量：</translation>
     </message>
     <message>
-        <location filename="../parsedialog.ui" line="89"/>
+        <location filename="parsedialog.ui" line="89"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../parsedialog.cpp" line="30"/>
+        <location filename="parsedialog.cpp" line="30"/>
         <source>Parsing completed.</source>
         <translation>解析完成。</translation>
     </message>
@@ -417,22 +433,22 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../settingsdialog.ui" line="14"/>
+        <location filename="settingsdialog.ui" line="14"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="22"/>
+        <location filename="settingsdialog.ui" line="22"/>
         <source>Language: </source>
         <translation>语言： </translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="62"/>
+        <location filename="settingsdialog.ui" line="62"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="11"/>
+        <location filename="settingsdialog.cpp" line="11"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
@@ -444,12 +460,12 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">秒</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="18"/>
+        <location filename="util.cpp" line="18"/>
         <source>English (United States)</source>
         <translation>英语 （美国）</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="19"/>
+        <location filename="util.cpp" line="19"/>
         <source>Chinese (China)</source>
         <translation>中文 （中国）</translation>
     </message>
@@ -461,17 +477,17 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation type="vanished">检查元素</translation>
     </message>
     <message>
-        <location filename="../webview.cpp" line="35"/>
+        <location filename="webview.cpp" line="35"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../webview.cpp" line="38"/>
+        <location filename="webview.cpp" line="38"/>
         <source>Dev Tools</source>
         <translation>开发者工具</translation>
     </message>
     <message>
-        <location filename="../webview.cpp" line="49"/>
+        <location filename="webview.cpp" line="49"/>
         <source>View Source</source>
         <translation>查看源代码</translation>
     </message>

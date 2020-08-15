@@ -1,24 +1,13 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(DBLParse VERSION 3.1.0
-        DESCRIPTION "An application base on DBLP data"
-        HOMEPAGE_URL "https://tootal.xyz/DBLParse/"
-        LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets Network
              WebEngineWidgets
              LinguistTools REQUIRED)
+add_compile_definitions(VERSION_STR="3.1.0")
 
 include_directories(../bignumber ../pivoter)
+
 
 file(GLOB HEADER_FILES *.h)
 file(GLOB SRC_FILES *.cpp)
@@ -39,5 +28,7 @@ target_link_libraries(DBLParse PRIVATE
     Qt5::WebEngineWidgets
     Qt5::Network
 )
+
+target_link_libraries(DBLParse ${PROJECT_BINARY_DIR}/../pivoter/pivoter.lib)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
