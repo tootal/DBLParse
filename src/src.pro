@@ -76,7 +76,8 @@ SOURCES += \
     stemmer.cpp \
     util.cpp \
     webpage.cpp \
-    webview.cpp
+    webview.cpp \
+    widgets/iconlabel.cpp
 
 HEADERS += \
     application.h \
@@ -96,7 +97,8 @@ HEADERS += \
     stemmer.h \
     util.h \
     webpage.h \
-    webview.h
+    webview.h \
+    widgets/iconlabel.h
 
 TRANSLATIONS += \
     DBLParse_zh_CN.ts
