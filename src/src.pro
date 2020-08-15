@@ -77,6 +77,7 @@ SOURCES += \
     util.cpp \
     webpage.cpp \
     webview.cpp \
+    widgets/clickablelabel.cpp \
     widgets/iconlabel.cpp
 
 HEADERS += \
@@ -98,6 +99,7 @@ HEADERS += \
     util.h \
     webpage.h \
     webview.h \
+    widgets/clickablelabel.h \
     widgets/iconlabel.h
 
 TRANSLATIONS += \
