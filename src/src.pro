@@ -1,4 +1,4 @@
-QT       += core gui webenginewidgets network
+QT       += core gui webenginewidgets network svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -77,8 +77,7 @@ SOURCES += \
     util.cpp \
     webpage.cpp \
     webview.cpp \
-    widgets/clickablelabel.cpp \
-    widgets/iconlabel.cpp
+    widgets/statuslabel.cpp
 
 HEADERS += \
     application.h \
@@ -99,8 +98,7 @@ HEADERS += \
     util.h \
     webpage.h \
     webview.h \
-    widgets/clickablelabel.h \
-    widgets/iconlabel.h
+    widgets/statuslabel.h
 
 TRANSLATIONS += \
     DBLParse_zh_CN.ts
@@ -118,3 +116,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     DBLParse.qrc
+
+DISTFILES += \
+    resources/no.svg \
+    resources/ok.svg

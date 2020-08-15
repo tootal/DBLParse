@@ -75,4 +75,5 @@ private:
     void load();
     void open(const QString &fileName);
     void onLanguageChanged(const QString &locale);
+    void addStatusIcon();
 };

@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QDir>
 #include <QDirIterator>
+#include <QSvgRenderer>
 
 #include "configmanager.h"
 #include "application.h"
@@ -98,5 +99,19 @@ void Util::showMarkdown(const QString &mdfile, QWidget *parent)
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
+}
+
+QPixmap Util::svgToPixmap(const QString &fileName, QSize size)
+{
+    QFile file(fileName);
+    file.open(QFile::ReadOnly);
+    auto data = file.readAll();
+    QSvgRenderer renderer(data);
+    QPixmap pic(size);
+    // Fill a transparent background
+    pic.fill(QColor(255, 255, 255, 0));
+    QPainter painter(&pic);
+    renderer.render(&painter);
+    return pic;
 }
 

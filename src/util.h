@@ -19,4 +19,5 @@ public:
     static bool parsed();
     static bool canLoad();
     static void showMarkdown(const QString &content, QWidget *parent);
+    static QPixmap svgToPixmap(const QString &fileName, QSize size);
 };

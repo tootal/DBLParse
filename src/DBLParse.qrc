@@ -50,5 +50,7 @@
         <file>web/yearWord.js</file>
         <file>web/yearWord.test.js</file>
         <file>DBLParse_zh_CN.qm</file>
+        <file>resources/no.svg</file>
+        <file>resources/ok.svg</file>
     </qresource>
 </RCC>

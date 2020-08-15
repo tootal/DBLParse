@@ -29,6 +29,7 @@
 #include "configmanager.h"
 #include "application.h"
 #include "downloaddialog.h"
+#include "widgets/statuslabel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -52,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
     load();
+    addStatusIcon();
 }
 
 MainWindow::~MainWindow()
@@ -246,6 +248,14 @@ void MainWindow::onLanguageChanged(const QString &locale)
 {
     QLocale::setDefault(locale);
     translator->load("DBLParse_" + locale, ":/");
+}
+
+void MainWindow::addStatusIcon()
+{
+    auto label = new StatusLabel;
+    connect(label, &StatusLabel::clicked,
+            this, &MainWindow::on_actionStatus_triggered);
+    ui->statusbar->addPermanentWidget(label);
 }
 
 void MainWindow::on_actionAuthorStac_triggered()
