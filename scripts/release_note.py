@@ -8,4 +8,4 @@ with open('src/docs/changelog.md') as f:
     for lines in f.read().split('\n## '):
         lines = lines.split('\n')
         if lines[0] == ver:
-            print('<br>'.join(lines[1:]))
+            print('\n'.join(lines[1:]))

@@ -1,6 +1,9 @@
 # Change Log
 ## v3.2
 * Merge qrc and translation files
+* Add status label
+* Update download dialog
+* Fix pivoter issue
 
 ## v3.1
 ### Features
