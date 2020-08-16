@@ -9,6 +9,8 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QSvgRenderer>
+#include <QClipboard>
+#include <QDesktopServices>
 
 #include "configmanager.h"
 #include "application.h"
@@ -110,4 +112,46 @@ QPixmap Util::svgToPixmap(const QString &fileName, QSize size)
     QPainter painter(&pic);
     renderer.render(&painter);
     return pic;
+}
+
+void Util::setClipboardText(const QString &text)
+{
+    QApplication::clipboard()->setText(text);
+}
+
+void Util::openFolder(const QString &filePath)
+{
+    QString path = QFileInfo(filePath).path();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
+
+QString Util::getFileReadableSize(const QString &fileName)
+{
+    QFile file(fileName);
+    qint64 size = file.size();
+    if (size < 1024) return QString::number(size) + " B";
+    if (size < 1024 * 1024) 
+        return QString::number(size / double(1024), 'f', 2) + " KB";
+    if (size < 1024 * 1024 * 1024)
+        return QString::number(size / double(1024 * 1024), 'f', 2) + " MB";
+    return QString::number(size / double(1024ll * 1024 * 1024), 'f', 2) + " GB";
+}
+
+QString Util::displayDateTime(const QDateTime &dateTime)
+{
+    return dateTime.toString(QLocale::system().dateTimeFormat());
+}
+
+QString Util::displayCostTime(int costMsecs)
+{
+    if (costMsecs < 1000) return tr("%1 ms").arg(costMsecs);
+    if (costMsecs < 60 * 1000) 
+        return tr("%1 s").arg(costMsecs / double(1000), 0, 'f', 2);
+    if (costMsecs < 60 * 60 * 1000)
+        return tr("%1:%2.%3").arg(costMsecs / 1000 / 60)
+                .arg(costMsecs / 1000 % 60, 2, 10, QChar('0'))
+                .arg(costMsecs % 1000);
+    return tr("%1:%2:%3").arg(costMsecs / 1000 / 60 / 60)
+        .arg(costMsecs / 1000 / 60 % 60, 2, 10, QChar('0'))
+        .arg(costMsecs / 1000 % 60, 2, 10, QChar('0'));
 }

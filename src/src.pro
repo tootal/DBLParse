@@ -63,6 +63,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     application.cpp \
     configmanager.cpp \
+    dialogs/statusdialog.cpp \
     downloaddialog.cpp \
     finder.cpp \
     loader.cpp \
@@ -82,6 +83,7 @@ SOURCES += \
 HEADERS += \
     application.h \
     configmanager.h \
+    dialogs/statusdialog.h \
     downloaddialog.h \
     finder.h \
     hash.h \
@@ -104,6 +106,7 @@ TRANSLATIONS += \
     DBLParse_zh_CN.ts
 
 FORMS += \
+    dialogs/statusdialog.ui \
     downloaddialog.ui \
     mainwindow.ui \
     parsedialog.ui \

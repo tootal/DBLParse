@@ -17,6 +17,8 @@
 #include "hash.h"
 #include "saver.h"
 #include "stemmer.h"
+#include "application.h"
+#include "configmanager.h"
 
 Parser::Parser(QObject *parent)
     :QObject(parent)
@@ -51,7 +53,7 @@ void Parser::run()
     saveAuthors();
     
     timeMark("Authors information saved.");
-    
+    App->config->setValue("costMsecs", costMsecs);
     qInfo() << QString("Parse done. Cost: %1 ms").arg(costMsecs);
     emit stateChanged(100);
     emit done();
@@ -123,6 +125,8 @@ void Parser::parse()
         ++records;
     }
     emit stateChanged(50);
+    App->config->setValue("articleCount", records);
+    App->config->setValue("authorCount", authorInfos.size());
     qInfo() << "Authors: " << authorInfos.size();
     qInfo() << "Records: " << records;
     QVector<AuthorStac> authorStacs(authorInfos.size());

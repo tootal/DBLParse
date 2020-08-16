@@ -30,6 +30,7 @@
 #include "application.h"
 #include "downloaddialog.h"
 #include "widgets/statuslabel.h"
+#include "dialogs/statusdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -141,6 +142,9 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionStatus_triggered()
 {
+    StatusDialog dialog(this);
+    dialog.exec();
+    /*
     QMessageBox box(this);
     QString text;
     QString parserStatus = Util::parsed()
@@ -162,6 +166,7 @@ void MainWindow::on_actionStatus_triggered()
         box.setDefaultButton(QMessageBox::Cancel);
     }
     if (box.exec() == QMessageBox::Open) on_actionOpen_triggered();
+    */
 }
 
 void MainWindow::on_actionClearIndex_triggered()
@@ -211,6 +216,7 @@ void MainWindow::load()
 void MainWindow::open(const QString &fileName)
 {
     App->config->setValue("lastOpenFileName", fileName);
+    App->config->setValue("lastDateTime", QDateTime::currentDateTime());
     // question when size greater than 64MiB
     if(QFile(fileName).size() > PROMOT_FILE_SIZE){
         QMessageBox box(this);
@@ -405,8 +411,7 @@ void MainWindow::dropEvent(QDropEvent *e)
 void MainWindow::on_actionOpenDataFolder_triggered()
 {
     if (Util::parsed()) {
-        QString path = QFileInfo(Util::getXmlFileName()).path();
-        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+        Util::openFolder(Util::getXmlFileName());
     } else {
         auto box = new QMessageBox(this);
         box->setText(tr("Do not find data file."));
