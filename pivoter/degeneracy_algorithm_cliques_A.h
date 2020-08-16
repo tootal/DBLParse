@@ -33,18 +33,18 @@
 #include<stdlib.h>
 #include<string.h>
 
-#include <vector>
+#include <QVector>
 #include <bignumber.h>
 
 #include"misc.h"
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 
-void listAllCliquesDegeneracyRecursive_A(std::vector<BigNumber> &cliqueCounts,
+void listAllCliquesDegeneracyRecursive_A(QVector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, int rsize, int drop);
 
-void listAllCliquesDegeneracy_A( std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
+void listAllCliquesDegeneracy_A( QVector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
                                       int size, int max_k );
 

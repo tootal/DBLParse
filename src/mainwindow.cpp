@@ -292,8 +292,6 @@ void MainWindow::on_actionAuthorStac_triggered()
     auto html = Util::readFile(":/web/authorStac.html");
     auto data = QJsonDocument(authorStacArray).toJson();
     
-    //     qDebug() << data;
-    
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/web/"));
     view->show();

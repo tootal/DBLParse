@@ -12,7 +12,6 @@ WebPage::WebPage(QObject *parent)
 
 bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType, bool)
 {
-//    qDebug() << url;
     if (url.scheme() == "data")
         return true;
     if(url.scheme() == "qrc")
@@ -31,12 +30,10 @@ bool WebPage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::Navigatio
 
 void WebPage::triggerAction(QWebEnginePage::WebAction action, bool checked)
 {
-//    qDebug() << "Trigger Action: " << action;
     QWebEnginePage::triggerAction(action, checked);
 }
 
 QWebEnginePage *WebPage::createWindow(QWebEnginePage::WebWindowType type)
 {
-//    qDebug() << "Create Window: " << type;
     return QWebEnginePage::createWindow(type);
 }

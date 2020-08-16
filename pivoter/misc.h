@@ -34,7 +34,7 @@
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern std::vector<std::vector<BigNumber>> nCr;
+extern QVector<QVector<BigNumber>> nCr;
 
 void populate_nCr();
 

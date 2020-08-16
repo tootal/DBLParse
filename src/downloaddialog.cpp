@@ -58,7 +58,6 @@ R"(<td><a href=".*">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right"
             auto fileName = match.captured(1);
             auto lastModified = match.captured(2);
             auto size = match.captured(3).trimmed();
-//            qDebug() << fileName << lastModified << size;
             if (fileName.endsWith("md5")) continue;
             rs.append({fileName, lastModified, size});
         }

@@ -31,7 +31,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include <vector>
+#include <QVector>
 
 #include"misc.h"
 #include"LinkedList.h"
@@ -51,19 +51,19 @@
 NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 {
 
-    std::vector<NeighborList*> ordering(size);
+    QVector<NeighborList*> ordering(size);
     
     int i = 0;
 
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    std::vector<LinkedList*> verticesByDegree(size);
+    QVector<LinkedList*> verticesByDegree(size);
     
     // array of lists of vertices, indexed by degree
-    std::vector<Link*> vertexLocator(size);
+    QVector<Link*> vertexLocator(size);
     
-    std::vector<int> degree(size);
+    QVector<int> degree(size);
     
     for(i = 0; i < size; i++)
     {

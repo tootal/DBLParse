@@ -23,20 +23,16 @@
 Parser::Parser(QObject *parent)
     :QObject(parent)
 {
-//    qDebug("Parser construct");
-//    qDebug("Parser construct thread: %d", QThread::currentThreadId());
     totalAuthor = 0;
     yearWords.resize(MAX_YEAR - MIN_YEAR + 1);
 }
 
 Parser::~Parser()
 {
-//    qDebug("Parser destruct");
 }
 
 void Parser::run()
 {
-//    qDebug("Parser run thread: %d", QThread::currentThreadId());
     timing.start();
     elapsedTime = 0;
     
@@ -61,9 +57,6 @@ void Parser::run()
 
 bool Parser::event(QEvent *event)
 {
-//    if (event->type() == QEvent::DeferredDelete) {
-//        qDebug("Parser deferred delete event");
-//    }
     return QObject::event(event);
 }
 
@@ -214,7 +207,6 @@ void Parser::saveAuthors()
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
     emit stateChanged(72);
-    qDebug() << "author unique";
     LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
@@ -225,13 +217,11 @@ void Parser::saveAuthors()
             addLast(adjList[v], u);
         }
     }
-    qDebug() << "author link created";
     emit stateChanged(74);
     G.clear();
     G.squeeze();
     emit stateChanged(75);
     runAndPrintStatsCliques(adjList, n);
-    qDebug() << "after clique count";
     emit stateChanged(95);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);

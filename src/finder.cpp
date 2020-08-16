@@ -24,14 +24,12 @@
 
 Finder::Finder(QObject *parent) : QObject(parent)
 {
-//    qDebug("Finder construct");
     clearIndex();
     init();
 }
 
 Finder::~Finder()
 {
-//    qDebug("Finder destruct");
 }
 
 void Finder::find(const QString &type, const QString &word)
@@ -109,7 +107,6 @@ void Finder::handleRequest(const QUrl &url)
     view->resize(800, 600);
     auto html = Util::readFile(":/web/detail.html");
     auto data = QJsonDocument(m_lastResult[idx].toJson()).toJson();
-    // qDebug() << data;
     html.replace("<!-- DATA_HOLDER -->", data);
     view->setHtml(html, QUrl("qrc:/web/"));
     view->show();
@@ -311,7 +308,6 @@ void Finder::image(const QString &img , const QString &filename)
     QPixmap image;    
     image.loadFromData(QByteArray::fromBase64(img.section(",", 1).toLocal8Bit()));
     bool isOk=image.save("./"+filename+".png");
-//    qDebug()<<isOk;
     emit saveImg(isOk);
 
 }
@@ -321,7 +317,6 @@ void Finder::saveWordCloud(const QString &img , const QString &filename)
     QPixmap image;
     image.loadFromData(QByteArray::fromBase64(img.section(",", 1).toLocal8Bit()));
     bool isOk=image.save("./"+filename+".png");
-//    qDebug()<<isOk;
     emit saveWC(isOk);
 
 }

@@ -31,15 +31,16 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#include <QDebug>
 
 #include"misc.h"
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern std::vector<std::vector<BigNumber>> nCr;
+extern QVector<QVector<BigNumber>> nCr;
 
-void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
+void listAllCliquesDegeneracy_A(QVector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
                                       int size, int max_k)
 {
     // vertex sets are stored in an array like this:
@@ -51,7 +52,6 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
 
     int** neighborsInP = (int **)calloc(size, sizeof(int*));
     int* numNeighbors = (int *)calloc(size, sizeof(int));
-   
     int i = 0;
 
     while(i<size)
@@ -66,7 +66,6 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
     int beginX = 0;
     int beginP = 0;
     int beginR = size;
-
     // for each vertex
     for(i=0;i<size;i++)
     {
@@ -148,7 +147,7 @@ void listAllCliquesDegeneracy_A(std::vector<BigNumber> &cliqueCounts, NeighborLi
 
 */
 
-void listAllCliquesDegeneracyRecursive_A( std::vector<BigNumber> &cliqueCounts,
+void listAllCliquesDegeneracyRecursive_A( QVector<BigNumber> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, 
