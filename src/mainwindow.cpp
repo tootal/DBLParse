@@ -19,17 +19,18 @@
 #include <QMimeData>
 
 #include "parser.h"
-#include "parsedialog.h"
 #include "util.h"
 #include "record.h"
 #include "finder.h"
 #include "webpage.h"
 #include "loader.h"
-#include "settingsdialog.h"
 #include "configmanager.h"
 #include "application.h"
-#include "downloaddialog.h"
+
 #include "widgets/statuslabel.h"
+#include "dialogs/parsedialog.h"
+#include "dialogs/settingsdialog.h"
+#include "dialogs/downloaddialog.h"
 #include "dialogs/statusdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)

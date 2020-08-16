@@ -64,16 +64,16 @@ SOURCES += \
     application.cpp \
     configmanager.cpp \
     dialogs/statusdialog.cpp \
-    downloaddialog.cpp \
+    dialogs/downloaddialog.cpp \
     finder.cpp \
     loader.cpp \
     main.cpp \
     mainwindow.cpp \
     networker.cpp \
-    parsedialog.cpp \
+    dialogs/parsedialog.cpp \
     parser.cpp \
     record.cpp \
-    settingsdialog.cpp \
+    dialogs/settingsdialog.cpp \
     stemmer.cpp \
     util.cpp \
     webpage.cpp \
@@ -84,18 +84,18 @@ HEADERS += \
     application.h \
     configmanager.h \
     dialogs/statusdialog.h \
-    downloaddialog.h \
+    dialogs/downloaddialog.h \
     finder.h \
     hash.h \
     loader.h \
     mainwindow.h \
     networker.h \
-    parsedialog.h \
+    dialogs/parsedialog.h \
     parser.h \
     reader.h \
     record.h \
     saver.h \
-    settingsdialog.h \
+    dialogs/settingsdialog.h \
     stemmer.h \
     util.h \
     webpage.h \
@@ -107,10 +107,10 @@ TRANSLATIONS += \
 
 FORMS += \
     dialogs/statusdialog.ui \
-    downloaddialog.ui \
+    dialogs/downloaddialog.ui \
     mainwindow.ui \
-    parsedialog.ui \
-    settingsdialog.ui \
+    dialogs/parsedialog.ui \
+    dialogs/settingsdialog.ui \
     widgets/statuslabel.ui
 
 # Default rules for deployment.

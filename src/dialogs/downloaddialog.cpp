@@ -49,7 +49,7 @@ void DownloadDialog::getDownloadList(const QString &source)
         auto html = reply->readAll();
         reply->deleteLater();
         QRegularExpression re(
-R"(<td><a href=".*">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right">(.*?)<\/td>)"
+R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right">(.*?)<\/td>)"
         );
         auto i = re.globalMatch(html);
         QVector<DblpRelease> rs;
@@ -58,9 +58,9 @@ R"(<td><a href=".*">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right"
             auto fileName = match.captured(1);
             auto lastModified = match.captured(2);
             auto size = match.captured(3).trimmed();
-            if (fileName.endsWith("md5")) continue;
             rs.append({fileName, lastModified, size});
         }
+        ui->tableWidget->clearContents();
         ui->tableWidget->setRowCount(rs.size());
         for (int j = 0; j < rs.size(); j++) {
             ui->tableWidget->setItem(j, 0, new QTableWidgetItem(rs[j].fileName));
@@ -68,5 +68,14 @@ R"(<td><a href=".*">(.*)<\/a><\/td><td align="right">(.*)<\/td><td align="right"
             ui->tableWidget->setItem(j, 2, new QTableWidgetItem(rs[j].size));
         }
         ui->tableWidget->resizeColumnsToContents();
+        ui->tableWidget->setCurrentCell(0, 0);
     });
+}
+
+void DownloadDialog::on_pushButton_clicked()
+{
+    auto src = ui->comboBox->currentText();
+    int row = ui->tableWidget->currentRow();
+    auto fileName = ui->tableWidget->item(row, 0)->text();
+    QDesktopServices::openUrl(src + "release/" + fileName);
 }

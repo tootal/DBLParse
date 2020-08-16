@@ -20,6 +20,9 @@ public:
     explicit DownloadDialog(QWidget *parent = nullptr);
     ~DownloadDialog();
     
+private slots:
+    void on_pushButton_clicked();
+    
 private:
     Ui::DownloadDialog *ui;
     static const QStringList tableLables;
