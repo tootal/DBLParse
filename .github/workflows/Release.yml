@@ -5,12 +5,33 @@ on:
     - master
     tags:
     - 'v*'
+    - 'test'
 jobs:
-  windows-release:
-    name: Release on Windows
+  create-release:
+    name: Create Release
     runs-on: windows-2019
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: Generate release note
+      id: release_note
+      run: echo ("::set-output name=note_json::" + (python .\scripts\release_note.py ${{ github.ref }}))
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        body: |
+          ${{ fromJson(steps.release_note.outputs.note_json).note }}
+        draft: false
+        prerelease: true
+  windows-release:
+    name: Release on Windows
+    runs-on: windows-2019
+    needs: create-release
     steps:
     - name: Cache Qt
       id: win-cache-qt
@@ -50,35 +71,20 @@ jobs:
         Copy-Item openssl-release\windows\1.1.1\libcrypto-1_1-x64.dll DBLParse\
         Copy-Item openssl-release\windows\1.1.1\libssl-1_1-x64.dll DBLParse\
         Compress-Archive -Path DBLParse DBLParse.zip
-    - name: Generate release note
-      id: release_note
-      run: echo ("::set-output name=note::" + (python .\scripts\release_note.py ${{ github.ref }}))
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-        body: |
-          ${{ steps.release_note.outputs.note }}
-        draft: false
-        prerelease: false
     - name: Upload asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
         asset_path: ./DBLParse.zip
         asset_name: DBLParse.zip
         asset_content_type: application/zip
   ubuntu-release:
     name: Release on Ubuntu
     runs-on: ubuntu-18.04
-    needs: windows-release
+    needs: create-release
     steps:
     - name: Cache Qt
       id: ubuntu-cache-qt
@@ -132,14 +138,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ needs.windows-release.outputs.upload_url }}
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
         asset_path: ./DBLParse/DBLParse.AppImage
         asset_name: DBLParse.AppImage
         asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
     runs-on: macos-10.15
-    needs: windows-release
+    needs: create-release
     steps:
     - name: Cache Qt
       id: macos-cache-qt
@@ -171,7 +177,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ needs.windows-release.outputs.upload_url }}
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
         asset_path: ./src/DBLParse.dmg
         asset_name: DBLParse.dmg
         asset_content_type: application/applefile

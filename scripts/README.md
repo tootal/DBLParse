@@ -1,4 +1,6 @@
-# 构建脚本
+echo ('::set-output name=note::'
+python .\scripts\release_note.py test
 
-此文件夹存放构建软件过程中使用的部分脚本。  
-关于Github Action自动化构建的脚本放在/.github/workflows文件夹下。  
+$note = python .\scripts\release_note.py test
+$cmd_out = '::set-output name=note::' + $note
+echo $cmd_out

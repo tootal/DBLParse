@@ -1,4 +1,8 @@
 # Change Log
+## test
+this is a test release.
+this is a release for testing.
+
 ## v3.2
 * Merge qrc and translation files
 * Add status label
