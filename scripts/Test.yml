@@ -1,0 +1,21 @@
+name: Test
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - '.github/workflows/Test.yml'
+    tags-ignore:
+    - 'v*'
+jobs:
+  Test:
+    runs-on: windows-latest
+    steps:
+    - name: Environment variable
+      run: |
+        echo $CI
+        echo $HOME
+        echo $GITHUB_WORKFLOW
+        echo $GITHUB_WORKSPACE
+        echo $GITHUB_SHA
+        echo $GITHUB_REF
