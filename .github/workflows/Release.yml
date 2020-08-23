@@ -12,6 +12,7 @@ jobs:
     runs-on: windows-2019
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag: ${{ fromJson(steps.release_note.outputs.note_json).tag }}
     steps:
     - name: Pull codes
       uses: actions/checkout@v2
@@ -29,11 +30,13 @@ jobs:
         body: |
           ${{ fromJson(steps.release_note.outputs.note_json).note }}
         draft: false
-        prerelease: true
+        prerelease: ${{ github.ref == 'refs/tags/test' }}
   windows-release:
     name: Release on Windows
     runs-on: windows-2019
     needs: create-release
+    env:
+      NAME: DBLParse-${{ needs.create-release.outputs.tag }}
     steps:
     - name: Cache Qt
       id: win-cache-qt
@@ -64,15 +67,15 @@ jobs:
       env:
         VCINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
       run: |
-        New-Item -ItemType Directory DBLParse
-        Copy-Item src\DBLParse.exe DBLParse\
-        cd DBLParse
+        New-Item -ItemType Directory ${{ env.NAME }}
+        Copy-Item src\DBLParse.exe ${{ env.NAME }}\
+        cd ${{ env.NAME }}
         windeployqt DBLParse.exe
         cd ..
         git clone https://github.com/tootal/openssl-release
-        Copy-Item openssl-release\windows\1.1.1\libcrypto-1_1-x64.dll DBLParse\
-        Copy-Item openssl-release\windows\1.1.1\libssl-1_1-x64.dll DBLParse\
-        Compress-Archive -Path DBLParse DBLParse.zip
+        Copy-Item openssl-release\windows\1.1.1\libcrypto-1_1-x64.dll ${{ env.NAME }}\
+        Copy-Item openssl-release\windows\1.1.1\libssl-1_1-x64.dll ${{ env.NAME }}\
+        Compress-Archive -Path ${{ env.NAME }} ${{ env.NAME }}.zip
     - name: Upload asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -80,13 +83,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./DBLParse.zip
-        asset_name: DBLParse.zip
+        asset_path: ./${{ env.NAME }}.zip
+        asset_name: ${{ env.NAME }}.zip
         asset_content_type: application/zip
   ubuntu-release:
     name: Release on Ubuntu
     runs-on: ubuntu-18.04
     needs: create-release
+    env:
+      NAME: DBLParse-${{ needs.create-release.outputs.tag }}
     steps:
     - name: Cache Qt
       id: ubuntu-cache-qt
@@ -133,7 +138,7 @@ jobs:
         export ARCH=x86_64
         sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
         ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
-        mv DBLParse*.AppImage DBLParse.AppImage
+        mv DBLParse*.AppImage DBLParse-${{ env.NAME }}.AppImage
     - name: Upload asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -141,13 +146,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./DBLParse/DBLParse.AppImage
-        asset_name: DBLParse.AppImage
+        asset_path: ./DBLParse/DBLParse-${{ env.NAME }}.AppImage
+        asset_name: DBLParse-${{ env.NAME }}.AppImage
         asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
     runs-on: macos-10.15
     needs: create-release
+    env:
+      NAME: DBLParse-${{ needs.create-release.outputs.tag }}
     steps:
     - name: Cache Qt
       id: macos-cache-qt
@@ -181,5 +188,5 @@ jobs:
       with:
         upload_url: ${{ needs.create-release.outputs.upload_url }}
         asset_path: ./src/DBLParse.dmg
-        asset_name: DBLParse.dmg
+        asset_name: DBLParse-${{ env.NAME }}.dmg
         asset_content_type: application/applefile
