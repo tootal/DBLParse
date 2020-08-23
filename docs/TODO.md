@@ -8,3 +8,4 @@
 - [ ] support vscode
 - [ ] support local build & deploy
 - [ ] merge local & remote scripts
+- [ ] cmake support
