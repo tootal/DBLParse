@@ -28,7 +28,7 @@ copy "C:\Program Files\OpenSSL-Win64\bin\libssl-1_1-x64.dll" .
 
 echo Compressing...
 cd ..
-bc c -fmt:zip DBLParse.7z DBLParse
+bc c -fmt:zip DBLParse.zip DBLParse
 
 echo Clean...
 cd ..
