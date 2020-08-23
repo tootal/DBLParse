@@ -23,10 +23,12 @@ cd ..
 copy src\DBLParse.exe deploy\DBLParse
 cd deploy\DBLParse 
 windeployqt DBLParse.exe
+copy "C:\Program Files\OpenSSL-Win64\bin\libcrypto-1_1-x64.dll" .
+copy "C:\Program Files\OpenSSL-Win64\bin\libssl-1_1-x64.dll" .
 
 echo Compressing...
 cd ..
-bc c -fmt:7z DBLParse.7z DBLParse
+bc c -fmt:zip DBLParse.7z DBLParse
 
 echo Clean...
 cd ..
