@@ -1,4 +1,4 @@
-name: CI
+name: Test
 on:
   push:
     branches:
@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env: 
+      DBLP_VER: '2020-08-01'
     steps:
     - uses: actions/cache@v2
       id: cache-qt
@@ -23,8 +25,8 @@ jobs:
       id: cache-dblp
       uses: actions/cache@v2
       with:
-        path: dblp-2020-08-01.xml
-        key: ${{ runner.os }}/dblp-2020-08-01.xml
+        path: dblp-${{ env.DBLP_VER }}.xml
+        key: ${{ runner.os }}/dblp-${{ env.DBLP_VER }}.xml
     - uses: actions/setup-python@v2
       if: steps.cache-dblp.outputs.cache-hit != 'true'
     - uses: actions/checkout@v2
@@ -35,5 +37,5 @@ jobs:
       run: |
         pip3 install requests
         pip3 install clint
-        python .\download.py
-        7z x dblp-2020-08-01.xml.gz
+        python .\scripts\download.py ${{ env.DBLP_VER }}
+        7z x dblp-${{ env.DBLP_VER }}.xml.gz

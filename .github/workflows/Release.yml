@@ -13,6 +13,8 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+    - name: Pull codes
+      uses: actions/checkout@v2
     - name: Generate release note
       id: release_note
       run: echo ("::set-output name=note_json::" + (python .\scripts\release_note.py ${{ github.ref }}))
