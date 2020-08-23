@@ -138,7 +138,7 @@ jobs:
         export ARCH=x86_64
         sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
         ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
-        mv DBLParse*.AppImage DBLParse-${{ env.NAME }}.AppImage
+        mv DBLParse*.AppImage ${{ env.NAME }}.AppImage
     - name: Upload asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -146,8 +146,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./DBLParse/DBLParse-${{ env.NAME }}.AppImage
-        asset_name: DBLParse-${{ env.NAME }}.AppImage
+        asset_path: ./DBLParse/${{ env.NAME }}.AppImage
+        asset_name: ${{ env.NAME }}.AppImage
         asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
@@ -188,5 +188,5 @@ jobs:
       with:
         upload_url: ${{ needs.create-release.outputs.upload_url }}
         asset_path: ./src/DBLParse.dmg
-        asset_name: DBLParse-${{ env.NAME }}.dmg
+        asset_name: ${{ env.NAME }}.dmg
         asset_content_type: application/applefile

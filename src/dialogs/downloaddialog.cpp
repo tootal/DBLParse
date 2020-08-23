@@ -41,12 +41,11 @@ void DownloadDialog::initDownloadSources()
 
 void DownloadDialog::getDownloadList(const QString &source)
 {
-    qDebug() << "getDownloadList";
+    ui->stackedWidget->setCurrentIndex(1);
     auto networker = NetWorker::instance();
     auto reply = networker->get(source + "release/");
     connect(reply, &QNetworkReply::finished,
             this, [this, reply]() {
-        qDebug() << "network finished";
         auto html = reply->readAll();
         reply->deleteLater();
         QRegularExpression re(
@@ -70,6 +69,7 @@ R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td alig
         }
         ui->tableWidget->resizeColumnsToContents();
         ui->tableWidget->setCurrentCell(0, 0);
+        ui->stackedWidget->setCurrentIndex(0);
     });
 }
 

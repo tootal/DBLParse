@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] copy ssl lib when deploy
+- [x] copy ssl lib when deploy
 - [ ] reopen download dialog failed
 - [ ] can not search keyword "5G"
 - [ ] crashed when search "python"

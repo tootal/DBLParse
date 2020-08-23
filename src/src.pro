@@ -78,6 +78,7 @@ SOURCES += \
     util.cpp \
     webpage.cpp \
     webview.cpp \
+    widgets/loadinglabel.cpp \
     widgets/statuslabel.cpp
 
 HEADERS += \
@@ -100,6 +101,7 @@ HEADERS += \
     util.h \
     webpage.h \
     webview.h \
+    widgets/loadinglabel.h \
     widgets/statuslabel.h
 
 TRANSLATIONS += \
@@ -111,6 +113,7 @@ FORMS += \
     mainwindow.ui \
     dialogs/parsedialog.ui \
     dialogs/settingsdialog.ui \
+    widgets/loadinglabel.ui \
     widgets/statuslabel.ui
 
 # Default rules for deployment.

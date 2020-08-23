@@ -26,7 +26,7 @@
      <item>
       <widget class="QComboBox" name="comboBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -63,31 +63,85 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="rowCount">
-      <number>0</number>
-     </property>
-     <property name="columnCount">
-      <number>3</number>
-     </property>
-     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>false</bool>
-     </attribute>
-     <column/>
-     <column/>
-     <column/>
+     <widget class="QWidget" name="resultPage">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="rowCount">
+          <number>0</number>
+         </property>
+         <property name="columnCount">
+          <number>3</number>
+         </property>
+         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>false</bool>
+         </attribute>
+         <column/>
+         <column/>
+         <column/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="loadingPage">
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>240</y>
+         <width>151</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Loading...</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="LoadingLabel" name="widget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>70</y>
+         <width>128</width>
+         <height>128</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </item>
    <item>
@@ -119,6 +173,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LoadingLabel</class>
+   <extends>QWidget</extends>
+   <header>widgets/loadinglabel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
