@@ -41,11 +41,12 @@ void DownloadDialog::initDownloadSources()
 
 void DownloadDialog::getDownloadList(const QString &source)
 {
-    
+    qDebug() << "getDownloadList";
     auto networker = NetWorker::instance();
-    networker->get(source + "release/");
-    connect(networker, &NetWorker::finished,
-            this, [this](QNetworkReply *reply) {
+    auto reply = networker->get(source + "release/");
+    connect(reply, &QNetworkReply::finished,
+            this, [this, reply]() {
+        qDebug() << "network finished";
         auto html = reply->readAll();
         reply->deleteLater();
         QRegularExpression re(
