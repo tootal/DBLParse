@@ -2,12 +2,12 @@ name: Build
 on:
   push:
     branches:
-      - master
-      - develop
+    - develop
     paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - 'scripts/**'
+    - 'README.md'
+    - 'docs/**'
+    tags-ignore:
+    - 'v*'
 jobs:
   windows-build:
     name: Build on Windows

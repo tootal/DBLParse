@@ -1,9 +1,10 @@
 name: Release
 on:
   push:
+    branches:
+    - master
     tags:
-      - 'v*'
-      - 'test'
+    - 'v*'
 jobs:
   windows-release:
     name: Release on Windows
@@ -11,163 +12,166 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - name: Cache Qt
-        id: win-cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt
-          key: ${{ runner.os }}/Qt/5.15.0
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
-        with:
-          version: 5.15.0
-          target: desktop
-          arch: win64_msvc2019_64
-          modules: qtwebengine
-          cached: ${{ steps.win-cache-qt.outputs.cache-hit }}
-      - name: Pull codes
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Build MSVC
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          qmake
-          nmake
-      - name: Deploy Qt
-        shell: pwsh
-        env:
-          VCINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
-        run: |
-          New-Item -ItemType Directory DBLParse
-          Copy-Item src\DBLParse.exe DBLParse\
-          cd DBLParse
-          windeployqt DBLParse.exe
-          cd ..
-          Compress-Archive -Path DBLParse DBLParse.zip
-      - name: Generate release note
-        id: release_note
-        run: echo ("::set-output name=note::" + (python .\scripts\release_note.py ${{ github.ref }}))
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body: |
-            ${{ steps.release_note.outputs.note }}
-          draft: false
-          prerelease: false
-      - name: Upload asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DBLParse.zip
-          asset_name: DBLParse.zip
-          asset_content_type: application/zip
+    - name: Cache Qt
+      id: win-cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt
+        key: ${{ runner.os }}/Qt/5.15.0
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.5.3
+      with:
+        version: 5.15.0
+        target: desktop
+        arch: win64_msvc2019_64
+        modules: qtwebengine
+        cached: ${{ steps.win-cache-qt.outputs.cache-hit }}
+    - name: Pull codes
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Build MSVC
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+        qmake
+        nmake
+    - name: Deploy Qt
+      shell: pwsh
+      env:
+        VCINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
+      run: |
+        New-Item -ItemType Directory DBLParse
+        Copy-Item src\DBLParse.exe DBLParse\
+        cd DBLParse
+        windeployqt DBLParse.exe
+        cd ..
+        git clone https://github.com/tootal/openssl-release
+        Copy-Item openssl-release\windows\1.1.1\libcrypto-1_1-x64.dll DBLParse\
+        Copy-Item openssl-release\windows\1.1.1\libssl-1_1-x64.dll DBLParse\
+        Compress-Archive -Path DBLParse DBLParse.zip
+    - name: Generate release note
+      id: release_note
+      run: echo ("::set-output name=note::" + (python .\scripts\release_note.py ${{ github.ref }}))
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        body: |
+          ${{ steps.release_note.outputs.note }}
+        draft: false
+        prerelease: false
+    - name: Upload asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./DBLParse.zip
+        asset_name: DBLParse.zip
+        asset_content_type: application/zip
   ubuntu-release:
     name: Release on Ubuntu
     runs-on: ubuntu-18.04
     needs: windows-release
     steps:
-      - name: Cache Qt
-        id: ubuntu-cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt/5.15.0/gcc_64
-          key: ${{ runner.os }}/Qt/5.15.0/gcc_64
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
-        with:
-          version: 5.15.0
-          target: desktop
-          modules: qtwebengine
-          cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
-      - name: GL library
-        run: sudo apt-get install -y libglew-dev libglfw3-dev
-      - name: Pull codes
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-      - name: Build GCC
-        run: |
-          qmake
-          make
-      - name: Build linuxdeployqt
-        run: |
-          git clone https://github.com/tootal/linuxdeployqt
-          cd linuxdeployqt
-          qmake
-          make
-          cd ..
-          wget https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
-          tar xf patchelf-0.9.tar.bz2
-          ( cd patchelf-0.9/ && ./configure  && make && sudo make install )
-          sudo wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O /usr/local/bin/appimagetool
-          sudo chmod a+x /usr/local/bin/appimagetool
-      - name: Deploy Qt
-        run: |
-          mkdir DBLParse
-          cp src/DBLParse DBLParse/
-          cp scripts/default.desktop DBLParse/
-          cd DBLParse/
-          export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
-          export ARCH=x86_64
-          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
-          ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
-          mv DBLParse*.AppImage DBLParse.AppImage
-      - name: Upload asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.windows-release.outputs.upload_url }}
-          asset_path: ./DBLParse/DBLParse.AppImage
-          asset_name: DBLParse.AppImage
-          asset_content_type: application/octet-stream
+    - name: Cache Qt
+      id: ubuntu-cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt/5.15.0/gcc_64
+        key: ${{ runner.os }}/Qt/5.15.0/gcc_64
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.5.3
+      with:
+        version: 5.15.0
+        target: desktop
+        modules: qtwebengine
+        cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
+    - name: GL library
+      run: sudo apt-get install -y libglew-dev libglfw3-dev
+    - name: Pull codes
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 0
+    - name: Build GCC
+      run: |
+        qmake
+        make
+    - name: Build linuxdeployqt
+      run: |
+        git clone https://github.com/tootal/linuxdeployqt
+        cd linuxdeployqt
+        qmake
+        make
+        cd ..
+        wget https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
+        tar xf patchelf-0.9.tar.bz2
+        ( cd patchelf-0.9/ && ./configure  && make && sudo make install )
+        sudo wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O /usr/local/bin/appimagetool
+        sudo chmod a+x /usr/local/bin/appimagetool
+    - name: Deploy Qt
+      run: |
+        mkdir DBLParse
+        cp src/DBLParse DBLParse/
+        cp scripts/default.desktop DBLParse/
+        cd DBLParse/
+        export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
+        export ARCH=x86_64
+        sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
+        ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
+        mv DBLParse*.AppImage DBLParse.AppImage
+    - name: Upload asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.windows-release.outputs.upload_url }}
+        asset_path: ./DBLParse/DBLParse.AppImage
+        asset_name: DBLParse.AppImage
+        asset_content_type: application/octet-stream
   macos-release:
     name: Release on MacOS
     runs-on: macos-10.15
     needs: windows-release
     steps:
-      - name: Cache Qt
-        id: macos-cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt/5.15.0/clang_64
-          key: ${{ runner.os }}/Qt/5.15.0/clang_64
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
-        with:
-          version: 5.15.0
-          target: desktop
-          modules: qtwebengine
-          cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
-      - name: Pull codes
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-      - name: Build Clang
-        run: |
-          qmake
-          make
-      - name: Deploy Qt
-        run: |
-          macdeployqt src/DBLParse.app -verbose=1 -dmg
-      - name: Upload asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.windows-release.outputs.upload_url }}
-          asset_path: ./src/DBLParse.dmg
-          asset_name: DBLParse.dmg
-          asset_content_type: application/applefile
+    - name: Cache Qt
+      id: macos-cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt/5.15.0/clang_64
+        key: ${{ runner.os }}/Qt/5.15.0/clang_64
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.5.3
+      with:
+        version: 5.15.0
+        target: desktop
+        modules: qtwebengine
+        cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
+    - name: Pull codes
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Build Clang
+      run: |
+        qmake
+        make
+    - name: Deploy Qt
+      run: |
+        macdeployqt src/DBLParse.app -verbose=1 -dmg
+    - name: Upload asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.windows-release.outputs.upload_url }}
+        asset_path: ./src/DBLParse.dmg
+        asset_name: DBLParse.dmg
+        asset_content_type: application/applefile

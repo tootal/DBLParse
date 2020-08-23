@@ -6,6 +6,6 @@
 - [ ] crashed when search "python"
 - [ ] fix release note scripts
 - [ ] support vscode
-- [ ] support local build & deploy
+- [x] support local build & deploy
 - [ ] merge local & remote scripts
 - [ ] cmake support
