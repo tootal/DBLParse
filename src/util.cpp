@@ -26,8 +26,6 @@ const QStringList
 Util::availableDownloadSources = {
     "https://dblp.org/xml/",
     "https://dblp.dagstuhl.de/xml/",
-    "https://dblp.uni-trier.de/xml/",
-    "https://dblp2.uni-trier.de/xml/"
 };
 
 QByteArray Util::readFile(const QString &fileName)
