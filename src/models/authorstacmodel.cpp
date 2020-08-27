@@ -1,14 +1,18 @@
 #include "authorstacmodel.h"
 
-AuthorStacModel::AuthorStacModel(QObject *parent)
-    : QAbstractTableModel(parent)
+#include "parser.h"
+
+AuthorStacModel::AuthorStacModel(const QVector<AuthorStac> &authorStacs, 
+                                 QObject *parent)
+    : QAbstractTableModel(parent),
+      authorStacs(authorStacs)
 {
     
 }
 
 int AuthorStacModel::rowCount(const QModelIndex &) const
 {
-    return 5;
+    return qMin(100, authorStacs.size());
 }
 
 int AuthorStacModel::columnCount(const QModelIndex &) const
@@ -19,9 +23,12 @@ int AuthorStacModel::columnCount(const QModelIndex &) const
 QVariant AuthorStacModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
-        return QString("Row %1, Column %2")
-                .arg(index.row() + 1)
-                .arg(index.column() + 1);
+        switch (index.column()) {
+        case 0:
+            return authorStacs.at(index.row()).author;
+        case 1:
+            return authorStacs.at(index.row()).stac;
+        }
     }
     return QVariant();
 }

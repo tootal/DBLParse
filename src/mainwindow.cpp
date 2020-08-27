@@ -447,6 +447,6 @@ void MainWindow::on_actionAuthorStac2_triggered()
         on_actionStatus_triggered();
         return ;
     }
-    auto dialog = new AuthorStacDialog(this);
+    auto dialog = new AuthorStacDialog(m_finder->authorStacs, this);
     dialog->show();
 }
