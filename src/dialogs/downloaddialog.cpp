@@ -17,7 +17,7 @@ DownloadDialog::DownloadDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     initDownloadSources();
-    getDownloadList(ui->comboBox->currentText());
+    refresh();
     connect(ui->comboBox, &QComboBox::currentTextChanged,
             this, [this](const QString &source) {
         getDownloadList(source);
@@ -39,11 +39,15 @@ void DownloadDialog::initDownloadSources()
     ui->comboBox->addItems(Util::availableDownloadSources);
 }
 
-void DownloadDialog::getDownloadList(const QString &source)
+void DownloadDialog::refresh()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    getDownloadList(ui->comboBox->currentText());
+}
+
+void DownloadDialog::getReleases(const QString &source)
+{
     auto networker = NetWorker::instance();
-    auto reply = networker->get(source + "release/");
+    auto reply = networker->get(source);
     connect(reply, &QNetworkReply::finished,
             this, [this, reply]() {
         auto html = reply->readAll();
@@ -60,8 +64,7 @@ R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td alig
             auto size = match.captured(3).trimmed();
             rs.append({fileName, lastModified, size});
         }
-        ui->tableWidget->clearContents();
-        ui->tableWidget->setRowCount(rs.size());
+        ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + rs.size());
         for (int j = 0; j < rs.size(); j++) {
             ui->tableWidget->setItem(j, 0, new QTableWidgetItem(rs[j].fileName));
             ui->tableWidget->setItem(j, 1, new QTableWidgetItem(rs[j].lastModified));
@@ -73,10 +76,34 @@ R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td alig
     });
 }
 
+void DownloadDialog::getLatest(const QString &source)
+{
+    
+}
+
+void DownloadDialog::getDownloadList(const QString &source)
+{
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->tableWidget->clearContents();
+    if (ui->releasesCheckBox->isChecked()) {
+        getReleases(source + "release/");
+    }
+}
+
 void DownloadDialog::on_pushButton_clicked()
 {
     auto src = ui->comboBox->currentText();
     int row = ui->tableWidget->currentRow();
     auto fileName = ui->tableWidget->item(row, 0)->text();
     QDesktopServices::openUrl(src + "release/" + fileName);
+}
+
+void DownloadDialog::on_releasesCheckBox_stateChanged(int)
+{
+    refresh();
+}
+
+void DownloadDialog::on_latestCheckBox_stateChanged(int)
+{
+    refresh();
 }

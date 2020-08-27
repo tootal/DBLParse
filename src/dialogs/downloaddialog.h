@@ -23,10 +23,17 @@ public:
 private slots:
     void on_pushButton_clicked();
     
+    void on_releasesCheckBox_stateChanged(int);
+    
+    void on_latestCheckBox_stateChanged(int);
+    
 private:
     Ui::DownloadDialog *ui;
     static const QStringList tableLables;
     void initDownloadSources();
+    void refresh();
+    void getReleases(const QString &source);
+    void getLatest(const QString &source);
     void getDownloadList(const QString &source);
 };
 

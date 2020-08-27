@@ -1,7 +1,7 @@
 # Change Log
-## test
-this is a test release.
-this is a release for testing.
+## v3.2.1
+* Fix reopen download dialog failed
+* Enable source choose box
 
 ## v3.2
 * Merge qrc and translation files

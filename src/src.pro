@@ -62,6 +62,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     application.cpp \
+    dialogs/authorstacdialog.cpp \
     configmanager.cpp \
     dialogs/statusdialog.cpp \
     dialogs/downloaddialog.cpp \
@@ -69,6 +70,7 @@ SOURCES += \
     loader.cpp \
     main.cpp \
     mainwindow.cpp \
+    models/authorstacmodel.cpp \
     networker.cpp \
     dialogs/parsedialog.cpp \
     parser.cpp \
@@ -83,6 +85,7 @@ SOURCES += \
 
 HEADERS += \
     application.h \
+    dialogs/authorstacdialog.h \
     configmanager.h \
     dialogs/statusdialog.h \
     dialogs/downloaddialog.h \
@@ -90,6 +93,7 @@ HEADERS += \
     hash.h \
     loader.h \
     mainwindow.h \
+    models/authorstacmodel.h \
     networker.h \
     dialogs/parsedialog.h \
     parser.h \
@@ -108,6 +112,7 @@ TRANSLATIONS += \
     DBLParse_zh_CN.ts
 
 FORMS += \
+    dialogs/authorstacdialog.ui \
     dialogs/statusdialog.ui \
     dialogs/downloaddialog.ui \
     mainwindow.ui \

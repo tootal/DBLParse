@@ -32,6 +32,8 @@
 #include "dialogs/settingsdialog.h"
 #include "dialogs/downloaddialog.h"
 #include "dialogs/statusdialog.h"
+#include "dialogs/authorstacdialog.h"
+#include "models/authorstacmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -437,4 +439,14 @@ void MainWindow::on_actionFeedback_triggered()
 void MainWindow::on_actionDocumentation_triggered()
 {
     Util::showMarkdown(tr(":/docs/README.md"), this);
+}
+
+void MainWindow::on_actionAuthorStac2_triggered()
+{
+    if (!Util::parsed() || !m_finder->authorStacLoaded()) {
+        on_actionStatus_triggered();
+        return ;
+    }
+    auto dialog = new AuthorStacDialog(this);
+    dialog->show();
 }
