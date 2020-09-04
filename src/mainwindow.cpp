@@ -34,7 +34,6 @@
 #include "dialogs/statusdialog.h"
 #include "dialogs/authorstacdialog.h"
 #include "dialogs/changelogdialog.h"
-#include "models/authorstacmodel.h"
 #include "dialogs/documentdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)

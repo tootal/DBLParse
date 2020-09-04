@@ -2,7 +2,6 @@
 #include "ui_authorstacdialog.h"
 
 #include "parser.h"
-#include "models/authorstacmodel.h"
 
 AuthorStacDialog::AuthorStacDialog(const QVector<AuthorStac> &authorStacs, 
                                    QWidget *parent)
