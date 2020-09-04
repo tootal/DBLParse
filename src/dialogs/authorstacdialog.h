@@ -20,6 +20,7 @@ public:
     
 private:
     Ui::AuthorStacDialog *ui;
-    AuthorStacModel *model;
+    void setItem(int row, int col, const QByteArray &text);
+    void setItem(int row, int col, int text);
 };
 

@@ -151,5 +151,10 @@ QString Util::displayCostTime(int costMsecs)
                 .arg(costMsecs % 1000);
     return tr("%1:%2:%3").arg(costMsecs / 1000 / 60 / 60)
         .arg(costMsecs / 1000 / 60 % 60, 2, 10, QChar('0'))
-        .arg(costMsecs / 1000 % 60, 2, 10, QChar('0'));
+            .arg(costMsecs / 1000 % 60, 2, 10, QChar('0'));
+}
+
+void Util::copyText(const QString &text)
+{
+    QApplication::clipboard()->setText(text);
 }

@@ -65,10 +65,9 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionStatus"/>
-    <addaction name="actionAuthorStac"/>
     <addaction name="actionKeyWord"/>
     <addaction name="actionCountClique"/>
-    <addaction name="actionAuthorStac2"/>
+    <addaction name="actionAuthorStac"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -125,11 +124,6 @@
     <string>&amp;Open Index Folder</string>
    </property>
   </action>
-  <action name="actionAuthorStac">
-   <property name="text">
-    <string>&amp;AuthorStac</string>
-   </property>
-  </action>
   <action name="actionViewLog">
    <property name="text">
     <string>View &amp;Log</string>
@@ -175,9 +169,9 @@
     <string>&amp;Documentation</string>
    </property>
   </action>
-  <action name="actionAuthorStac2">
+  <action name="actionAuthorStac">
    <property name="text">
-    <string>AuthorStac2</string>
+    <string>Author Statistics</string>
    </property>
   </action>
  </widget>

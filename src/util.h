@@ -25,4 +25,5 @@ public:
     static QString getFileReadableSize(const QString &fileName);
     static QString displayDateTime(const QDateTime &dateTime);
     static QString displayCostTime(int costMsecs);
+    static void copyText(const QString &text);
 };

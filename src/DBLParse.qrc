@@ -8,9 +8,6 @@
         <file>resources/DBLParse.ico</file>
         <file>resources/DBLParse.png</file>
         <file>resources/splash.jpg</file>
-        <file>web/authorStac.html</file>
-        <file>web/authorStac.js</file>
-        <file>web/authorStac.test.js</file>
         <file>web/Belgrano.woff2</file>
         <file>web/bootstrap-select.min.css</file>
         <file>web/bootstrap-select.min.js</file>

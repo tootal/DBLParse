@@ -42,8 +42,6 @@ private slots:
     void on_actionClearIndex_triggered();
     
     void on_actionOpenIndexFolder_triggered();
-    
-    void on_actionAuthorStac_triggered();
 
     void on_actionViewLog_triggered();
     
@@ -63,7 +61,7 @@ private slots:
     
     void on_actionDocumentation_triggered();
     
-    void on_actionAuthorStac2_triggered();
+    void on_actionAuthorStac_triggered();
     
 protected:
     void changeEvent(QEvent *e) override;

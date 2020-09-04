@@ -10,12 +10,30 @@ AuthorStacDialog::AuthorStacDialog(const QVector<AuthorStac> &authorStacs,
       ui(new Ui::AuthorStacDialog)
 {
     ui->setupUi(this);
-    model = new AuthorStacModel{authorStacs};
-    ui->tableView->setModel(model);
+    ui->tableWidget->setRowCount(authorStacs.size());
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels({
+        tr("Author Name"),
+        tr("Number of Publications")
+    });
+    for (int i = 0; i < authorStacs.size(); i++) {
+        setItem(i, 0, authorStacs[i].author);
+        setItem(i, 1, authorStacs[i].stac);
+    }
+    ui->tableWidget->resizeColumnsToContents();
 }
 
 AuthorStacDialog::~AuthorStacDialog()
 {
     delete ui;
-    delete model;
+}
+
+void AuthorStacDialog::setItem(int row, int col, const QByteArray &text)
+{
+    ui->tableWidget->setItem(row, col, new QTableWidgetItem(QString(text)));
+}
+
+void AuthorStacDialog::setItem(int row, int col, int text)
+{
+    setItem(row, col, QByteArray::number(text));
 }

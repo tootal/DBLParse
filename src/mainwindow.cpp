@@ -269,37 +269,6 @@ void MainWindow::addStatusIcon()
     ui->statusbar->addPermanentWidget(statusLabel);
 }
 
-void MainWindow::on_actionAuthorStac_triggered()
-{
-    static const int TOP_K = 100;
-    if (!Util::parsed() || !m_finder->authorStacLoaded()) {
-        on_actionStatus_triggered();
-        return ;
-    }
-
-    auto *view = new WebView(this);
-    view->setWindowFlag(Qt::Window);
-    view->resize(600, 800);
-    
-    QVector<AuthorStac> authorStac = m_finder->authorStacs;
-    QJsonArray authorStacArray;
-    
-    int num = authorStac.size() <= TOP_K ? authorStac.size() : TOP_K;
-    for (qint32 t=0; t<num; t++) {
-        QJsonObject obj;
-        obj.insert("author", QString(authorStac[t].author));
-        obj.insert("articleNum",QString::number(authorStac[t].stac));
-        authorStacArray.append(obj);
-    }
-    
-    auto html = Util::readFile(":/web/authorStac.html");
-    auto data = QJsonDocument(authorStacArray).toJson();
-    
-    html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/web/"));
-    view->show();
-}
-
 void MainWindow::on_actionViewLog_triggered()
 {
 #ifdef QT_NO_DEBUG
@@ -441,7 +410,7 @@ void MainWindow::on_actionDocumentation_triggered()
     Util::showMarkdown(tr(":/docs/README.md"), this);
 }
 
-void MainWindow::on_actionAuthorStac2_triggered()
+void MainWindow::on_actionAuthorStac_triggered()
 {
     if (!Util::parsed() || !m_finder->authorStacLoaded()) {
         on_actionStatus_triggered();
