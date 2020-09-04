@@ -33,7 +33,9 @@
 #include "dialogs/downloaddialog.h"
 #include "dialogs/statusdialog.h"
 #include "dialogs/authorstacdialog.h"
+#include "dialogs/changelogdialog.h"
 #include "models/authorstacmodel.h"
+#include "dialogs/documentdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -397,7 +399,8 @@ void MainWindow::on_actionDownloadData_triggered()
 
 void MainWindow::on_actionChangeLog_triggered()
 {
-    Util::showMarkdown(tr(":/docs/changelog.md"), this);
+    auto dialog = new ChangeLogDialog(this);
+    dialog->show();
 }
 
 void MainWindow::on_actionFeedback_triggered()
@@ -407,7 +410,8 @@ void MainWindow::on_actionFeedback_triggered()
 
 void MainWindow::on_actionDocumentation_triggered()
 {
-    Util::showMarkdown(tr(":/docs/README.md"), this);
+    auto dialog = new DocumentDialog(this);
+    dialog->show();
 }
 
 void MainWindow::on_actionAuthorStac_triggered()

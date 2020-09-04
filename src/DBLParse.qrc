@@ -30,8 +30,6 @@
         <file>web/index.js</file>
         <file>web/index.test.js</file>
         <file>web/jquery.slim.min.js</file>
-        <file>web/markdown.html</file>
-        <file>web/marked.min.js</file>
         <file>web/popper.min.js</file>
         <file>web/qwebchannel.js</file>
         <file>web/strings_en.js</file>
