@@ -41,7 +41,18 @@ void DownloadDialog::initDownloadSources()
 
 void DownloadDialog::refresh()
 {
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->tableWidget->setRowCount(0);
     getDownloadList(ui->comboBox->currentText());
+}
+
+void DownloadDialog::append(const DblpRelease &data)
+{
+    int rowCount = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(rowCount);
+    ui->tableWidget->setItem(rowCount, 0, new QTableWidgetItem(data.fileName));
+    ui->tableWidget->setItem(rowCount, 1, new QTableWidgetItem(data.lastModified));
+    ui->tableWidget->setItem(rowCount, 2, new QTableWidgetItem(data.size));
 }
 
 void DownloadDialog::getReleases(const QString &source)
@@ -64,11 +75,8 @@ R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td alig
             auto size = match.captured(3).trimmed();
             rs.append({fileName, lastModified, size});
         }
-        ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + rs.size());
-        for (int j = 0; j < rs.size(); j++) {
-            ui->tableWidget->setItem(j, 0, new QTableWidgetItem(rs[j].fileName));
-            ui->tableWidget->setItem(j, 1, new QTableWidgetItem(rs[j].lastModified));
-            ui->tableWidget->setItem(j, 2, new QTableWidgetItem(rs[j].size));
+        for (auto j : rs) {
+            append(j);
         }
         ui->tableWidget->resizeColumnsToContents();
         ui->tableWidget->setCurrentCell(0, 0);
@@ -78,13 +86,34 @@ R"(<td><a href=".*\.xml\.gz">(.*)<\/a><\/td><td align="right">(.*)<\/td><td alig
 
 void DownloadDialog::getLatest(const QString &source)
 {
-    
+    auto networker = NetWorker::instance();
+    auto reply = networker->get(source);
+    connect(reply, &QNetworkReply::finished,
+            this, [this, reply]() {
+        auto html = reply->readAll();
+        reply->deleteLater();
+        QRegularExpression re(
+R"(<a href="dblp\.xml\.gz">dblp\.xml\.gz<\/a><\/td><td align="right">(.*?)<\/td><td align="right">(.*?)<\/td>)"
+        );
+        auto i = re.match(html);
+        DblpRelease rs;
+        if (i.hasMatch()) {
+            rs.fileName = "dblp.xml.gz";
+            rs.lastModified = i.captured(1);
+            rs.size = i.captured(2);
+        }
+        append(rs);
+        ui->tableWidget->resizeColumnsToContents();
+        ui->tableWidget->setCurrentCell(0, 0);
+        ui->stackedWidget->setCurrentIndex(0);
+    });
 }
 
 void DownloadDialog::getDownloadList(const QString &source)
 {
-    ui->stackedWidget->setCurrentIndex(1);
-    ui->tableWidget->clearContents();
+    if (ui->latestCheckBox->isChecked()) {
+        getLatest(source);
+    }
     if (ui->releasesCheckBox->isChecked()) {
         getReleases(source + "release/");
     }
@@ -95,7 +124,11 @@ void DownloadDialog::on_pushButton_clicked()
     auto src = ui->comboBox->currentText();
     int row = ui->tableWidget->currentRow();
     auto fileName = ui->tableWidget->item(row, 0)->text();
-    QDesktopServices::openUrl(src + "release/" + fileName);
+    if (fileName == "dblp.xml.gz") {
+        QDesktopServices::openUrl(QUrl("https://dblp.org/xml/dblp.xml.gz"));
+    } else {
+        QDesktopServices::openUrl(src + "release/" + fileName);
+    }
 }
 
 void DownloadDialog::on_releasesCheckBox_stateChanged(int)

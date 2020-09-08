@@ -32,6 +32,7 @@ private:
     static const QStringList tableLables;
     void initDownloadSources();
     void refresh();
+    void append(const DblpRelease &data);
     void getReleases(const QString &source);
     void getLatest(const QString &source);
     void getDownloadList(const QString &source);
