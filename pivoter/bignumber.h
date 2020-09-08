@@ -111,7 +111,7 @@ public:
      * Get the number of digits in the current instance
      * @return The number of digits
      */
-    unsigned int digits();
+    size_t digits();
 
     /**
      * Get whether or not the current instance is a negative number

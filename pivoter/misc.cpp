@@ -36,8 +36,7 @@
 
 #include <QDebug>
 
-#include <bignumber.h>
-
+#include "bignumber.h"
 #include"misc.h"
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
