@@ -9,12 +9,12 @@
         <translation>作者统计</translation>
     </message>
     <message>
-        <location filename="dialogs/authorstacdialog.cpp" line="16"/>
+        <location filename="dialogs/authorstacdialog.cpp" line="15"/>
         <source>Author Name</source>
         <translation>作者名</translation>
     </message>
     <message>
-        <location filename="dialogs/authorstacdialog.cpp" line="17"/>
+        <location filename="dialogs/authorstacdialog.cpp" line="16"/>
         <source>Number of Publications</source>
         <translation>发表文章数</translation>
     </message>
@@ -22,14 +22,12 @@
 <context>
     <name>AuthorStacModel</name>
     <message>
-        <location filename="models/authorstacmodel.cpp" line="42"/>
         <source>Author Name</source>
-        <translation>作者名</translation>
+        <translation type="vanished">作者名</translation>
     </message>
     <message>
-        <location filename="models/authorstacmodel.cpp" line="44"/>
         <source>Number of Publications</source>
-        <translation>发表文章数</translation>
+        <translation type="vanished">发表文章数</translation>
     </message>
 </context>
 <context>
@@ -43,6 +41,19 @@
         <location filename="dialogs/changelogdialog.cpp" line="11"/>
         <source>:/docs/changelog.md</source>
         <translation>:/docs/changelog_zh_CN.md</translation>
+    </message>
+</context>
+<context>
+    <name>CliqueCountDialog</name>
+    <message>
+        <location filename="dialogs/cliquecountdialog.ui" line="14"/>
+        <source>Clique Count</source>
+        <translation>聚团分析</translation>
+    </message>
+    <message>
+        <location filename="dialogs/cliquecountdialog.cpp" line="20"/>
+        <source>Number of Cliques</source>
+        <translation>聚团数量</translation>
     </message>
 </context>
 <context>
@@ -230,8 +241,9 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="174"/>
-        <source>Author Statistics</source>
-        <translation>作者统计</translation>
+        <source>&amp;Author Statistics</source>
+        <oldsource>Author Statistics</oldsource>
+        <translation>作者统计 (&amp;A)</translation>
     </message>
     <message>
         <source>About &amp;DBLP</source>
@@ -259,6 +271,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="144"/>
+        <location filename="mainwindow.ui" line="179"/>
         <source>&amp;Clique Count</source>
         <translation>聚团分析 (&amp;C)</translation>
     </message>
@@ -419,7 +432,7 @@ DBLP数据集现在由&lt;a href=&quot;https://www.dagstuhl.de/&quot;&gt;Schloss
         <translation>成功清除缓存文件！</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="389"/>
+        <location filename="mainwindow.cpp" line="359"/>
         <source>Do not find data file.</source>
         <translation>未找到数据文件。</translation>
     </message>

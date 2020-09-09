@@ -49,8 +49,6 @@ private slots:
 
     void on_actionKeyWord_triggered();
     
-    void on_actionCountClique_triggered();
-    
     void on_actionOpenDataFolder_triggered();
     
     void on_actionDownloadData_triggered();
@@ -63,7 +61,7 @@ private slots:
     
     void on_actionAuthorStac_triggered();
     
-    void on_actionCliqueCount2_triggered();
+    void on_actionCliqueCount_triggered();
     
 protected:
     void changeEvent(QEvent *e) override;

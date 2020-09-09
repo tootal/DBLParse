@@ -62,6 +62,7 @@ SOURCES += \
     dialogs/changelogdialog.cpp \
     dialogs/authorstacdialog.cpp \
     configmanager.cpp \
+    dialogs/cliquecountdialog.cpp \
     dialogs/documentdialog.cpp \
     dialogs/statusdialog.cpp \
     dialogs/downloaddialog.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     dialogs/changelogdialog.h \
     dialogs/authorstacdialog.h \
     configmanager.h \
+    dialogs/cliquecountdialog.h \
     dialogs/documentdialog.h \
     dialogs/statusdialog.h \
     dialogs/downloaddialog.h \
@@ -113,6 +115,7 @@ TRANSLATIONS += \
 FORMS += \
     dialogs/changelogdialog.ui \
     dialogs/authorstacdialog.ui \
+    dialogs/cliquecountdialog.ui \
     dialogs/documentdialog.ui \
     dialogs/statusdialog.ui \
     dialogs/downloaddialog.ui \

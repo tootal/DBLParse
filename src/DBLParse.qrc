@@ -13,9 +13,6 @@
         <file>web/bootstrap-select.min.js</file>
         <file>web/bootstrap.min.css</file>
         <file>web/bootstrap.min.js</file>
-        <file>web/clique.html</file>
-        <file>web/clique.js</file>
-        <file>web/clique.test.js</file>
         <file>web/detail.html</file>
         <file>web/detail.js</file>
         <file>web/detail.test.js</file>

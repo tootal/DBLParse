@@ -35,6 +35,7 @@
 #include "dialogs/authorstacdialog.h"
 #include "dialogs/changelogdialog.h"
 #include "dialogs/documentdialog.h"
+#include "dialogs/cliquecountdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -328,36 +329,6 @@ void MainWindow::on_actionKeyWord_triggered()
      view->show();
 }
 
-void MainWindow::on_actionCountClique_triggered()
-{
-    if(!Util::parsed()){
-        on_actionStatus_triggered();
-        return ;
-    }
-    auto *view = new WebView(this);
-    view->setWindowFlag(Qt::Window);
-    view->resize(850, 600);
-    QJsonObject o;
-    qint32 total;
-    {
-        QFile file("data/authorclique");
-        file.open(QFile::ReadOnly);
-        QDataStream in(&file);
-        in >> total;
-        for (int i = 1; i <= total; i++) {
-            QString cnt;
-            in >> cnt;
-            o.insert(QString::number(i), cnt);
-        }
-        file.close();
-    }
-    auto html = Util::readFile(":/web/clique.html");
-    auto data = QJsonDocument(o).toJson();
-    html.replace("<!-- DATA_HOLDER -->", data);
-    view->setHtml(html, QUrl("qrc:/web/"));
-    view->show();
-}
-
 void MainWindow::changeEvent(QEvent *e)
 {
     if (e->type() == QEvent::LanguageChange) {
@@ -423,7 +394,12 @@ void MainWindow::on_actionAuthorStac_triggered()
     dialog->show();
 }
 
-void MainWindow::on_actionCliqueCount2_triggered()
+void MainWindow::on_actionCliqueCount_triggered()
 {
-    
+    if(!Util::parsed()){
+        on_actionStatus_triggered();
+        return ;
+    }
+    auto dialog = new CliqueCountDialog(this);
+    dialog->show();
 }

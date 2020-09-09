@@ -66,9 +66,8 @@
     </property>
     <addaction name="actionStatus"/>
     <addaction name="actionKeyWord"/>
-    <addaction name="actionCountClique"/>
     <addaction name="actionAuthorStac"/>
-    <addaction name="actionCliqueCount2"/>
+    <addaction name="actionCliqueCount"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -172,12 +171,12 @@
   </action>
   <action name="actionAuthorStac">
    <property name="text">
-    <string>Author Statistics</string>
+    <string>&amp;Author Statistics</string>
    </property>
   </action>
-  <action name="actionCliqueCount2">
+  <action name="actionCliqueCount">
    <property name="text">
-    <string>Clique Count2</string>
+    <string>&amp;Clique Count</string>
    </property>
   </action>
  </widget>
