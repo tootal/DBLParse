@@ -174,42 +174,6 @@ void MainWindow::load()
     m_finder->init();
 }
 
-void MainWindow::load2()
-{
-    if(!Util::parsed()) return ;
-    auto loader = new Loader(m_finder);
-    auto thread = new QThread();
-    loader->moveToThread(thread);
-    connect(thread, &QThread::finished,
-            loader, &QObject::deleteLater);
-    connect(loader, &Loader::stateChanged,
-            this, [this](const QString &state) {
-        statusBar()->showMessage(state);
-    });
-    connect(thread, &QThread::finished,
-            thread, &QObject::deleteLater);
-    
-    connect(loader, &Loader::authorStacLoadDone,
-            m_finder, &Finder::setAuthorStacLoaded);
-    connect(loader, &Loader::yearWordLoadDone,
-            m_finder, &Finder::setYearWordLoaded);
-    connect(loader, &Loader::loadDone,
-            m_finder, &Finder::setLoaded);
-    connect(loader, &Loader::loadDone,
-            this, [this]() {
-        statusBar()->showMessage(tr("Load finished."), 3000); 
-        statusLabel->setOk();
-    });
-    thread->start();
-    QTimer::singleShot(0, loader, &Loader::run);
-    connect(m_finder, &Finder::loadDone,
-            this, [this]() {
-        qDebug() << "loadDone";
-        statusLabel->setOk(); 
-    });
-    m_finder->init();
-}
-
 void MainWindow::open(const QString &fileName)
 {
     App->config->setValue("lastOpenFileName", fileName);
