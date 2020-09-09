@@ -63,6 +63,8 @@ private slots:
     
     void on_actionAuthorStac_triggered();
     
+    void on_actionCliqueCount2_triggered();
+    
 protected:
     void changeEvent(QEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;

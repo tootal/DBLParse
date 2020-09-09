@@ -35,11 +35,13 @@
 #include <vector>
 
 #include <QDebug>
+#include <QFile>
+#include <QDataStream>
 
 #include "bignumber.h"
-#include"misc.h"
-#include"LinkedList.h"
-#include"degeneracy_helper.h"
+#include "misc.h"
+#include "LinkedList.h"
+#include "degeneracy_helper.h"
 
 QVector<QVector<BigNumber>> nCr;
 
@@ -78,16 +80,8 @@ void destroyCliqueResults(LinkedList* cliques)
 void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 {
     populate_nCr();
-    fflush(stderr);
-    int max_k = 0;
+    qint32 max_k = 0;
     int deg = 0, m = 0;
-    FILE *fp;
-#ifdef _MSC_VER
-    fopen_s(&fp, "data/authorclique.txt", "w");
-#else
-    fp = fopen("data/authorclique.txt", "w");
-#endif
-    fflush(stdout);
     NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);
     fflush(stdout);
     for (int i=0; i<n; i++)
@@ -100,16 +94,15 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     QVector<BigNumber> cliqueCounts(max_k + 1);
     listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k);
     while (cliqueCounts[max_k] == 0) max_k--;
-    fprintf(fp, "%d\n", max_k);
-    BigNumber totalCliques = 0;
-    for (int i=1; i<=max_k; i++)
     {
-        fprintf(fp, "%d %s\n", i, cliqueCounts[i].getString().c_str()); 
-        totalCliques += cliqueCounts[i];
+        QFile file("data/authorclique");
+        QDataStream s(&file);
+        file.open(QFile::WriteOnly);
+        s << max_k;
+        for (int i = 1; i <= max_k; i++)
+            s << QString::fromStdString(cliqueCounts[i].getString());
+        file.close();
     }
-
-    fprintf(fp, "%s\n", totalCliques.getString().c_str());
-    fclose(fp);
     free(orderingArray);
     nCr.clear();
 }

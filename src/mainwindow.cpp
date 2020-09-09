@@ -334,23 +334,23 @@ void MainWindow::on_actionCountClique_triggered()
         on_actionStatus_triggered();
         return ;
     }
-    QFile file("data/authorclique.txt");
     auto *view = new WebView(this);
     view->setWindowFlag(Qt::Window);
     view->resize(850, 600);
-    file.open(QFile::ReadOnly | QFile::Text);
-    QTextStream in(&file);
     QJsonObject o;
-    int total;
-    in >> total;
-    for (int i = 1; i <= total; ++i) {
-        QString n;
-        QString cnt;
-        in >> n >> cnt;
-        o.insert(n, cnt);
+    qint32 total;
+    {
+        QFile file("data/authorclique");
+        file.open(QFile::ReadOnly);
+        QDataStream in(&file);
+        in >> total;
+        for (int i = 1; i <= total; i++) {
+            QString cnt;
+            in >> cnt;
+            o.insert(QString::number(i), cnt);
+        }
+        file.close();
     }
-    in >> total;
-    o.insert("total", total);
     auto html = Util::readFile(":/web/clique.html");
     auto data = QJsonDocument(o).toJson();
     html.replace("<!-- DATA_HOLDER -->", data);
@@ -421,4 +421,9 @@ void MainWindow::on_actionAuthorStac_triggered()
     }
     auto dialog = new AuthorStacDialog(m_finder->authorStacs, this);
     dialog->show();
+}
+
+void MainWindow::on_actionCliqueCount2_triggered()
+{
+    
 }
