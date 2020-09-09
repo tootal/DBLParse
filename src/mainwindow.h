@@ -75,6 +75,7 @@ private:
     StatusLabel *statusLabel;
     
     void load();
+    void load2();
     void open(const QString &fileName);
     void onLanguageChanged(const QString &locale);
     void addStatusIcon();

@@ -58,8 +58,12 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::on_actionStatus_triggered);
     connect(ui->webview->page(), &WebPage::request,
             m_finder, &Finder::handleRequest);
-    load();
+    connect(m_finder, &Finder::loadDone,
+            this, [this]() {
+        statusLabel->setOk(); 
+    });
     addStatusIcon();
+    load();
 }
 
 MainWindow::~MainWindow()
@@ -147,31 +151,8 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionStatus_triggered()
 {
-    StatusDialog dialog(this);
-    dialog.exec();
-    /*
-    QMessageBox box(this);
-    QString text;
-    QString parserStatus = Util::parsed()
-                         ? "<font color=\"green\">OK</font>"
-                         : "<font color=\"red\">NO</font>";
-    QString loaderStatus = m_finder->loaded()
-                         ? "<font color=\"green\">OK</font>"
-                         : "<font color=\"red\">NO</font>";
-    text = tr("Parser: %1 <br>Loader: %2").arg(parserStatus, loaderStatus);
-    box.setText(text);
-    if (Util::parsed()) {
-        box.setStandardButtons(QMessageBox::Ok);
-        box.button(QMessageBox::Ok)->setText(tr("OK"));
-        box.setDefaultButton(QMessageBox::Ok);
-    } else {
-        box.setStandardButtons(QMessageBox::Open|QMessageBox::Cancel);
-        box.button(QMessageBox::Open)->setText(tr("Open XML file"));
-        box.button(QMessageBox::Cancel)->setText(tr("Cancel"));
-        box.setDefaultButton(QMessageBox::Cancel);
-    }
-    if (box.exec() == QMessageBox::Open) on_actionOpen_triggered();
-    */
+    auto dialog = new StatusDialog(this);
+    dialog->show();
 }
 
 void MainWindow::on_actionClearIndex_triggered()
@@ -188,6 +169,12 @@ void MainWindow::on_actionOpenIndexFolder_triggered()
 }
 
 void MainWindow::load()
+{
+    if(!Util::parsed()) return ;
+    m_finder->init();
+}
+
+void MainWindow::load2()
 {
     if(!Util::parsed()) return ;
     auto loader = new Loader(m_finder);
@@ -215,6 +202,11 @@ void MainWindow::load()
     });
     thread->start();
     QTimer::singleShot(0, loader, &Loader::run);
+    connect(m_finder, &Finder::loadDone,
+            this, [this]() {
+        qDebug() << "loadDone";
+        statusLabel->setOk(); 
+    });
     m_finder->init();
 }
 

@@ -143,7 +143,34 @@ void Finder::clearIndex()
 {
     m_loaded = false;
     m_authorStacLoaded = false;
+    m_yearWordLoaded = false;
     authorStacs.clear();
+    dataFile.close();
+}
+
+void Finder::init()
+{
+    {
+        authorStacs.clear();
+        QFile file("data/authorstac");
+        file.open(QFile::ReadOnly);
+        QDataStream in(&file);
+        in >> authorStacs;
+        setAuthorStacLoaded();
+        file.close();
+    }
+    {
+        QFile file("data/yearword");
+        file.open(QFile::ReadOnly);
+        QDataStream s(&file);
+        s >> yearWord;
+        setYearWordLoaded();
+        file.close();
+    }
+    setLoaded();
+    dataFile.setFileName(Util::getXmlFileName());
+    dataFile.open(QFile::ReadOnly);
+    emit loadDone();
 }
 
 QVector<quint32> Finder::indexOfAuthor(const QByteArray &author) const
@@ -253,13 +280,6 @@ void Finder::getRecord(QVector<Record> &res, const QList<quint32> &posList) cons
     for (int i = 0; i < size; i++) {
         res[i].get(posList.at(i));
     }
-}
-
-void Finder::init()
-{
-    dataFile.close();
-    dataFile.setFileName(Util::getXmlFileName());
-    dataFile.open(QFile::ReadOnly);
 }
 
 QJsonArray Finder::cographBFS(const QString &node) const

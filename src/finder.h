@@ -16,7 +16,6 @@ public:
     void handleRequest(const QUrl &url);
     void handleWordCloud(const QUrl &url);
     void clearIndex();
-    
     void init();
     
     bool yearWordLoaded() const;
@@ -31,6 +30,7 @@ public:
     Q_INVOKABLE void saveWordCloud(const QString &img , const QString &filename);
     
 signals:
+    void loadDone();
     void ready(const QString &data);
     void notReady();
     void detailReady(const QString &data);
