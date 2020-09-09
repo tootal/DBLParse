@@ -3,17 +3,11 @@
 #include <QMainWindow>
 #include <QThread>
 
-class Parser;
-class ParseDialog;
 class Finder;
-class Loader;
-class Calculator;
 class QTranslator;
 class StatusLabel;
 
-QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {

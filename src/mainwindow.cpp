@@ -23,7 +23,6 @@
 #include "record.h"
 #include "finder.h"
 #include "webpage.h"
-#include "loader.h"
 #include "configmanager.h"
 #include "application.h"
 
@@ -192,7 +191,7 @@ void MainWindow::open(const QString &fileName)
         if(box.exec() == QMessageBox::No) return ;
     }
     Util::clearIndexs();
-    auto *dialog = new ParseDialog(this);
+    auto dialog = new ParseDialog(this);
     auto thread = new QThread();
     auto parser = new Parser();
     parser->moveToThread(thread);

@@ -16,7 +16,6 @@
 #include "record.h"
 #include "webpage.h"
 #include "webview.h"
-#include "loader.h"
 #include "mainwindow.h"
 #include "application.h"
 #include "hash.h"

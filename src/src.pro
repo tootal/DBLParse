@@ -67,7 +67,6 @@ SOURCES += \
     dialogs/statusdialog.cpp \
     dialogs/downloaddialog.cpp \
     finder.cpp \
-    loader.cpp \
     main.cpp \
     mainwindow.cpp \
     networker.cpp \
@@ -93,7 +92,6 @@ HEADERS += \
     dialogs/downloaddialog.h \
     finder.h \
     hash.h \
-    loader.h \
     mainwindow.h \
     networker.h \
     dialogs/parsedialog.h \

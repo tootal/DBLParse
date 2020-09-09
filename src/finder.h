@@ -56,6 +56,5 @@ private:
     QList<quint32> indexOfTitleWords(const QByteArray &keywords) const;
     QJsonArray cographBFS(const QString &node) const;
     
-    friend class Loader;
     friend class MainWindow;
 };
