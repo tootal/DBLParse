@@ -1,5 +1,3 @@
-#pragma once
-
 /* 
     This file contains the algorithm for listing all cliques
     according to the algorithm of Jain et al. specified in 
@@ -28,23 +26,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
 
+#pragma once
+
 #include<assert.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 
 #include <QVector>
-#include <bignumber.h>
 
-#include"misc.h"
-#include"LinkedList.h"
-#include"degeneracy_helper.h"
+#include "LinkedList.h"
+#include "degeneracy_helper.h"
+#include "biginteger.h"
 
-void listAllCliquesDegeneracyRecursive_A(QVector<BigNumber> &cliqueCounts,
+void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, int rsize, int drop);
 
-void listAllCliquesDegeneracy_A( QVector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray,
+void listAllCliquesDegeneracy_A( QVector<BigInteger> &cliqueCounts, NeighborListArray** orderingArray,
                                       int size, int max_k );
 

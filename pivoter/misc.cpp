@@ -38,12 +38,11 @@
 #include <QFile>
 #include <QDataStream>
 
-#include "bignumber.h"
 #include "misc.h"
 #include "LinkedList.h"
 #include "degeneracy_helper.h"
 
-QVector<QVector<BigNumber>> nCr;
+QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr()
 {
@@ -91,7 +90,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
     }
 
     max_k = deg + 1;
-    QVector<BigNumber> cliqueCounts(max_k + 1);
+    QVector<BigInteger> cliqueCounts(max_k + 1);
     listAllCliquesDegeneracy_A(cliqueCounts, orderingArray, n, max_k);
     while (cliqueCounts[max_k] == 0) max_k--;
     {
@@ -100,7 +99,7 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
         file.open(QFile::WriteOnly);
         s << max_k;
         for (int i = 1; i <= max_k; i++)
-            s << QString::fromStdString(cliqueCounts[i].getString());
+            s << cliqueCounts[i].getString();
         file.close();
     }
     free(orderingArray);

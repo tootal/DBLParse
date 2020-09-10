@@ -351,7 +351,7 @@ void MainWindow::on_actionAuthorStac_triggered()
 
 void MainWindow::on_actionCliqueCount_triggered()
 {
-    if(!Util::parsed()){
+    if (!Util::parsed()) {
         on_actionStatus_triggered();
         return ;
     }

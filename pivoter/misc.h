@@ -1,5 +1,3 @@
-#pragma once
-
 /* 
     This file contains the algorithm for listing all cliques
     according to the algorithm of Jain et al. specified in 
@@ -28,13 +26,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
 
+#pragma once
+
 #include <algorithm>
 
 #include"LinkedList.h"
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern QVector<QVector<BigNumber>> nCr;
+extern QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr();
 

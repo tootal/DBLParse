@@ -38,9 +38,9 @@
 #include"degeneracy_helper.h"
 #include"degeneracy_algorithm_cliques_A.h"
 
-extern QVector<QVector<BigNumber>> nCr;
+extern QVector<QVector<BigInteger>> nCr;
 
-void listAllCliquesDegeneracy_A(QVector<BigNumber> &cliqueCounts, NeighborListArray** orderingArray, 
+void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, NeighborListArray** orderingArray, 
                                       int size, int max_k)
 {
     // vertex sets are stored in an array like this:
@@ -147,7 +147,7 @@ void listAllCliquesDegeneracy_A(QVector<BigNumber> &cliqueCounts, NeighborListAr
 
 */
 
-void listAllCliquesDegeneracyRecursive_A( QVector<BigNumber> &cliqueCounts,
+void listAllCliquesDegeneracyRecursive_A( QVector<BigInteger> &cliqueCounts,
                                                int* vertexSets, int* vertexLookup,
                                                int** neighborsInP, int* numNeighbors,
                                                int beginX, int beginP, int beginR, int max_k, 

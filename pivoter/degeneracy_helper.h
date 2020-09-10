@@ -32,8 +32,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include"misc.h"
-#include"LinkedList.h"
+#include "misc.h"
+#include "LinkedList.h"
 
 /*! 
 */
