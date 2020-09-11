@@ -52,7 +52,6 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
                                  int size,
                                  QVector<NeighborListArray*> &orderingArray)
 {
-    qDebug(__FUNCTION__);
     QVector<NeighborList*> ordering(size);
     
     int i = 0;

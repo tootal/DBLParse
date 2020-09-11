@@ -47,10 +47,9 @@ QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr()
 {
-    qDebug(__FUNCTION__);
     const int N = 1000;
     const int M = 500;
-    QFile file("data/ncr");
+    QFile file("cache/ncr");
     QDataStream s(&file);
     if (file.exists()) {
         file.open(QFile::ReadOnly);
@@ -73,7 +72,6 @@ void populate_nCr()
 
 void runAndPrintStatsCliques(QVector<LinkedList*> &adjListLinked, int n)
 {
-    qDebug(__FUNCTION__);
     populate_nCr();
     qint32 max_k = 0;
     int deg = 0, m = 0;

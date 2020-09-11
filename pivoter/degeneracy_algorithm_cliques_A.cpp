@@ -45,7 +45,6 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts,
                                 int size, 
                                 int max_k)
 {
-    qDebug(__FUNCTION__);
     // vertex sets are stored in an array like this:
     // |--X--|--P--|
     QVector<int> vertexSets(size);
@@ -110,8 +109,7 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts,
 
     cliqueCounts[0] = 1;
 
-    for(i = 0; i<size; i++)
-    {
+    for (i = 0; i<size; i++) {
         delete neighborsInP[i];
         delete[] orderingArray[i]->later;
         delete[] orderingArray[i]->earlier;
@@ -191,8 +189,7 @@ void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
     
     // add candiate vertices to the partial clique one at a time and 
     // search for maximal cliques
-    if(numCandidatesToIterateThrough != 0)
-    {
+    if(numCandidatesToIterateThrough != 0) {
         int iterator = 0;
         while(iterator < numCandidatesToIterateThrough) {
             // vertex to be added to the partial clique

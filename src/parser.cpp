@@ -201,7 +201,6 @@ void Parser::countWordPerYear()
 
 void Parser::saveAuthors()
 {
-    qDebug(__FUNCTION__);
     int n = totalAuthor;
     for (auto &i : G) {
         std::sort(i.begin(), i.end());

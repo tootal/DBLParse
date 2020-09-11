@@ -68,6 +68,9 @@ void Util::clearIndexs()
 void Util::initIndexs()
 {
     QDir().mkdir("data");
+    if (!QDir("cache").exists()) {
+        QDir().mkdir("cache");
+    }
     static QStringList dataFolders{
         "title",
         "author",
