@@ -31,6 +31,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include <list>
+
 #include "misc.h"
 #include "LinkedList.h"
 
@@ -47,8 +49,8 @@
 struct NeighborList
 {
     int vertex; //!< the vertex that owns this neighbor list
-    LinkedList* earlier; //!< a linked list of neighbors that come before this vertex in the ordering
-    LinkedList* later; //!< a linked list of neighbors that come after this vertex in the ordering
+    std::list<int> earlier; //!< a linked list of neighbors that come before this vertex in the ordering
+    std::list<int> later; //!< a linked list of neighbors that come after this vertex in the ordering
     int orderNumber; //!< the position of this verex in the ordering
 };
 
