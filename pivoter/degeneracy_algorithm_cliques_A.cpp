@@ -52,14 +52,13 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts,
     // vertex i is stored in vertexSets[vertexLookup[i]]
     QVector<int> vertexLookup(size);
 
-    QVector<int*> neighborsInP(size);
+    QVector<QVector<int>> neighborsInP(size);
     QVector<int> numNeighbors(size);
     int i = 0;
 
     while(i < size) {
         vertexLookup[i] = i;
         vertexSets[i] = i;
-        neighborsInP[i] = new int[1];
         numNeighbors[i] = 1;
         i++;
     }
@@ -109,13 +108,12 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts,
 
     cliqueCounts[0] = 1;
 
-    for (i = 0; i<size; i++) {
-        delete neighborsInP[i];
-        delete[] orderingArray[i]->later;
-        delete[] orderingArray[i]->earlier;
+    for (i = 0; i < size; i++) {
+        neighborsInP[i].clear();
+        orderingArray[i]->later.clear();
+        orderingArray[i]->earlier.clear();
         delete orderingArray[i];
     }
-
     return;
 }
 
@@ -155,7 +153,7 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts,
 void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
                                          QVector<int> &vertexSets, 
                                          QVector<int> &vertexLookup,
-                                         QVector<int*> &neighborsInP, 
+                                         QVector<QVector<int>> &neighborsInP, 
                                          QVector<int> &numNeighbors,
                                          int beginX, 
                                          int beginP, 

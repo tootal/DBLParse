@@ -42,7 +42,7 @@
 void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
                                          QVector<int> &vertexSets, 
                                          QVector<int> &vertexLookup,
-                                         QVector<int*> &neighborsInP, 
+                                         QVector<QVector<int>> &neighborsInP, 
                                          QVector<int> &numNeighbors,
                                          int beginX, 
                                          int beginP, 

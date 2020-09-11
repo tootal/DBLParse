@@ -133,7 +133,7 @@ int findBestPivotNonNeighborsDegeneracyCliques(QVector<int> &pivotNonNeighbors,
                                                int* numNonNeighbors,
                                                QVector<int> &vertexSets,
                                                QVector<int> &vertexLookup,
-                                               QVector<int*> &neighborsInP,
+                                               QVector<QVector<int>> &neighborsInP,
                                                QVector<int> &numNeighbors,
                                                int ,
                                                int beginP,
@@ -272,7 +272,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques(int vertex,
                                                   QVector<int> &vertexSets, 
                                                   QVector<int> &vertexLookup, 
                                                   QVector<NeighborListArray*> &orderingArray,
-                                                  QVector<int*> &neighborsInP, 
+                                                  QVector<QVector<int>> &neighborsInP, 
                                                   QVector<int> &numNeighbors,
                                                   int *,
                                                   int *,
@@ -315,10 +315,10 @@ void fillInPandXForRecursiveCallDegeneracyCliques(int vertex,
     while (j < *pNewBeginR) {
         int vertexInP = vertexSets[j];
         numNeighbors[vertexInP] = 0;
-        delete[] neighborsInP[vertexInP];
-        neighborsInP[vertexInP] = new int[std::min( *pNewBeginR-*pNewBeginP, 
-                                                    orderingArray[vertexInP]->laterDegree 
-                                                  + orderingArray[vertexInP]->earlierDegree)];
+        neighborsInP[vertexInP].clear();
+        neighborsInP[vertexInP].resize(std::min( *pNewBeginR-*pNewBeginP, 
+                                                 orderingArray[vertexInP]->laterDegree 
+                                               + orderingArray[vertexInP]->earlierDegree));
 
         j++;
     }
@@ -382,7 +382,7 @@ void fillInPandXForRecursiveCallDegeneracyCliques(int vertex,
 void moveToRDegeneracyCliques(int vertex, 
                               QVector<int> &vertexSets, 
                               QVector<int> &vertexLookup, 
-                              QVector<int*> &neighborsInP, 
+                              QVector<QVector<int>> &neighborsInP, 
                               QVector<int> &numNeighbors,
                               int *,
                               int *pBeginP,

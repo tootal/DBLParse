@@ -34,11 +34,6 @@
 #include <list>
 
 #include "misc.h"
-#include "LinkedList.h"
-
-/*! 
-*/
-
 
 /*! \struct NeighborList
 
@@ -65,9 +60,9 @@ struct NeighborList
 struct NeighborListArray
 {
     int vertex; //!< the vertex that owns this neighbor list
-    int *earlier; //!< an array of neighbors that come before this vertex in an ordering
+    QVector<int> earlier; //!< an array of neighbors that come before this vertex in an ordering
     int earlierDegree; //!< the number of neighbors in earlier
-    int *later; //!< an array of neighbors that come after this vertex in an ordering
+    QVector<int> later; //!< an array of neighbors that come after this vertex in an ordering
     int laterDegree; //!< an array of neighbors that come after this vertex in an ordering
     int orderNumber; //!< the position of this verex in the ordering
 };

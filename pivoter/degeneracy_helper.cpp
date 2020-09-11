@@ -74,8 +74,7 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
     // fill each cell of degree lookup table
     // then use that degree to populate the 
     // lists of vertices indexed by degree
-    for(i=0; i<size; i++)
-    {
+    for(i=0; i<size; i++) {
         degree[i] = length(list[i]);
         vertexLocator[i] = addFirst(verticesByDegree[degree[i]], ((int) i));
     }
@@ -83,10 +82,8 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
 
     int numVerticesRemoved = 0;
 
-    while(numVerticesRemoved < size)
-    {
-        if(!isEmpty(verticesByDegree[currentDegree]))
-        {
+    while(numVerticesRemoved < size) {
+        if(!isEmpty(verticesByDegree[currentDegree])) {
             degeneracy = std::max(degeneracy,currentDegree);
             
             int vertex = getFirst(verticesByDegree[currentDegree]);
@@ -134,7 +131,7 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
         orderingArray[i]->vertex = ordering[i]->vertex;
         orderingArray[i]->orderNumber = ordering[i]->orderNumber;
         orderingArray[i]->laterDegree = ordering[i]->later.size();
-        orderingArray[i]->later = new int[orderingArray[i]->laterDegree];
+        orderingArray[i]->later.resize(orderingArray[i]->laterDegree);
 
         int j=0;
         auto curr = ordering[i]->later.begin();
@@ -144,7 +141,7 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
         }
 
         orderingArray[i]->earlierDegree = ordering[i]->earlier.size();
-        orderingArray[i]->earlier = new int[orderingArray[i]->earlierDegree];
+        orderingArray[i]->earlier.resize(orderingArray[i]->earlierDegree);
 
         j=0;
         curr = ordering[i]->earlier.begin();
