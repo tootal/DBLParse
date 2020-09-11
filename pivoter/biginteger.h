@@ -320,5 +320,8 @@ private:
     BigInteger multiplystr(const QString &other);
     BigInteger dividell(const long long &other);
     BigInteger dividestr(const QString &other);
+    
+    friend QDataStream& operator>>(QDataStream &in, BigInteger &x);
+    friend QDataStream& operator<<(QDataStream &out, const BigInteger &x);
 };
 

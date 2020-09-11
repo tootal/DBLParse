@@ -580,3 +580,13 @@ BigInteger BigInteger::operator--(int) {
     --(*this);
     return t;
 }
+
+QDataStream& operator>>(QDataStream &in, BigInteger &x) {
+    in >> x._numberString;
+    return in;
+}
+
+QDataStream& operator<<(QDataStream &out, const BigInteger &x) {
+    out << x._numberString;
+    return out;
+}

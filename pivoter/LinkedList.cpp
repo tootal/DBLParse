@@ -49,9 +49,9 @@
 
 int isHead(Link* list)
 {
-    assert(list != NULL);
+    assert(list != nullptr);
 
-    return (list->prev == NULL);
+    return (list->prev == nullptr);
 }
 
 /*! \brief tells if a given Link is the tail sentinel.
@@ -63,9 +63,9 @@ int isHead(Link* list)
 
 int isTail(Link* list)
 {
-    assert(list != NULL);
+    assert(list != nullptr);
 
-    return (list->next == NULL);
+    return (list->next == nullptr);
 }
 
 /*! \brief location-aware function to add a link after a given link.
@@ -79,10 +79,10 @@ int isTail(Link* list)
 
 Link* addAfter(Link* list, int data)
 {
-    assert(list != NULL);
-    assert(list->next != NULL);
+    assert(list != nullptr);
+    assert(list->next != nullptr);
 
-    Link* newLink = (Link*) malloc(sizeof(Link));
+    Link* newLink = new Link;
 
     newLink->data = data;
 
@@ -106,10 +106,10 @@ Link* addAfter(Link* list, int data)
 
 Link* addBefore(Link* list, int data)
 {
-    assert(list != NULL);
-    assert(list->prev != NULL);
+    assert(list != nullptr);
+    assert(list->prev != nullptr);
 
-    Link* newLink = (Link*)malloc(sizeof(Link));
+    Link* newLink = new Link;
 
     newLink->data = data;
 
@@ -132,15 +132,15 @@ Link* addBefore(Link* list, int data)
 
 int deleteLink(Link* list)
 {
-    assert(list != NULL);
-    assert(list->next != NULL);
-    assert(list->prev != NULL);
+    assert(list != nullptr);
+    assert(list->next != nullptr);
+    assert(list->prev != nullptr);
 
     int data = list->data;
 
     Link* linkToFree = removeLink(list);
 
-    free(linkToFree);
+    delete linkToFree;
 
     return data;
 }
@@ -154,9 +154,9 @@ int deleteLink(Link* list)
 
 void addLinkBefore(Link* list, Link* newLink)
 {
-    assert(list != NULL);
-    assert(list->prev != NULL);
-    assert(newLink != NULL);
+    assert(list != nullptr);
+    assert(list->prev != nullptr);
+    assert(newLink != nullptr);
 
     newLink->next = list;
     newLink->prev = list->prev;
@@ -174,15 +174,15 @@ void addLinkBefore(Link* list, Link* newLink)
 
 Link* removeLink(Link* list)
 {
-    assert(list != NULL);
-    assert(list->next != NULL);
-    assert(list->prev != NULL);
+    assert(list != nullptr);
+    assert(list->next != nullptr);
+    assert(list->prev != nullptr);
 
     list->next->prev = list->prev;
     list->prev->next = list->next;
 
-    list->next = NULL;
-    list->prev = NULL;
+    list->next = nullptr;
+    list->prev = nullptr;
 
     return list;
 }
@@ -200,19 +200,19 @@ Link* removeLink(Link* list)
     \return the created linked list
 */
 
-LinkedList* createLinkedList(void)
+LinkedList* createLinkedList()
 {
-    LinkedList* linkedList = (LinkedList*) malloc(sizeof(LinkedList));
+    LinkedList* linkedList = new LinkedList;
 
-    linkedList->head = (Link *) malloc(sizeof(Link));
-    linkedList->tail = (Link *) malloc(sizeof(Link));
+    linkedList->head = new Link;
+    linkedList->tail = new Link;
 
-    linkedList->head->prev = NULL;
+    linkedList->head->prev = nullptr;
     linkedList->head->next = linkedList->tail;
     linkedList->head->data = (int) 0xDEAD0000;
 
     linkedList->tail->prev = linkedList->head;
-    linkedList->tail->next = NULL;
+    linkedList->tail->next = nullptr;
     linkedList->tail->data = (int) 0xDEADFFFF;
 
     return linkedList;
@@ -229,13 +229,12 @@ LinkedList* createLinkedList(void)
 void destroyLinkedList(LinkedList* linkedList)
 {
     Link* curr = linkedList->head;
-    while(curr != NULL)
-    {
+    while (curr != nullptr) {
         Link* currNext = curr->next;
-        free(curr);
+        delete curr;
         curr = currNext;
     }
-    free(linkedList);
+    delete linkedList;
 }
 
 /*! \brief A location-aware function to add data to the beginning of a linked list.
@@ -249,7 +248,7 @@ void destroyLinkedList(LinkedList* linkedList)
 
 Link* addFirst(LinkedList* linkedList, int data)
 {
-    assert(linkedList != NULL);
+    assert(linkedList != nullptr);
 
     return addAfter(linkedList->head, data);
 }
@@ -265,7 +264,7 @@ Link* addFirst(LinkedList* linkedList, int data)
 
 Link* addLast(LinkedList* linkedList, int data)
 {
-    assert(linkedList != NULL);
+    assert(linkedList != nullptr);
 
     return addBefore(linkedList->tail, data);
 }
@@ -279,7 +278,7 @@ Link* addLast(LinkedList* linkedList, int data)
 
 int getFirst(LinkedList* linkedList)
 {
-    assert(linkedList != NULL);
+    assert(linkedList != nullptr);
     assert(!isEmpty(linkedList));
 
     return linkedList->head->next->data;
@@ -315,7 +314,7 @@ int length(LinkedList* linkedList)
 
 int isEmpty(LinkedList* linkedList)
 {
-    assert(linkedList != NULL);
+    assert(linkedList != nullptr);
 
     return isTail(linkedList->head->next);
 }

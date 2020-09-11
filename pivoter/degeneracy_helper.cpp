@@ -48,9 +48,11 @@
     \see NeighborListArray
 */
 
-NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
+void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
+                                 int size,
+                                 QVector<NeighborListArray*> &orderingArray)
 {
-
+    qDebug(__FUNCTION__);
     QVector<NeighborList*> ordering(size);
     
     int i = 0;
@@ -65,10 +67,9 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
     
     QVector<int> degree(size);
     
-    for(i = 0; i < size; i++)
-    {
+    for(i = 0; i < size; i++) {
         verticesByDegree[i] = createLinkedList();
-        ordering[i] = (NeighborList*)malloc(sizeof(NeighborList));
+        ordering[i] = new NeighborList;
         ordering[i]->earlier = createLinkedList();
         ordering[i]->later = createLinkedList();
     }
@@ -91,7 +92,7 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
         {
             degeneracy = std::max(degeneracy,currentDegree);
             
-            int vertex = (int)(size_t) getFirst(verticesByDegree[currentDegree]);
+            int vertex = getFirst(verticesByDegree[currentDegree]);
 
             deleteLink(vertexLocator[vertex]);
 
@@ -103,13 +104,12 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 
             Link* neighborLink = neighborList->head->next;
 
-            while(!isTail(neighborLink))
-            {
-                int neighbor = (int)(size_t) (neighborLink->data);
+            while(!isTail(neighborLink)) {
+                int neighbor = neighborLink->data;
                 if(degree[neighbor]!=-1)
                 {
                     deleteLink(vertexLocator[neighbor]);
-                    addLast(ordering[vertex]->later, (int)neighbor);
+                    addLast(ordering[vertex]->later, neighbor);
                     degree[neighbor]--;
 
                     if(degree[neighbor] != -1)
@@ -129,50 +129,41 @@ NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size)
 
             numVerticesRemoved++;
             currentDegree = 0;
-        }
-        else
-        {
+        } else {
             currentDegree++;
         }
 
     }
-    
-    NeighborListArray** orderingArray = (NeighborListArray**)calloc(size, sizeof(NeighborListArray*));
+    orderingArray.resize(size);
 
-    for(i = 0; i<size;i++)
-    {
-        orderingArray[i] = (NeighborListArray*)malloc(sizeof(NeighborListArray));
+    for(i = 0; i < size; i++) {
+        orderingArray[i] = new NeighborListArray;
         orderingArray[i]->vertex = ordering[i]->vertex;
         orderingArray[i]->orderNumber = ordering[i]->orderNumber;
         orderingArray[i]->laterDegree = length(ordering[i]->later);
-        orderingArray[i]->later = (int *)calloc(orderingArray[i]->laterDegree, sizeof(int));
+        orderingArray[i]->later = new int[orderingArray[i]->laterDegree];
 
         int j=0;
-        Link* curr = ordering[i]->later->head->next;
-        while(!isTail(curr))
-        {
-            orderingArray[i]->later[j++] = (int)(size_t)(curr->data);
+        Link *curr = ordering[i]->later->head->next;
+        while(!isTail(curr)) {
+            orderingArray[i]->later[j++] = curr->data;
             curr = curr->next;
         }
 
         orderingArray[i]->earlierDegree = length(ordering[i]->earlier);
-        orderingArray[i]->earlier = (int *)calloc(orderingArray[i]->earlierDegree, sizeof(int));
+        orderingArray[i]->earlier = new int[orderingArray[i]->earlierDegree];
 
         j=0;
         curr = ordering[i]->earlier->head->next;
-        while(!isTail(curr))
-        {
-            orderingArray[i]->earlier[j++] = (int)(size_t)(curr->data);
+        while(!isTail(curr)) {
+            orderingArray[i]->earlier[j++] = curr->data;
             curr = curr->next;
         }
     }
-    for(i = 0; i<size;i++)
-    {
+    for(i = 0; i<size;i++) {
         destroyLinkedList(ordering[i]->earlier);
         destroyLinkedList(ordering[i]->later);
-        free(ordering[i]);
+        delete ordering[i];
         destroyLinkedList(verticesByDegree[i]);
     }
-
-    return orderingArray;
 }

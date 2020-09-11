@@ -201,15 +201,24 @@ void Parser::countWordPerYear()
 
 void Parser::saveAuthors()
 {
+    qDebug(__FUNCTION__);
     int n = totalAuthor;
     for (auto &i : G) {
         std::sort(i.begin(), i.end());
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
     emit stateChanged(72);
-    LinkedList** adjList = (LinkedList**)calloc(n, sizeof(LinkedList*));
+    QVector<LinkedList*> adjList(n);
     for (int i = 0; i < n; i++)
         adjList[i] = createLinkedList();
+    // save author data
+    {
+        QFile file("data/authordata");
+        file.open(QFile::WriteOnly);
+        QDataStream s(&file);
+        s << G;
+        file.close();
+    }
     for (int u = 0; u < n; ++u) {
         for (int v : G[u]) {
             if (v <= u) continue;
@@ -225,7 +234,6 @@ void Parser::saveAuthors()
     emit stateChanged(95);
     for (int i = 0; i < n; i++)
         destroyLinkedList(adjList[i]);
-    free(adjList);
     emit stateChanged(98);
 }
 

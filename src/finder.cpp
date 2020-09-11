@@ -24,7 +24,6 @@
 Finder::Finder(QObject *parent) : QObject(parent)
 {
     clearIndex();
-    init();
 }
 
 Finder::~Finder()

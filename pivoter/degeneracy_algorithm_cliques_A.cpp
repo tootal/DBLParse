@@ -40,25 +40,27 @@
 
 extern QVector<QVector<BigInteger>> nCr;
 
-void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, NeighborListArray** orderingArray, 
-                                      int size, int max_k)
+void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, 
+                                QVector<NeighborListArray*> &orderingArray, 
+                                int size, 
+                                int max_k)
 {
+    qDebug(__FUNCTION__);
     // vertex sets are stored in an array like this:
     // |--X--|--P--|
-    int* vertexSets = (int *)calloc(size, sizeof(int));
+    QVector<int> vertexSets(size);
 
     // vertex i is stored in vertexSets[vertexLookup[i]]
-    int* vertexLookup = (int *)calloc(size, sizeof(int));
+    QVector<int> vertexLookup(size);
 
-    int** neighborsInP = (int **)calloc(size, sizeof(int*));
-    int* numNeighbors = (int *)calloc(size, sizeof(int));
+    QVector<int*> neighborsInP(size);
+    QVector<int> numNeighbors(size);
     int i = 0;
 
-    while(i<size)
-    {
+    while(i < size) {
         vertexLookup[i] = i;
         vertexSets[i] = i;
-        neighborsInP[i] = (int *)calloc(1, sizeof(int));
+        neighborsInP[i] = new int[1];
         numNeighbors[i] = 1;
         i++;
     }
@@ -67,50 +69,54 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, NeighborListA
     int beginP = 0;
     int beginR = size;
     // for each vertex
-    for(i=0;i<size;i++)
-    {
-        int vertex = (int)orderingArray[i]->vertex;
+    for(i = 0; i < size; i++) {
+        int vertex = orderingArray[i]->vertex;
         
         int newBeginX, newBeginP, newBeginR;
 
         // set P to be later neighbors and X to be be earlier neighbors
         // of vertex
-        fillInPandXForRecursiveCallDegeneracyCliques( i, vertex, 
-                                               vertexSets, vertexLookup, 
-                                               orderingArray,
-                                               neighborsInP, numNeighbors,
-                                               &beginX, &beginP, &beginR, 
-                                               &newBeginX, &newBeginP, &newBeginR);
+        fillInPandXForRecursiveCallDegeneracyCliques(i, 
+                                                     vertex, 
+                                                     vertexSets, 
+                                                     vertexLookup, 
+                                                     orderingArray,
+                                                     neighborsInP, 
+                                                     numNeighbors,
+                                                     &beginX, 
+                                                     &beginP, 
+                                                     &beginR, 
+                                                     &newBeginX, 
+                                                     &newBeginP, 
+                                                     &newBeginR);
         // recursively compute maximal cliques containing vertex, some of its
         // later neighbors, and avoiding earlier neighbors
         int drop = 0;
         int rsize = 1;
-
+        
         listAllCliquesDegeneracyRecursive_A(cliqueCounts, 
-                                                  vertexSets, vertexLookup,
-                                                  neighborsInP, numNeighbors,
-                                                  newBeginX, newBeginP, newBeginR, max_k, rsize, drop); 
-
-
+                                            vertexSets, 
+                                            vertexLookup,
+                                            neighborsInP,
+                                            numNeighbors,
+                                            newBeginX,
+                                            newBeginP,
+                                            newBeginR,
+                                            max_k,
+                                            rsize,
+                                            drop);
         beginR = beginR + 1;
     }
 
     cliqueCounts[0] = 1;
 
-    
-    free(vertexSets);
-    free(vertexLookup);
-
     for(i = 0; i<size; i++)
     {
-        free(neighborsInP[i]);
-        free(orderingArray[i]->later);
-        free(orderingArray[i]->earlier);
-        free(orderingArray[i]);
+        delete neighborsInP[i];
+        delete[] orderingArray[i]->later;
+        delete[] orderingArray[i]->earlier;
+        delete orderingArray[i];
     }
-
-    free(neighborsInP);
-    free(numNeighbors);
 
     return;
 }
@@ -147,40 +153,48 @@ void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, NeighborListA
 
 */
 
-void listAllCliquesDegeneracyRecursive_A( QVector<BigInteger> &cliqueCounts,
-                                               int* vertexSets, int* vertexLookup,
-                                               int** neighborsInP, int* numNeighbors,
-                                               int beginX, int beginP, int beginR, int max_k, 
-                                               int rsize, int drop)
+
+void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
+                                         QVector<int> &vertexSets, 
+                                         QVector<int> &vertexLookup,
+                                         QVector<int*> &neighborsInP, 
+                                         QVector<int> &numNeighbors,
+                                         int beginX, 
+                                         int beginP, 
+                                         int beginR, 
+                                         int max_k, 
+                                         int rsize, 
+                                         int drop)
 {
-    if ((beginP >= beginR) || (rsize-drop > max_k))
-    {
-        for (int i=drop; (i>=0) && (rsize-i <= max_k); i--) 
-        {
+    if ((beginP >= beginR) || (rsize-drop > max_k)) {
+        for (int i = drop; (i >= 0) && (rsize-i <= max_k); i--) {
             int k = rsize - i;
             cliqueCounts[k] += nCr[drop][i];
         }
        
-        return;
+        return ;
     }
     
-    int* myCandidatesToIterateThrough;
+    QVector<int> myCandidatesToIterateThrough;
     int numCandidatesToIterateThrough = 0;
 
     // get the candidates to add to R to make a maximal clique
-    int pivot = findBestPivotNonNeighborsDegeneracyCliques( &myCandidatesToIterateThrough,
-                                         &numCandidatesToIterateThrough,
-                                         vertexSets, vertexLookup,
-                                         neighborsInP, numNeighbors,
-                                         beginX, beginP, beginR);
-
+    int pivot = findBestPivotNonNeighborsDegeneracyCliques(myCandidatesToIterateThrough,
+                                                           &numCandidatesToIterateThrough,
+                                                           vertexSets, 
+                                                           vertexLookup,
+                                                           neighborsInP, 
+                                                           numNeighbors,
+                                                           beginX, 
+                                                           beginP, 
+                                                           beginR);
+    
     // add candiate vertices to the partial clique one at a time and 
     // search for maximal cliques
     if(numCandidatesToIterateThrough != 0)
     {
         int iterator = 0;
-        while(iterator < numCandidatesToIterateThrough)
-        {
+        while(iterator < numCandidatesToIterateThrough) {
             // vertex to be added to the partial clique
             int vertex = myCandidatesToIterateThrough[iterator];
 
@@ -189,38 +203,58 @@ void listAllCliquesDegeneracyRecursive_A( QVector<BigInteger> &cliqueCounts,
             // add vertex into partialClique, representing R.
 
             // swap vertex into R and update all data structures 
-            moveToRDegeneracyCliques( vertex, 
-                               vertexSets, vertexLookup, 
-                               neighborsInP, numNeighbors,
-                               &beginX, &beginP, &beginR, 
-                               &newBeginX, &newBeginP, &newBeginR);
+            moveToRDegeneracyCliques(vertex, 
+                                     vertexSets, 
+                                     vertexLookup, 
+                                     neighborsInP, 
+                                     numNeighbors,
+                                     &beginX, 
+                                     &beginP, 
+                                     &beginR, 
+                                     &newBeginX, 
+                                     &newBeginP, 
+                                     &newBeginR);
 
 
-            
             // recursively compute maximal cliques with new sets R, P and X
             if (vertex == pivot)
                 listAllCliquesDegeneracyRecursive_A(cliqueCounts,
-                                                      vertexSets, vertexLookup,
-                                                      neighborsInP, numNeighbors,
-                                                      newBeginX, newBeginP, newBeginR, max_k, rsize+1, drop+1);
+                                                    vertexSets, 
+                                                    vertexLookup,
+                                                    neighborsInP, 
+                                                    numNeighbors,
+                                                    newBeginX, 
+                                                    newBeginP, 
+                                                    newBeginR, 
+                                                    max_k, 
+                                                    rsize+1, 
+                                                    drop+1);
             else
                 listAllCliquesDegeneracyRecursive_A(cliqueCounts,
-                                                      vertexSets, vertexLookup,
-                                                      neighborsInP, numNeighbors,
-                                                      newBeginX, newBeginP, newBeginR, max_k, rsize+1, drop);
+                                                    vertexSets,
+                                                    vertexLookup,
+                                                    neighborsInP,
+                                                    numNeighbors,
+                                                    newBeginX,
+                                                    newBeginP,
+                                                    newBeginR,
+                                                    max_k,
+                                                    rsize+1,
+                                                    drop);
 
-
-            moveFromRToXDegeneracyCliques( vertex, 
-                                    vertexSets, vertexLookup,
-                                    &beginX, &beginP, &beginR );
+            moveFromRToXDegeneracyCliques(vertex, 
+                                          vertexSets, 
+                                          vertexLookup,
+                                          &beginX, 
+                                          &beginP, 
+                                          &beginR);
 
             iterator++;
         }
-
+        
         // swap vertices that were moved to X back into P, for higher recursive calls.
         iterator = 0;
-        while(iterator < numCandidatesToIterateThrough)
-        {
+        while(iterator < numCandidatesToIterateThrough) {
             int vertex = myCandidatesToIterateThrough[iterator];
             int vertexLocation = vertexLookup[vertex];
 
@@ -237,7 +271,5 @@ void listAllCliquesDegeneracyRecursive_A( QVector<BigInteger> &cliqueCounts,
     // don't need to check for emptiness before freeing, since
     // something will always be there (we allocated enough memory
     // for all of P, which is nonempty)
-    free(myCandidatesToIterateThrough);
-    
-    return;
+    return ;
 }

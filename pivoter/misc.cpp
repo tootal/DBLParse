@@ -41,50 +41,45 @@
 #include "misc.h"
 #include "LinkedList.h"
 #include "degeneracy_helper.h"
+#include "degeneracy_algorithm_cliques_A.h"
 
 QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr()
 {
-    nCr.resize(1001);
-    for(int row = 0; row < 1001; ++row)
-    {
-        nCr[row].resize(401);
-        for (int col = 0; col < 401; ++col)
-        {
+    qDebug(__FUNCTION__);
+    const int N = 1000;
+    const int M = 500;
+    QFile file("data/ncr");
+    QDataStream s(&file);
+    if (file.exists()) {
+        file.open(QFile::ReadOnly);
+        s >> nCr;
+        file.close();
+        if (nCr.size() == N && nCr[0].size() == M) return ;
+    }
+    nCr.resize(N + 1);
+    for(int row = 0; row < N + 1; row++) {
+        nCr[row].resize(M + 1);
+        for (int col = 0; col < M + 1; ++col) {
             if (row == 0 || col == 0 || row == col) nCr[row][col] = 1;
             else nCr[row][col] = nCr[row-1][col] + nCr[row-1][col-1];
         }
     }
+    file.open(QFile::WriteOnly);
+    s << nCr;
+    file.close();
 }
 
-/*! \brief destroy a linked list of integer arrays that have
-           -1 in the last cell, have have been allocated by
-           the user.
-
-    \param cliques the linked list of integer arrays
-*/
-
-void destroyCliqueResults(LinkedList* cliques)
+void runAndPrintStatsCliques(QVector<LinkedList*> &adjListLinked, int n)
 {
-    Link* curr = cliques->head->next;
-    while(!isTail(curr))
-    {
-        free(&(curr->data));
-        curr = curr->next;
-    }
-    destroyLinkedList(cliques); 
-}
-
-void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
-{
+    qDebug(__FUNCTION__);
     populate_nCr();
     qint32 max_k = 0;
     int deg = 0, m = 0;
-    NeighborListArray** orderingArray = computeDegeneracyOrderArray(adjListLinked, n);
-    fflush(stdout);
-    for (int i=0; i<n; i++)
-    {
+    QVector<NeighborListArray*> orderingArray;
+    computeDegeneracyOrderArray(adjListLinked, n, orderingArray);
+    for (int i=0; i<n; i++) {
         if (deg < orderingArray[i]->laterDegree) deg = orderingArray[i]->laterDegree;
         m += orderingArray[i]->laterDegree;
     }
@@ -102,7 +97,6 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
             s << cliqueCounts[i].getString();
         file.close();
     }
-    free(orderingArray);
     nCr.clear();
 }
 
@@ -137,10 +131,15 @@ void runAndPrintStatsCliques(LinkedList** adjListLinked, int n)
 
 */
 
-int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* numNonNeighbors,
-                                                int* vertexSets, int* vertexLookup,
-                                                int** neighborsInP, int* numNeighbors,
-                                                int , int beginP, int beginR)
+int findBestPivotNonNeighborsDegeneracyCliques(QVector<int> &pivotNonNeighbors,
+                                               int* numNonNeighbors,
+                                               QVector<int> &vertexSets,
+                                               QVector<int> &vertexLookup,
+                                               QVector<int*> &neighborsInP,
+                                               QVector<int> &numNeighbors,
+                                               int ,
+                                               int beginP,
+                                               int beginR)
 {
     int pivot = -1;
     int maxIntersectionSize = -1;
@@ -148,16 +147,15 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     // iterate over each vertex in P union X 
     // to find the vertex with the most neighbors in P.
     int j = beginP;
-    while(j<beginR)
-    {
+    while (j < beginR) {
         int vertex = vertexSets[j];
-        int numPotentialNeighbors = std::min(beginR - beginP, numNeighbors[vertex]); //bug resolved by Shweta
+        int numPotentialNeighbors = std::min(beginR - beginP, 
+                                             numNeighbors[vertex]); //bug resolved by Shweta
 
         int numNeighborsInP = 0;
 
         int k = 0;
-        while(k<numPotentialNeighbors)
-        {
+        while(k<numPotentialNeighbors) {
             int neighbor = neighborsInP[vertex][k];
             int neighborLocation = vertexLookup[neighbor];
 
@@ -173,8 +171,7 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
             k++;
         }
 
-        if(numNeighborsInP > maxIntersectionSize)
-        {
+        if(numNeighborsInP > maxIntersectionSize) {
             pivot = vertex;
             maxIntersectionSize = numNeighborsInP;
         }
@@ -191,8 +188,10 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     // we initialize enough space for all of P; this is
     // slightly space inefficient, but it results in faster
     // computation of non-neighbors.
-    *pivotNonNeighbors = (int *)calloc(beginR-beginP, sizeof(int));
-    memcpy(*pivotNonNeighbors, &vertexSets[beginP], (beginR-beginP)*sizeof(int));
+    pivotNonNeighbors.resize(beginR - beginP);
+    std::copy(vertexSets.begin() + beginP,
+              vertexSets.begin() + beginR,
+              pivotNonNeighbors.begin());
 
     // we will decrement numNonNeighbors as we find neighbors
     *numNonNeighbors = beginR-beginP;
@@ -201,20 +200,15 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
   
     // mark the neighbors of pivot that are in P.
     j = 0;
-    while(j<numPivotNeighbors)
-    {
+    while (j < numPivotNeighbors) {
         int neighbor = neighborsInP[pivot][j];
         int neighborLocation = vertexLookup[neighbor];
 
-        if(neighborLocation >= beginP && neighborLocation < beginR)
-        {
-            (*pivotNonNeighbors)[neighborLocation-beginP] = -1;
-        }
-        else
-        {
+        if(neighborLocation >= beginP && neighborLocation < beginR) {
+            pivotNonNeighbors[neighborLocation - beginP] = -1;
+        } else {
             break;
         }
-
         j++;
     }
 
@@ -224,17 +218,14 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
     // if a vertex is marked as a neighbor, the we move it
     // to the end of pivotNonNeighbors and decrement numNonNeighbors.
     j = 0;
-    while(j<*numNonNeighbors)
-    {
-        int vertex = (*pivotNonNeighbors)[j];
+    while (j < *numNonNeighbors) {
+        int vertex = pivotNonNeighbors[j];
 
-        if(vertex == -1)
-        {
+        if(vertex == -1) {
             (*numNonNeighbors)--;
-            (*pivotNonNeighbors)[j] = (*pivotNonNeighbors)[*numNonNeighbors];
+            pivotNonNeighbors[j] = pivotNonNeighbors[*numNonNeighbors];
             continue;
         }
-
         j++;
     }
 
@@ -278,12 +269,19 @@ int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* nu
                       in vertexSets after adding vertex to R.
 */
 
-void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
-                                                   int* vertexSets, int* vertexLookup, 
-                                                   NeighborListArray** orderingArray,
-                                                   int** neighborsInP, int* numNeighbors,
-                                                   int* , int *, int *pBeginR, 
-                                                   int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
+void fillInPandXForRecursiveCallDegeneracyCliques(int vertex, 
+                                                  int orderNumber,
+                                                  QVector<int> &vertexSets, 
+                                                  QVector<int> &vertexLookup, 
+                                                  QVector<NeighborListArray*> &orderingArray,
+                                                  QVector<int*> &neighborsInP, 
+                                                  QVector<int> &numNeighbors,
+                                                  int *,
+                                                  int *,
+                                                  int *pBeginR,
+                                                  int *pNewBeginX,
+                                                  int *pNewBeginP,
+                                                  int *pNewBeginR)
 {
     int vertexLocation = vertexLookup[vertex];
 
@@ -296,11 +294,9 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
     *pNewBeginR = *pBeginR;
     *pNewBeginP = *pBeginR;
 
-    //printf("Before 1st while\n");
     // swap later neighbors of vertex into P section of vertexSets
     int j = 0;
-    while(j<orderingArray[orderNumber]->laterDegree)
-    {
+    while (j < orderingArray[orderNumber]->laterDegree) {
         int neighbor = orderingArray[orderNumber]->later[j];
         int neighborLocation = vertexLookup[neighbor];
 
@@ -318,15 +314,13 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
 
     // reset numNeighbors and neighborsInP for this vertex
     j = *pNewBeginP;
-    //printf("Before 2nd while\n");
-    while(j<*pNewBeginR)
-    {
+    while (j < *pNewBeginR) {
         int vertexInP = vertexSets[j];
         numNeighbors[vertexInP] = 0;
-        free(neighborsInP[vertexInP]);
-        neighborsInP[vertexInP]= (int *)calloc( std::min( *pNewBeginR-*pNewBeginP, 
-                                             orderingArray[vertexInP]->laterDegree 
-                                           + orderingArray[vertexInP]->earlierDegree), sizeof(int));
+        delete[] neighborsInP[vertexInP];
+        neighborsInP[vertexInP] = new int[std::min( *pNewBeginR-*pNewBeginP, 
+                                                    orderingArray[vertexInP]->laterDegree 
+                                                  + orderingArray[vertexInP]->earlierDegree)];
 
         j++;
     }
@@ -334,27 +328,20 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
     // count neighbors in P, and fill in array of neighbors
     // in P
     j = *pNewBeginP;
-    while(j<*pNewBeginR)
-    {
+    while (j < *pNewBeginR) {
         int vertexInP = vertexSets[j];
-
         int k = 0;
-        while(k<orderingArray[vertexInP]->laterDegree)
-        {
+        while (k < orderingArray[vertexInP]->laterDegree) {
             int laterNeighbor = orderingArray[vertexInP]->later[k];
             int laterNeighborLocation = vertexLookup[laterNeighbor];
-
-            if(laterNeighborLocation >= *pNewBeginP && laterNeighborLocation < *pNewBeginR)
-            {
+            if(laterNeighborLocation >= *pNewBeginP && laterNeighborLocation < *pNewBeginR) {
                 neighborsInP[vertexInP][numNeighbors[vertexInP]] = laterNeighbor;
                 numNeighbors[vertexInP]++;
                 neighborsInP[laterNeighbor][numNeighbors[laterNeighbor]] = vertexInP;
                 numNeighbors[laterNeighbor]++;
             }
-
             k++;
         }
-
         j++;
     }
 }
@@ -394,13 +381,19 @@ void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
                       in vertexSets after adding vertex to R.
 */
 
-void moveToRDegeneracyCliques( int vertex, 
-                               int* vertexSets, int* vertexLookup, 
-                               int** neighborsInP, int* numNeighbors,
-                               int* , int *pBeginP, int *pBeginR, 
-                               int* pNewBeginX, int* pNewBeginP, int *pNewBeginR)
+void moveToRDegeneracyCliques(int vertex, 
+                              QVector<int> &vertexSets, 
+                              QVector<int> &vertexLookup, 
+                              QVector<int*> &neighborsInP, 
+                              QVector<int> &numNeighbors,
+                              int *,
+                              int *pBeginP,
+                              int *pBeginR,
+                              int *pNewBeginX,
+                              int *pNewBeginP,
+                              int *pNewBeginR)
 {
-
+    
     int vertexLocation = vertexLookup[vertex];
     
     (*pBeginR)--;
@@ -417,17 +410,14 @@ void moveToRDegeneracyCliques( int vertex,
     int sizeOfP = *pBeginR - *pBeginP;
 
     int j = (*pBeginP);
-    while(j<(*pBeginR))
-    {
+    while (j < (*pBeginR)) {
         int neighbor = vertexSets[j];
         int neighborLocation = j;
 
         int numPotentialNeighbors = std::min(sizeOfP, numNeighbors[neighbor]); 
         int k = 0;
-        while(k<numPotentialNeighbors)
-        {
-            if(neighborsInP[neighbor][k] == vertex)
-            {
+        while(k<numPotentialNeighbors) {
+            if(neighborsInP[neighbor][k] == vertex) {
                 vertexSets[neighborLocation] = vertexSets[(*pNewBeginR)];
                 vertexLookup[vertexSets[(*pNewBeginR)]] = neighborLocation;
                 vertexSets[(*pNewBeginR)] = neighbor;
@@ -443,8 +433,7 @@ void moveToRDegeneracyCliques( int vertex,
 
     j = (*pNewBeginP);
 
-    while(j < *pNewBeginR)
-    {
+    while(j < *pNewBeginR) {
         int thisVertex = vertexSets[j];
 
         int numPotentialNeighbors = std::min(sizeOfP, numNeighbors[thisVertex]); 
@@ -452,12 +441,10 @@ void moveToRDegeneracyCliques( int vertex,
         int numNeighborsInP = 0;
 
         int k = 0;
-        while(k < numPotentialNeighbors)
-        {
+        while(k < numPotentialNeighbors) {
             int neighbor = neighborsInP[thisVertex][k];
             int neighborLocation = vertexLookup[neighbor];
-            if(neighborLocation >= *pNewBeginP && neighborLocation < *pNewBeginR)
-            {
+            if(neighborLocation >= *pNewBeginP && neighborLocation < *pNewBeginR) {
                 neighborsInP[thisVertex][k] = neighborsInP[thisVertex][numNeighborsInP];
                 neighborsInP[thisVertex][numNeighborsInP] = neighbor;
                 numNeighborsInP++;
@@ -487,9 +474,12 @@ void moveToRDegeneracyCliques( int vertex,
 
 */
 
-void moveFromRToXDegeneracyCliques( int vertex, 
-                                    int* vertexSets, int* vertexLookup, 
-                                    int* , int* pBeginP, int* pBeginR )
+void moveFromRToXDegeneracyCliques(int vertex, 
+                                   QVector<int> &vertexSets, 
+                                   QVector<int> &vertexLookup, 
+                                   int* ,
+                                   int *pBeginP,
+                                   int *pBeginR)
 {
     int vertexLocation = vertexLookup[vertex];
 

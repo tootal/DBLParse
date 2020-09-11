@@ -33,33 +33,43 @@ static void logger(QtMsgType type, const QMessageLogContext &context, const QStr
     
     switch(type){
     case QtDebugMsg:
-        header = "Debug: ";
+        header = "Debug:";
         break;
     case QtInfoMsg:
-        header = "Info: ";
+        header = "Info:";
         break;
     case QtWarningMsg:
-        header = "Warning: ";
+        header = "Warning:";
         break;
     case QtCriticalMsg:
-        header = "Critical: ";
+        header = "Critical:";
         break;
     case QtFatalMsg:
-        header = "Fatal: ";
+        header = "Fatal:";
         break;
     }
-    
-    QString fileName = QFileInfo(context.file).fileName();
-    QString text = header 
-            + QString("(%1:%2) ").arg(fileName).arg(context.line)
-            + msg;
+    QString text;
+    if (context.file == nullptr) {
+        text = QString("%1 %4")
+                .arg(header, 
+                     msg);
+    } else {
+        QString fileName = QFileInfo(context.file).fileName();
+        text = QString("%1 (%2:%3) %4")
+                .arg(header, 
+                     fileName, 
+                     QString::number(context.line), 
+                     msg);
+    }
 #ifdef QT_NO_DEBUG
     QTextStream stream(&logFile);
-    
-    if (type == QtDebugMsg) {
+    bool logDebug = true;
+    if (logDebug && type == QtDebugMsg) {
         std::cerr << text.toStdString() << std::endl;
     } else {
-        stream << text << QString("[%1]\n").arg(QDateTime::currentDateTime().toString());
+        stream << QString("[%1]%2\n").arg(
+            QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss"), 
+            text);
     }
     
     if (type == QtFatalMsg) {

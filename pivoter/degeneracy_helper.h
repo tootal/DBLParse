@@ -28,9 +28,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
 
-#include<assert.h>
-#include<stdio.h>
-#include<stdlib.h>
+#include <assert.h>
+#include <stdlib.h>
 
 #include "misc.h"
 #include "LinkedList.h"
@@ -53,8 +52,6 @@ struct NeighborList
     int orderNumber; //!< the position of this verex in the ordering
 };
 
-typedef struct NeighborList NeighborList;
-
 /*! \struct NeighborListArray
 
     \brief For a given ordering, this stores later neighbors and earlier neighbors
@@ -66,13 +63,13 @@ typedef struct NeighborList NeighborList;
 struct NeighborListArray
 {
     int vertex; //!< the vertex that owns this neighbor list
-    int* earlier; //!< an array of neighbors that come before this vertex in an ordering
+    int *earlier; //!< an array of neighbors that come before this vertex in an ordering
     int earlierDegree; //!< the number of neighbors in earlier
-    int* later; //!< an array of neighbors that come after this vertex in an ordering
+    int *later; //!< an array of neighbors that come after this vertex in an ordering
     int laterDegree; //!< an array of neighbors that come after this vertex in an ordering
     int orderNumber; //!< the position of this verex in the ordering
 };
 
-typedef struct NeighborListArray NeighborListArray;
-
-NeighborListArray** computeDegeneracyOrderArray(LinkedList** list, int size);
+void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
+                                 int size,
+                                 QVector<NeighborListArray*> &orderingArray);

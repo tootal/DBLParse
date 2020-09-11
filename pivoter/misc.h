@@ -30,36 +30,58 @@
 
 #include <algorithm>
 
-#include"LinkedList.h"
-#include"degeneracy_helper.h"
-#include"degeneracy_algorithm_cliques_A.h"
+#include <QVector>
+
+#include "LinkedList.h"
+#include "degeneracy_helper.h"
+#include "degeneracy_algorithm_cliques_A.h"
 
 extern QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr();
 
-void destroyCliqueResults(LinkedList* cliques);
+void runAndPrintStatsCliques(QVector<LinkedList*> &adjListLinked, 
+                             int n);
 
-void runAndPrintStatsCliques(LinkedList** adjListLinked, int n);
+void moveFromRToXDegeneracyCliques(int vertex,
+                                   QVector<int> &vertexSets,
+                                   QVector<int> &vertexLookup,
+                                   int *pBeginX,
+                                   int *pBeginP,
+                                   int *pBeginR);
 
-void moveFromRToXDegeneracyCliques( int vertex, 
-                                    int* vertexSets, int* vertexLookup, 
-                                    int* pBeginX, int* pBeginP, int* pBeginR);
+void moveToRDegeneracyCliques(int vertex, 
+                              QVector<int> &vertexSets,
+                              QVector<int> &vertexLookup, 
+                              QVector<int*> &neighborsInP,
+                              QVector<int> &numNeighbors,
+                              int *pBeginX,
+                              int *pBeginP,
+                              int *pBeginR, 
+                              int *pNewBeginX,
+                              int *pNewBeginP,
+                              int *pNewBeginR);
 
-void moveToRDegeneracyCliques( int vertex, 
-                               int* vertexSets, int* vertexLookup, 
-                               int** neighborsInP, int* numNeighbors,
-                               int* pBeginX, int *pBeginP, int *pBeginR, 
-                               int* pNewBeginX, int* pNewBeginP, int *pNewBeginR);
+void fillInPandXForRecursiveCallDegeneracyCliques(int vertex,
+                                                  int orderNumber,
+                                                  QVector<int> &vertexSets,
+                                                  QVector<int> &vertexLookup,
+                                                  QVector<NeighborListArray*> &orderingArray,
+                                                  QVector<int*> &neighborsInP,
+                                                  QVector<int> &numNeighbors,
+                                                  int *pBeginX,
+                                                  int *pBeginP,
+                                                  int *pBeginR, 
+                                                  int *pNewBeginX,
+                                                  int *pNewBeginP,
+                                                  int *pNewBeginR);
 
-void fillInPandXForRecursiveCallDegeneracyCliques( int vertex, int orderNumber,
-                                                   int* vertexSets, int* vertexLookup, 
-                                                   NeighborListArray** orderingArray,
-                                                   int** neighborsInP, int* numNeighbors,
-                                                   int* pBeginX, int *pBeginP, int *pBeginR, 
-                                                   int* pNewBeginX, int* pNewBeginP, int *pNewBeginR);
-
-int findBestPivotNonNeighborsDegeneracyCliques( int** pivotNonNeighbors, int* numNonNeighbors,
-                                                int* vertexSets, int* vertexLookup,
-                                                int** neighborsInP, int* numNeighbors,
-                                                int beginX, int beginP, int beginR);
+int findBestPivotNonNeighborsDegeneracyCliques(QVector<int> &pivotNonNeighbors,
+                                               int *numNonNeighbors,
+                                               QVector<int> &vertexSets,
+                                               QVector<int> &vertexLookup,
+                                               QVector<int*> &neighborsInP,
+                                               QVector<int> &numNeighbors,
+                                               int beginX,
+                                               int beginP,
+                                               int beginR);

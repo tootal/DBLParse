@@ -40,10 +40,19 @@
 #include "biginteger.h"
 
 void listAllCliquesDegeneracyRecursive_A(QVector<BigInteger> &cliqueCounts,
-                                               int* vertexSets, int* vertexLookup,
-                                               int** neighborsInP, int* numNeighbors,
-                                               int beginX, int beginP, int beginR, int max_k, int rsize, int drop);
+                                         QVector<int> &vertexSets, 
+                                         QVector<int> &vertexLookup,
+                                         QVector<int*> &neighborsInP, 
+                                         QVector<int> &numNeighbors,
+                                         int beginX, 
+                                         int beginP, 
+                                         int beginR, 
+                                         int max_k, 
+                                         int rsize,
+                                         int drop);
 
-void listAllCliquesDegeneracy_A( QVector<BigInteger> &cliqueCounts, NeighborListArray** orderingArray,
-                                      int size, int max_k );
+void listAllCliquesDegeneracy_A(QVector<BigInteger> &cliqueCounts, 
+                                QVector<NeighborListArray*> &orderingArray,
+                                int size, 
+                                int max_k );
 

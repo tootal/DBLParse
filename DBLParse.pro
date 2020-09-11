@@ -2,6 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
     src \
-    pivoter
+    pivoter \
+    tst_pivoter
 
 src.depends = pivoter
+tst_pivoter.depends = pivoter
