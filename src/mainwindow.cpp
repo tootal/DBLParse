@@ -35,6 +35,7 @@
 #include "dialogs/changelogdialog.h"
 #include "dialogs/documentdialog.h"
 #include "dialogs/cliquecountdialog.h"
+#include "dialogs/annualhotspotdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -356,5 +357,15 @@ void MainWindow::on_actionCliqueCount_triggered()
         return ;
     }
     auto dialog = new CliqueCountDialog(this);
+    dialog->show();
+}
+
+void MainWindow::on_actionAnnualHotspot_triggered()
+{
+    if(!Util::parsed() || !m_finder->yearWordLoaded()){
+        on_actionStatus_triggered();
+        return ;
+    }
+    auto dialog = new AnnualHotspotDialog(m_finder->yearWord, this);
     dialog->show();
 }

@@ -52,6 +52,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 SOURCES += \
     application.cpp \
+    dialogs/annualhotspotdialog.cpp \
     dialogs/changelogdialog.cpp \
     dialogs/authorstacdialog.cpp \
     configmanager.cpp \
@@ -76,6 +77,7 @@ SOURCES += \
 
 HEADERS += \
     application.h \
+    dialogs/annualhotspotdialog.h \
     dialogs/changelogdialog.h \
     dialogs/authorstacdialog.h \
     configmanager.h \
@@ -104,6 +106,7 @@ TRANSLATIONS += \
     DBLParse_zh_CN.ts
 
 FORMS += \
+    dialogs/annualhotspotdialog.ui \
     dialogs/changelogdialog.ui \
     dialogs/authorstacdialog.ui \
     dialogs/cliquecountdialog.ui \

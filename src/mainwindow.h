@@ -57,6 +57,8 @@ private slots:
     
     void on_actionCliqueCount_triggered();
     
+    void on_actionAnnualHotspot_triggered();
+    
 protected:
     void changeEvent(QEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;
