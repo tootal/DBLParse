@@ -28,9 +28,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
 
-#include <assert.h>
-#include <stdlib.h>
-
 #include <list>
 
 #include "misc.h"
@@ -67,6 +64,6 @@ struct NeighborListArray
     int orderNumber; //!< the position of this verex in the ordering
 };
 
-void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
+void computeDegeneracyOrderArray(QVector<QVector<int>> &list,
                                  int size,
                                  QVector<NeighborListArray*> &orderingArray);

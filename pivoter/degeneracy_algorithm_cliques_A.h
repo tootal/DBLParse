@@ -28,14 +28,8 @@
 
 #pragma once
 
-#include<assert.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-
 #include <QVector>
 
-#include "LinkedList.h"
 #include "degeneracy_helper.h"
 #include "biginteger.h"
 

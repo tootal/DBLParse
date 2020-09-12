@@ -32,7 +32,6 @@
 
 #include <QVector>
 
-#include "LinkedList.h"
 #include "degeneracy_helper.h"
 #include "degeneracy_algorithm_cliques_A.h"
 
@@ -40,7 +39,7 @@ extern QVector<QVector<BigInteger>> nCr;
 
 void populate_nCr();
 
-void runAndPrintStatsCliques(QVector<LinkedList*> &adjListLinked, 
+void runAndPrintStatsCliques(QVector<QVector<int>> &adjListLinked, 
                              int n);
 
 void moveFromRToXDegeneracyCliques(int vertex,

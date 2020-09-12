@@ -25,21 +25,11 @@
     You should have received a copy of the GNU General Public License 
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
-
-#include<assert.h>
-#include<stdio.h>
-#include<time.h>
-#include<stdlib.h>
-#include<string.h>
-
-#include <vector>
-
 #include <QDebug>
 #include <QFile>
 #include <QDataStream>
 
 #include "misc.h"
-#include "LinkedList.h"
 #include "degeneracy_helper.h"
 #include "degeneracy_algorithm_cliques_A.h"
 
@@ -70,7 +60,7 @@ void populate_nCr()
     file.close();
 }
 
-void runAndPrintStatsCliques(QVector<LinkedList*> &adjListLinked, int n)
+void runAndPrintStatsCliques(QVector<QVector<int>> &adjListLinked, int n)
 {
     populate_nCr();
     qint32 max_k = 0;

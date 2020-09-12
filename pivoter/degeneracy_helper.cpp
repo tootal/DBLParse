@@ -25,16 +25,9 @@
     You should have received a copy of the GNU General Public License 
     along with this program.  If not, see <http://www.gnu.org/licenses/> 
 */
-
-#include<limits.h>
-#include<assert.h>
-#include<stdio.h>
-#include<stdlib.h>
-
 #include <QVector>
 
 #include"misc.h"
-#include"LinkedList.h"
 #include"degeneracy_helper.h"
 
 /*! \brief
@@ -48,7 +41,7 @@
     \see NeighborListArray
 */
 
-void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
+void computeDegeneracyOrderArray(QVector<QVector<int>> &list,
                                  int size,
                                  QVector<NeighborListArray*> &orderingArray)
 {
@@ -59,62 +52,53 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
     int degeneracy = 0;
     
     // array of lists of vertices, indexed by degree
-    QVector<LinkedList*> verticesByDegree(size);
+    QVector<std::list<int>> verticesByDegree(size);
     
     // array of lists of vertices, indexed by degree
-    QVector<Link*> vertexLocator(size);
+    QVector<std::list<int>::iterator> vertexLocator(size);
     
     QVector<int> degree(size);
     
     for(i = 0; i < size; i++) {
-        verticesByDegree[i] = createLinkedList();
         ordering[i] = new NeighborList;
     }
 
     // fill each cell of degree lookup table
     // then use that degree to populate the 
     // lists of vertices indexed by degree
-    for(i=0; i<size; i++) {
-        degree[i] = length(list[i]);
-        vertexLocator[i] = addFirst(verticesByDegree[degree[i]], ((int) i));
+    for (i = 0; i < size; i++) {
+        degree[i] = list[i].size();
+        verticesByDegree[degree[i]].push_front(i);
+        vertexLocator[i] = verticesByDegree[degree[i]].begin();
     }
     int currentDegree = 0;
 
     int numVerticesRemoved = 0;
 
-    while(numVerticesRemoved < size) {
-        if(!isEmpty(verticesByDegree[currentDegree])) {
+    while (numVerticesRemoved < size) {
+        if (!verticesByDegree[currentDegree].empty()) {
             degeneracy = std::max(degeneracy,currentDegree);
             
-            int vertex = getFirst(verticesByDegree[currentDegree]);
-
-            deleteLink(vertexLocator[vertex]);
+            int vertex = verticesByDegree[currentDegree].front();
+            verticesByDegree[degree[vertex]].erase(vertexLocator[vertex]);
 
             ordering[vertex]->vertex = vertex;
             ordering[vertex]->orderNumber = numVerticesRemoved;
             degree[vertex] = -1;
 
-            LinkedList* neighborList = list[vertex];
-
-            Link* neighborLink = neighborList->head->next;
-
-            while (!isTail(neighborLink)) {
-                int neighbor = neighborLink->data;
+            for (int neighbor : list[vertex]) {
                 if (degree[neighbor]!=-1) {
-                    deleteLink(vertexLocator[neighbor]);
+                    verticesByDegree[degree[neighbor]].erase(vertexLocator[neighbor]);
                     ordering[vertex]->later.push_back(neighbor);
                     degree[neighbor]--;
 
                     if(degree[neighbor] != -1) {
-                        vertexLocator[neighbor] = 
-                            addFirst(verticesByDegree[degree[neighbor]], 
-                                     neighbor);
+                        verticesByDegree[degree[neighbor]].push_front(neighbor);
+                        vertexLocator[neighbor] = verticesByDegree[degree[neighbor]].begin();
                     }
                 } else {
                     ordering[vertex]->earlier.push_back(neighbor);
                 }
-
-                neighborLink = neighborLink->next;
             }
 
             numVerticesRemoved++;
@@ -150,10 +134,10 @@ void computeDegeneracyOrderArray(QVector<LinkedList*> &list,
             curr++;
         }
     }
-    for(i = 0; i<size;i++) {
+    for(i = 0; i < size; i++) {
         ordering[i]->earlier.clear();
         ordering[i]->later.clear();
         delete ordering[i];
-        destroyLinkedList(verticesByDegree[i]);
+        verticesByDegree[i].clear();
     }
 }

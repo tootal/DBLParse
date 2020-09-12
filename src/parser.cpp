@@ -11,7 +11,6 @@
 
 #include <set>
 
-#include "LinkedList.h"
 #include "misc.h"
 #include "reader.h"
 #include "hash.h"
@@ -207,9 +206,6 @@ void Parser::saveAuthors()
         i.erase(std::unique(i.begin(), i.end()), i.end());
     }
     emit stateChanged(72);
-    QVector<LinkedList*> adjList(n);
-    for (int i = 0; i < n; i++)
-        adjList[i] = createLinkedList();
     // save author data
     {
         QFile file("data/authordata");
@@ -218,21 +214,8 @@ void Parser::saveAuthors()
         s << G;
         file.close();
     }
-    for (int u = 0; u < n; ++u) {
-        for (int v : G[u]) {
-            if (v <= u) continue;
-            addLast(adjList[u], v);
-            addLast(adjList[v], u);
-        }
-    }
-    emit stateChanged(74);
-    G.clear();
-    G.squeeze();
     emit stateChanged(75);
-    runAndPrintStatsCliques(adjList, n);
-    emit stateChanged(95);
-    for (int i = 0; i < n; i++)
-        destroyLinkedList(adjList[i]);
+    runAndPrintStatsCliques(G, n);
     emit stateChanged(98);
 }
 
