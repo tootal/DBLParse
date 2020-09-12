@@ -4,6 +4,9 @@
 
 #include "parser.h"
 
+class QWinTaskbarProgress;
+class QWinTaskbarButton;
+
 namespace Ui {
 class ParseDialog;
 }
@@ -25,4 +28,6 @@ private slots:
     
 private:
     Ui::ParseDialog *ui;
+    QWinTaskbarButton *button;
+    QWinTaskbarProgress *progress;
 };

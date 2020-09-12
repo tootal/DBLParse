@@ -3,7 +3,8 @@ QT       += core \
             widgets \
             webenginewidgets \
             network \
-            svg
+            svg \
+            winextras
 
 CONFIG += c++17
 CONFIG -= debug_and_release
