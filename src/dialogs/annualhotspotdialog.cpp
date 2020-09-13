@@ -32,7 +32,7 @@ AnnualHotspotDialog::AnnualHotspotDialog(const YearWord &yearWords, QWidget *par
         row++;
     }
     ui->tableWidget->resizeColumnsToContents();
-    ui->tableWidget->resizeRowsToContents();
+    ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 AnnualHotspotDialog::~AnnualHotspotDialog()
