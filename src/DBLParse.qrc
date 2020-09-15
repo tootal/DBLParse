@@ -46,5 +46,6 @@
         <file>resources/ok.svg</file>
         <file>resources/DBLParse.qss</file>
         <file>resources/loading.svg</file>
+        <file>resources/stopwords.txt</file>
     </qresource>
 </RCC>

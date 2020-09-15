@@ -1,7 +1,8 @@
 # Change Log
-## v3.2.1
+## v3.3
 * Fix reopen download dialog failed
 * Enable source choose box
+* Seperate stopwords ([Some NLTK's list of english stopwords](https://gist.github.com/sebleier/554280))
 
 ## v3.2
 * Merge qrc and translation files
