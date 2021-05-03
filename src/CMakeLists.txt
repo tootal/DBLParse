@@ -1,19 +1,28 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(DBLParseSrc)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt5 COMPONENTS Widgets Network
-             WebEngineWidgets
-             LinguistTools REQUIRED)
-add_compile_definitions(VERSION_STR="3.1.0")
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-include_directories(../bignumber ../pivoter)
+find_package(Qt5 
+    COMPONENTS 
+        Widgets 
+        Network
+        WebEngineWidgets
+        LinguistTools 
+        Svg
+    REQUIRED
+)
 
-
-file(GLOB HEADER_FILES *.h)
-file(GLOB SRC_FILES *.cpp)
-file(GLOB QRC_FILES *.qrc)
-file(GLOB TS_FILES *.ts)
-file(GLOB UI_FILES *.ui)
+file(GLOB_RECURSE HEADER_FILES *.h)
+file(GLOB_RECURSE SRC_FILES *.cpp)
+file(GLOB_RECURSE QRC_FILES *.qrc)
+file(GLOB_RECURSE TS_FILES *.ts)
+file(GLOB_RECURSE UI_FILES *.ui)
 
 add_executable(DBLParse
     ${SRC_FILES}
@@ -23,12 +32,19 @@ add_executable(DBLParse
     ${TS_FILES}
 )
 
-target_link_libraries(DBLParse PRIVATE 
-    Qt5::Widgets
-    Qt5::WebEngineWidgets
-    Qt5::Network
+target_compile_definitions(DBLParse 
+    PRIVATE
+        VERSION_STR="3.1.0"
 )
 
-target_link_libraries(DBLParse ${PROJECT_BINARY_DIR}/../pivoter/pivoter.lib)
+target_link_libraries(DBLParse 
+    PRIVATE 
+        Qt5::Widgets
+        Qt5::WebEngineWidgets
+        Qt5::Network
+        Qt5::Svg
+        Pivoter
+        BigNumber
+)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
