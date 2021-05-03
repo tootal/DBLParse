@@ -77,9 +77,10 @@ CMakeLists.txt.user
 _v_images
 
 # Build and deploy
-/build/
-/build*/
-/deploy/
+build/
+build*/
+deploy/
+dist/
 
 # Test File
 !/test/**/[Mm]akefile
