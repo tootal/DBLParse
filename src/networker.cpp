@@ -38,7 +38,7 @@ NetWorker::NetWorker(QObject *parent)
     : QObject(parent),
       d(new NetWorker::Private(this))
 {
-    connect(d->manager, QOverload<QNetworkReply*>::of(&QNetworkAccessManager::finished),
+    connect(d->manager, &QNetworkAccessManager::finished,
             this, &NetWorker::finished);
 }
 
