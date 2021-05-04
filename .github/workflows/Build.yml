@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - develop
+      - bugfix/github_action
     paths-ignore:
       - 'README.md'
       - 'docs/**'
@@ -18,11 +19,11 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ../Qt
-          key: ${{ runner.os }}/Qt/5.15.0
+          key: ${{ runner.os }}/Qt/5.15.2
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: 5.15.0
+          version: 5.15.2
           target: desktop
           arch: win64_msvc2019_64
           modules: qtwebengine
@@ -34,9 +35,8 @@ jobs:
       - name: Build MSVC
         shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          qmake
-          nmake
+          cmake
+          cmake --build .
   ubuntu-build:
     name: Build on Ubuntu
     runs-on: ubuntu-18.04
@@ -45,12 +45,12 @@ jobs:
         id: ubuntu-cache-qt
         uses: actions/cache@v1
         with:
-          path: ../Qt/5.15.0/gcc_64
-          key: ${{ runner.os }}/Qt/5.15.0/gcc_64
+          path: ../Qt/5.15.2/gcc_64
+          key: ${{ runner.os }}/Qt/5.15.2/gcc_64
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: 5.15.0
+          version: 5.15.2
           target: desktop
           modules: qtwebengine
           cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
@@ -62,8 +62,8 @@ jobs:
           fetch-depth: 1
       - name: Build GCC
         run: |
-          qmake
-          make
+          cmake
+          cmake --build .
   macos-build:
     name: Build on MacOS
     runs-on: macos-10.15
@@ -72,12 +72,12 @@ jobs:
         id: macos-cache-qt
         uses: actions/cache@v1
         with:
-          path: ../Qt/5.15.0/clang_64
-          key: ${{ runner.os }}/Qt/5.15.0/clang_64
+          path: ../Qt/5.15.2/clang_64
+          key: ${{ runner.os }}/Qt/5.15.2/clang_64
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: 5.15.0
+          version: 5.15.2
           target: desktop
           modules: qtwebengine
           cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
@@ -87,6 +87,6 @@ jobs:
           fetch-depth: 1
       - name: Build Clang
         run: |
-          qmake
-          make
+          cmake
+          cmake --build .
 
