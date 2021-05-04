@@ -35,7 +35,7 @@ jobs:
       - name: Build MSVC
         shell: cmd
         run: |
-          cmake
+          cmake .
           cmake --build .
   ubuntu-build:
     name: Build on Ubuntu
@@ -62,7 +62,7 @@ jobs:
           fetch-depth: 1
       - name: Build GCC
         run: |
-          cmake
+          cmake .
           cmake --build .
   macos-build:
     name: Build on MacOS
@@ -87,6 +87,6 @@ jobs:
           fetch-depth: 1
       - name: Build Clang
         run: |
-          cmake
+          cmake .
           cmake --build .
 
