@@ -24,12 +24,14 @@ file(GLOB_RECURSE QRC_FILES *.qrc)
 file(GLOB_RECURSE TS_FILES *.ts)
 file(GLOB_RECURSE UI_FILES *.ui)
 
-add_executable(DBLParse
-    ${SRC_FILES}
-    ${HEADER_FILES}
-    ${QRC_FILES}
-    ${UI_FILES}
-    ${TS_FILES}
+add_executable(DBLParse MACOSX_BUNDLE)
+target_sources(DBLParse
+    PRIVATE
+        ${SRC_FILES}
+        ${HEADER_FILES}
+        ${QRC_FILES}
+        ${UI_FILES}
+        ${TS_FILES}
 )
 
 target_compile_definitions(DBLParse 
@@ -50,9 +52,10 @@ target_link_libraries(DBLParse
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 get_filename_component(qt5_bin_dir "${Qt5_CONFIG}/../../../../bin" ABSOLUTE)
-message("qt5_bin_dir: ${qt5_bin_dir}")
 if(WIN32)
     set(DEPLOY_EXE_NAME "windeployqt")
+elseif(APPLE)
+    set(DEPLOY_EXE_NAME "macdeployqt")
 endif()
 find_program(DEPLOY_EXECUTABLE ${DEPLOY_EXE_NAME} HINTS "${qt5_bin_dir}")
 message("DEPLOY_EXECUTABLE: ${DEPLOY_EXECUTABLE}")
