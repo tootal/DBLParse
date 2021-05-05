@@ -48,3 +48,14 @@ target_link_libraries(DBLParse
 )
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+get_filename_component(qt5_bin_dir "${Qt5_CONFIG}/../../../../bin" ABSOLUTE)
+message("qt5_bin_dir: ${qt5_bin_dir}")
+if(WIN32)
+    set(DEPLOY_EXE_NAME "windeployqt")
+endif()
+find_program(DEPLOY_EXECUTABLE ${DEPLOY_EXE_NAME} HINTS "${qt5_bin_dir}")
+message("DEPLOY_EXECUTABLE: ${DEPLOY_EXECUTABLE}")
+
+
+install(TARGETS DBLParse DESTINATION .)
