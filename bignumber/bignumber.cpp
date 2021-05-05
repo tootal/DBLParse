@@ -156,7 +156,9 @@ BigNumber BigNumber::subtract(const BigNumber &other) {
     }
     if (takeOffOne) {
         std::string number;
-        for (int j = b1._numberString.length() - b2._numberString.length() - 1; j >= 0; --j) {
+        int len1 = static_cast<int>(b1._numberString.length());
+        int len2 = static_cast<int>(b2._numberString.length());
+        for (int j = len1 - len2 - 1; j >= 0; --j) {
             if (b1._numberString[j] == '0') {
                 number += "0";
                 continue;
@@ -190,7 +192,7 @@ BigNumber BigNumber::subtract(const BigNumber &other) {
         results = "0";
     }
     else if (results[0] == '0') {
-        int index = results.find_first_not_of('0');
+        std::size_t index = results.find_first_not_of('0');
         results = results.substr(index, results.length() - 1);
     }
     return BigNumber(results);
@@ -363,7 +365,8 @@ bool BigNumber::equals(const std::string &other) {
 }
 
 unsigned int BigNumber::digits() {
-    return this->_numberString.length() - static_cast<int>(this->isNegative());
+    auto ret = this->_numberString.length() - static_cast<std::size_t>(this->isNegative());
+    return static_cast<unsigned int>(ret);
 }
 
 bool BigNumber::isNegative() const {
