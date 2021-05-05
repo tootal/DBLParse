@@ -75,6 +75,3 @@ jobs:
         if: ${{ startsWith(matrix.os, 'macos') }}
         run: |
           macdeployqt src/DBLParse.app -verbose=1 -dmg
-      - name: Generate Release note
-        id: release_note
-        run: echo ("::set-output name=note::" + (python .\scripts\release_note.py ${{ github.ref }}))
