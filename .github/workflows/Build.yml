@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - feature/matrix_os
+      - feature/cmake
 jobs:
   build-desktop:
     name: Build on Desktop
