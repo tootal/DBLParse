@@ -13,6 +13,7 @@ jobs:
         include:
           - os: windows-2019
             arch: win64_msvc2019_64
+            script: ./scripts/deploy.bat
           - os: ubuntu-18.04
           - os: macos-10.15
     steps:
@@ -23,55 +24,9 @@ jobs:
           target: desktop
           arch: ${{ matrix.arch }}
           modules: qtwebengine
-      - name: GL library
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: sudo apt-get install -y libglew-dev libglfw3-dev
       - name: Pull codes
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Build Project
-        run: |
-          cmake .
-          cmake --build .
-      - name: Build linuxdeployqt
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: |
-          git clone https://github.com/tootal/linuxdeployqt
-          cd linuxdeployqt
-          qmake
-          make
-          cd ..
-          wget https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
-          tar xf patchelf-0.9.tar.bz2
-          ( cd patchelf-0.9/ && ./configure  && make && sudo make install )
-          sudo wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O /usr/local/bin/appimagetool
-          sudo chmod a+x /usr/local/bin/appimagetool
-      - name: Deploy Qt (ubuntu)
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: |
-          mkdir DBLParse
-          cp src/DBLParse DBLParse/
-          cp scripts/default.desktop DBLParse/
-          cd DBLParse/
-          export LD_LIBRARY_PATH=/home/runner/work/DBLParse/Qt/5.15.0/gcc_64/lib
-          export ARCH=x86_64
-          sudo apt install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
-          ../linuxdeployqt/bin/linuxdeployqt DBLParse -appimage
-          mv DBLParse*.AppImage DBLParse.AppImage
-      - name: Deploy Qt (windows)
-        if: ${{ startsWith(matrix.os, 'windows') }}
-        shell: pwsh
-        env:
-          VCINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
-        run: |
-          New-Item -ItemType Directory DBLParse
-          Copy-Item src\DBLParse.exe DBLParse\
-          cd DBLParse
-          windeployqt DBLParse.exe
-          cd ..
-          Compress-Archive -Path DBLParse DBLParse.zip
-      - name: Deploy Qt (macos)
-        if: ${{ startsWith(matrix.os, 'macos') }}
-        run: |
-          macdeployqt src/DBLParse.app -verbose=1 -dmg
+        run: ${{ matrix.script }}
