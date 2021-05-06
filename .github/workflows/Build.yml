@@ -13,12 +13,14 @@ jobs:
         include:
           - os: windows-2019
             arch: win64_msvc2019_64
-            script: ./scripts/deploy.bat
-            dist: ./deploy/DBLParse.zip
+            script: win_build.bat
+            dist-ext: zip
           - os: ubuntu-20.04
-            script: ./scripts/build.sh
-            dist: ./deploy/DBLParse.AppImage
+            script: unx_build.sh
+            dist-ext: AppImage
           - os: macos-10.15
+            script: mac_build.sh
+            dist-ext: dmg
     steps:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -30,12 +32,12 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Check Permission
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: chmod u+x ${{ matrix.script }}
+        if: ${{ !startsWith(matrix.os, 'windows') }}
+        run: chmod u+x ./scripts/${{ matrix.script }}
       - name: Build Project
-        run: ${{ matrix.script }}
+        run: ./scripts/${{ matrix.script }}
       - name: Update Tag
         run: |
           git tag --force continuous-build ${GITHUB_SHA}
@@ -44,6 +46,6 @@ jobs:
         uses: johnwbyrd/update-release@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ${{ matrix.dist }}
+          files: ./deploy/DBLParse.${{ matrix.dist-ext }}
           release: Continuous Build
           tag: continuous-build
