@@ -45,7 +45,13 @@ target_link_libraries(DBLParse
         Pivoter
         BigNumber)
 
-if(APPLE)
+if(WIN32)
+    configure_file(${PROJECT_SOURCE_DIR}/resources/DBLParse.rc.in 
+        ${PROJECT_BINARY_DIR}/DBLParse.rc)
+    target_sources(DBLParse
+        PRIVATE 
+            ${PROJECT_BINARY_DIR}/DBLParse.rc)
+elseif(APPLE)
     set(MACOSX_ICON_NAME "DBLParse.icns")
     set(MACOSX_ICON_FILE "${CMAKE_SOURCE_DIR}/src/resources/${MACOSX_ICON_NAME}")
     target_sources(DBLParse
