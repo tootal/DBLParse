@@ -13,4 +13,3 @@ echo Compressing...
 7z a deploy\DBLParse.zip deploy\DBLParse
 
 echo Deploy successful!
-pause
