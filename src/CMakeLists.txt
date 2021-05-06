@@ -42,8 +42,7 @@ target_link_libraries(DBLParse
         Qt5::WebEngineWidgets
         Qt5::Network
         Qt5::Svg
-        Pivoter
-        BigNumber)
+        Pivoter)
 
 if(WIN32)
     configure_file(${PROJECT_SOURCE_DIR}/resources/DBLParse.rc.in 

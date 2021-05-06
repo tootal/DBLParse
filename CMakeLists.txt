@@ -10,6 +10,5 @@ set(CMAKE_PROJECT_AUTHOR "${PROJECT_AUTHOR}")
 set(PROJECT_LICENSE "GPL v3")
 set(CMAKE_PROJECT_LICENSE "${PROJECT_LICENSE}")
 
-add_subdirectory(bignumber)
 add_subdirectory(pivoter)
 add_subdirectory(src)
