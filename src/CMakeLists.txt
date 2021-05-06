@@ -73,14 +73,15 @@ endif()
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
-get_filename_component(qt5_bin_dir "${Qt5_CONFIG}/../../../../bin" ABSOLUTE)
+install(TARGETS DBLParse DESTINATION .)
+message("Install CMake Script")
 if(WIN32)
     set(DEPLOY_EXE_NAME "windeployqt")
 elseif(APPLE)
     set(DEPLOY_EXE_NAME "macdeployqt")
 endif()
-find_program(DEPLOY_EXECUTABLE ${DEPLOY_EXE_NAME} HINTS "${qt5_bin_dir}")
+find_program(DEPLOY_EXECUTABLE ${DEPLOY_EXE_NAME})
 message("DEPLOY_EXECUTABLE: ${DEPLOY_EXECUTABLE}")
-
-
-install(TARGETS DBLParse DESTINATION .)
+message("CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
+add_custom_command(TARGET DBLParse POST_BUILD
+    COMMAND ${DEPLOY_EXECUTABLE} ${CMAKE_INSTALL_PREFIX}/DBLParse.exe)
