@@ -81,6 +81,7 @@ build/
 build*/
 deploy/
 dist/
+/*.AppImage
 
 # Test File
 !/test/**/[Mm]akefile
