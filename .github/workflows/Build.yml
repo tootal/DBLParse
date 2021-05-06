@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - feature/cmake
+      - develop
 jobs:
   build-desktop:
     name: Build on Desktop
