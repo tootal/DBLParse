@@ -20,4 +20,6 @@ echo Deploying...
 mkdir -p deploy
 cp -R build/src/DBLParse.app deploy
 
-macdeployqt deploy/DBLParse.app -dmg -verbose=1
+macdeployqt deploy/DBLParse.app
+ln -s /Applications ./deploy/Applications
+hdiutil create -srcfolder ./deploy -format UDBZ ./deploy/DBLParse.dmg
