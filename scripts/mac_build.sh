@@ -13,13 +13,13 @@ rm -rf build
 rm -rf deploy
 
 echo Building...
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 
 echo Deploying...
-mkdir -p deploy
-cp -R build/src/DBLParse.app deploy
+mkdir -p deploy/DBLParse
+cp -R build/src/DBLParse.app deploy/DBLParse/
 
-macdeployqt deploy/DBLParse.app
-ln -s /Applications ./deploy/Applications
-hdiutil create -srcfolder ./deploy -format UDBZ ./deploy/DBLParse.dmg
+macdeployqt deploy/DBLParse/DBLParse.app
+ln -s /Applications ./deploy/DBLParse/Applications
+hdiutil create -srcfolder ./deploy/DBLParse -format UDBZ ./deploy/DBLParse.dmg
