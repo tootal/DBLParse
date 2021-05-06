@@ -68,6 +68,8 @@ elseif(APPLE)
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR})
     set_source_files_properties(${MACOSX_ICON_FILE} PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources")
+elseif(UNIX)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
 endif()
 
 
