@@ -14,7 +14,7 @@ jobs:
           - os: windows-2019
             arch: win64_msvc2019_64
             script: win_build.bat
-            dist-ext: zip
+            dist-ext: 7z
           - os: ubuntu-20.04
             script: unx_build.sh
             dist-ext: AppImage
