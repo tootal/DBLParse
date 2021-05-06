@@ -16,6 +16,8 @@ jobs:
             script: ./scripts/deploy.bat
             dist: ./deploy/DBLParse.zip
           - os: ubuntu-18.04
+            script: ./script/build.sh
+            dist: ./deploy/DBLParse.AppImage
           - os: macos-10.15
     steps:
       - name: Install Qt
@@ -29,6 +31,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Check Permission
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: chmod u+x ${{ matrix.script }}
       - name: Build Project
         run: ${{ matrix.script }}
       - name: Update Tag

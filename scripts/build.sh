@@ -19,4 +19,4 @@ wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/lin
 chmod u+x linuxdeployqt-continuous-x86_64.AppImage
 fi
 ./linuxdeployqt-continuous-x86_64.AppImage ./deploy/DBLParse/DBLParse -appimage -unsupported-allow-new-glibc
-mv DBLParse-*-x86_64.AppImage DBLParse.AppImage
+mv DBLParse-*-x86_64.AppImage ./deploy/DBLParse.AppImage
