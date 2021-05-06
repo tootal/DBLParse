@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $(cd `dirname $0`/..; pwd)
 
-sudo apt install -y libglew-dev libglfw3-dev libxcb-xinerama0
+sudo apt install -y libglew-dev libglfw3-dev libxcb-xinerama0 libxcb-icccm4
 
 rm -rf build
 rm -rf deploy
