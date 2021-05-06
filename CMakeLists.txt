@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 file(READ scripts/VERSION_TWEAK VERSION_TWEAK)
 project(DBLParse VERSION 3.2.0.${VERSION_TWEAK}
-        DESCRIPTION "An application base on DBLP data"
+        DESCRIPTION "An application base on DBLP data."
         HOMEPAGE_URL "https://tootal.xyz/DBLParse/"
         LANGUAGES C CXX)
 set(PROJECT_AUTHOR "tootal")
