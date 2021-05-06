@@ -15,8 +15,8 @@ jobs:
             arch: win64_msvc2019_64
             script: ./scripts/deploy.bat
             dist: ./deploy/DBLParse.zip
-          - os: ubuntu-18.04
-            script: ./script/build.sh
+          - os: ubuntu-20.04
+            script: ./scripts/build.sh
             dist: ./deploy/DBLParse.AppImage
           - os: macos-10.15
     steps:
