@@ -23,7 +23,7 @@ file(GLOB_RECURSE QRC_FILES *.qrc)
 file(GLOB_RECURSE TS_FILES *.ts)
 file(GLOB_RECURSE UI_FILES *.ui)
 
-add_executable(DBLParse MACOSX_BUNDLE)
+add_executable(DBLParse MACOSX_BUNDLE WIN32)
 target_sources(DBLParse
     PRIVATE
         ${SRC_FILES}
@@ -34,7 +34,7 @@ target_sources(DBLParse
 
 target_compile_definitions(DBLParse 
     PRIVATE
-        VERSION_STR="3.1.0")
+        VERSION_STR="${CMAKE_PROJECT_VERSION}")
 
 target_link_libraries(DBLParse 
     PRIVATE 
