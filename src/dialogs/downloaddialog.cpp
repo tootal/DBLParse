@@ -42,6 +42,7 @@ void DownloadDialog::initDownloadSources()
 void DownloadDialog::getDownloadList(const QString &source)
 {
     qDebug() << "getDownloadList" << source;
+    qDebug()<<QSslSocket::sslLibraryBuildVersionString();
     auto networker = NetWorker::instance();
     networker->get(source + "release/");
     connect(networker, &NetWorker::finished,
