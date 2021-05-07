@@ -2,91 +2,50 @@ name: Build
 on:
   push:
     branches:
-      - master
       - develop
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - 'scripts/**'
 jobs:
-  windows-build:
-    name: Build on Windows
-    runs-on: windows-2019
+  build-desktop:
+    name: Build on Desktop
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2019
+            arch: win64_msvc2019_64
+            script: win_build.bat
+            dist-ext: 7z
+          - os: ubuntu-20.04
+            script: unx_build.sh
+            dist-ext: AppImage
+          - os: macos-10.15
+            script: mac_build.sh
+            dist-ext: dmg
     steps:
-      - name: Cache Qt
-        id: win-cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt
-          key: ${{ runner.os }}/Qt/5.15.0
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: 5.15.0
+          version: 5.15.2
           target: desktop
-          arch: win64_msvc2019_64
+          arch: ${{ matrix.arch }}
           modules: qtwebengine
-          cached: ${{ steps.win-cache-qt.outputs.cache-hit }}
-      - name: Pull codes
-        uses: actions/checkout@v1
+      - name: Checkout codes
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      - name: Build MSVC
-        shell: cmd
+      - name: Check Permission
+        if: ${{ !startsWith(matrix.os, 'windows') }}
+        run: chmod u+x ./scripts/${{ matrix.script }}
+      - name: Build Project
+        run: ./scripts/${{ matrix.script }}
+      - name: Update Tag
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          qmake
-          nmake
-  ubuntu-build:
-    name: Build on Ubuntu
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Cache Qt
-        id: ubuntu-cache-qt
-        uses: actions/cache@v1
+          git tag --force continuous-build ${GITHUB_SHA}
+          git push --force --tags
+      - name: Update Continuous Build Release
+        uses: johnwbyrd/update-release@v1.0.0
         with:
-          path: ../Qt/5.15.0/gcc_64
-          key: ${{ runner.os }}/Qt/5.15.0/gcc_64
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
-        with:
-          version: 5.15.0
-          target: desktop
-          modules: qtwebengine
-          cached: ${{ steps.ubuntu-cache-qt.outputs.cache-hit }}
-      - name: GL library
-        run: sudo apt-get install -y libglew-dev libglfw3-dev
-      - name: Pull codes
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-      - name: Build GCC
-        run: |
-          qmake
-          make
-  macos-build:
-    name: Build on MacOS
-    runs-on: macos-10.15
-    steps:
-      - name: Cache Qt
-        id: macos-cache-qt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt/5.15.0/clang_64
-          key: ${{ runner.os }}/Qt/5.15.0/clang_64
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.5.3
-        with:
-          version: 5.15.0
-          target: desktop
-          modules: qtwebengine
-          cached: ${{ steps.macos-cache-qt.outputs.cache-hit }}
-      - name: Pull codes
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-      - name: Build Clang
-        run: |
-          qmake
-          make
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: ./deploy/DBLParse.${{ matrix.dist-ext }}
+          release: Continuous Build
+          tag: continuous-build

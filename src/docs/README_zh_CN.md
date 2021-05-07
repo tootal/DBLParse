@@ -6,7 +6,7 @@ DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献
 ### Windows
 支持版本：Windows 7 x64、Windows 10 x64
 
-* [下载最新发布](https://github.com/tootal/DBLParse/releases)的压缩包`DBLParse.zip`
+* [下载最新发布](https://github.com/tootal/DBLParse/releases)的压缩包`DBLParse.7z`
 * 解压到单独的文件夹下
 * 双击文件夹下的可执行文件`DBLParse.exe`即可运行
 * 若出现错误可尝试运行文件夹下的`vc_redist.x64.exe`安装运行环境
@@ -18,7 +18,7 @@ DBLParse是基于DBLP大数据，利用Web和Qt建立的一套高效率的文献
 * 双击下载好的DBLParse.AppImage即可运行
 
 ### MacOS
-**警告：尽管发布了MacOS上的软件包，但它并没有经过测试。**
+支持版本：MacOS 15
 * [下载最新发布](https://github.com/tootal/DBLParse/releases)的文件`DBLParse.dmg`
 * 安装并运行
 
