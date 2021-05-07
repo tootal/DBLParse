@@ -2,24 +2,25 @@ name: Build
 on:
   push:
     branches:
-      - master
       - develop
-      - feature/matrix_os
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - 'scripts/**'
 jobs:
-  build-jobs:
+  build-desktop:
     name: Build on Desktop
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-2019
             arch: win64_msvc2019_64
-          - os: ubuntu-18.04
+            script: win_build.bat
+            dist-ext: 7z
+          - os: ubuntu-20.04
+            script: unx_build.sh
+            dist-ext: AppImage
           - os: macos-10.15
+            script: mac_build.sh
+            dist-ext: dmg
     steps:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -28,15 +29,23 @@ jobs:
           target: desktop
           arch: ${{ matrix.arch }}
           modules: qtwebengine
-      - name: GL library
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: sudo apt-get install -y libglew-dev libglfw3-dev
-      - name: Pull codes
-        uses: actions/checkout@v1
+      - name: Checkout codes
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
+      - name: Check Permission
+        if: ${{ !startsWith(matrix.os, 'windows') }}
+        run: chmod u+x ./scripts/${{ matrix.script }}
       - name: Build Project
+        run: ./scripts/${{ matrix.script }}
+      - name: Update Tag
         run: |
-          cmake .
-          cmake --build .
-
+          git tag --force continuous-build ${GITHUB_SHA}
+          git push --force --tags
+      - name: Update Continuous Build Release
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: ./deploy/DBLParse.${{ matrix.dist-ext }}
+          release: Continuous Build
+          tag: continuous-build

@@ -20,7 +20,6 @@ add_library(${PROJECT_NAME} STATIC
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE 
         Qt5::Core
-        BigNumber
 )
 
 target_include_directories(${PROJECT_NAME}
