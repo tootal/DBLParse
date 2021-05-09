@@ -9,6 +9,8 @@ export Qt5_DIR=${QT_PATH}/lib/cmake/Qt5
 export PATH=${QT_PATH}/bin:${PATH}
 
 echo Removing cache...
+rm build/DBLParse.dmg
+rm -rf build/DBLParse
 rm -rf build/release
 
 echo Building...
@@ -20,5 +22,5 @@ mkdir -p build/DBLParse
 cp -R build/release/src/DBLParse.app build/DBLParse/
 
 macdeployqt build/DBLParse/DBLParse.app
-ln -s /Applications ./build/DBLParse/Applications
-hdiutil create -srcfolder ./build/DBLParse -format UDBZ ./build/DBLParse.dmg
+ln -s /Applications build/DBLParse/Applications
+hdiutil create -srcfolder build/DBLParse -format UDBZ build/DBLParse.dmg
