@@ -6,8 +6,9 @@ project(DBLParse VERSION 3.2.0.${VERSION_TWEAK}
         HOMEPAGE_URL "https://tootal.xyz/DBLParse/"
         LANGUAGES C CXX)
 set(PROJECT_AUTHOR "tootal")
-set(CMAKE_PROJECT_AUTHOR "${PROJECT_AUTHOR}")
 set(PROJECT_LICENSE "GPL v3")
+
+set(CMAKE_PROJECT_AUTHOR "${PROJECT_AUTHOR}")
 set(CMAKE_PROJECT_LICENSE "${PROJECT_LICENSE}")
 
 add_subdirectory(pivoter)

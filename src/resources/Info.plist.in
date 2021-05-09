@@ -7,28 +7,28 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DBLParse is a set of high-efficiency document query and analysis system based on DBLP big data</string>
+	<string>${CMAKE_PROJECT_DESCRIPTION}</string>
 	<key>CFBundleIconFile</key>
-	<string>DBLParse.icns</string>
+	<string>${MAXOSX_ICON_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>xyz.tootal.DBLParse</string>
+	<string>${MAXOSX_IDENTIFIER}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLongVersionString</key>
 	<string>MACOSX_BUNDLE_SHORT_VERSION_STRING</string>
 	<key>CFBundleName</key>
-	<string>DBLParseSrc</string>
+	<string>${CMAKE_PROJECT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string></string>
+	<string>${CMAKE_PROJECT_VERSION_MAJOR}</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string></string>
+	<string>${CMAKE_PROJECT_VERSION}</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Distributed under GPLv3 license. Copyright 2021 tootal</string>
+	<string>Distributed under ${CMAKE_PROJECT_LICENSE} license. Copyright 2021 ${CMAKE_PROJECT_AUTHOR}</string>
 </dict>
 </plist>
