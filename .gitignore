@@ -78,10 +78,6 @@ _v_images
 
 # Build and deploy
 build/
-build*/
-deploy/
-dist/
-/*.AppImage
 
 # Test File
 !/test/**/[Mm]akefile

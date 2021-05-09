@@ -9,17 +9,16 @@ export Qt5_DIR=${QT_PATH}/lib/cmake/Qt5
 export PATH=${QT_PATH}/bin:${PATH}
 
 echo Removing cache...
-rm -rf build
-rm -rf deploy
+rm -rf build/release
 
 echo Building...
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build
+cmake -B build/release -DCMAKE_BUILD_TYPE=Release
+cmake --build build/release
 
 echo Deploying...
-mkdir -p deploy/DBLParse
-cp -R build/src/DBLParse.app deploy/DBLParse/
+mkdir -p build/DBLParse
+cp -R build/release/src/DBLParse.app build/DBLParse/
 
-macdeployqt deploy/DBLParse/DBLParse.app
-ln -s /Applications ./deploy/DBLParse/Applications
-hdiutil create -srcfolder ./deploy/DBLParse -format UDBZ ./deploy/DBLParse.dmg
+macdeployqt build/DBLParse/DBLParse.app
+ln -s /Applications ./build/DBLParse/Applications
+hdiutil create -srcfolder ./build/DBLParse -format UDBZ ./build/DBLParse.dmg
