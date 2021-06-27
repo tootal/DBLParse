@@ -6,7 +6,7 @@ DBLParse is a set of high-efficiency document query and analysis system based on
 ### Windows
 Supported version: Windows 7 x64, Windows 10 x64
 
-* [Download the newly released](https://github.com/tootal/DBLParse/releases) compressed package `DBLParse.zip`
+* [Download the newly released](https://github.com/tootal/DBLParse/releases) compressed package `DBLParse.7z`
 * Extract to a separate folder
 * Double-click the executable file `DBLParse.exe` to run
 * Run the `vc_redist.x64.exe` when an error occurs
@@ -19,8 +19,7 @@ Supported version: Ubuntu 18.04, Ubuntu 20.04
 * Double-click the `DBLParse.AppImage` to run
 
 ### MacOS
-**Warning: MacOS package has been released but not been tested.**
-
+Supported version: MacOS 15
 * [Download the latest released](https://github.com/tootal/DBLParse/releases) file `DBLParse.dmg`
 * Install and run
 

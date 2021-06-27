@@ -1,0 +1,28 @@
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+
+IDI_ICON1               ICON    DISCARDABLE     "resources/DBLParse.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     ${CMAKE_PROJECT_VERSION_MAJOR},${CMAKE_PROJECT_VERSION_MINOR},${CMAKE_PROJECT_VERSION_PATCH},${CMAKE_PROJECT_VERSION_TWEAK}
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+BEGIN
+        BLOCK "StringFileInfo"
+        BEGIN
+                BLOCK "000004b0"
+                BEGIN
+                        VALUE "CompanyName", "${CMAKE_PROJECT_AUTHOR}"
+                        VALUE "FileDescription", "${CMAKE_PROJECT_NAME}"
+                        VALUE "FileVersion", "${CMAKE_PROJECT_VERSION}"
+                        VALUE "ProductName", "${CMAKE_PROJECT_NAME}"
+                        VALUE "ProductVersion", "${CMAKE_PROJECT_VERSION_MAJOR}"
+                END
+        END
+        BLOCK "VarFileInfo"
+        BEGIN
+                VALUE "Translation", 0x0000, 0x04b0 // Unicode
+        END
+END

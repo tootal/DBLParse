@@ -46,11 +46,13 @@ QVector<QVector<BigNumber>> nCr;
 
 void populate_nCr()
 {
-    nCr.resize(1001);
-    for(int row = 0; row < 1001; ++row)
+    const int maxrow = 1500;
+    const int maxcol = 800;
+    nCr.resize(maxrow + 1);
+    for(int row = 0; row < maxrow + 1; ++row)
     {
-        nCr[row].resize(401);
-        for (int col = 0; col < 401; ++col)
+        nCr[row].resize(maxcol + 1);
+        for (int col = 0; col < maxcol + 1; ++col)
         {
             if (row == 0 || col == 0 || row == col) nCr[row][col] = 1;
             else nCr[row][col] = nCr[row-1][col] + nCr[row-1][col-1];

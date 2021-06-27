@@ -1,4 +1,16 @@
 # Change Log
+## v3.2.1
+### Features
+* Offical support macOS
+
+### Technical Changes
+* Use Qt 5.15.2
+* Build with CMake
+* Improve build scripts
+
+### Fixed Bugs
+* fix parse crash
+
 ## v3.2
 * Merge qrc and translation files
 * Add status label

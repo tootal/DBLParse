@@ -3,16 +3,18 @@
 ```
 sudo apt install python3 python3-pip
 sudo pip3 install aqtinstall
-sudo  python3 -m aqt install --outputdir /opt/Qt 5.15.0 linux desktop -m qtwebengine
+sudo python3 -m aqt install --outputdir /opt/Qt 5.15.2 linux desktop -m qtwebengine
 ```
 
 ## Use qt build on Ubuntu
+Note: Qt5_DIR need export in `~/.bashrc`
 
 ```
-sudo apt-get install -y libglew-dev libglfw3-dev
-PATH=/opt/Qt/5.15.0/gcc_64/bin/:$PATH
-qmake
-make
+sudo apt install -y libglew-dev libglfw3-dev
+PATH=/opt/Qt/5.15.2/gcc_64/bin/:$PATH
+Qt5_DIR=/opt/Qt/5.15.2/gcc_64/lib/cmake/Qt5
+cmake -B build
+cmake --build build
 ```
 
 ## Linux deploy qt
