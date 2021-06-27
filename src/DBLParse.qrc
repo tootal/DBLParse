@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>docs/changelog.md</file>
-        <file>docs/changelog_zh_CN.md</file>
-        <file>docs/README.md</file>
-        <file>docs/README_zh_CN.md</file>
+        <file alias="docs/changelog.md">../docs/changelog.md</file>
+        <file alias="docs/changelog_zh_CN.md">../docs/changelog_zh_CN.md</file>
+        <file alias="docs/README.md">../README.md</file>
+        <file alias="docs/README_zh_CN.md">../docs/README_zh_CN.md</file>
         <file>resources/dblp.png</file>
         <file>resources/DBLParse.ico</file>
         <file>resources/DBLParse.png</file>
