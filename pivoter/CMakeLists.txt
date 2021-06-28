@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core REQUIRED)
 
 file(GLOB SOURCE_FILES *.cpp)
 file(GLOB HEADER_FILES *.h)
@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
 
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE 
-        Qt5::Core
+        Qt6::Core
 )
 
 target_include_directories(${PROJECT_NAME}

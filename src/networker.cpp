@@ -22,7 +22,7 @@ QNetworkReply* NetWorker::get(const QString &url)
     if (uri.scheme() == "https") {
         QSslConfiguration config = request.sslConfiguration();
         config.setPeerVerifyMode(QSslSocket::VerifyNone);
-        config.setProtocol(QSsl::TlsV1SslV3);
+        config.setProtocol(QSsl::TlsV1_0);
         request.setSslConfiguration(config);
     }
     request.setUrl(uri);

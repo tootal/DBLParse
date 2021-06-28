@@ -255,8 +255,9 @@ void MainWindow::open(const QString &fileName)
 
 void MainWindow::onLanguageChanged(const QString &locale)
 {
-    QLocale::setDefault(locale);
-    translator->load("DBLParse_" + locale, ":/");
+    QLocale::setDefault(QLocale(locale));
+    auto isLoaded = translator->load("DBLParse_" + locale, ":/");
+    qDebug() << "translate" << locale << "load" << isLoaded;
 }
 
 void MainWindow::addStatusIcon()

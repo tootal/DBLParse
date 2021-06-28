@@ -237,17 +237,7 @@ void Finder::setLoaded()
 
 void Finder::getRecord(QVector<Record> &res, const QVector<quint32> &posList) const
 {
-    int size = std::min(posList.size(), 2000);
-    res.resize(size);
-    auto fileName = Util::getXmlFileName();
-    for (int i = 0; i < size; i++) {
-        res[i].get(posList.at(i));
-    }
-}
-
-void Finder::getRecord(QVector<Record> &res, const QList<quint32> &posList) const
-{
-    int size = std::min(posList.size(), 2000);
+    auto size = std::min(posList.size(), (qsizetype)2000);
     res.resize(size);
     auto fileName = Util::getXmlFileName();
     for (int i = 0; i < size; i++) {

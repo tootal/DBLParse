@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 
+find_package(Qt6
     COMPONENTS 
         Widgets 
         Network
@@ -38,10 +38,10 @@ target_compile_definitions(DBLParse
 
 target_link_libraries(DBLParse 
     PRIVATE 
-        Qt5::Widgets
-        Qt5::WebEngineWidgets
-        Qt5::Network
-        Qt5::Svg
+        Qt6::Widgets
+        Qt6::WebEngineWidgets
+        Qt6::Network
+        Qt6::Svg
         Pivoter)
 
 if(WIN32)
@@ -72,4 +72,4 @@ elseif(UNIX)
 endif()
 
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})

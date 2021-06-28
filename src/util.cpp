@@ -35,7 +35,7 @@ QByteArray Util::readFile(const QString &fileName)
     QFile file(fileName);
     file.open(QFile::ReadOnly);
     QTextStream in(&file);
-    in.setCodec("UTF-8");
+    in.setEncoding(QStringConverter::Utf8);
     auto s = in.readAll().toUtf8();
     file.close();
     return s;

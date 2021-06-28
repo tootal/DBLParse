@@ -49,7 +49,6 @@ private:
     bool m_yearWordLoaded{};
     
     void getRecord(QVector<Record> &res, const QVector<quint32> &posList) const;
-    void getRecord(QVector<Record> &res, const QList<quint32> &posList) const;
     QVector<quint32> indexOfAuthor(const QByteArray &author) const;
     QVector<quint32> indexOfTitle(const QByteArray &title) const;
     QSet<quint32> indexOfTitleWord(const QByteArray &keyword) const;

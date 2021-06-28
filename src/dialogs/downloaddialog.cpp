@@ -5,7 +5,6 @@
 #include <QUrl>
 #include <QDebug>
 #include <QNetworkReply>
-#include <QNetworkConfigurationManager>
 #include <QRegularExpression>
 
 #include "networker.h"
