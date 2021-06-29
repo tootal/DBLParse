@@ -1,3 +1,6 @@
 [submodule "docs"]
 	path = docs
 	url = https://github.com/tootal/DBLParse.wiki.git
+[submodule "material"]
+	path = material
+	url = git@github.com:papyros/qml-material.git
