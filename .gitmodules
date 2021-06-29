@@ -4,3 +4,6 @@
 [submodule "pivoter"]
 	path = pivoter
 	url = git@github.com:tootal/pivoter
+[submodule "web"]
+	path = web
+	url = git@github.com:tootal/dblparse-web.git
