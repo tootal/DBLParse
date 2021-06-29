@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -51,6 +51,7 @@
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutDBLP"/>
     <addaction name="actionAboutDBLParse"/>
+    <addaction name="actionAbout_DBLParse_old"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -174,6 +175,11 @@
     <string>&amp;Documentation</string>
    </property>
   </action>
+  <action name="actionAbout_DBLParse_old">
+   <property name="text">
+    <string>About DBLParse(old)</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -184,6 +190,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="DBLParse.qrc"/>
   <include location="DBLParse.qrc"/>
  </resources>
  <connections/>

@@ -63,6 +63,8 @@ private slots:
     
     void on_actionDocumentation_triggered();
     
+    void on_actionAbout_DBLParse_old_triggered();
+
 protected:
     void changeEvent(QEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;

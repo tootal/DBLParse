@@ -68,7 +68,7 @@ MainWindow::~MainWindow()
 void MainWindow::showAboutBox(QPixmap pixmapIcon, const QString &info)
 {
     auto box = new QMessageBox(this);
-//    box->setModal(false);
+    box->setModal(false);
     box->setText(info);
     box->setIconPixmap(pixmapIcon.scaled(64, 64));
     box->setStandardButtons(QMessageBox::Ok);
@@ -435,3 +435,15 @@ void MainWindow::on_actionDocumentation_triggered()
 {
     Util::showMarkdown(tr(":/docs/README.md"), this);
 }
+
+void MainWindow::on_actionAbout_DBLParse_old_triggered()
+{
+    showAboutBox(QPixmap(":/resources/DBLParse.png"), tr(
+        "<b>DBLParse</b><br>Version: %1<br><br>Built on %2<br><br>"
+        "DBLParse is an application that bases on dblp computer "
+        "science bibliography.<br/><br/>Please visit "
+        "<a href=\"https://github.com/tootal/DBLParse\">DBLParse</a> "
+        "for more information."
+    ).arg(VERSION_STR, __TIMESTAMP__));
+}
+
