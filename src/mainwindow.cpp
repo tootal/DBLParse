@@ -17,6 +17,7 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QQuickView>
 
 #include "parser.h"
 #include "util.h"
@@ -94,13 +95,9 @@ void MainWindow::on_actionAboutQt_triggered()
 
 void MainWindow::on_actionAboutDBLParse_triggered()
 {
-    showAboutBox(QPixmap(":/resources/DBLParse.png"), tr(
-        "<b>DBLParse</b><br>Version: %1<br><br>Built on %2<br><br>"
-        "DBLParse is an application that bases on dblp computer "
-        "science bibliography.<br/><br/>Please visit "
-        "<a href=\"https://github.com/tootal/DBLParse\">DBLParse</a> "
-        "for more information."
-    ).arg(VERSION_STR, __TIMESTAMP__));
+    QQuickView *view = new QQuickView;
+    view->setSource(QUrl("qrc:/qml/AboutDBLParse.qml"));
+    view->show();
 }
 
 void MainWindow::on_actionAboutDBLP_triggered()

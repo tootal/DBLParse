@@ -53,5 +53,6 @@
         <file>resources/no.svg</file>
         <file>resources/ok.svg</file>
         <file>resources/DBLParse.qss</file>
+        <file>qml/AboutDBLParse.qml</file>
     </qresource>
 </RCC>
