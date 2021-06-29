@@ -1,3 +1,6 @@
 [submodule "docs"]
 	path = docs
 	url = https://github.com/tootal/DBLParse.wiki.git
+[submodule "pivoter"]
+	path = pivoter
+	url = git@github.com:tootal/pivoter
