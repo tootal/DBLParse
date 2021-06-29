@@ -8,47 +8,47 @@
         <file>resources/DBLParse.ico</file>
         <file>resources/DBLParse.png</file>
         <file>resources/splash.jpg</file>
-        <file>web/authorStac.html</file>
-        <file>web/authorStac.js</file>
-        <file>web/authorStac.test.js</file>
-        <file>web/Belgrano.woff2</file>
-        <file>web/bootstrap-select.min.css</file>
-        <file>web/bootstrap-select.min.js</file>
-        <file>web/bootstrap.min.css</file>
-        <file>web/bootstrap.min.js</file>
-        <file>web/clique.html</file>
-        <file>web/clique.js</file>
-        <file>web/clique.test.js</file>
-        <file>web/detail.html</file>
-        <file>web/detail.js</file>
-        <file>web/detail.test.js</file>
-        <file>web/down.svg</file>
-        <file>web/echarts-wordcloud.min.js</file>
-        <file>web/echarts.config.js</file>
-        <file>web/echarts.min.js</file>
-        <file>web/homepage.svg</file>
-        <file>web/hot.png</file>
-        <file>web/index.css</file>
-        <file>web/index.html</file>
-        <file>web/index.js</file>
-        <file>web/index.test.js</file>
-        <file>web/jquery.slim.min.js</file>
-        <file>web/markdown.html</file>
-        <file>web/marked.min.js</file>
-        <file>web/popper.min.js</file>
-        <file>web/qwebchannel.js</file>
-        <file>web/strings_en.js</file>
-        <file>web/strings_zh.js</file>
-        <file>web/up.svg</file>
-        <file>web/util.css</file>
-        <file>web/util.js</file>
-        <file>web/vue.min.js</file>
-        <file>web/wordCloud.html</file>
-        <file>web/wordCloud.js</file>
-        <file>web/wordCloud.test.js</file>
-        <file>web/yearWord.html</file>
-        <file>web/yearWord.js</file>
-        <file>web/yearWord.test.js</file>
+        <file alias="web/authorStac.html">../web/authorStac.html</file>
+        <file alias="web/authorStac.js">../web/authorStac.js</file>
+        <file alias="web/authorStac.test.js">../web/authorStac.test.js</file>
+        <file alias="web/Belgrano.woff2">../web/Belgrano.woff2</file>
+        <file alias="web/bootstrap-select.min.css">../web/bootstrap-select.min.css</file>
+        <file alias="web/bootstrap-select.min.js">../web/bootstrap-select.min.js</file>
+        <file alias="web/bootstrap.min.css">../web/bootstrap.min.css</file>
+        <file alias="web/bootstrap.min.js">../web/bootstrap.min.js</file>
+        <file alias="web/clique.html">../web/clique.html</file>
+        <file alias="web/clique.js">../web/clique.js</file>
+        <file alias="web/clique.test.js">../web/clique.test.js</file>
+        <file alias="web/detail.html">../web/detail.html</file>
+        <file alias="web/detail.js">../web/detail.js</file>
+        <file alias="web/detail.test.js">../web/detail.test.js</file>
+        <file alias="web/down.svg">../web/down.svg</file>
+        <file alias="web/echarts-wordcloud.min.js">../web/echarts-wordcloud.min.js</file>
+        <file alias="web/echarts.config.js">../web/echarts.config.js</file>
+        <file alias="web/echarts.min.js">../web/echarts.min.js</file>
+        <file alias="web/homepage.svg">../web/homepage.svg</file>
+        <file alias="web/hot.png">../web/hot.png</file>
+        <file alias="web/index.css">../web/index.css</file>
+        <file alias="web/index.html">../web/index.html</file>
+        <file alias="web/index.js">../web/index.js</file>
+        <file alias="web/index.test.js">../web/index.test.js</file>
+        <file alias="web/jquery.slim.min.js">../web/jquery.slim.min.js</file>
+        <file alias="web/markdown.html">../web/markdown.html</file>
+        <file alias="web/marked.min.js">../web/marked.min.js</file>
+        <file alias="web/popper.min.js">../web/popper.min.js</file>
+        <file alias="web/qwebchannel.js">../web/qwebchannel.js</file>
+        <file alias="web/strings_en.js">../web/strings_en.js</file>
+        <file alias="web/strings_zh.js">../web/strings_zh.js</file>
+        <file alias="web/up.svg">../web/up.svg</file>
+        <file alias="web/util.css">../web/util.css</file>
+        <file alias="web/util.js">../web/util.js</file>
+        <file alias="web/vue.min.js">../web/vue.min.js</file>
+        <file alias="web/wordCloud.html">../web/wordCloud.html</file>
+        <file alias="web/wordCloud.js">../web/wordCloud.js</file>
+        <file alias="web/wordCloud.test.js">../web/wordCloud.test.js</file>
+        <file alias="web/yearWord.html">../web/yearWord.html</file>
+        <file alias="web/yearWord.js">../web/yearWord.js</file>
+        <file alias="web/yearWord.test.js">../web/yearWord.test.js</file>
         <file>DBLParse_zh_CN.qm</file>
         <file>resources/no.svg</file>
         <file>resources/ok.svg</file>
