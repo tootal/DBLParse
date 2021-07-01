@@ -17,7 +17,9 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <QMimeData>
-#include <QQuickView>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQuickWindow>
 
 #include "parser.h"
 #include "util.h"
@@ -95,9 +97,10 @@ void MainWindow::on_actionAboutQt_triggered()
 
 void MainWindow::on_actionAboutDBLParse_triggered()
 {
-    QQuickView *view = new QQuickView;
-    view->setSource(QUrl("qrc:/qml/AboutDBLParse.qml"));
-    view->show();
+    QQmlEngine engine;
+    QQmlComponent component(&engine, QUrl("qrc:/qml/AboutDBLParse.qml"));
+    auto dialog = qobject_cast<QQuickWindow*>(component.create());
+    dialog->show();
 }
 
 void MainWindow::on_actionAboutDBLP_triggered()
